@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+// /tools hub — overview + routing to the two visitor prompt generators.
+// Tools themselves are sandboxed in iframes (see /tools/broadcast-room and
+// /tools/evidence-lounge-studio); this page is pure brand-chrome Astro.
+---
+
+<BaseLayout
+  title="Creative Arsenal — Booze on Hormuz™"
+  description="Build a full Don Biggly satire package in one click. Copy-ready prompts for Suno, Sora, Veo, Gemini, ChatGPT, and Claude. No login, no API key, no backend."
+>
+  <PageHeader eyebrow="The Creative Arsenal" title="Build the Whole Scandal" />
+
+  <div class="px-6 pb-28 max-w-4xl mx-auto font-body">
+    <!-- Lede -->
+    <p class="text-lg text-ink-soft max-w-2xl">
+      Build a full Don Biggly satire package in one click — songs, music-video shot lists,
+      image prompts, fake sponsor reads, product gags, and site copy. Two tools. Pick your
+      altitude.
+    </p>
+
+    <!-- No-API banner -->
+    <div class="mt-8 card-marble border border-line rounded-lg px-5 py-4 flex flex-wrap gap-x-6 gap-y-2 items-baseline">
+      <span class="font-display text-gold-ink text-lg shrink-0">No login. No API key. No backend.</span>
+      <span class="text-ink-soft text-sm">Everything runs in your browser. Nothing you type is sent anywhere or stored on a server.</span>
+    </div>
+
+    <!-- How it works -->
+    <section class="mt-10">
+      <h2 class="font-display text-title text-ink">How this works</h2>
+      <p class="text-ink-soft mt-3 max-w-2xl">
+        These tools <strong class="text-ink">do not generate AI content directly.</strong> They
+        build polished, structured <em>prompts</em> you paste into the tool of your choice —
+        Suno for music, Sora or Veo for video, Nano Banana / Gemini for images, ChatGPT or Claude
+        for copy. You bring the AI account; we bring the script.
+      </p>
+    </section>
+
+    <!-- Comparison cards -->
+    <section class="mt-12 grid gap-5 sm:grid-cols-2">
+      <!-- Featured: Broadcast Room -->
+      <article class="card-marble border border-line rounded-lg p-6 flex flex-col">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">Featured · one-click</p>
+        <h3 class="font-display text-title text-ink mt-3">Biggly Broadcast Pack Generator</h3>
+        <p class="text-ink-soft mt-3 flex-1">
+          One concept in, a full content kit out: Suno lyrics, a music-video storyboard,
+          Sora/Veo clip prompts, Nano Banana image prompts, and a launch pack of sponsor reads,
+          captions, product gags, and disclaimers. The fastest way to a finished package.
+        </p>
+        <a
+          href="/tools/broadcast-room"
+          class="mt-6 inline-block text-center font-display uppercase tracking-[0.08em] bg-gold text-paper rounded-md px-5 py-3 hover:opacity-90 transition-opacity"
+        >
+          Build Broadcast Pack &rarr;
+        </a>
+      </article>
+
+      <!-- Advanced: Evidence Lounge Studio -->
+      <article class="card-marble border border-line rounded-lg p-6 flex flex-col">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">Advanced · workbench</p>
+        <h3 class="font-display text-title text-ink mt-3">Evidence Lounge Prompt Generator</h3>
+        <p class="text-ink-soft mt-3 flex-1">
+          A 20-template library with live fillable fields, a rendered preview, the Legal Panic
+          Meter, and your own custom-template authoring. For when you want to craft one precise
+          prompt instead of generating everything at once. Best on a desktop.
+        </p>
+        <a
+          href="/tools/evidence-lounge-studio"
+          class="mt-6 inline-block text-center font-display uppercase tracking-[0.08em] border border-line text-gold-ink rounded-md px-5 py-3 hover:bg-charcoal transition-colors"
+        >
+          Open Evidence Lounge &rarr;
+        </a>
+      </article>
+    </section>
+
+    <!-- Safety frame -->
+    <section class="mt-12 border-l-2 border-stamp pl-5">
+      <h2 class="font-display text-title text-ink">Fictional satire only</h2>
+      <p class="text-ink-soft mt-3 max-w-2xl">
+        Don Biggly is a parody character. Don't use these prompts to create fake real quotes,
+        impersonations, campaign material, or claims of fact. The joke is always Don Biggly —
+        never real people, and never a real allegation.
+      </p>
+      <a href="/tools/safety" class="mt-4 inline-block uppercase tracking-[0.1em] text-sm text-gold-ink hover:opacity-80">
+        Read the satire &amp; safety guidelines &rarr;
+      </a>
+    </section>
+  </div>
+</BaseLayout>

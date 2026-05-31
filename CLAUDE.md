@@ -15,8 +15,11 @@ src/layouts/BaseLayout   global shell; renders <Nav/> + <Footer/> (disclaimer ne
 src/components/          Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard (polymorphic),
                          EpisodeCard, ProductCard, QuoteCard, SponsorRead
 src/pages/               / · /evidence-lounge (spine) · /watch + /watch/[slug] ·
-                         /products + /products/[slug] · /sponsor-reads · /quotes · /about
+                         /products + /products/[slug] · /sponsor-reads · /quotes · /about ·
+                         /tools (hub) + /tools/broadcast-room + /tools/evidence-lounge-studio + /tools/safety
 src/styles/global.css    Tailwind 4 entry + locked @theme brand tokens (Checkpoint B)
+public/apps/             standalone visitor prompt-generator tools (broadcast-room.html,
+                         evidence-lounge-studio.html); embedded via <iframe> by /tools pages
 public/CNAME             apex-domain marker — MUST ship in dist/
 .github/workflows/        push to main → withastro/action@v6 → GitHub Pages
 .nvmrc                    24 (matches CI runtime)
@@ -27,6 +30,15 @@ Collections empty ⇒ `getCollection` filters `!draft`; dynamic `[slug]` routes 
 **Local cache gotcha:** Astro 6's content store is `node_modules/.astro/data-store.json` —
 clearing project `.astro/` is NOT enough; `rm -rf node_modules/.astro` for a clean local
 content-free build. (CI is unaffected — `npm ci` wipes `node_modules`.)
+
+**Creative Tools (`/tools`):** two standalone HTML prompt generators live in `public/apps/`
+and are embedded via `<iframe>` inside BaseLayout-wrapped Astro pages. The iframe is a
+deliberate isolation boundary — each tool ships a full `* { margin:0 }` reset and its own
+`:root` token set that would collide with Tailwind `@theme` / `global.css` if inlined. This
+keeps the tool sandboxed while Nav + Footer + the global disclaimer still wrap it. Native
+port (shared CSS/JS, brand fonts) is deferred to a later phase. Tools are browser-only: no
+backend, no API key, no localStorage. **Tool URL ≠ content URL:** `/evidence-lounge` is the
+exhibit gallery; the *tool* is `/tools/evidence-lounge-studio`. Do not merge them.
 
 Push to `main` builds and deploys. Every future content drop is one `git push`.
 
@@ -67,6 +79,11 @@ npx astro check   # typecheck (must exit 0 before commit)
 - **phase-02 Page Shells** — DONE (this build). Full 8-route IA, Evidence-Lounge-centric, content-free shells with deadpan empty states.
 - **HTTPS enforcement** — DONE early (cert approved; `https_enforced:true`).
 - **Checkpoint A (content concept)** — owner-owned; the IA exists, real content (songs/images/copy) is generated via the content factory and dropped in.
-- **phase-03 Production Polish** — not started. OG/sitemap/robots/analytics, branch protection, Lighthouse, dedicated `/legal` route + LICENSE, view transitions.
+- **phase-03 Production Polish** — DONE (PR #10). OG/sitemap/robots/analytics, `/legal` route + LICENSE.
+- **phase-04 Creative Tools (Phase 1 integration)** — DONE (this build). `/tools` hub + two
+  iframe-embedded prompt generators + `/tools/safety`; Tools added to nav; sitemap covers all
+  four routes. Phase 2+ (Evidence Lounge responsive rebuild, a11y, shared CSS/JS extraction,
+  font self-hosting, JSON-import hardening) deferred — see
+  `.planning/milestones/M01-launch-satire-hub/phase-04-creative-tools-PLAN.md`.
 
 Planning lives in `.planning/`. Stack rationale in `.planning/RESOLUTION.md` and `RUNBOOK.md`.

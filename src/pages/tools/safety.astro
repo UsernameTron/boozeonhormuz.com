@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+// Satire & safety guidelines for the Creative Arsenal. Single source of truth for the
+// guardrails baked into both tools' outputs. Linked from each tool page.
+---
+
+<BaseLayout
+  title="Satire & Safety Guidelines — Booze on Hormuz™"
+  description="How to use the Creative Arsenal responsibly. Fictional satire only: no fake real quotes, no impersonation, no persuasion, no protected-class attacks. Don Biggly is the target."
+>
+  <PageHeader eyebrow="The Creative Arsenal" title="Satire & Safety Guidelines" />
+
+  <div class="px-6 pb-28 max-w-2xl mx-auto font-body text-ink-soft space-y-8">
+    <section>
+      <p class="text-lg">
+        The Creative Arsenal builds prompts for one purpose: <strong class="text-ink">over-the-top
+        fictional satire about Don Biggly</strong>, a parody luxury-grift narrator. The guardrails
+        below are baked into every output the tools produce. They're also the line you agree to
+        stay behind when you use them.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-title text-ink">The one rule</h2>
+      <p class="mt-3">
+        Don Biggly is always the punchline. The comedy engine is: he brags &rarr; the evidence
+        contradicts him &rarr; the professionals panic &rarr; a reporter ruins the room &rarr; he
+        mistakes the panic for applause &rarr; it escalates &rarr; he claims victory anyway. Every
+        beat exposes <em>him</em> — never a real person, and never a vulnerable one.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-title text-ink">What these tools will not help you make</h2>
+      <ul class="mt-4 space-y-3">
+        <li class="border-l-2 border-stamp pl-4">
+          <strong class="text-ink">Fake real quotes or leaks.</strong> Nothing here is a real
+          statement, document, or confession from any actual person.
+        </li>
+        <li class="border-l-2 border-stamp pl-4">
+          <strong class="text-ink">Deceptive impersonation or deepfakes.</strong> The image and
+          video prompts explicitly forbid passing satire off as a real person or event.
+        </li>
+        <li class="border-l-2 border-stamp pl-4">
+          <strong class="text-ink">Campaign or persuasion material.</strong> This is not voter
+          persuasion, not policy, not a real endorsement, and not real travel or legal advice.
+        </li>
+        <li class="border-l-2 border-stamp pl-4">
+          <strong class="text-ink">Slurs or protected-class attacks.</strong> The joke is grift,
+          tackiness, and legal panic — never someone's identity.
+        </li>
+        <li class="border-l-2 border-stamp pl-4">
+          <strong class="text-ink">Calls for harm or invented factual allegations.</strong> No
+          real-world accusations stated as fact, ever.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-display text-title text-ink">How the tools work</h2>
+      <p class="mt-3">
+        They generate <strong class="text-ink">copy-ready prompts</strong>, not finished AI media.
+        You paste the output into a tool you control — Suno, Sora, Veo, Gemini, ChatGPT, or Claude.
+        There is no login, no API key, and no backend: everything runs in your browser and nothing
+        you type is sent to or stored on a server.
+      </p>
+    </section>
+
+    <section class="card-marble border border-line rounded-lg p-6">
+      <p>
+        Want the full legal framing? It lives with the site's standing parody disclaimer.
+      </p>
+      <a href="/legal" class="mt-3 inline-block uppercase tracking-[0.1em] text-sm text-gold-ink hover:opacity-80">
+        Read the full Very Legal Disclaimer &rarr;
+      </a>
+    </section>
+
+    <nav class="pt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+      <a href="/tools" class="text-gold-ink hover:opacity-80">&larr; Back to the Creative Arsenal</a>
+      <a href="/tools/broadcast-room" class="text-gold-ink hover:opacity-80">Broadcast Room</a>
+      <a href="/tools/evidence-lounge-studio" class="text-gold-ink hover:opacity-80">Evidence Lounge</a>
+    </nav>
+  </div>
+</BaseLayout>
