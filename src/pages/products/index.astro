@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ProductCard from '../../components/ProductCard.astro';
+
+const products = (await getCollection('products')).filter((p) => !p.data.draft);
+---
+
+<BaseLayout title="Products — Booze on Hormuz™" description="Premium amenities for the discerning crisis.">
+  <PageHeader eyebrow="The collection" title="Products" />
+
+  <section class="px-6 pb-28 max-w-4xl mx-auto">
+    {
+      products.length === 0 ? (
+        <p class="font-display text-title text-ink max-w-2xl">
+          The collection is in private preview. Nothing is available for purchase, which is for the best.
+        </p>
+      ) : (
+        <div class="grid gap-5 sm:grid-cols-2">
+          {products.map((p) => (
+            <ProductCard slug={p.data.slug} name={p.data.name} tagline={p.data.tagline} disclaimer={p.data.disclaimer} />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

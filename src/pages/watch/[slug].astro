@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
+import SponsorRead from '../../components/SponsorRead.astro';
+
+export async function getStaticPaths() {
+  const episodes = (await getCollection('episodes')).filter((e) => !e.data.draft);
+  const sponsors = (await getCollection('sponsors')).filter((s) => !s.data.draft);
+  return episodes.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: {
+      entry,
+      // sponsor reads that reference this episode (matched by entry id)
+      relatedSponsors: sponsors.filter((s) => s.data.episode?.id === entry.id),
+    },
+  }));
+}
+
+const { entry, relatedSponsors } = Astro.props;
+const { title, summary, youtubeId, publishDate } = entry.data;
+const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={`${title} — Booze on Hormuz™`} description={summary}>
+  <article class="px-6 pt-16 pb-28 max-w-4xl mx-auto">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">{date}</p>
+    <h1 class="font-display text-display text-ink mt-4">{title}</h1>
+
+    {youtubeId && <div class="mt-8"><YouTubeEmbed id={youtubeId} title={title} /></div>}
+
+    <p class="font-body text-lg text-ink-soft mt-8 max-w-prose">{summary}</p>
+
+    {
+      relatedSponsors.length > 0 && (
+        <section class="mt-16">
+          <hr class="border-0 border-t border-line" />
+          <h2 class="font-display text-title text-ink mt-8">A word from our sponsors</h2>
+          <div class="grid gap-5 mt-5">
+            {relatedSponsors.map((s) => (
+              <SponsorRead name={s.data.name} read={s.data.read} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <a href="/watch" class="inline-block font-body text-sm uppercase tracking-[0.1em] text-stamp mt-12 hover:opacity-80">
+      &larr; Back to all episodes
+    </a>
+  </article>
+</BaseLayout>

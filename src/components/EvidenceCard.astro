@@ -1,0 +1,49 @@
+---
+import YouTubeEmbed from './YouTubeEmbed.astro';
+
+// Polymorphic card — switches on the evidence `kind` discriminated union.
+// `data` is one entry's data object from getCollection('evidence').
+interface Props {
+  data: any;
+}
+const { data } = Astro.props;
+const kindLabel: Record<string, string> = {
+  clip: 'Clip',
+  commercial: 'Commercial',
+  song: 'Song',
+  titlecard: 'Title Card',
+  gallery: 'Gallery',
+  lowerthird: 'Lower Third',
+  prompt: 'Prompt',
+};
+---
+
+<article class="border border-line p-5">
+  <p class="font-body text-eyebrow uppercase text-gold-ink">{kindLabel[data.kind] ?? data.kind}</p>
+  <h3 class="font-display text-xl text-ink mt-2">{data.title}</h3>
+
+  <div class="mt-4">
+    {(data.kind === 'clip' || data.kind === 'commercial') && <YouTubeEmbed id={data.youtubeId} title={data.title} />}
+
+    {
+      (data.kind === 'titlecard' || data.kind === 'gallery') && (
+        <img src={data.image} alt={data.title} class="w-full border border-line" loading="lazy" />
+      )
+    }
+
+    {data.kind === 'lowerthird' && <p class="font-body text-ink-soft">{data.text}</p>}
+
+    {data.kind === 'prompt' && <p class="font-body text-ink-soft whitespace-pre-line">{data.body}</p>}
+
+    {
+      data.kind === 'song' && (
+        <div>
+          {data.audioUrl && <audio controls src={data.audioUrl} class="w-full" />}
+          {data.lyrics && (
+            <pre class="font-body text-sm text-ink-soft whitespace-pre-wrap mt-3">{data.lyrics}</pre>
+          )}
+        </div>
+      )
+    }
+  </div>
+</article>

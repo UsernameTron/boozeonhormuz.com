@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SponsorRead from '../components/SponsorRead.astro';
+
+const sponsors = (await getCollection('sponsors')).filter((s) => !s.data.draft);
+
+// resolve the referenced episode's slug (reference stores entry id) for linking
+const episodes = await getCollection('episodes');
+const slugById = new Map(episodes.map((e) => [e.id, e.data.slug]));
+---
+
+<BaseLayout title="Sponsor Reads — Booze on Hormuz™" description="A word from our very legal sponsors.">
+  <PageHeader eyebrow="Paid programming" title="Sponsor Reads" />
+
+  <section class="px-6 pb-28 max-w-4xl mx-auto">
+    {
+      sponsors.length === 0 ? (
+        <p class="font-display text-title text-ink max-w-2xl">
+          Our sponsors are reviewing the optics. Reads will resume once their lawyers stop weeping.
+        </p>
+      ) : (
+        <div class="grid gap-5">
+          {sponsors.map((s) => (
+            <SponsorRead
+              name={s.data.name}
+              read={s.data.read}
+              episodeSlug={s.data.episode ? slugById.get(s.data.episode.id) : undefined}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

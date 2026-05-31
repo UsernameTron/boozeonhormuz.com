@@ -1,0 +1,43 @@
+---
+// Primary navigation. Evidence Lounge is the spine — emphasized.
+const links = [
+  { href: '/evidence-lounge', label: 'Evidence Lounge', primary: true },
+  { href: '/watch', label: 'Watch' },
+  { href: '/products', label: 'Products' },
+  { href: '/sponsor-reads', label: 'Sponsor Reads' },
+  { href: '/quotes', label: 'Quotes' },
+  { href: '/about', label: 'About' },
+];
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+
+<header class="border-b border-line">
+  <nav
+    aria-label="Primary"
+    class="px-6 py-5 max-w-4xl mx-auto flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3"
+  >
+    <a href="/" class="font-display text-xl tracking-tight text-gold-ink shrink-0">
+      Booze&nbsp;on&nbsp;Hormuz<sup class="text-[0.5em] align-super">™</sup>
+    </a>
+    <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-2 font-body text-sm">
+      {
+        links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              aria-current={isActive(l.href) ? 'page' : undefined}
+              class:list={[
+                'hover:text-gold-ink transition-colors',
+                l.primary ? 'text-gold-ink uppercase tracking-[0.1em]' : 'text-ink-soft',
+                isActive(l.href) && 'underline underline-offset-4 decoration-gold',
+              ]}
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
