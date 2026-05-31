@@ -3,8 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Booze on Hormuz™ — Warships on the horizon. Champagne on ice."
-  description="The world's premier crisis-adjacent luxury experience. Warships on the horizon. Champagne on ice."
+  title="Booze on Hormuz™ — Evacuation routes closed. VIP shrimp buffet open."
+  description="The world's premier crisis-adjacent luxury experience. Evacuation routes closed. VIP shrimp buffet open. Tremendous cruise. Very exclusive."
 >
   <!--
     Branded landing — Checkpoint B reskin. Content-free (no episodes/products/quotes).
@@ -14,12 +14,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="px-6 pt-20 pb-16 md:pt-28 max-w-4xl mx-auto">
     <p class="font-body text-eyebrow uppercase text-gold-ink">Est. in very legal waters</p>
 
-    <h1 class="font-display text-display text-ink metal-gold mt-5 break-words">
-      Booze on Hormuz<sup class="text-[0.4em] align-super">™</sup>
-    </h1>
+    {/* Visible wordmark lives in the hero poster below; keep an h1 for SEO + screen readers. */}
+    <h1 class="sr-only">Booze on Hormuz</h1>
 
-    <p class="font-display text-title text-ink-soft mt-6 max-w-2xl">
-      Warships on the horizon. Champagne on ice.
+    <p class="font-display text-title text-ink mt-5 max-w-2xl">
+      Evacuation routes closed. VIP shrimp buffet open. Tremendous cruise. Very exclusive.
     </p>
 
     <div class="mt-10 flex items-center gap-5">
