@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booze on Hormuz™ | Don Biggly Evidence Lounge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #070504;
+      --bg-2: #0e0907;
+      --surface: rgba(24, 16, 11, .92);
+      --surface-solid: #160f0b;
+      --surface-2: rgba(40, 27, 17, .86);
+      --surface-3: #24170e;
+      --panel: rgba(16, 11, 8, .86);
+      --border: rgba(212, 175, 55, .22);
+      --border-bright: rgba(255, 218, 117, .55);
+      --gold: #d4af37;
+      --gold-2: #ffdb70;
+      --gold-dim: rgba(212, 175, 55, .13);
+      --champagne: #f7e7b4;
+      --cream: #fff6d6;
+      --paper: #efe2b6;
+      --ink: #1a1009;
+      --text: #f3ead2;
+      --muted: #a99b78;
+      --dim: #c8b989;
+      --red: #ff5656;
+      --red-dim: rgba(255, 86, 86, .13);
+      --cyan: #6ee7f9;
+      --green: #55e48d;
+      --purple: #c4a7ff;
+      --shadow: 0 22px 80px rgba(0,0,0,.55);
+      --glow: 0 0 30px rgba(212,175,55,.16);
+      --font-display: 'Archivo', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font-body);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(212,175,55,.16), transparent 28%),
+        radial-gradient(circle at 84% 10%, rgba(255,86,86,.12), transparent 25%),
+        linear-gradient(135deg, #080504 0%, #120a07 42%, #030202 100%);
+      color: var(--text);
+      line-height: 1.55;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 86%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.32) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    button, input, textarea, select { font: inherit; }
+
+    /* Top */
+    .top-bar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 10px 18px 10px 20px;
+      background: rgba(12, 8, 6, .88);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 36px rgba(0,0,0,.32);
+    }
+
+    .brand-lockup { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-seal {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: radial-gradient(circle, var(--gold-2), var(--gold) 50%, #6d4812 100%);
+      color: #160e08;
+      font-family: var(--font-display);
+      font-weight: 900;
+      letter-spacing: -1px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.16) inset, 0 0 22px rgba(212,175,55,.28);
+      flex: 0 0 auto;
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 900;
+      line-height: 1;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .brand-title span {
+      color: var(--gold-2);
+      text-shadow: 0 0 18px rgba(212,175,55,.32);
+    }
+    .brand-sub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-right {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .ticker {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      background: rgba(212,175,55,.055);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .ticker-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 14px var(--red);
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse { 50% { opacity: .32; transform: scale(.72); } }
+
+    /* Layout */
+    .workspace {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      height: calc(100vh - 58px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: linear-gradient(180deg, rgba(17,11,8,.96), rgba(8,5,4,.96));
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .hero-card {
+      margin: 16px 16px 12px;
+      padding: 16px;
+      border: 1px solid var(--border-bright);
+      border-radius: 18px;
+      background:
+        linear-gradient(145deg, rgba(212,175,55,.16), rgba(255,86,86,.055)),
+        radial-gradient(circle at 20% 0%, rgba(255,219,112,.18), transparent 42%),
+        rgba(17,11,8,.88);
+      box-shadow: var(--glow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::after {
+      content: "VERY LEGAL";
+      position: absolute;
+      right: -18px; bottom: 6px;
+      transform: rotate(-12deg);
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: .04em;
+      color: rgba(255,86,86,.14);
+      border: 2px solid rgba(255,86,86,.14);
+      padding: 2px 8px;
+    }
+    .hero-card h1 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      font-size: 20px;
+      line-height: .95;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+    .hero-card h1 span { color: var(--gold-2); }
+    .hero-card p {
+      font-size: 12px;
+      color: var(--dim);
+      max-width: 240px;
+    }
+    .signature {
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--gold-2);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .search-box { padding: 0 16px 12px; }
+    .search-box input {
+      width: 100%;
+      padding: 11px 12px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: .18s;
+    }
+    .search-box input:focus { border-color: var(--gold-2); box-shadow: 0 0 0 3px rgba(212,175,55,.12); }
+    .search-box input::placeholder { color: var(--muted); }
+
+    .category-filters {
+      padding: 0 16px 12px;
+      display: flex; flex-wrap: wrap; gap: 7px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-btn {
+      padding: 6px 10px;
+      background: rgba(212,175,55,.06);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: .16s;
+    }
+    .cat-btn:hover { border-color: var(--gold-2); color: var(--cream); transform: translateY(-1px); }
+    .cat-btn.active {
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      color: #1b1208;
+      border-color: transparent;
+      font-weight: 800;
+    }
+
+    .templates-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 8px 10px;
+    }
+    .tpl-item {
+      position: relative;
+      padding: 13px 13px 13px 16px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: .18s;
+      margin-bottom: 6px;
+      overflow: hidden;
+    }
+    .tpl-item::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 12px; bottom: 12px;
+      width: 3px;
+      background: transparent;
+      border-radius: 999px;
+    }
+    .tpl-item:hover {
+      background: rgba(212,175,55,.055);
+      border-color: var(--border);
+      transform: translateX(2px);
+    }
+    .tpl-item.active {
+      background: linear-gradient(90deg, rgba(212,175,55,.14), rgba(255,86,86,.035));
+      border-color: var(--border-bright);
+    }
+    .tpl-item.active::before { background: var(--gold-2); }
+    .tpl-item .name {
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: -.01em;
+    }
+    .tpl-item .cat {
+      margin-top: 4px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .pill {
+      color: var(--gold-2);
+      border: 1px solid rgba(212,175,55,.24);
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(212,175,55,.06);
+    }
+
+    .sidebar-footer {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* Main */
+    .main-area { display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+    .toolbar {
+      min-height: 58px;
+      padding: 10px 18px;
+      background: rgba(15,10,7,.82);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(14px);
+    }
+    .mode-toggle {
+      display: flex;
+      background: rgba(0,0,0,.28);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .mode-btn {
+      padding: 7px 13px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: .16s;
+    }
+    .mode-btn.active {
+      background: var(--gold-2);
+      color: #1a1009;
+      font-weight: 900;
+    }
+
+    .model-select, .format-select {
+      padding: 8px 12px;
+      background: rgba(0,0,0,.28);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      outline: none;
+      cursor: pointer;
+    }
+    select option { background: #160f0b; }
+
+    .toolbar-spacer { flex: 1; }
+    .tb-btn {
+      padding: 9px 13px;
+      background: rgba(212,175,55,.07);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: .16s;
+      white-space: nowrap;
+    }
+    .tb-btn:hover { border-color: var(--gold-2); color: var(--gold-2); transform: translateY(-1px); }
+    .tb-btn.primary {
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      color: #1b1208;
+      border-color: transparent;
+      font-weight: 900;
+      box-shadow: 0 8px 26px rgba(212,175,55,.18);
+    }
+    .tb-btn.danger { border-color: rgba(255,86,86,.24); color: #ff9c9c; }
+    .tb-btn.copied { background: var(--green); color: #04110a; border-color: transparent; }
+
+    .content-area {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .content-area.compare-mode { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 360px; }
+
+    .editor-panel {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      min-width: 0;
+      overflow: hidden;
+      background: rgba(4,3,2,.34);
+    }
+    .editor-panel.hidden { display: none; }
+    .editor-head {
+      height: 42px;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(13,9,7,.8);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .editor-wrap { flex: 1; min-height: 0; position: relative; }
+    .editor {
+      width: 100%;
+      height: 100%;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.018), transparent 110px),
+        rgba(0,0,0,.18);
+      border: none;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.75;
+      resize: none;
+      outline: none;
+      tab-size: 2;
+    }
+    .editor::placeholder { color: rgba(169,155,120,.48); }
+
+    .right-panel {
+      overflow-y: auto;
+      background: linear-gradient(180deg, rgba(22,15,11,.95), rgba(10,6,5,.97));
+      padding: 16px;
+      min-width: 0;
+    }
+    .panel-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(0,0,0,.16);
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.16);
+    }
+    .right-panel h3 {
+      font-family: var(--font-display);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: 11px;
+      color: var(--gold-2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .h-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+
+    .var-group { margin-bottom: 12px; }
+    .var-group label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 5px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: .04em;
+    }
+    .var-group .badge {
+      color: var(--gold-2);
+      font-size: 9px;
+      opacity: .78;
+    }
+    .var-group textarea, .var-group input {
+      width: 100%;
+      min-height: 50px;
+      padding: 9px 10px;
+      background: rgba(0,0,0,.26);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.45;
+      resize: vertical;
+      outline: none;
+      transition: .16s;
+    }
+    .var-group textarea:focus, .var-group input:focus {
+      border-color: var(--gold-2);
+      box-shadow: 0 0 0 3px rgba(212,175,55,.1);
+    }
+    .no-vars-msg {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .preview-box {
+      padding: 13px;
+      background: rgba(0,0,0,.3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.72;
+      max-height: 240px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      color: var(--dim);
+    }
+
+    .guardrail-list { display: grid; gap: 8px; }
+    .guardrail {
+      display: flex; gap: 8px; align-items: flex-start;
+      padding: 9px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,.14);
+      background: rgba(212,175,55,.045);
+      color: var(--dim);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .guardrail .icon {
+      width: 18px; height: 18px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #1a1009;
+      background: var(--gold-2);
+      flex: 0 0 auto;
+      margin-top: 1px;
+      font-weight: 900;
+    }
+
+    .meter {
+      padding: 13px;
+      background: linear-gradient(135deg, rgba(255,86,86,.08), rgba(212,175,55,.08));
+      border: 1px solid rgba(255,86,86,.22);
+      border-radius: 16px;
+    }
+    .meter-head {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+    .meter-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.38);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .meter-fill {
+      height: 100%;
+      width: 76%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold), var(--red));
+      box-shadow: 0 0 18px rgba(255,86,86,.34);
+      transition: width .28s;
+    }
+    .meter-caption {
+      margin-top: 9px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .tip-card {
+      padding: 10px 11px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(110,231,249,.16);
+      border-left: 3px solid var(--cyan);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--dim);
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      padding: 12px 16px;
+      background: rgba(10,6,5,.92);
+      border: 1px solid var(--gold-2);
+      border-radius: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gold-2);
+      box-shadow: var(--shadow), var(--glow);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: .24s;
+      z-index: 999;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .file-input { display: none; }
+
+    ::-webkit-scrollbar { width: 9px; height: 9px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,.22); }
+    ::-webkit-scrollbar-thumb { background: rgba(212,175,55,.24); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(212,175,55,.4); }
+
+    .mobile-gate { display: none; }
+
+    @media (max-width: 980px) {
+      body { overflow: auto; }
+      .workspace { display: none; }
+      .top-right .ticker:nth-child(2) { display: none; }
+      .mobile-gate {
+        min-height: calc(100vh - 58px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 24px;
+        text-align: center;
+      }
+      .mobile-gate-card {
+        max-width: 440px;
+        border: 1px solid var(--border-bright);
+        background: var(--surface);
+        border-radius: 24px;
+        padding: 26px;
+        box-shadow: var(--shadow), var(--glow);
+      }
+      .mobile-gate h2 {
+        font-family: var(--font-display);
+        font-size: 26px;
+        text-transform: uppercase;
+        line-height: .95;
+        margin-bottom: 12px;
+      }
+      .mobile-gate p {
+        color: var(--dim);
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+      body.force-mobile { overflow-x: auto; }
+      body.force-mobile .mobile-gate { display: none; }
+      body.force-mobile .workspace { display: grid; min-width: 1180px; grid-template-columns: 320px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="brand-lockup">
+      <div class="brand-seal">DB</div>
+      <div>
+        <div class="brand-title">Booze on <span>Hormuz™</span></div>
+        <div class="brand-sub">Don Biggly Evidence Lounge // Visitor Prompt Generator</div>
+      </div>
+    </div>
+    <div class="top-right">
+      <div class="ticker"><span class="ticker-dot"></span><span id="panicTicker">LAWYERS: sweating politely</span></div>
+      <div class="ticker"><span id="templateCount">20 templates</span></div>
+    </div>
+  </div>
+
+  <div class="mobile-gate">
+    <div class="mobile-gate-card">
+      <h2>Best on a big gold screen</h2>
+      <p>This generator is built like a scandal command center. Use desktop for the full Evidence Lounge experience.</p>
+      <button class="tb-btn primary" onclick="document.body.classList.add('force-mobile')">Continue Anyway</button>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" class="file-input" accept=".json">
+  <div class="toast" id="toast"></div>
+
+  <div class="workspace">
+    <aside class="sidebar">
+      <div class="hero-card">
+        <h1>Evidence with <span>me.</span></h1>
+        <p>Create safe, fictional, over-the-top satire prompts for songs, images, videos, sponsor reads, and luxury-disaster site copy.</p>
+        <div class="signature">“It’s Don Biggly because the evidence is with me.”</div>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search evidence, shrimp, subpoenas..." />
+      </div>
+
+      <div class="category-filters">
+        <button class="cat-btn active" data-cat="all">All</button>
+        <button class="cat-btn" data-cat="lyrics">Lyrics</button>
+        <button class="cat-btn" data-cat="video">Video</button>
+        <button class="cat-btn" data-cat="image">Image</button>
+        <button class="cat-btn" data-cat="site">Site Copy</button>
+        <button class="cat-btn" data-cat="sponsor">Sponsor</button>
+        <button class="cat-btn" data-cat="product">Products</button>
+        <button class="cat-btn" data-cat="safety">Safety</button>
+        <button class="cat-btn" data-cat="custom">Custom</button>
+      </div>
+
+      <div class="templates-list" id="templatesList"></div>
+
+      <div class="sidebar-footer">
+        <button class="tb-btn" id="exportBtn">Export</button>
+        <button class="tb-btn" id="importBtn">Import</button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <div class="toolbar">
+        <div class="mode-toggle">
+          <button class="mode-btn active" data-mode="single">Single</button>
+          <button class="mode-btn" data-mode="compare">Compare</button>
+        </div>
+
+        <select class="model-select" id="modelSelect" title="Target workflow">
+          <option value="suno">Suno Lyrics</option>
+          <option value="sora">Sora Video</option>
+          <option value="veo">Veo 3.1</option>
+          <option value="banana">Nano Banana</option>
+          <option value="copy">Site Copy</option>
+          <option value="safety">Satire Safety</option>
+        </select>
+
+        <select class="format-select" id="formatSelect" title="Output polish">
+          <option value="visitor">Visitor-safe</option>
+          <option value="max">Maximum Biggly</option>
+          <option value="clean">Clean editorial</option>
+        </select>
+
+        <div class="toolbar-spacer"></div>
+        <button class="tb-btn" id="renderBtn">Render</button>
+        <button class="tb-btn danger" id="clearBtn">Clear</button>
+        <button class="tb-btn" id="saveBtn">Save Template</button>
+        <button class="tb-btn primary" id="copyBtn">Copy Final Prompt</button>
+      </div>
+
+      <div class="content-area" id="contentArea">
+        <section class="editor-panel" id="panel1">
+          <div class="editor-head">
+            <span>Prompt Editor</span>
+            <span id="stats1">0 chars · ~0 tokens</span>
+          </div>
+          <div class="editor-wrap">
+            <textarea class="editor" id="editor1" placeholder="Pick a template from the Evidence Lounge. Variables like {{song_title}} become visitor-friendly fields on the right."></textarea>
+          </div>
+        </section>
+
+        <section class="editor-panel hidden" id="panel2">
+          <div class="editor-head">
+            <span>Variant B / Rewrite Bay</span>
+            <span id="stats2">0 chars · ~0 tokens</span>
+          </div>
+          <div class="editor-wrap">
+            <textarea class="editor" id="editor2" placeholder="Create a second version for A/B testing: sharper hook, safer disclaimer, more scandal props, tighter video prompt..."></textarea>
+          </div>
+        </section>
+
+        <aside class="right-panel">
+          <div class="panel-card">
+            <h3>Fillable Evidence <span class="h-tag" id="varCount">0 fields</span></h3>
+            <div id="varInputs">
+              <p class="no-vars-msg">Load a template to auto-generate visitor fields from <code style="color:var(--gold-2)">{{variables}}</code>.</p>
+            </div>
+          </div>
+
+          <div class="panel-card" id="previewSection">
+            <h3>Rendered Preview <span class="h-tag">copy-ready</span></h3>
+            <div class="preview-box" id="previewBox">No prompt rendered yet.</div>
+          </div>
+
+          <div class="panel-card">
+            <h3>Legal Panic Meter <span class="h-tag" id="panicScore">76%</span></h3>
+            <div class="meter">
+              <div class="meter-head"><span>Discovery Pressure</span><span id="panicLabel">premium panic</span></div>
+              <div class="meter-bar"><div class="meter-fill" id="meterFill"></div></div>
+              <div class="meter-caption" id="meterCaption">Don Biggly is still pointing at the evidence like it is a trophy.</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h3>Guardrails <span class="h-tag">auto-added</span></h3>
+            <div class="guardrail-list">
+              <div class="guardrail"><span class="icon">1</span><span>Fictional satire only. Never present output as real quotes, leaks, policy, or legal claims.</span></div>
+              <div class="guardrail"><span class="icon">2</span><span>Punch upward at Don Biggly’s delusion, corruption, tackiness, and inability to read the room.</span></div>
+              <div class="guardrail"><span class="icon">3</span><span>No slurs, protected-class attacks, calls for harm, voter persuasion, or invented factual allegations.</span></div>
+              <div class="guardrail"><span class="icon">4</span><span>For video and image prompts: props expose the joke; they do not decorate it.</span></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h3 id="tipsTitle">Suno Tips <span class="h-tag">workflow</span></h3>
+            <div id="tipsContainer"></div>
+          </div>
+
+          <div class="panel-card">
+            <h3>Quick Package <span class="h-tag">one-click</span></h3>
+            <div class="quick-actions">
+              <button class="tb-btn" id="packageBtn">Build Kit</button>
+              <button class="tb-btn" id="randomizeBtn">Add Chaos</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+<script>
+/* ═════════════════════════════════════════════════════════════════════
+   Booze on Hormuz™ — Don Biggly Evidence Lounge Prompt Generator
+   Visitor-facing, no backend, no localStorage. Export/import JSON only.
+   ═════════════════════════════════════════════════════════════════════ */
+
+const BUILT_IN_TEMPLATES = [
+  {
+    id: 101, name: 'Full Suno Satire Lyric Builder', category: 'lyrics', builtIn: true, heat: 'Level 11',
+    content: `Create a full Suno-ready fictional satire song about Don Biggly.
+
+Song title: {{song_title}}
+Central joke: {{central_joke}}
+Luxury-disaster setting: {{luxury_setting}}
+Evidence prop: {{evidence_prop}}
+Reaction character: {{reaction_character}}
+Must-use phrase: {{must_use_phrase}}
+
+Rules:
+- Output only formatted lyrics.
+- Start with these headers in order:
+[Genre:]
+[Mood:]
+[Vocal Style:]
+[Instruments:]
+[Tempo:]
+[Key:]
+[Structure: Intro → Verse → Hook → Verse → Hook → Bridge → Final Verse → Outro]
+- Then use only: [Intro], [Verse 1], [Hook], [Verse 2], [Hook], [Bridge], [Final Verse], [Outro].
+- [Intro] must be exactly 4 lines. Line 4 must be: This ones called {{song_title}}.
+- Hook must be blunt, chantable, repetitive, self-incriminating, and built around "{{must_use_phrase}}".
+- Don Biggly must brag, accidentally confess, rebrand scandal as luxury, misread panic as applause, and end more exposed.
+- Include at least one reporter question that ruins the room.
+- Include a panicked lawyer or accountant reaction.
+- Keep the satire fictional. Do not present it as a real quote, leak, campaign message, or factual allegation.
+- Avoid slurs, protected-class attacks, graphic sexual detail, calls for harm, and voter persuasion.`
+  },
+  {
+    id: 102, name: 'Hook Hammer', category: 'lyrics', builtIn: true, heat: 'chant',
+    content: `Write 8 alternate hooks for a Don Biggly fictional satire song.
+
+Song title: {{song_title}}
+Core phrase to repeat: {{core_phrase}}
+Scandal euphemism: {{scandal_euphemism}}
+Room reaction: {{room_reaction}}
+
+Each hook must:
+- Be 4 lines max.
+- Repeat one dumb-catchy phrase.
+- Include one accidental confession.
+- Include one horrified room reaction.
+- Sound like Don Biggly thinks he made a slogan but actually entered evidence into the record.
+- Stay fictional satire; no real quotes, no deception, no voter persuasion.
+
+Make the hooks sharper, shorter, and more memorable than normal.`
+  },
+  {
+    id: 103, name: 'Sora Music Video Storyboard', category: 'video', builtIn: true, heat: '12 shots',
+    content: `Create a cinematic music-video storyboard for a fictional Don Biggly satire song.
+
+Song title: {{song_title}}
+Lyrics or summary: {{lyrics_or_summary}}
+Genre / tempo: {{genre_tempo}}
+Visual style: {{visual_style}}
+Aspect ratio: {{aspect_ratio}}
+Recurring set pieces: {{recurring_sets}}
+
+Give me:
+1. A one-sentence creative vision.
+2. A 10-12 shot storyboard tied to song sections: Intro, Verse 1, Hook, Verse 2, Hook, Bridge, Final Verse, Outro.
+3. For each shot include: timestamp range, lyric/section cue, subject, action, environment, evidence prop, reaction character, camera movement, lighting, and continuity notes.
+4. Make the hook visually repeatable.
+5. Don Biggly starts smug and ends more exposed.
+6. Use narrative scene descriptions, not keyword lists.
+7. Keep all satire fictional and clearly non-deceptive.`
+  },
+  {
+    id: 104, name: 'Veo 3.1 Clip Prompt', category: 'video', builtIn: true, heat: '8 sec',
+    content: `Write a Veo 3.1-ready 8-second video prompt for a fictional Don Biggly satire scene.
+
+Subject: {{subject}}
+Action: {{action}}
+Setting: {{setting}}
+Evidence prop: {{evidence_prop}}
+Camera movement: {{camera_movement}}
+Lighting / mood: {{lighting_mood}}
+Audio cue: {{audio_cue}}
+Continuity note: {{continuity_note}}
+
+Prompt requirements:
+- Write one cinematic narrative paragraph.
+- Include subject, context, action, style, camera/composition, ambience, and audio.
+- Make the evidence prop visibly contradict Don Biggly's brag.
+- Include one reaction beat from a lawyer, accountant, donor, reporter, or Melania.
+- Do not ask for a real-person deepfake or deceptive impersonation.
+- Label the scene as fictional editorial satire.`
+  },
+  {
+    id: 105, name: 'Nano Banana Foundation Image', category: 'image', builtIn: true, heat: 'hero',
+    content: `Create a Nano Banana Pro foundation image prompt for a fictional Don Biggly satire music video.
+
+Main subject: {{main_subject}}
+Setting: {{setting}}
+Central joke: {{central_joke}}
+Evidence prop: {{evidence_prop}}
+Readable sign text: {{readable_sign_text}}
+Reaction character: {{reaction_character}}
+Lighting: {{lighting}}
+Aspect ratio: {{aspect_ratio}}
+
+Write a photorealistic, cinematic, hyper-detailed editorial satire image prompt.
+Use a coherent narrative paragraph, not a keyword list.
+Frame hierarchy: Don Biggly first, evidence prop second, reaction character third, luxury-disaster environment fourth.
+Use only 5-7 readable labels total.
+Don Biggly should look smug, oblivious, tacky, and convinced he is winning.
+The evidence prop should expose him.
+Avoid gothic, horror-villain, campaign-poster, or persuasion aesthetics.
+Clearly treat this as fictional satire, not a real event.`
+  },
+  {
+    id: 106, name: 'Evidence Lounge Image Prompt', category: 'image', builtIn: true, heat: 'props',
+    content: `Write a ready-to-paste image prompt for the Booze on Hormuz Evidence Lounge.
+
+Scene location: {{scene_location}}
+Evidence table contents: {{evidence_table_contents}}
+Don Biggly pose: {{don_biggly_pose}}
+Lawyer/accountant reaction: {{panic_reaction}}
+Melania detail: {{melania_detail}}
+Readable labels: {{readable_labels}}
+
+Create a photorealistic editorial satire image: a luxury scandal press conference where every prop accidentally confesses.
+Use dramatic flash photography, gold lighting, black marble, shrimp towers, velvet ropes, legal folders, and readable signage.
+The central joke must be obvious in one glance.
+Use 5-7 readable labels maximum.
+Don Biggly is smug and oblivious. Everyone else understands the room is collapsing.
+This is fictional satire only.`
+  },
+  {
+    id: 107, name: 'Fake Sponsor Read', category: 'sponsor', builtIn: true, heat: 'ad read',
+    content: `Write a 30-second fictional sponsor read delivered by Don Biggly.
+
+Sponsor/product: {{sponsor_product}}
+Fake benefit: {{fake_benefit}}
+Evidence problem: {{evidence_problem}}
+Required slogan: {{required_slogan}}
+Interrupting reaction: {{interrupting_reaction}}
+
+Style:
+- Luxury infomercial meets legal disaster.
+- Don Biggly brags, contradicts himself, accidentally confesses, then calls the panic "great energy."
+- Include one lawyer interruption: "Please stop talking" or similar.
+- Include one absurd premium upsell.
+- End with the slogan.
+- Clearly fictional satire, not a real endorsement, not a real ad, not a real quote.`
+  },
+  {
+    id: 108, name: 'Premium Product Page Copy', category: 'product', builtIn: true, heat: 'merch',
+    content: `Write a fictional Booze on Hormuz product page.
+
+Product name: {{product_name}}
+Product type: {{product_type}}
+Absurd luxury feature: {{luxury_feature}}
+Hidden legal problem: {{legal_problem}}
+Target joke: {{target_joke}}
+
+Output:
+- Hero headline
+- Subheadline
+- 5 premium features
+- 3 "very legal" disclaimers
+- One customer quote from a nervous donor
+- One lawyer warning accidentally left on the page
+- One call-to-action button label
+
+Tone: tacky luxury, crisis hospitality, self-incriminating confidence.
+Keep it fictional satire and avoid real claims or real-person impersonation.`
+  },
+  {
+    id: 109, name: 'Reporter Question That Ruins the Room', category: 'site', builtIn: true, heat: 'gotcha',
+    content: `Generate 12 short reporter questions and Don Biggly answers for a fictional satire scene.
+
+Scene premise: {{scene_premise}}
+Evidence prop: {{evidence_prop}}
+What Don Biggly is trying to sell: {{what_he_is_selling}}
+
+Rules:
+- Each reporter question should be factual-sounding, short, and devastating.
+- Each Don Biggly answer should make it worse.
+- Include one lawyer whispering panic line after every third answer.
+- Keep it fictional, non-deceptive, and not framed as real public statements.
+- The joke is Don Biggly's arrogance and inability to read the room.`
+  },
+  {
+    id: 110, name: 'Melania Ice Note Generator', category: 'site', builtIn: true, heat: 'icy',
+    content: `Write 20 icy, elegant, passive-aggressive one-liners or visual notes for Melania in a fictional Don Biggly satire scene.
+
+Scene: {{scene}}
+Evidence object: {{evidence_object}}
+Don Biggly brag: {{don_biggly_brag}}
+
+Rules:
+- Melania is calm, elegant, economical, never yelling.
+- Each line must be short enough for a note card, text bubble, place card, or prop label.
+- She destroys the room with restraint.
+- Do not make her the punchline; the punchline is Don Biggly being exposed.`
+  },
+  {
+    id: 111, name: 'Site Hero Rewrite', category: 'site', builtIn: true, heat: 'landing',
+    content: `Rewrite a Booze on Hormuz landing-page hero section.
+
+Current idea: {{current_idea}}
+Desired visitor action: {{desired_action}}
+Main joke: {{main_joke}}
+Must-use line: {{must_use_line}}
+
+Create:
+- Eyebrow
+- H1
+- Subheadline
+- Primary CTA
+- Secondary CTA
+- 3 proof-pill labels
+- Tiny legal satire disclaimer
+- Optional ticker line
+
+Tone: premium crisis-lifestyle brand, champagne-on-ice confidence, evidence-binder collapse.
+Make it sharp, memorable, and visitor-safe.`
+  },
+  {
+    id: 112, name: 'Evidence Lounge Section Builder', category: 'site', builtIn: true, heat: 'section',
+    content: `Create a web section for the Booze on Hormuz Evidence Lounge.
+
+Section goal: {{section_goal}}
+Featured prop: {{featured_prop}}
+Don Biggly claim: {{don_biggly_claim}}
+Contradicting evidence: {{contradicting_evidence}}
+Visitor action: {{visitor_action}}
+
+Output:
+- Section title
+- Short intro paragraph
+- 4 evidence cards
+- 1 panicked lawyer tooltip
+- 1 accountant status line
+- 1 CTA button
+- Safety disclaimer line
+
+Every object in the section should expose the joke, not just decorate it.`
+  },
+  {
+    id: 113, name: 'Social Clip Script', category: 'sponsor', builtIn: true, heat: 'short',
+    content: `Write a 15-second vertical social clip script for Don Biggly fictional satire.
+
+Clip title: {{clip_title}}
+Opening visual: {{opening_visual}}
+Central joke: {{central_joke}}
+Evidence reveal: {{evidence_reveal}}
+Final button/text: {{final_text}}
+
+Format:
+- 0-3 sec hook
+- 3-8 sec escalation
+- 8-12 sec evidence reveal
+- 12-15 sec punchline
+- On-screen text for each beat
+- Audio/SFX notes
+
+Keep it safe, fictional, non-deceptive, and clearly satirical.`
+  },
+  {
+    id: 114, name: 'Satire Safety Rewrite', category: 'safety', builtIn: true, heat: 'guardrail',
+    content: `Rewrite the following satire concept to make it safer, clearer, and sharper without making it softer.
+
+Original concept:
+{{original_concept}}
+
+Improve it by:
+- Making Don Biggly the target of the joke.
+- Removing slurs, protected-class attacks, real fake quotes, deceptive framing, voter persuasion, or invented factual allegations.
+- Keeping the punchline focused on arrogance, corruption, tackiness, legal panic, and self-incrimination.
+- Adding fictional satire labeling where needed.
+- Making the joke more visual and memorable.
+
+Output:
+1. Safer rewritten concept
+2. What changed
+3. Stronger punchline options
+4. Suggested disclaimer`
+  },
+  {
+    id: 115, name: 'Prompt Package Builder', category: 'video', builtIn: true, heat: 'bundle',
+    content: `Build a complete AI music-video prompt package for a fictional Booze on Hormuz / Don Biggly song.
+
+Song title: {{song_title}}
+Lyrics or concept: {{lyrics_or_concept}}
+Video tone: {{video_tone}}
+Target tools: {{target_tools}}
+Must-have images: {{must_have_images}}
+Aspect ratio: {{aspect_ratio}}
+
+Deliver:
+1. Creative vision
+2. 10-shot storyboard
+3. Foundation image prompt
+4. 3 image variation prompts
+5. 3 Veo/Sora clip prompts
+6. Hook visual loop
+7. Continuity checklist
+8. Editing notes for beat-locked assembly
+9. Safety disclaimer block
+
+Use narrative paragraphs for image/video prompts. Make it over-the-top, sharp, cinematic, and clearly fictional.`
+  },
+  {
+    id: 116, name: 'Biggly Brand Bible', category: 'site', builtIn: true, heat: 'identity',
+    content: `Create a compact brand bible for Don Biggly / Booze on Hormuz.
+
+Brand promise: {{brand_promise}}
+Core joke: {{core_joke}}
+Forbidden vibe: {{forbidden_vibe}}
+Recurring props: {{recurring_props}}
+Recurring characters: {{recurring_characters}}
+
+Include:
+- Voice rules
+- Visual rules
+- Recurring joke engine
+- Page-section ideas
+- CTA language
+- 12 approved phrases
+- 12 phrases to avoid
+- Safety boundaries
+- One paragraph that explains the brand to a new visitor
+
+Make it sharp, premium, absurd, and usable by designers/writers.`
+  },
+  {
+    id: 117, name: 'Luxury Disclaimer Generator', category: 'safety', builtIn: true, heat: 'legal',
+    content: `Write 10 fictional satire disclaimer variations for Booze on Hormuz.
+
+Context: {{context}}
+Tone: {{tone}}
+Must include: {{must_include}}
+
+Rules:
+- Clear that Don Biggly and Booze on Hormuz are fictional satire.
+- Not real quotes, leaks, policy, travel advice, legal advice, or endorsements.
+- Funny, but still clear.
+- No evasive or misleading language.
+- Keep each version under 45 words.`
+  },
+  {
+    id: 118, name: 'Evidence Prop Bank', category: 'image', builtIn: true, heat: 'visual',
+    content: `Generate a prop bank for a fictional Don Biggly satire scene.
+
+Scene: {{scene}}
+Central scandal metaphor: {{central_scandal_metaphor}}
+Luxury environment: {{luxury_environment}}
+
+Give me:
+- 15 evidence props
+- 10 readable labels, max 4 words each
+- 8 reaction beats
+- 5 Melania visual details
+- 5 lawyer/accountant panic details
+- 3 hero-image compositions
+
+Props must expose the narrator. Avoid overcrowding and keep readable labels limited.`
+  },
+  {
+    id: 119, name: 'About Page: Who Is Don Biggly?', category: 'site', builtIn: true, heat: 'origin',
+    content: `Write an About page section explaining Don Biggly for new visitors.
+
+Audience: {{audience}}
+Site premise: {{site_premise}}
+Signature line: {{signature_line}}
+Desired feeling: {{desired_feeling}}
+
+Include:
+- Short headline
+- 2 concise paragraphs
+- 5 "Don Biggly believes..." bullets
+- 3 "The room knows..." bullets
+- One clear satire disclaimer
+- One CTA to explore the Evidence Lounge
+
+Don Biggly is fictional. The joke is that he mistakes evidence for branding and panic for applause.`
+  },
+  {
+    id: 120, name: 'Over-the-Top Rewrite Machine', category: 'custom', builtIn: true, heat: 'turbo',
+    content: `Rewrite this draft into a sharper, more cinematic, more over-the-top Booze on Hormuz / Don Biggly version.
+
+Draft:
+{{draft}}
+
+Desired output type: {{output_type}}
+Intensity: {{intensity}}
+Must keep: {{must_keep}}
+Must avoid: {{must_avoid}}
+
+Rewrite rules:
+- Tighter, funnier, more visual, more memorable.
+- More luxury-grift contradiction, not more cruelty.
+- Don Biggly brags → evidence appears → lawyers panic → he misreads panic as applause.
+- Add one clear evidence prop and one horrified reaction.
+- Keep it fictional satire. Avoid deception, slurs, protected-class attacks, calls for harm, voter persuasion, and invented real-world allegations.`
+  }
+];
+
+let templates = JSON.parse(JSON.stringify(BUILT_IN_TEMPLATES));
+let customTemplates = [];
+let currentMode = 'single';
+let currentModel = 'suno';
+let variables = {};
+let activeTemplateId = null;
+
+const WORKFLOW_TIPS = {
+  suno: [
+    'Full lyrics should use clean bracketed structure and a blunt, repeatable hook.',
+    'Hooks work best when the narrator accidentally confesses while trying to sloganize.',
+    'Keep lines short, spoken-first, and rhythmic. Cut cleverness that slows the joke.',
+    'Escalate every section: brag, contradiction, panic, worse answer, visible consequence.'
+  ],
+  sora: [
+    'Write cinematic narrative paragraphs, not keyword lists.',
+    'Map shots to song sections so hooks have repeatable visual language.',
+    'Continuity matters: wardrobe, props, lighting, and character behavior should persist.',
+    'Every video shot needs a subject, action, environment, camera move, mood, and evidence beat.'
+  ],
+  veo: [
+    'Use 8-second clips for strong scene units and clean beat-locked assembly.',
+    'Include subject, action, style, camera/composition, ambience, and audio cues.',
+    'First-frame/last-frame thinking helps keep scenes coherent.',
+    'Use up to three reference images only when the workflow supports it.'
+  ],
+  banana: [
+    'Foundation images carry the visual identity. Make the first frame excellent.',
+    'For readable text, keep labels short and use only the strongest 5-7 labels.',
+    'Props should expose the lie. Do not let evidence become decoration.',
+    'Photoreal editorial satire beats generic villain aesthetics.'
+  ],
+  copy: [
+    'A visitor should understand the joke in five seconds.',
+    'Every section needs a headline, visual object, contradiction, and click target.',
+    'Make CTAs funny but clear: Enter Evidence Lounge, Inspect Receipts, Launch Sponsor Read.',
+    'Disclaimers can be witty, but they must remain unmistakably clear.'
+  ],
+  safety: [
+    'Label fictional satire plainly.',
+    'Do not produce fake real quotes, leaks, endorsements, or campaign persuasion.',
+    'Never make protected groups or vulnerable people the punchline.',
+    'Use public controversies only with careful framing and verification when current.'
+  ]
+};
+
+const PANIC_LINES = [
+  'LAWYERS: sweating politely',
+  'ACCOUNTANTS: coughing into spreadsheets',
+  'DONORS: avoiding the shrimp tower',
+  'REPORTERS: asking one perfect question',
+  'MELANIA: moved her chair six inches',
+  'DISCOVERY: approaching in gold loafers',
+  'NDAs: glowing under chandelier light',
+  'EVIDENCE: very much with him'
+];
+
+const CHAOS_BANK = {
+  luxury_setting: ['black-marble cruise deck', 'gold-plated press ballroom', 'velvet-rope evidence lounge', 'champagne compliance gala', 'subpoena-adjacent yacht lobby'],
+  evidence_prop: ['oversized gold folder labeled VERY LEGAL RECEIPTS', 'shrimp tower hiding subpoena envelopes', 'routing-number napkin under a champagne flute', 'binder titled DISCOVERY IS COMING', 'invoice stamped QUIET MONEY'],
+  reaction_character: ['lawyer whispering “Please stop talking”', 'accountant coughing into a spreadsheet', 'donor frozen beside the shrimp tower', 'reporter holding one devastating follow-up question', 'Melania holding a folded card that says “Enjoy discovery”'],
+  must_use_phrase: ['The evidence is with me', 'Very legal, very loud', 'Premium consequence corridor', 'Quiet money, loud room', 'Discovery Deck Access']
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderTemplates();
+  setupListeners();
+  renderTips();
+  tickPanic();
+  setInterval(tickPanic, 3800);
+  loadTemplate(101);
+});
+
+function getAllTemplates() {
+  return [...templates, ...customTemplates];
+}
+
+function renderTemplates(filter = '') {
+  const list = document.getElementById('templatesList');
+  const activeCat = document.querySelector('.cat-btn.active').dataset.cat;
+  let pool = getAllTemplates();
+
+  if (activeCat !== 'all') pool = pool.filter(t => t.category === activeCat);
+  if (filter) {
+    const q = filter.toLowerCase();
+    pool = pool.filter(t =>
+      t.name.toLowerCase().includes(q) ||
+      t.category.toLowerCase().includes(q) ||
+      (t.heat || '').toLowerCase().includes(q) ||
+      t.content.toLowerCase().includes(q)
+    );
+  }
+
+  list.innerHTML = pool.map(t => `
+    <div class="tpl-item ${t.id === activeTemplateId ? 'active' : ''}" data-id="${t.id}">
+      <div class="name">${escapeHtml(t.name)}</div>
+      <div class="cat"><span>${escapeHtml(t.category)}${t.builtIn ? '' : ' · custom'}</span><span class="pill">${escapeHtml(t.heat || 'custom')}</span></div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.tpl-item').forEach(el => {
+    el.addEventListener('click', () => loadTemplate(Number(el.dataset.id)));
+  });
+
+  document.getElementById('templateCount').textContent = `${getAllTemplates().length} templates`;
+}
+
+function loadTemplate(id) {
+  const t = getAllTemplates().find(x => x.id === id);
+  if (!t) return;
+  activeTemplateId = id;
+  document.getElementById('editor1').value = t.content;
+  renderTemplates(document.getElementById('searchInput').value);
+  updateStats('editor1', 'stats1');
+  detectVars();
+  updatePanicMeter();
+  toast(`Loaded: ${t.name}`);
+}
+
+function detectVars() {
+  const text = document.getElementById('editor1').value;
+  const matches = [...text.matchAll(/\{\{([a-zA-Z0-9_]+)\}\}/g)];
+  const unique = [...new Set(matches.map(m => m[1]))];
+  const container = document.getElementById('varInputs');
+  document.getElementById('varCount').textContent = `${unique.length} field${unique.length === 1 ? '' : 's'}`;
+
+  if (!unique.length) {
+    container.innerHTML = '<p class="no-vars-msg">Use <code style="color:var(--gold-2)">{{variable_name}}</code> in your prompt to create fillable fields.</p>';
+    updatePreview();
+    return;
+  }
+
+  container.innerHTML = unique.map(v => `
+    <div class="var-group">
+      <label><span>{{${escapeHtml(v)}}}</span><span class="badge">${fieldHint(v)}</span></label>
+      <textarea data-var="${escapeHtml(v)}" placeholder="${placeholderFor(v)}">${escapeHtml(variables[v] || '')}</textarea>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', e => {
+      variables[e.target.dataset.var] = e.target.value;
+      updatePreview();
+      updatePanicMeter();
+    });
+  });
+
+  updatePreview();
+}
+
+function updatePreview() {
+  let text = document.getElementById('editor1').value;
+  Object.keys(variables).forEach(v => {
+    const value = variables[v] || `{{${v}}}`;
+    text = text.replace(new RegExp(`\\{\\{${escapeRegExp(v)}\\}\\}`, 'g'), value);
+  });
+
+  const polish = document.getElementById('formatSelect').value;
+  const footer = polish === 'max'
+    ? '\n\nBIGGLY INTENSITY NOTE: Make it feel like a gold-plated confession accidentally entered into evidence.'
+    : polish === 'clean'
+      ? '\n\nEDITORIAL NOTE: Keep the satire clear, controlled, and unmistakably fictional.'
+      : '\n\nVISITOR-SAFE NOTE: Fictional satire only; do not frame as real quotes, leaks, policy, legal advice, or endorsement.';
+
+  document.getElementById('previewBox').textContent = text.trim() ? text + footer : 'No prompt rendered yet.';
+}
+
+function updateStats(editorId, statsId) {
+  const text = document.getElementById(editorId).value;
+  const chars = text.length;
+  const tokens = Math.ceil(chars / 4);
+  document.getElementById(statsId).textContent = `${chars.toLocaleString()} chars · ~${tokens.toLocaleString()} tokens`;
+}
+
+function renderTips() {
+  const names = {
+    suno: 'Suno Tips',
+    sora: 'Sora Tips',
+    veo: 'Veo Tips',
+    banana: 'Nano Banana Tips',
+    copy: 'Site Copy Tips',
+    safety: 'Satire Safety Tips'
+  };
+  document.getElementById('tipsTitle').innerHTML = `${names[currentModel]} <span class="h-tag">workflow</span>`;
+  document.getElementById('tipsContainer').innerHTML = WORKFLOW_TIPS[currentModel]
+    .map(t => `<div class="tip-card">${escapeHtml(t)}</div>`).join('');
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  const area = document.getElementById('contentArea');
+  const p2 = document.getElementById('panel2');
+  if (mode === 'compare') {
+    area.classList.add('compare-mode');
+    p2.classList.remove('hidden');
+  } else {
+    area.classList.remove('compare-mode');
+    p2.classList.add('hidden');
+  }
+}
+
+async function copyToClipboard() {
+  let text = document.getElementById('previewBox').textContent;
+  if (!text || text === 'No prompt rendered yet.') {
+    text = document.getElementById('editor1').value;
+  }
+
+  try {
+    await navigator.clipboard.writeText(text);
+    copiedState();
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    copiedState();
+  }
+}
+
+function copiedState() {
+  toast('Copied final prompt');
+  const btn = document.getElementById('copyBtn');
+  btn.classList.add('copied');
+  btn.textContent = 'Copied';
+  setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy Final Prompt'; }, 1400);
+}
+
+function saveTemplate() {
+  const content = document.getElementById('editor1').value;
+  if (!content.trim()) { toast('Editor is empty'); return; }
+
+  const name = prompt('Template name:');
+  if (!name) return;
+
+  const validCats = ['lyrics', 'video', 'image', 'site', 'sponsor', 'product', 'safety', 'custom'];
+  let category = prompt('Category (lyrics / video / image / site / sponsor / product / safety / custom):');
+  if (!category || !validCats.includes(category.toLowerCase().trim())) category = 'custom';
+  category = category.toLowerCase().trim();
+
+  const newTpl = {
+    id: Date.now(),
+    name,
+    category,
+    heat: 'custom',
+    builtIn: false,
+    content
+  };
+
+  customTemplates.push(newTpl);
+  renderTemplates(document.getElementById('searchInput').value);
+  toast('Template saved — use Export to keep it');
+}
+
+function exportTemplates() {
+  const payload = {
+    version: 2,
+    exported: new Date().toISOString(),
+    project: 'Booze on Hormuz Evidence Lounge',
+    note: 'Visitor-facing fictional satire prompt templates. No backend state.',
+    builtIn: templates,
+    custom: customTemplates
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `booze-on-hormuz-prompt-templates-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Templates exported');
+}
+
+function importTemplates() {
+  document.getElementById('importFile').click();
+}
+
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (evt) {
+    try {
+      const data = JSON.parse(evt.target.result);
+      if (data.version && data.builtIn) {
+        templates = data.builtIn;
+        customTemplates = data.custom || [];
+      } else if (Array.isArray(data)) {
+        customTemplates = data.map((t, i) => ({
+          id: Date.now() + i,
+          name: t.name || `Imported ${i + 1}`,
+          category: t.category || 'custom',
+          heat: t.heat || 'imported',
+          builtIn: false,
+          content: t.content || ''
+        }));
+      } else {
+        toast('Unrecognized file format');
+        return;
+      }
+      renderTemplates();
+      toast(`Imported ${getAllTemplates().length} templates`);
+    } catch (err) {
+      toast('Failed to parse file');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function buildPackage() {
+  const base = document.getElementById('previewBox').textContent;
+  const kit = `${base}
+
+────────────────────────────────────────
+BOOZE ON HORMUZ™ QUICK PRODUCTION KIT
+────────────────────────────────────────
+
+1. FOUNDATION IMAGE
+Create the hero frame first. Don Biggly is central, smug, and oblivious; the evidence prop is readable and contradicts him; one reaction character understands the room is collapsing.
+
+2. HOOK LOOP
+Repeat the strongest visual during the chorus: Don Biggly points at the evidence while the lawyer whispers, "Please stop talking."
+
+3. VIDEO CLIPS
+Generate 8-second scene units: intro establishment, verse setup, hook loop, bridge collapse, final exposure.
+
+4. EDITING NOTE
+Cut to the beat. Make every return to the hook visually worse for Don Biggly.
+
+5. SAFETY LINE
+Fictional satire only. Not real quotes, leaks, policy, travel advice, legal advice, or endorsement.`;
+
+  document.getElementById('previewBox').textContent = kit;
+  toast('Production kit added');
+}
+
+function addChaos() {
+  const textareas = document.querySelectorAll('#varInputs textarea');
+  textareas.forEach(ta => {
+    const key = ta.dataset.var;
+    if (!ta.value && CHAOS_BANK[key]) {
+      const options = CHAOS_BANK[key];
+      ta.value = options[Math.floor(Math.random() * options.length)];
+      variables[key] = ta.value;
+    }
+  });
+  updatePreview();
+  updatePanicMeter();
+  toast('Added tasteful legal chaos');
+}
+
+function updatePanicMeter() {
+  const text = (document.getElementById('editor1').value + ' ' + Object.values(variables).join(' ')).toLowerCase();
+  const terms = ['evidence','legal','lawyer','accountant','discovery','subpoena','nda','quiet','gold','melania','reporter','donor','panic','confess','receipts','shell'];
+  let score = 42;
+  terms.forEach(term => { if (text.includes(term)) score += 4; });
+  score = Math.min(99, score);
+  document.getElementById('meterFill').style.width = score + '%';
+  document.getElementById('panicScore').textContent = score + '%';
+  document.getElementById('panicLabel').textContent = score > 85 ? 'sir, stop talking' : score > 68 ? 'premium panic' : 'mild subpoena aroma';
+  document.getElementById('meterCaption').textContent =
+    score > 85 ? 'The lawyers have formed a small weather system near the shrimp tower.' :
+    score > 68 ? 'Don Biggly is still pointing at the evidence like it is a trophy.' :
+    'The room is nervous, but the chandelier has not started sweating yet.';
+}
+
+function tickPanic() {
+  const line = PANIC_LINES[Math.floor(Math.random() * PANIC_LINES.length)];
+  document.getElementById('panicTicker').textContent = line;
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function setupListeners() {
+  document.getElementById('searchInput').addEventListener('input', e => renderTemplates(e.target.value));
+
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTemplates(document.getElementById('searchInput').value);
+    });
+  });
+
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      setMode(btn.dataset.mode);
+    });
+  });
+
+  document.getElementById('modelSelect').addEventListener('change', e => {
+    currentModel = e.target.value;
+    renderTips();
+  });
+
+  document.getElementById('formatSelect').addEventListener('change', updatePreview);
+
+  document.getElementById('editor1').addEventListener('input', () => {
+    updateStats('editor1', 'stats1');
+    detectVars();
+    updatePanicMeter();
+  });
+
+  document.getElementById('editor2').addEventListener('input', () => updateStats('editor2', 'stats2'));
+
+  document.getElementById('renderBtn').addEventListener('click', () => { updatePreview(); toast('Rendered preview'); });
+  document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+  document.getElementById('saveBtn').addEventListener('click', saveTemplate);
+  document.getElementById('exportBtn').addEventListener('click', exportTemplates);
+  document.getElementById('importBtn').addEventListener('click', importTemplates);
+  document.getElementById('importFile').addEventListener('change', handleImport);
+  document.getElementById('packageBtn').addEventListener('click', buildPackage);
+  document.getElementById('randomizeBtn').addEventListener('click', addChaos);
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    document.getElementById('editor1').value = '';
+    document.getElementById('editor2').value = '';
+    variables = {};
+    activeTemplateId = null;
+    updateStats('editor1', 'stats1');
+    updateStats('editor2', 'stats2');
+    detectVars();
+    renderTemplates(document.getElementById('searchInput').value);
+    toast('Cleared workspace');
+  });
+}
+
+function fieldHint(v) {
+  if (v.includes('title')) return 'title';
+  if (v.includes('lyrics')) return 'lyrics';
+  if (v.includes('setting') || v.includes('scene')) return 'scene';
+  if (v.includes('prop') || v.includes('evidence')) return 'prop';
+  if (v.includes('style') || v.includes('tone')) return 'style';
+  if (v.includes('ratio')) return 'format';
+  return 'field';
+}
+
+function placeholderFor(v) {
+  const pretty = v.replace(/_/g, ' ');
+  const examples = {
+    song_title: 'Booze on Hormuz',
+    central_joke: 'Don Biggly sells geopolitical panic as luxury hospitality',
+    luxury_setting: 'gold-plated cruise deck with warships on the horizon',
+    evidence_prop: 'oversized folder labeled VERY LEGAL RECEIPTS',
+    reaction_character: 'lawyer whispering “Please stop talking”',
+    must_use_phrase: 'The evidence is with me',
+    aspect_ratio: '16:9 or 9:16',
+    visual_style: 'photoreal editorial satire, black marble, champagne gold, legal panic'
+  };
+  return examples[v] || `Enter ${pretty}...`;
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }[ch]));
+}
+</script>
+</body>
+</html>

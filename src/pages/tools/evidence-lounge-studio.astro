@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+// Advanced workbench. Sandboxed in an iframe (same rationale as broadcast-room).
+// The tool is desktop-gated internally; a site-branded note sets expectations on small
+// screens. Full responsive rebuild is Phase 2 — out of scope here.
+---
+
+<BaseLayout
+  title="Evidence Lounge Prompt Generator — Booze on Hormuz™"
+  description="A 20-template Don Biggly prompt workbench with live fillable fields, rendered preview, and custom templates. Copy-ready prompts, no API key."
+>
+  <div class="px-6 pt-16 pb-6 max-w-5xl mx-auto font-body">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
+      <a href="/tools" class="hover:text-gold-ink">Creative Arsenal</a>
+      <span class="mx-2 text-line">/</span>
+      <span class="text-ink">Evidence Lounge</span>
+    </nav>
+
+    <div class="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+      <h1 class="font-display text-title text-ink">Evidence Lounge Prompt Generator</h1>
+      <a href="/tools/broadcast-room" class="text-sm uppercase tracking-[0.08em] text-gold-ink hover:opacity-80">
+        Switch to Broadcast Room &rarr;
+      </a>
+    </div>
+
+    <p class="mt-3 text-ink-soft max-w-2xl">
+      Pick a template, fill the fields, render, and copy the prompt into Suno, Sora, Veo,
+      Gemini, ChatGPT, or Claude. This builds <strong class="text-ink">copy-ready prompts</strong>,
+      not live AI generations — nothing leaves your browser.
+    </p>
+
+    <!-- Desktop note (the workbench is built for a wide screen) -->
+    <div class="mt-5 sm:hidden card-marble border border-line rounded-lg px-4 py-3 text-sm text-ink-soft">
+      <span class="text-gold-ink font-display">Best on a big gold screen.</span>
+      This workbench is built like a scandal command center and wants a desktop. On a phone,
+      the <a href="/tools/broadcast-room" class="text-gold-ink hover:opacity-80">Broadcast Room</a>
+      is the mobile-friendly way in.
+    </div>
+  </div>
+
+  <div class="px-6 pb-20 max-w-5xl mx-auto">
+    <iframe
+      src="/apps/evidence-lounge-studio.html"
+      title="Evidence Lounge Prompt Generator"
+      class="w-full h-[88vh] min-h-[700px] rounded-lg border border-line bg-charcoal"
+      loading="eager"
+    ></iframe>
+    <p class="mt-3 text-xs text-ink-soft/80">
+      Tool runs entirely in this frame. Use its Export button to save your template library as a
+      file — nothing is stored on a server. <a href="/tools/safety" class="text-gold-ink hover:opacity-80">Satire &amp; safety guidelines</a>.
+    </p>
+  </div>
+</BaseLayout>

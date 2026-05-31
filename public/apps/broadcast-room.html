@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biggly Broadcast Pack Generator | Booze on Hormuz™</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #070504;
+      --ink: #f7ead3;
+      --muted: #b79f7b;
+      --faint: #7f6b4c;
+      --panel: rgba(22, 15, 9, .9);
+      --panel-2: rgba(34, 24, 13, .92);
+      --panel-3: rgba(54, 36, 17, .72);
+      --line: rgba(247, 206, 115, .22);
+      --gold: #f7ce73;
+      --gold-2: #b8792d;
+      --champagne: #fff1bd;
+      --red: #ef4444;
+      --red-2: #991b1b;
+      --green: #31d0aa;
+      --cyan: #67e8f9;
+      --purple: #c084fc;
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
+      --mono: "JetBrains Mono", monospace;
+      --body: "Inter", system-ui, sans-serif;
+      --display: "Archivo", Impact, sans-serif;
+    }
+
+    html, body { min-height: 100%; background: var(--bg); color: var(--ink); font-family: var(--body); }
+    body {
+      background:
+        radial-gradient(circle at 14% -10%, rgba(247,206,115,.22), transparent 36%),
+        radial-gradient(circle at 86% 5%, rgba(239,68,68,.13), transparent 34%),
+        radial-gradient(circle at 50% 115%, rgba(103,232,249,.08), transparent 35%),
+        linear-gradient(135deg, #050302 0%, #120b05 46%, #080504 100%);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+    body::after {
+      content: "VERY LEGAL • DISCOVERY IS COMING • PREMIUM DISGRACE • QUIET MONEY •";
+      position: fixed; inset: auto -10% 6% -10%; transform: rotate(-7deg);
+      font: 900 clamp(36px, 8vw, 112px)/1 var(--display);
+      color: rgba(247,206,115,.035);
+      white-space: nowrap; pointer-events: none; z-index: -1;
+      letter-spacing: .02em;
+    }
+
+    .app { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+
+    header {
+      position: sticky; top: 0; z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(90deg, rgba(10,7,4,.92), rgba(28,18,8,.88));
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 36px rgba(0,0,0,.25);
+    }
+    .top {
+      max-width: 1500px; margin: 0 auto; padding: 14px 22px;
+      display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .seal {
+      width: 42px; height: 42px; border-radius: 999px;
+      display: grid; place-items: center;
+      background: radial-gradient(circle, var(--champagne) 0 22%, var(--gold) 23% 62%, var(--gold-2) 63%);
+      color: #201305; font: 900 15px/1 var(--display);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.2), 0 0 28px rgba(247,206,115,.25);
+      flex: 0 0 auto;
+    }
+    .brand-copy { min-width: 0; }
+    .eyebrow {
+      font: 700 11px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 4px;
+    }
+    h1 {
+      font: 900 clamp(20px, 3vw, 34px)/.95 var(--display);
+      letter-spacing: -.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .meta {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end;
+      font: 600 11px/1 var(--mono); color: var(--muted);
+    }
+    .pill {
+      padding: 8px 10px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(247,206,115,.06); color: var(--gold);
+      white-space: nowrap;
+    }
+    .pill.red { border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.08); color: #fecaca; }
+    .pill.green { border-color: rgba(49,208,170,.35); background: rgba(49,208,170,.08); color: #a7f3d0; }
+
+    main {
+      max-width: 1500px; width: 100%; margin: 0 auto; padding: 24px;
+      display: grid; grid-template-columns: minmax(340px, 470px) 1fr; gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(32,21,11,.94), rgba(13,9,6,.96));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 18px 20px; border-bottom: 1px solid var(--line);
+      display: flex; justify-content: space-between; gap: 14px; align-items: start;
+      background:
+        linear-gradient(135deg, rgba(247,206,115,.10), transparent 45%),
+        rgba(255,255,255,.015);
+    }
+    .card-head h2 { font: 900 18px/1.05 var(--display); letter-spacing: -.015em; }
+    .card-head p { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .stamp {
+      transform: rotate(4deg);
+      border: 2px solid rgba(239,68,68,.75);
+      color: #fecaca;
+      border-radius: 8px;
+      padding: 7px 9px;
+      font: 900 10px/1 var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: rgba(239,68,68,.08);
+      flex: 0 0 auto;
+      text-align: center;
+    }
+
+    .form { padding: 18px; display: grid; gap: 14px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field label {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      font: 800 11px/1 var(--mono); color: var(--gold); text-transform: uppercase; letter-spacing: .08em;
+      margin-bottom: 7px;
+    }
+    .field label small { color: var(--faint); font-weight: 600; text-transform: none; letter-spacing: 0; }
+    input, select, textarea {
+      width: 100%; border: 1px solid rgba(247,206,115,.20); border-radius: 12px;
+      background: rgba(5,3,2,.72); color: var(--ink);
+      padding: 11px 12px; font: 500 14px/1.4 var(--body);
+      outline: none; transition: border .18s, box-shadow .18s, background .18s;
+    }
+    textarea { min-height: 92px; resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(247,206,115,.62);
+      box-shadow: 0 0 0 4px rgba(247,206,115,.08);
+      background: rgba(10,7,4,.92);
+    }
+    ::placeholder { color: #78684d; }
+
+    .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .check {
+      display: flex; gap: 10px; align-items: flex-start; padding: 10px;
+      border: 1px solid rgba(247,206,115,.16); border-radius: 14px;
+      background: rgba(247,206,115,.045); cursor: pointer;
+      font-size: 12px; color: var(--dim, #d8c8a9);
+    }
+    .check input { width: auto; margin-top: 2px; accent-color: var(--gold); }
+    .check b { color: var(--ink); }
+
+    .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+    button {
+      border: 0; border-radius: 14px; cursor: pointer;
+      padding: 12px 14px; font: 900 12px/1 var(--mono); letter-spacing: .04em;
+      text-transform: uppercase; color: var(--ink); transition: transform .12s, filter .12s, border .12s;
+    }
+    button:hover { transform: translateY(-1px); filter: brightness(1.08); }
+    button:active { transform: translateY(0); }
+    .primary {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--gold), #e99135);
+      color: #1d1208;
+      box-shadow: 0 18px 42px rgba(247,206,115,.16);
+    }
+    .secondary { background: rgba(247,206,115,.08); border: 1px solid var(--line); color: var(--gold); }
+    .danger { background: rgba(239,68,68,.10); border: 1px solid rgba(239,68,68,.38); color: #fecaca; }
+    .greenbtn { background: rgba(49,208,170,.10); border: 1px solid rgba(49,208,170,.38); color: #a7f3d0; }
+    .mini-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .ticker {
+      margin: 0 18px 18px; padding: 11px 12px; border-radius: 14px;
+      border: 1px solid rgba(239,68,68,.26); background: rgba(239,68,68,.065);
+      font: 700 11px/1.45 var(--mono); color: #fecaca;
+    }
+    .ticker span { color: var(--gold); }
+
+    .outputs { display: grid; grid-template-rows: auto 1fr; min-height: calc(100vh - 122px); }
+    .output-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px; border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(247,206,115,.08), rgba(239,68,68,.04));
+    }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tab {
+      padding: 9px 10px; border-radius: 999px; border: 1px solid rgba(247,206,115,.18);
+      background: rgba(247,206,115,.05); color: var(--muted);
+      font: 800 11px/1 var(--mono); cursor: pointer; user-select: none;
+    }
+    .tab.active { color: #1b1007; background: var(--gold); border-color: var(--gold); }
+    .out-actions { display: flex; gap: 8px; align-items: center; }
+    .iconbtn {
+      width: 40px; height: 40px; display: grid; place-items: center;
+      padding: 0; border: 1px solid var(--line); background: rgba(247,206,115,.07);
+      color: var(--gold); border-radius: 12px; font-size: 16px;
+    }
+    .output-body { padding: 16px; overflow: auto; }
+    .output {
+      display: none;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.025), transparent 14%),
+        rgba(4,3,2,.72);
+      border: 1px solid rgba(247,206,115,.18);
+      border-radius: 18px;
+      padding: 18px;
+      font: 500 13px/1.75 var(--mono);
+      color: #f5e7cd;
+      white-space: pre-wrap;
+      min-height: 660px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+    }
+    .output.active { display: block; }
+
+    .dashboard {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;
+    }
+    .metric {
+      border: 1px solid rgba(247,206,115,.16); background: rgba(247,206,115,.045);
+      border-radius: 16px; padding: 12px;
+    }
+    .metric .k { font: 800 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+    .metric .v { margin-top: 6px; font: 900 20px/1 var(--display); color: var(--gold); }
+    .metric.red .v { color: #fca5a5; }
+    .metric.green .v { color: #a7f3d0; }
+    .metric.cyan .v { color: var(--cyan); }
+
+    .help {
+      padding: 16px 18px; border-top: 1px solid var(--line);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      background: rgba(0,0,0,.18);
+    }
+    .tip {
+      border-left: 3px solid var(--gold); background: rgba(247,206,115,.05);
+      border-radius: 12px; padding: 11px 12px; color: var(--muted); font-size: 12px; line-height: 1.5;
+    }
+    .tip b { color: var(--ink); }
+
+    .toast {
+      position: fixed; right: 22px; bottom: 22px; z-index: 80;
+      transform: translateY(12px); opacity: 0; pointer-events: none;
+      padding: 13px 16px; border-radius: 14px;
+      background: rgba(15, 11, 7, .96); border: 1px solid rgba(247,206,115,.42);
+      color: var(--gold); font: 800 12px/1 var(--mono); box-shadow: var(--shadow);
+      transition: all .22s;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .file-input { display: none; }
+
+    @media (max-width: 1100px) {
+      main { grid-template-columns: 1fr; }
+      .outputs { min-height: auto; }
+      .output { min-height: 460px; }
+    }
+    @media (max-width: 700px) {
+      .top { align-items: flex-start; flex-direction: column; }
+      h1 { white-space: normal; }
+      main { padding: 14px; }
+      .row, .checks, .dashboard, .help { grid-template-columns: 1fr; }
+      .buttons { grid-template-columns: 1fr; }
+      .primary { grid-column: span 1; }
+      .output-head { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="top">
+      <div class="brand">
+        <div class="seal">DB</div>
+        <div class="brand-copy">
+          <div class="eyebrow">Booze on Hormuz™ // Evidence Lounge</div>
+          <h1>Biggly Broadcast Pack Generator</h1>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="pill">Fictional satire only</span>
+        <span class="pill red">Discovery is coming</span>
+        <span class="pill green">No real quotes • no persuasion</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <h2>One concept in. Full content kit out.</h2>
+          <p>Build a copy-ready package for songs, music videos, fake ads, image prompts, product gags, captions, and on-brand disclaimers.</p>
+        </div>
+        <div class="stamp">Very<br>Legal</div>
+      </div>
+
+      <div class="form">
+        <div class="field">
+          <label>Song / episode title <small>the slogan hook anchors here</small></label>
+          <input id="title" value="Booze on Hormuz" placeholder="Quiet Money Champagne">
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Output intensity</label>
+            <select id="intensity">
+              <option value="7">Level 7 — polished scandal luxury</option>
+              <option value="9" selected>Level 9 — gold-plated confession</option>
+              <option value="11">Level 11 — neon sign falling into international law</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Format target</label>
+            <select id="format">
+              <option>Music video pack</option>
+              <option>Shorts/Reels pack</option>
+              <option>Site content pack</option>
+              <option>Full campaign pack</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Core concept <small>what is the joke?</small></label>
+          <textarea id="concept" placeholder="Don Biggly sells a luxury cruise near a crisis zone and insists the evidence is with him.">Don Biggly launches a premium disaster-cruise brand where every champagne toast, sponsor read, and product display accidentally reveals another piece of evidence.</textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Luxury setting</label>
+            <input id="setting" value="black-marble cruise deck with gold railings, shrimp towers, and warships on the horizon">
+          </div>
+          <div class="field">
+            <label>Evidence prop</label>
+            <input id="prop" value="gold folder stamped VERY LEGAL RECEIPTS">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Reaction character</label>
+            <select id="reaction">
+              <option>lawyer sweating through a linen suit</option>
+              <option>accountant coughing into spreadsheets</option>
+              <option>donor staring into shrimp cocktail</option>
+              <option>reporter freezing mid-question</option>
+              <option>Melania moving her chair six inches away</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Signature phrase</label>
+            <input id="phrase" value="It’s Don Biggly because the evidence is with me.">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Music style</label>
+            <select id="music">
+              <option selected>minimalist boom-bap / spoken-word comedy</option>
+              <option>sleazy yacht-rock parody</option>
+              <option>brassy infomercial funk</option>
+              <option>VHS casino rap</option>
+              <option>luxury lounge trap</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Visual style</label>
+            <select id="visual">
+              <option selected>photorealistic editorial satire, luxury press conference</option>
+              <option>cinematic fake cruise commercial</option>
+              <option>VHS sponsor-read chaos</option>
+              <option>black marble courtroom gala</option>
+              <option>high-gloss product-launch disaster</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Must-have jokes / motifs <small>comma-separated</small></label>
+          <textarea id="motifs">warships on the horizon, champagne on ice, discovery is coming, quiet money, fake charity table, velvet rope around the subpoena, donors avoiding shrimp, lawyer whispering please stop talking, Melania note: Enjoy discovery</textarea>
+        </div>
+
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="includeLyrics" checked><span><b>Suno pack</b><br>strict lyric prompt + hook lab</span></label>
+          <label class="check"><input type="checkbox" id="includeVideo" checked><span><b>Video pack</b><br>storyboard + Sora/Veo prompts</span></label>
+          <label class="check"><input type="checkbox" id="includeImage" checked><span><b>Image pack</b><br>foundation + variation prompts</span></label>
+          <label class="check"><input type="checkbox" id="includeSocial" checked><span><b>Launch pack</b><br>captions, product, sponsor, disclaimer</span></label>
+        </div>
+
+        <div class="buttons">
+          <button class="primary" id="generateBtn">Generate Broadcast Pack</button>
+          <button class="secondary" id="randomBtn">Add Legal Chaos</button>
+          <button class="greenbtn" id="exportBtn">Export JSON</button>
+          <button class="danger" id="resetBtn">Reset</button>
+        </div>
+
+        <input type="file" id="importFile" class="file-input" accept=".json">
+        <div class="mini-actions">
+          <button class="secondary" id="importBtn" style="padding:9px 11px;">Import Brief</button>
+          <button class="secondary" id="sampleBtn" style="padding:9px 11px;">Load Showcase Sample</button>
+        </div>
+      </div>
+
+      <div class="ticker" id="panicTicker">
+        LAWYER STATUS: <span>Sweating</span> · ACCOUNTANT STATUS: <span>Recalculating panic</span> · DONOR STATUS: <span>Avoiding shrimp tower</span>
+      </div>
+
+      <div class="help">
+        <div class="tip"><b>Safety frame:</b> Don Biggly is a fictional satire narrator. The output avoids real fake quotes, protected-class attacks, calls for harm, and voter persuasion.</div>
+        <div class="tip"><b>Comedy engine:</b> Biggly brags, evidence contradicts him, professionals panic, he mistakes disgust for applause, consequences escalate.</div>
+      </div>
+    </section>
+
+    <section class="card outputs">
+      <div class="output-head">
+        <div class="tabs" id="tabs">
+          <div class="tab active" data-tab="master">Master</div>
+          <div class="tab" data-tab="lyrics">Suno</div>
+          <div class="tab" data-tab="storyboard">Storyboard</div>
+          <div class="tab" data-tab="video">Video</div>
+          <div class="tab" data-tab="image">Images</div>
+          <div class="tab" data-tab="launch">Launch</div>
+        </div>
+        <div class="out-actions">
+          <button class="iconbtn" id="copyBtn" title="Copy active tab">⧉</button>
+          <button class="iconbtn" id="copyAllBtn" title="Copy full package">▣</button>
+        </div>
+      </div>
+      <div class="output-body">
+        <div class="dashboard">
+          <div class="metric"><div class="k">Pack status</div><div class="v" id="mStatus">Ready</div></div>
+          <div class="metric red"><div class="k">Panic level</div><div class="v" id="mPanic">87%</div></div>
+          <div class="metric green"><div class="k">Prompts</div><div class="v" id="mPrompts">24</div></div>
+          <div class="metric cyan"><div class="k">Hooks</div><div class="v" id="mHooks">4</div></div>
+        </div>
+        <pre class="output active" id="out-master"></pre>
+        <pre class="output" id="out-lyrics"></pre>
+        <pre class="output" id="out-storyboard"></pre>
+        <pre class="output" id="out-video"></pre>
+        <pre class="output" id="out-image"></pre>
+        <pre class="output" id="out-launch"></pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let activeTab = "master";
+let lastPack = {};
+
+const chaos = {
+  prop: [
+    "champagne bottle with a routing number etched into the gold foil",
+    "subpoena envelope tucked under a shrimp tower",
+    "donation box labeled NO QUESTIONS, NO REFUNDS",
+    "discovery binder wearing a velvet rope like a VIP guest",
+    "gold folder stamped VERY LEGAL RECEIPTS",
+    "invoice titled Premium Consequence Corridor"
+  ],
+  reaction: [
+    "lawyer sweating through a linen suit",
+    "accountant coughing into spreadsheets",
+    "donor staring into shrimp cocktail",
+    "reporter freezing mid-question",
+    "Melania moving her chair six inches away",
+    "aide silently measuring the nearest exit"
+  ],
+  motif: [
+    "premium consequence corridor",
+    "all-inclusive legal exposure",
+    "blockade bottle service",
+    "quiet money champagne",
+    "discovery deck wristband",
+    "warships on the horizon",
+    "gold seal of guaranteed denial",
+    "fake charity gala table",
+    "attorney-client love language",
+    "shrimp tower hiding a subpoena"
+  ],
+  phrase: [
+    "It’s Don Biggly because the evidence is with me.",
+    "Not hush money. Quiet money. Tremendous difference.",
+    "That’s not panic. That’s premium applause.",
+    "Discovery is just branding with attachments.",
+    "I signed everything. That’s leadership.",
+    "The lawyers are sweating because the lighting is expensive."
+  ]
+};
+
+function escapeTxt(v) { return String(v ?? "").trim(); }
+function linesFromCSV(v) { return escapeTxt(v).split(",").map(x => x.trim()).filter(Boolean); }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function brief() {
+  return {
+    title: escapeTxt($("title").value) || "Booze on Hormuz",
+    intensity: $("intensity").value,
+    format: $("format").value,
+    concept: escapeTxt($("concept").value),
+    setting: escapeTxt($("setting").value),
+    prop: escapeTxt($("prop").value),
+    reaction: escapeTxt($("reaction").value),
+    phrase: escapeTxt($("phrase").value),
+    music: escapeTxt($("music").value),
+    visual: escapeTxt($("visual").value),
+    motifs: linesFromCSV($("motifs").value),
+    includeLyrics: $("includeLyrics").checked,
+    includeVideo: $("includeVideo").checked,
+    includeImage: $("includeImage").checked,
+    includeSocial: $("includeSocial").checked
+  };
+}
+
+function intensityLine(n) {
+  if (n === "11") return "Level 11: every sentence should feel like a gold-plated confession accidentally entered into evidence.";
+  if (n === "7") return "Level 7: polished, absurd, brand-safe luxury-scandal comedy with clear satire framing.";
+  return "Level 9: dense punchlines, self-incriminating luxury rebrands, visible legal panic, no filler.";
+}
+
+function safetyBlock() {
+  return `SATIRE + SAFETY RULES
+- Don Biggly is fictional parody/editorial satire, not a real statement, leak, policy, travel advice, legal advice, or campaign material.
+- Do not write deceptive real-person impersonation, real fake quotes, voter persuasion, calls for harm, slurs, protected-class attacks, or invented factual allegations stated as true.
+- Punch upward at Don Biggly's delusion, cruelty, corruption, tackiness, legal doom, luxury grift, and inability to read the room.
+- Every major beat should expose Don Biggly more than it flatters him.`;
+}
+
+function buildLyrics(b) {
+  const motif = b.motifs[0] || "quiet money";
+  const motif2 = b.motifs[1] || "champagne on ice";
+  return `[SUNO LYRIC GENERATOR PROMPT]
+
+Create a full Suno-ready satirical song titled "${b.title}".
+
+${safetyBlock()}
+
+STYLE LOCK
+Genre: ${b.music}
+Mood: smug, corrupt, absurdly luxurious, self-incriminating, legally doomed
+Vocal Style: dry baritone male, close-mic spoken-word comedy, rhythmic monologue
+Instruments: muted kick, crisp snare, tight hats, sub bass, sparse casino keys, tiny champagne-glass hits
+Tempo: 90 BPM
+Key: C Major
+Intensity: ${intensityLine(b.intensity)}
+
+STRICT FORMAT
+Start with these headers in this exact order:
+[Genre:]
+[Mood:]
+[Vocal Style:]
+[Instruments:]
+[Tempo:]
+[Key:]
+[Structure: Intro → Verse → Hook → Verse → Hook → Bridge → Final Verse → Outro]
+
+Then use only:
+[Intro]
+[Verse 1]
+[Hook]
+[Verse 2]
+[Hook]
+[Bridge]
+[Final Verse]
+[Outro]
+
+Mandatory intro rule:
+- Exactly 4 intro lines.
+- Line 4 must be: This ones called ${b.title}
+
+COMEDY ENGINE
+Don Biggly brags → the evidence contradicts him → ${b.reaction} panics → a reporter asks a factual question that ruins the room → Don Biggly answers in a way that makes it worse → Melania delivers one icy gesture or note → he claims victory anyway.
+
+RECURRING LINE
+"${b.phrase}"
+
+CENTRAL WORLD
+${b.concept}
+
+SETTING + PROPS
+Main setting: ${b.setting}
+Evidence prop: ${b.prop}
+Motifs to weave in: ${b.motifs.join("; ")}
+
+HOOK REQUIREMENTS
+The hook must be blunt, repetitive, chantable, dumb-catchy, and self-incriminating.
+It must contain:
+- one repeated phrase built around "${motif}"
+- one accidental confession
+- one crowd or room reaction
+- one memorable slogan
+- one lawyer/accountant panic line
+- no explanation, no clever over-writing
+
+HOOK STARTER OPTIONS
+1. "${motif}, ${motif}, champagne on ice"
+2. "Very legal, very loud, everybody looked upset"
+3. "Evidence with me, evidence with me, put it on the jet"
+4. "Quiet money, gold folder, lawyers turning white"
+
+VERSE RULES
+Each verse must include:
+- accidental confession
+- failed denial
+- luxury rebrand of scandal
+- horrified reaction
+- Don Biggly mistaking panic for applause
+
+BRIDGE RULE
+The bridge should slow down into an evidence-room breakdown: ${b.prop}, ${b.reaction}, a reporter question, and Melania's silent devastation.
+
+OUTRO RULE
+End with Don Biggly more exposed than at the start, still saying "${b.phrase}" as the room goes silent.`;
+}
+
+function shot(i, section, b, action, camera, sign) {
+  return `${String(i).padStart(2,"0")}. ${section}
+Scene: ${action}
+Camera: ${camera}
+Evidence focus: ${b.prop}
+Reaction beat: ${b.reaction}
+Readable sign: "${sign}"
+Continuity note: Keep Don Biggly in the same tacky navy suit, overlong red tie, gold lapel pin, and salesman grin. Props should expose him; they should not merely decorate the frame.`;
+}
+
+function buildStoryboard(b) {
+  const s = [
+    shot(1, "Intro", b, `A glossy luxury-cruise commercial opens on ${b.setting}. Don Biggly steps into frame as if the warships are amenities, not warnings.`, "Slow dolly-in from a wide 35mm establishing shot, champagne highlights blooming across black marble.", "WARSHIPS ON THE HORIZON"),
+    shot(2, "Verse 1", b, `Don Biggly proudly points at ${b.prop} while insisting the paperwork makes him look innocent.`, "Shoulder-height tracking shot, shallow depth of field, rack focus from his grin to the document stamp.", "VERY LEGAL RECEIPTS"),
+    shot(3, "Verse 1 reaction", b, `${b.reaction} tries to interrupt, but Don mistakes the panic for brand enthusiasm.`, "Tight handheld close-up, slight shake, flashbulb glare, awkward silence held one beat too long.", "PLEASE STOP TALKING"),
+    shot(4, "Hook", b, `The deck becomes a chanty fake ad break: champagne pours, donors clap nervously, and the evidence binder is treated like a VIP bottle.`, "Whip-pan into symmetrical product-launch framing; quick cuts on snare hits.", "QUIET MONEY CHAMPAGNE"),
+    shot(5, "Verse 2", b, `A reporter asks a factual question that punctures the entire premise while Don smiles like he has just won an award.`, "Static press-conference wide shot, microphones foregrounded, Don centered under too much gold light.", "DISCOVERY DECK"),
+    shot(6, "Hook repeat", b, `The hook visual repeats but gets worse: the shrimp tower now hides a subpoena, and the champagne tray carries routing numbers.`, "Circular orbit shot around the buffet table, ending on a crash zoom into the subpoena.", "NO QUESTIONS, NO REFUNDS"),
+    shot(7, "Bridge", b, `Melania appears calm and distant, moves her chair six inches away, and leaves a small note that reads "Enjoy discovery."`, "Slow push-in, icy stillness, soft spotlight on the note while the room noise drops out.", "ENJOY DISCOVERY"),
+    shot(8, "Final Verse", b, `Lawyers, accountants, and donors spiral in the background as Don turns the scandal into a premium membership tier.`, "Wide-angle 24mm chaos tableau, foreground crisp, background reactions layered like a courtroom painting.", "ALL-INCLUSIVE CONSEQUENCES"),
+    shot(9, "Outro", b, `The legal disclaimer curtain falls behind Don. He points at it proudly and repeats "${b.phrase}" while everyone else stops clapping.`, "Slow dolly out to reveal the full disaster-commercial set and silent crowd.", "FICTIONAL SATIRE ONLY")
+  ];
+  return `[MUSIC VIDEO STORYBOARD]
+
+Creative vision:
+A fake luxury crisis-commercial collapses into an evidence-room comedy video. Don Biggly keeps upselling the disaster while the set, props, reporters, lawyers, accountants, donors, and Melania reveal that every brag is a confession.
+
+Runtime target:
+45–75 seconds for a tight song video, or 9 eight-second clips for Sora/Veo assembly.
+
+Visual rules:
+- Style: ${b.visual}
+- Main setting: ${b.setting}
+- Don Biggly stays central, smug, oblivious, overconfident, tacky, and visibly outmatched by evidence.
+- Escalation: every shot should make him more exposed than the previous shot.
+- Use 5–7 readable labels maximum per generated image/video scene.
+- The punchline is never vulnerable people; the punchline is Don Biggly's delusion, luxury grift, legal panic, and inability to read the room.
+
+SHOT LIST
+${s.join("\n\n")}`;
+}
+
+function buildVideo(b) {
+  const prompts = [
+    `FOUNDATION VIDEO STYLE PROMPT
+Create a photorealistic, cinematic fake luxury-cruise advertisement that slowly reveals itself as an evidence-room satire. Don Biggly stands on ${b.setting}, smug and oblivious, holding ${b.prop} like it proves his innocence. ${b.reaction} is visible in the background, realizing the prop is catastrophic. The camera uses glossy commercial dolly movement, champagne-gold lighting, black marble reflections, sharp editorial flash, and a luxury scandal atmosphere. Include one readable sign: "BOOZE ON HORMUZ". Keep it fictional satire, not real policy or real travel advertising.`,
+
+    `VEO / SORA CLIP 1 — HERO OPEN
+A wide cinematic shot glides across ${b.setting}. Don Biggly steps up to a gold podium and smiles like the warships are premium scenery. The camera slowly dollies in as champagne bubbles catch the light, then rack-focuses to ${b.prop}. Audio mood: low boom-bap pulse, distant ship horn, nervous glass clinks, crowd silence pretending to be applause.`,
+
+    `VEO / SORA CLIP 2 — EVIDENCE CLOSE-UP
+A tight macro shot begins on the words "VERY LEGAL" stamped across ${b.prop}, then tilts up to Don Biggly's grin as he says the paperwork is tremendous. ${b.reaction} leans into frame and whispers "Please stop talking." Don nods as if this is a compliment. Camera: handheld close-up with flash photography bursts and gold reflections.`,
+
+    `VEO / SORA CLIP 3 — HOOK LOOP
+The fake commercial turns into a chanty music-video hook. Don Biggly repeats the slogan while donors clap off-beat, a shrimp tower trembles, and a subpoena envelope slides into view. The camera whip-pans between champagne, evidence, and horrified faces in time with the beat. Readable sign: "QUIET MONEY CHAMPAGNE".`,
+
+    `VEO / SORA CLIP 4 — REPORTER RUINS THE ROOM
+A reporter raises a hand in a press scrum and asks, "Mr. Biggly, why is the receipt labeled reimbursement?" Don Biggly beams and answers like the question is praise. ${b.reaction} looks physically older by the end of the sentence. Camera: static wide press shot, then slow push-in as the room realizes he has made it worse.`,
+
+    `VEO / SORA CLIP 5 — MELANIA ICE NOTE
+The sound drops to near-silence as Melania calmly slides a small note across a champagne tray. The note reads "Enjoy discovery." Don Biggly keeps talking in the background, unfazed, as she moves her chair six inches away. Camera: elegant slow push-in, shallow depth of field, icy editorial lighting.`,
+
+    `VEO / SORA CLIP 6 — OUTRO DISCLAIMER
+A huge legal disclaimer banner unfurls behind Don Biggly: "FICTIONAL SATIRE ONLY — NOT REAL POLICY — NOT LEGAL ADVICE." He points at it proudly and repeats "${b.phrase}" while the crowd stops clapping. The camera slowly dollies backward, revealing lawyers, accountants, donors, reporters, champagne, warships, and evidence all in one over-the-top tableau.`
+  ];
+  return `[SORA / VEO VIDEO PROMPT PACK]
+
+Recommended workflow:
+1. Generate a foundation image first to lock Don Biggly's wardrobe, gold-cruise setting, lighting, and evidence props.
+2. Generate 6–9 short clips from the storyboard.
+3. Keep wardrobe, podium, evidence prop, readable labels, and reaction characters consistent.
+4. Assemble to the beat. Use the hook visual as the repeatable chorus motif.
+5. Use human review between image and video stages. Do not fully automate the chain.
+
+Continuity bible:
+- Don Biggly: tacky luxury salesman energy, navy suit, overlong red tie, gold lapel pin, smug grin, oblivious confidence.
+- Environment: ${b.setting}
+- Main prop: ${b.prop}
+- Reaction character: ${b.reaction}
+- Signature phrase: "${b.phrase}"
+- Visual style: ${b.visual}
+
+PROMPTS
+
+${prompts.join("\n\n---\n\n")}`;
+}
+
+function buildImages(b) {
+  return `[NANO BANANA / FOUNDATION IMAGE PROMPT PACK]
+
+FOUNDATION IMAGE — HERO ASSET
+A photorealistic, cinematic editorial-satire image of Don Biggly standing on ${b.setting}. He is central, smug, oblivious, and overconfident, wearing a tacky navy suit, overlong red tie, gold lapel pin, and salesman grin. He proudly holds ${b.prop} as though it proves his innocence, while ${b.reaction} reacts in visible panic behind him. The lighting is champagne-gold with black-marble reflections, sharp editorial flash, shallow depth of field, and premium scandal atmosphere. Use a clean 16:9 composition with Don Biggly foregrounded, evidence prop second, reaction character third, and warship silhouettes in the far background. Include no more than five readable labels: "BOOZE ON HORMUZ", "VERY LEGAL", "DISCOVERY IS COMING", "QUIET MONEY", "FICTIONAL SATIRE".
+
+FOUNDATION IMAGE — VERTICAL SHORTS VERSION
+A vertical 9:16 photorealistic image of Don Biggly at a gold podium on ${b.setting}. The frame is composed like a luxury product launch gone legally wrong. ${b.prop} is visible in the foreground, ${b.reaction} is trapped behind the podium, and a champagne tray carries a tiny note reading "Enjoy discovery." Make the image feel like a fake editorial photo from a luxury scandal press conference. Text labels must be readable and limited: "VERY LEGAL RECEIPTS", "DISCOVERY DECK", "QUIET MONEY".
+
+VARIATION 1 — EVIDENCE MACRO
+Macro close-up of ${b.prop} resting beside a half-full champagne glass on black marble. A gold pen points at the worst possible line on the document. Use the same lighting and aesthetic as the foundation image. Readable label: "VERY LEGAL".
+
+VARIATION 2 — REACTION TABLEAU
+Wide 24mm shot of the gala audience reacting as Don Biggly speaks off-camera. ${b.reaction} is the focal point, with donors avoiding shrimp cocktail and accountants clutching calculators like rosaries. Use the same luxury scandal setting and champagne-gold lighting.
+
+VARIATION 3 — MELANIA NOTE
+Elegant close-up of a small folded card on a champagne tray reading "Enjoy discovery." In the blurred background, Don Biggly gestures proudly beside ${b.prop}. The mood is icy, quiet, devastating, and absurdly expensive.
+
+VARIATION 4 — PRODUCT HERO
+High-gloss product shot for a fake bottle labeled "Quiet Money Champagne." The bottle sits beside a subpoena envelope, shrimp cocktail, gold folder, and velvet rope. It looks like premium luxury advertising, but every prop accidentally confesses.
+
+VARIATION 5 — FINAL DISCLAIMER WALL
+A cinematic wide shot of Don Biggly pointing proudly at a massive banner reading "FICTIONAL SATIRE ONLY." Lawyers and accountants look relieved and terrified at the same time. Warships remain on the horizon, champagne remains on ice, and the evidence remains in frame.`;
+}
+
+function buildLaunch(b) {
+  return `[LAUNCH + SITE CONTENT PACK]
+
+FAKE SPONSOR READ
+This broadcast is brought to you by Quiet Money Champagne — for when the evidence gets loud, make the bubbles louder. Quiet Money Champagne pairs beautifully with NDAs, shell-company napkins, and a gold folder your lawyer begged you not to hold on camera. Quiet Money Champagne: not an admission, just a premium misunderstanding.
+
+REPORTER QUESTION THAT RUINS THE ROOM
+Reporter: "Mr. Biggly, why is the receipt labeled reimbursement?"
+Don Biggly: "Because we reimbursed excellence. Very legal. Very beautiful. Put that on the cruise brochure."
+Lawyer: "Sir, that is not helping."
+Don Biggly: "Great legal energy. They love me."
+
+MELANIA ICE NOTE
+"Enjoy discovery."
+
+PRODUCT BLURB
+Product: Gold Folder Reserve
+Tagline: Evidence, but make it luxury.
+Description: A premium gold document folder for the executive who believes every subpoena is just earned media with attachments. Holds NDAs, suspicious invoices, fake charity brochures, and one complimentary note from Melania reading "Very interesting, dear."
+Warning label: Not legal advice. Not a real product. Not a hiding place.
+
+YOUTUBE DESCRIPTION
+Warships on the horizon. Champagne on ice. Don Biggly presents "${b.title}", a fictional satire broadcast from the world's most legally anxious luxury cruise. Every toast gets louder, every receipt gets shinier, and every lawyer in the room wishes the microphone had never been invented.
+
+SHORTS CAPTIONS
+1. Don Biggly thinks the evidence is with him. The evidence disagrees.
+2. Quiet money, loud receipts, champagne on ice.
+3. The lawyer said "please stop talking" and he heard applause.
+4. Premium Disgrace: now with discovery deck access.
+5. Melania moved her chair six inches. The room understood.
+
+SITE HERO COPY
+WARSHIPS ON THE HORIZON. CHAMPAGNE ON ICE.
+Welcome to Booze on Hormuz™, the premium crisis-lifestyle brand where every amenity is suspicious and every receipt is laminated. Hosted by Don Biggly, the only man who can point at a discovery binder and call it brand momentum.
+
+EMAIL / NEWSLETTER BLURB
+New from the Evidence Lounge: "${b.title}" turns luxury grift, legal panic, and champagne-soaked denial into a full broadcast package. Don Biggly says the evidence is with him. The lawyers say the microphone should be unplugged.
+
+DISCLAIMER
+Booze on Hormuz™ and Don Biggly are fictional satire. This content is not real policy, not real travel advice, not legal advice, not a real quote, not a leak, and not campaign material. Any resemblance to a confession is part of the joke, and probably something the lawyers asked us not to print.`;
+}
+
+function buildMaster(b, pieces) {
+  return `[BIGGLY BROADCAST PACK — MASTER BRIEF]
+
+Title: ${b.title}
+Format target: ${b.format}
+Intensity: ${intensityLine(b.intensity)}
+Music style: ${b.music}
+Visual style: ${b.visual}
+
+Core concept:
+${b.concept}
+
+Signature phrase:
+"${b.phrase}"
+
+World:
+${b.setting}
+
+Evidence prop:
+${b.prop}
+
+Reaction engine:
+${b.reaction}
+
+Motifs:
+${b.motifs.map(x => "- " + x).join("\n")}
+
+CREATIVE THESIS
+Don Biggly sells catastrophe as hospitality. Every line, prop, sign, sponsor read, and camera move should begin as a brag and end as evidence. The audience should understand the moral frame immediately: the narrator is not cool, powerful, or persuasive; he is exposed, ridiculous, tacky, cruel, delusional, and legally doomed.
+
+PACKAGE CONTENTS
+${b.includeLyrics ? "- Suno lyric prompt with strict structure and hook rules\n" : ""}${b.includeVideo ? "- Music-video storyboard and Sora/Veo clip prompts\n" : ""}${b.includeImage ? "- Foundation image prompt and visual variations\n" : ""}${b.includeSocial ? "- Sponsor read, captions, product copy, site copy, and disclaimer\n" : ""}
+
+NON-NEGOTIABLES
+${safetyBlock()}
+
+RECURRING COMEDY LOOP
+1. Don Biggly brags.
+2. The evidence prop contradicts him.
+3. ${b.reaction} panics.
+4. A reporter question ruins the room.
+5. Don Biggly mistakes the panic for applause.
+6. Melania says almost nothing and destroys the scene.
+7. Consequences become visible.
+8. Don Biggly claims victory anyway.
+
+FAST PRODUCTION ORDER
+1. Generate or finalize the Suno track.
+2. Use the foundation image prompt to lock the visual world.
+3. Generate 6–9 image variations for storyboard frames.
+4. Turn the best frames into Sora/Veo clips.
+5. Repeat the hook visual each chorus.
+6. Cut clips to the beat.
+7. Add sponsor-read interstitials for Shorts.
+8. Publish with the disclaimer intact.`;
+}
+
+function generate() {
+  const b = brief();
+  const pieces = {
+    lyrics: b.includeLyrics ? buildLyrics(b) : "[Suno pack disabled]",
+    storyboard: b.includeVideo ? buildStoryboard(b) : "[Storyboard pack disabled]",
+    video: b.includeVideo ? buildVideo(b) : "[Video pack disabled]",
+    image: b.includeImage ? buildImages(b) : "[Image pack disabled]",
+    launch: b.includeSocial ? buildLaunch(b) : "[Launch pack disabled]"
+  };
+  pieces.master = buildMaster(b, pieces);
+  lastPack = { brief: b, pieces, generated: new Date().toISOString() };
+
+  $("out-master").textContent = pieces.master;
+  $("out-lyrics").textContent = pieces.lyrics;
+  $("out-storyboard").textContent = pieces.storyboard;
+  $("out-video").textContent = pieces.video;
+  $("out-image").textContent = pieces.image;
+  $("out-launch").textContent = pieces.launch;
+
+  const promptCount = [pieces.lyrics, pieces.storyboard, pieces.video, pieces.image, pieces.launch].join("\n").match(/PROMPT|CLIP|VARIATION|SHOT|CAPTION|BLURB/g)?.length || 24;
+  const panic = b.intensity === "11" ? "99%" : b.intensity === "7" ? "72%" : "87%";
+  $("mStatus").textContent = "Built";
+  $("mPanic").textContent = panic;
+  $("mPrompts").textContent = Math.max(18, promptCount);
+  $("mHooks").textContent = b.includeLyrics ? "4" : "0";
+  $("panicTicker").innerHTML = `LAWYER STATUS: <span>${b.intensity === "11" ? "Molting" : "Sweating"}</span> · ACCOUNTANT STATUS: <span>Recalculating panic</span> · DONOR STATUS: <span>Avoiding shrimp tower</span>`;
+  toast("Broadcast pack generated");
+}
+
+function allText() {
+  if (!lastPack.pieces) generate();
+  return ["master","lyrics","storyboard","video","image","launch"].map(k => lastPack.pieces[k]).join("\n\n==============================\n\n");
+}
+
+async function copyText(txt, msg) {
+  try {
+    await navigator.clipboard.writeText(txt);
+  } catch (e) {
+    const ta = document.createElement("textarea");
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+  toast(msg);
+}
+
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+function randomize() {
+  $("prop").value = pick(chaos.prop);
+  $("reaction").value = pick(chaos.reaction);
+  $("phrase").value = pick(chaos.phrase);
+  const current = linesFromCSV($("motifs").value);
+  const add = Array.from(new Set([...current, pick(chaos.motif), pick(chaos.motif), pick(chaos.motif)]));
+  $("motifs").value = add.join(", ");
+  toast("Legal chaos added");
+  generate();
+}
+
+function exportBrief() {
+  const payload = { version: 1, app: "Biggly Broadcast Pack Generator", ...brief(), generated: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `biggly-broadcast-brief-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("Brief exported");
+}
+
+function importBrief(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const b = JSON.parse(reader.result);
+      if (b.title) $("title").value = b.title;
+      if (b.intensity) $("intensity").value = b.intensity;
+      if (b.format) $("format").value = b.format;
+      if (b.concept) $("concept").value = b.concept;
+      if (b.setting) $("setting").value = b.setting;
+      if (b.prop) $("prop").value = b.prop;
+      if (b.reaction) $("reaction").value = b.reaction;
+      if (b.phrase) $("phrase").value = b.phrase;
+      if (b.music) $("music").value = b.music;
+      if (b.visual) $("visual").value = b.visual;
+      if (b.motifs) $("motifs").value = Array.isArray(b.motifs) ? b.motifs.join(", ") : b.motifs;
+      ["includeLyrics","includeVideo","includeImage","includeSocial"].forEach(id => {
+        if (typeof b[id] === "boolean") $(id).checked = b[id];
+      });
+      generate();
+      toast("Brief imported");
+    } catch (err) {
+      toast("Import failed");
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+}
+
+function loadSample() {
+  $("title").value = "Premium Consequence Corridor";
+  $("intensity").value = "11";
+  $("format").value = "Full campaign pack";
+  $("concept").value = "Don Biggly unveils a gold-plated VIP cruise package where every amenity is actually an exhibit, every toast is a confession, and every fake sponsor read makes the lawyers physically age.";
+  $("setting").value = "black-marble gala deck suspended over dark water, with velvet ropes, champagne towers, gold podiums, drone lights, and warships blinking in the distance";
+  $("prop").value = "oversized discovery binder wrapped in a velvet rope and labeled VIP EVIDENCE";
+  $("reaction").value = "lawyer sweating through a linen suit";
+  $("phrase").value = "Discovery is just branding with attachments.";
+  $("music").value = "VHS casino rap";
+  $("visual").value = "high-gloss product-launch disaster";
+  $("motifs").value = "premium consequence corridor, champagne compliance, gold folder reserve, donor silence, accountant panic, fake charity table, shrimp tower subpoena, reporter question, Melania note: Enjoy discovery, legal disclaimer curtain";
+  $("includeLyrics").checked = true;
+  $("includeVideo").checked = true;
+  $("includeImage").checked = true;
+  $("includeSocial").checked = true;
+  generate();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  $("generateBtn").addEventListener("click", generate);
+  $("randomBtn").addEventListener("click", randomize);
+  $("copyBtn").addEventListener("click", () => copyText($("out-" + activeTab).textContent, "Active tab copied"));
+  $("copyAllBtn").addEventListener("click", () => copyText(allText(), "Full package copied"));
+  $("exportBtn").addEventListener("click", exportBrief);
+  $("importBtn").addEventListener("click", () => $("importFile").click());
+  $("importFile").addEventListener("change", importBrief);
+  $("sampleBtn").addEventListener("click", loadSample);
+  $("resetBtn").addEventListener("click", () => {
+    document.querySelectorAll("input[type='text'], input:not([type]), textarea").forEach(el => el.value = "");
+    $("title").value = "Booze on Hormuz";
+    $("concept").value = "Don Biggly launches a premium disaster-cruise brand where every champagne toast, sponsor read, and product display accidentally reveals another piece of evidence.";
+    $("setting").value = "black-marble cruise deck with gold railings, shrimp towers, and warships on the horizon";
+    $("prop").value = "gold folder stamped VERY LEGAL RECEIPTS";
+    $("phrase").value = "It’s Don Biggly because the evidence is with me.";
+    $("motifs").value = "warships on the horizon, champagne on ice, discovery is coming, quiet money, fake charity table, velvet rope around the subpoena, donors avoiding shrimp, lawyer whispering please stop talking, Melania note: Enjoy discovery";
+    generate();
+    toast("Reset");
+  });
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".output").forEach(o => o.classList.remove("active"));
+      tab.classList.add("active");
+      activeTab = tab.dataset.tab;
+      $("out-" + activeTab).classList.add("active");
+    });
+  });
+
+  generate();
+});
+</script>
+</body>
+</html>
