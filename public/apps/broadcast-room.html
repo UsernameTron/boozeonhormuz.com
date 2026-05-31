@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Biggly Broadcast Pack Generator | Booze on Hormuz™</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-variable.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-latin-variable.woff2" crossorigin>
   <style>
+    /* Self-hosted variable fonts (vendored from Fontsource) — no third-party CDN. */
+    @font-face { font-family: 'Archivo'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/archivo-latin-variable.woff2') format('woff2'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/inter-latin-variable.woff2') format('woff2'); }
+    @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-display: swap; font-weight: 100 800; src: url('/fonts/jetbrains-mono-latin-variable.woff2') format('woff2'); }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #070504;
@@ -379,7 +383,7 @@
               <option>accountant coughing into spreadsheets</option>
               <option>donor staring into shrimp cocktail</option>
               <option>reporter freezing mid-question</option>
-              <option>Melania moving her chair six inches away</option>
+              <option>the First Lady of the Lounge moving her chair six inches away</option>
             </select>
           </div>
           <div class="field">
@@ -413,7 +417,7 @@
 
         <div class="field">
           <label for="motifs">Must-have jokes / motifs <small>comma-separated</small></label>
-          <textarea id="motifs">warships on the horizon, champagne on ice, discovery is coming, quiet money, fake charity table, velvet rope around the subpoena, donors avoiding shrimp, lawyer whispering please stop talking, Melania note: Enjoy discovery</textarea>
+          <textarea id="motifs">warships on the horizon, champagne on ice, discovery is coming, quiet money, fake charity table, velvet rope around the subpoena, donors avoiding shrimp, lawyer whispering please stop talking, First Lady note: Enjoy discovery</textarea>
         </div>
 
         <div class="checks">
@@ -509,7 +513,7 @@ const chaos = {
     "accountant coughing into spreadsheets",
     "donor staring into shrimp cocktail",
     "reporter freezing mid-question",
-    "Melania moving her chair six inches away",
+    "the First Lady of the Lounge moving her chair six inches away",
     "aide silently measuring the nearest exit"
   ],
   motif: [
@@ -615,7 +619,7 @@ Mandatory intro rule:
 - Line 4 must be: This ones called ${b.title}
 
 COMEDY ENGINE
-Don Biggly brags → the evidence contradicts him → ${b.reaction} panics → a reporter asks a factual question that ruins the room → Don Biggly answers in a way that makes it worse → Melania delivers one icy gesture or note → he claims victory anyway.
+Don Biggly brags → the evidence contradicts him → ${b.reaction} panics → a reporter asks a factual question that ruins the room → Don Biggly answers in a way that makes it worse → the First Lady of the Lounge delivers one icy gesture or note → he claims victory anyway.
 
 RECURRING LINE
 "${b.phrase}"
@@ -653,7 +657,7 @@ Each verse must include:
 - Don Biggly mistaking panic for applause
 
 BRIDGE RULE
-The bridge should slow down into an evidence-room breakdown: ${b.prop}, ${b.reaction}, a reporter question, and Melania's silent devastation.
+The bridge should slow down into an evidence-room breakdown: ${b.prop}, ${b.reaction}, a reporter question, and the First Lady of the Lounge's silent devastation.
 
 OUTRO RULE
 End with Don Biggly more exposed than at the start, still saying "${b.phrase}" as the room goes silent.`;
@@ -677,14 +681,14 @@ function buildStoryboard(b) {
     shot(4, "Hook", b, `The deck becomes a chanty fake ad break: champagne pours, donors clap nervously, and the evidence binder is treated like a VIP bottle.`, "Whip-pan into symmetrical product-launch framing; quick cuts on snare hits.", "QUIET MONEY CHAMPAGNE"),
     shot(5, "Verse 2", b, `A reporter asks a factual question that punctures the entire premise while Don smiles like he has just won an award.`, "Static press-conference wide shot, microphones foregrounded, Don centered under too much gold light.", "DISCOVERY DECK"),
     shot(6, "Hook repeat", b, `The hook visual repeats but gets worse: the shrimp tower now hides a subpoena, and the champagne tray carries routing numbers.`, "Circular orbit shot around the buffet table, ending on a crash zoom into the subpoena.", "NO QUESTIONS, NO REFUNDS"),
-    shot(7, "Bridge", b, `Melania appears calm and distant, moves her chair six inches away, and leaves a small note that reads "Enjoy discovery."`, "Slow push-in, icy stillness, soft spotlight on the note while the room noise drops out.", "ENJOY DISCOVERY"),
+    shot(7, "Bridge", b, `The First Lady of the Lounge appears calm and distant, moves her chair six inches away, and leaves a small note that reads "Enjoy discovery."`, "Slow push-in, icy stillness, soft spotlight on the note while the room noise drops out.", "ENJOY DISCOVERY"),
     shot(8, "Final Verse", b, `Lawyers, accountants, and donors spiral in the background as Don turns the scandal into a premium membership tier.`, "Wide-angle 24mm chaos tableau, foreground crisp, background reactions layered like a courtroom painting.", "ALL-INCLUSIVE CONSEQUENCES"),
     shot(9, "Outro", b, `The legal disclaimer curtain falls behind Don. He points at it proudly and repeats "${b.phrase}" while everyone else stops clapping.`, "Slow dolly out to reveal the full disaster-commercial set and silent crowd.", "FICTIONAL SATIRE ONLY")
   ];
   return `[MUSIC VIDEO STORYBOARD]
 
 Creative vision:
-A fake luxury crisis-commercial collapses into an evidence-room comedy video. Don Biggly keeps upselling the disaster while the set, props, reporters, lawyers, accountants, donors, and Melania reveal that every brag is a confession.
+A fake luxury crisis-commercial collapses into an evidence-room comedy video. Don Biggly keeps upselling the disaster while the set, props, reporters, lawyers, accountants, donors, and the First Lady of the Lounge reveal that every brag is a confession.
 
 Runtime target:
 45–75 seconds for a tight song video, or 9 eight-second clips for Sora/Veo assembly.
@@ -718,8 +722,8 @@ The fake commercial turns into a chanty music-video hook. Don Biggly repeats the
     `VEO / SORA CLIP 4 — REPORTER RUINS THE ROOM
 A reporter raises a hand in a press scrum and asks, "Mr. Biggly, why is the receipt labeled reimbursement?" Don Biggly beams and answers like the question is praise. ${b.reaction} looks physically older by the end of the sentence. Camera: static wide press shot, then slow push-in as the room realizes he has made it worse.`,
 
-    `VEO / SORA CLIP 5 — MELANIA ICE NOTE
-The sound drops to near-silence as Melania calmly slides a small note across a champagne tray. The note reads "Enjoy discovery." Don Biggly keeps talking in the background, unfazed, as she moves her chair six inches away. Camera: elegant slow push-in, shallow depth of field, icy editorial lighting.`,
+    `VEO / SORA CLIP 5 — FIRST LADY ICE NOTE
+The sound drops to near-silence as the First Lady of the Lounge calmly slides a small note across a champagne tray. The note reads "Enjoy discovery." Don Biggly keeps talking in the background, unfazed, as she moves her chair six inches away. Camera: elegant slow push-in, shallow depth of field, icy editorial lighting.`,
 
     `VEO / SORA CLIP 6 — OUTRO DISCLAIMER
 A huge legal disclaimer banner unfurls behind Don Biggly: "FICTIONAL SATIRE ONLY — NOT REAL POLICY — NOT LEGAL ADVICE." He points at it proudly and repeats "${b.phrase}" while the crowd stops clapping. The camera slowly dollies backward, revealing lawyers, accountants, donors, reporters, champagne, warships, and evidence all in one over-the-top tableau.`
@@ -761,7 +765,7 @@ Macro close-up of ${b.prop} resting beside a half-full champagne glass on black 
 VARIATION 2 — REACTION TABLEAU
 Wide 24mm shot of the gala audience reacting as Don Biggly speaks off-camera. ${b.reaction} is the focal point, with donors avoiding shrimp cocktail and accountants clutching calculators like rosaries. Use the same luxury scandal setting and champagne-gold lighting.
 
-VARIATION 3 — MELANIA NOTE
+VARIATION 3 — FIRST LADY NOTE
 Elegant close-up of a small folded card on a champagne tray reading "Enjoy discovery." In the blurred background, Don Biggly gestures proudly beside ${b.prop}. The mood is icy, quiet, devastating, and absurdly expensive.
 
 VARIATION 4 — PRODUCT HERO
@@ -783,13 +787,13 @@ Don Biggly: "Because we reimbursed excellence. Very legal. Very beautiful. Put t
 Lawyer: "Sir, that is not helping."
 Don Biggly: "Great legal energy. They love me."
 
-MELANIA ICE NOTE
+FIRST LADY ICE NOTE
 "Enjoy discovery."
 
 PRODUCT BLURB
 Product: Gold Folder Reserve
 Tagline: Evidence, but make it luxury.
-Description: A premium gold document folder for the executive who believes every subpoena is just earned media with attachments. Holds NDAs, suspicious invoices, fake charity brochures, and one complimentary note from Melania reading "Very interesting, dear."
+Description: A premium gold document folder for the executive who believes every subpoena is just earned media with attachments. Holds NDAs, suspicious invoices, fake charity brochures, and one complimentary note from the First Lady of the Lounge reading "Very interesting, dear."
 Warning label: Not legal advice. Not a real product. Not a hiding place.
 
 YOUTUBE DESCRIPTION
@@ -800,7 +804,7 @@ SHORTS CAPTIONS
 2. Quiet money, loud receipts, champagne on ice.
 3. The lawyer said "please stop talking" and he heard applause.
 4. Premium Disgrace: now with discovery deck access.
-5. Melania moved her chair six inches. The room understood.
+5. The First Lady of the Lounge moved her chair six inches. The room understood.
 
 SITE HERO COPY
 WARSHIPS ON THE HORIZON. CHAMPAGNE ON ICE.
@@ -855,7 +859,7 @@ RECURRING COMEDY LOOP
 3. ${b.reaction} panics.
 4. A reporter question ruins the room.
 5. Don Biggly mistakes the panic for applause.
-6. Melania says almost nothing and destroys the scene.
+6. The First Lady of the Lounge says almost nothing and destroys the scene.
 7. Consequences become visible.
 8. Don Biggly claims victory anyway.
 
@@ -1007,7 +1011,7 @@ function loadSample() {
   $("phrase").value = "Discovery is just branding with attachments.";
   $("music").value = "VHS casino rap";
   $("visual").value = "high-gloss product-launch disaster";
-  $("motifs").value = "premium consequence corridor, champagne compliance, gold folder reserve, donor silence, accountant panic, fake charity table, shrimp tower subpoena, reporter question, Melania note: Enjoy discovery, legal disclaimer curtain";
+  $("motifs").value = "premium consequence corridor, champagne compliance, gold folder reserve, donor silence, accountant panic, fake charity table, shrimp tower subpoena, reporter question, First Lady note: Enjoy discovery, legal disclaimer curtain";
   $("includeLyrics").checked = true;
   $("includeVideo").checked = true;
   $("includeImage").checked = true;
@@ -1031,7 +1035,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("setting").value = "black-marble cruise deck with gold railings, shrimp towers, and warships on the horizon";
     $("prop").value = "gold folder stamped VERY LEGAL RECEIPTS";
     $("phrase").value = "It’s Don Biggly because the evidence is with me.";
-    $("motifs").value = "warships on the horizon, champagne on ice, discovery is coming, quiet money, fake charity table, velvet rope around the subpoena, donors avoiding shrimp, lawyer whispering please stop talking, Melania note: Enjoy discovery";
+    $("motifs").value = "warships on the horizon, champagne on ice, discovery is coming, quiet money, fake charity table, velvet rope around the subpoena, donors avoiding shrimp, lawyer whispering please stop talking, First Lady note: Enjoy discovery";
     generate();
     toast("Reset");
   });

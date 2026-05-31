@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Booze on Hormuz™ | Don Biggly Evidence Lounge</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-variable.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-latin-variable.woff2" crossorigin>
   <style>
+    /* Self-hosted variable fonts (vendored from Fontsource) — no third-party CDN. */
+    @font-face { font-family: 'Archivo'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/archivo-latin-variable.woff2') format('woff2'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/inter-latin-variable.woff2') format('woff2'); }
+    @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-display: swap; font-weight: 100 800; src: url('/fonts/jetbrains-mono-latin-variable.woff2') format('woff2'); }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -988,7 +992,7 @@ Prompt requirements:
 - Write one cinematic narrative paragraph.
 - Include subject, context, action, style, camera/composition, ambience, and audio.
 - Make the evidence prop visibly contradict Don Biggly's brag.
-- Include one reaction beat from a lawyer, accountant, donor, reporter, or Melania.
+- Include one reaction beat from a lawyer, accountant, donor, reporter, or the First Lady of the Lounge.
 - Do not ask for a real-person deepfake or deceptive impersonation.
 - Label the scene as fictional editorial satire.`
   },
@@ -1022,7 +1026,7 @@ Scene location: {{scene_location}}
 Evidence table contents: {{evidence_table_contents}}
 Don Biggly pose: {{don_biggly_pose}}
 Lawyer/accountant reaction: {{panic_reaction}}
-Melania detail: {{melania_detail}}
+First Lady detail: {{first_lady_detail}}
 Readable labels: {{readable_labels}}
 
 Create a photorealistic editorial satire image: a luxury scandal press conference where every prop accidentally confesses.
@@ -1088,15 +1092,15 @@ Rules:
 - The joke is Don Biggly's arrogance and inability to read the room.`
   },
   {
-    id: 110, name: 'Melania Ice Note Generator', category: 'site', builtIn: true, heat: 'icy',
-    content: `Write 20 icy, elegant, passive-aggressive one-liners or visual notes for Melania in a fictional Don Biggly satire scene.
+    id: 110, name: 'First Lady Ice Note Generator', category: 'site', builtIn: true, heat: 'icy',
+    content: `Write 20 icy, elegant, passive-aggressive one-liners or visual notes for the First Lady of the Lounge in a fictional Don Biggly satire scene.
 
 Scene: {{scene}}
 Evidence object: {{evidence_object}}
 Don Biggly brag: {{don_biggly_brag}}
 
 Rules:
-- Melania is calm, elegant, economical, never yelling.
+- The First Lady of the Lounge is calm, elegant, economical, never yelling.
 - Each line must be short enough for a note card, text bubble, place card, or prop label.
 - She destroys the room with restraint.
 - Do not make her the punchline; the punchline is Don Biggly being exposed.`
@@ -1258,7 +1262,7 @@ Give me:
 - 15 evidence props
 - 10 readable labels, max 4 words each
 - 8 reaction beats
-- 5 Melania visual details
+- 5 First Lady visual details
 - 5 lawyer/accountant panic details
 - 3 hero-image compositions
 
@@ -1354,7 +1358,7 @@ const PANIC_LINES = [
   'ACCOUNTANTS: coughing into spreadsheets',
   'DONORS: avoiding the shrimp tower',
   'REPORTERS: asking one perfect question',
-  'MELANIA: moved her chair six inches',
+  'FIRST LADY: moved her chair six inches',
   'DISCOVERY: approaching in gold loafers',
   'NDAs: glowing under chandelier light',
   'EVIDENCE: very much with him'
@@ -1363,7 +1367,7 @@ const PANIC_LINES = [
 const CHAOS_BANK = {
   luxury_setting: ['black-marble cruise deck', 'gold-plated press ballroom', 'velvet-rope evidence lounge', 'champagne compliance gala', 'subpoena-adjacent yacht lobby'],
   evidence_prop: ['oversized gold folder labeled VERY LEGAL RECEIPTS', 'shrimp tower hiding subpoena envelopes', 'routing-number napkin under a champagne flute', 'binder titled DISCOVERY IS COMING', 'invoice stamped QUIET MONEY'],
-  reaction_character: ['lawyer whispering “Please stop talking”', 'accountant coughing into a spreadsheet', 'donor frozen beside the shrimp tower', 'reporter holding one devastating follow-up question', 'Melania holding a folded card that says “Enjoy discovery”'],
+  reaction_character: ['lawyer whispering “Please stop talking”', 'accountant coughing into a spreadsheet', 'donor frozen beside the shrimp tower', 'reporter holding one devastating follow-up question', 'the First Lady of the Lounge holding a folded card that says “Enjoy discovery”'],
   must_use_phrase: ['The evidence is with me', 'Very legal, very loud', 'Premium consequence corridor', 'Quiet money, loud room', 'Discovery Deck Access']
 };
 
@@ -1650,7 +1654,7 @@ function addChaos() {
 
 function updatePanicMeter() {
   const text = (document.getElementById('editor1').value + ' ' + Object.values(variables).join(' ')).toLowerCase();
-  const terms = ['evidence','legal','lawyer','accountant','discovery','subpoena','nda','quiet','gold','melania','reporter','donor','panic','confess','receipts','shell'];
+  const terms = ['evidence','legal','lawyer','accountant','discovery','subpoena','nda','quiet','gold','first lady','reporter','donor','panic','confess','receipts','shell'];
   let score = 42;
   terms.forEach(term => { if (text.includes(term)) score += 4; });
   score = Math.min(99, score);
