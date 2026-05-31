@@ -40,7 +40,7 @@ const kindLabel: Record<string, string> = {
         <div>
           {data.audioUrl && <audio controls src={data.audioUrl} class="w-full" />}
           {data.lyrics && (
-            <pre class="font-body text-sm text-ink-soft whitespace-pre-wrap mt-3">{data.lyrics}</pre>
+            <pre class="font-body text-sm text-ink-soft whitespace-pre-wrap break-words mt-3">{data.lyrics}</pre>
           )}
         </div>
       )

@@ -17,7 +17,7 @@ const products = (await getCollection('products')).filter((p) => !p.data.draft);
           The collection is in private preview. Nothing is available for purchase, which is for the best.
         </p>
       ) : (
-        <div class="grid gap-5 sm:grid-cols-2">
+        <div class="grid gap-4 sm:gap-5 sm:grid-cols-2">
           {products.map((p) => (
             <ProductCard slug={p.data.slug} name={p.data.name} tagline={p.data.tagline} disclaimer={p.data.disclaimer} />
           ))}

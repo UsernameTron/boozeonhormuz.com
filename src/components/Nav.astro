@@ -20,7 +20,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     <a href="/" class="font-display text-xl tracking-tight text-gold-ink shrink-0">
       Booze&nbsp;on&nbsp;Hormuz<sup class="text-[0.5em] align-super">™</sup>
     </a>
-    <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-2 font-body text-sm">
+    <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-3 font-body text-sm">
       {
         links.map((l) => (
           <li>
@@ -29,6 +29,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
               aria-current={isActive(l.href) ? 'page' : undefined}
               class:list={[
                 'hover:text-gold-ink transition-colors',
+                'py-1.5 inline-block',
                 l.primary ? 'text-gold-ink uppercase tracking-[0.1em]' : 'text-ink-soft',
                 isActive(l.href) && 'underline underline-offset-4 decoration-gold',
               ]}

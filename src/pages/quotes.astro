@@ -17,7 +17,7 @@ const quotes = await getCollection('quotes');
           Nothing on the record yet. Many people are saying that's for the best.
         </p>
       ) : (
-        <div class="grid gap-5 sm:grid-cols-2">
+        <div class="grid gap-4 sm:gap-5 sm:grid-cols-2">
           {quotes.map((q) => (
             <QuoteCard text={q.data.text} episode={q.data.episode} />
           ))}
