@@ -30,3 +30,6 @@ pnpm-debug.log*
 
 # hero source (ship the optimized .webp, not the 2.5MB png)
 public/hero.png
+
+# local design brief (scratch, not site content)
+outline-boozeonhormuz.com.md
