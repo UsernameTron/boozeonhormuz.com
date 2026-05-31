@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const products = (await getCollection('products')).filter((p) => !p.data.draft);
+  return products.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { name, tagline, disclaimer } = entry.data;
+---
+
+<BaseLayout title={`${name} — Booze on Hormuz™`} description={tagline}>
+  <article class="px-6 pt-16 pb-28 max-w-4xl mx-auto">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">Premium amenity</p>
+    <h1 class="font-display text-display text-ink mt-4">{name}</h1>
+    <p class="font-display text-title text-ink-soft mt-6 max-w-2xl">{tagline}</p>
+    <p class="font-body text-ink-soft/80 mt-8 italic max-w-prose">{disclaimer}</p>
+
+    <a href="/products" class="inline-block font-body text-sm uppercase tracking-[0.1em] text-stamp mt-12 hover:opacity-80">
+      &larr; Back to the collection
+    </a>
+  </article>
+</BaseLayout>

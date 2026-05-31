@@ -3,6 +3,8 @@
 import '@fontsource-variable/fraunces';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
@@ -28,31 +30,12 @@ const {
     <title>{title}</title>
   </head>
   <body class="min-h-screen flex flex-col">
-    <!-- nav placeholder — real navigation is phase-02 -->
-    <header class="border-b border-line">
-      <nav aria-label="Primary" class="px-6 py-5 max-w-4xl mx-auto">
-        <a href="/" class="font-display text-xl tracking-tight text-gold-ink">
-          Booze&nbsp;on&nbsp;Hormuz<sup class="text-[0.5em] align-super">™</sup>
-        </a>
-      </nav>
-    </header>
+    <Nav />
 
     <main class="flex-1">
       <slot />
     </main>
 
-    <!--
-      Parody disclaimer — rendered GLOBALLY from the layout, never per-page.
-      This is a standing legal element; final wording is confirmed at the
-      phase-02 pre-content gate (legal pre-flight).
-    -->
-    <footer class="px-6 py-8 mt-16 border-t border-line text-sm text-ink-soft max-w-4xl mx-auto">
-      <p>
-        <strong>Parody.</strong> Booze on Hormuz and &ldquo;Don Biggly&rdquo; are works of
-        satire and fiction. Names, characters, products, and events are used in a parodic and
-        transformative manner under protected expression. No affiliation, endorsement, or
-        statement of fact about any real person is intended or implied.
-      </p>
-    </footer>
+    <Footer />
   </body>
 </html>

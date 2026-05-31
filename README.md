@@ -32,12 +32,16 @@ Requires Node 22+ (Node 24 in CI; see `.nvmrc`).
 ```
 src/content.config.ts   content schema — 5 collections (evidence is polymorphic)
 src/layouts/            BaseLayout (global shell + parody disclaimer)
-src/pages/              routes (placeholder homepage)
-src/styles/global.css   Tailwind entry + placeholder design tokens
+src/components/         Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard, + typed cards
+src/pages/              / · /evidence-lounge · /watch[/slug] · /products[/slug] ·
+                        /sponsor-reads · /quotes · /about
+src/styles/global.css   Tailwind entry + brand design tokens
 public/                 static assets + CNAME (custom domain)
 .github/workflows/      deploy pipeline
 .planning/              project planning (GSD)
 ```
+
+The site is content-free: every route renders a deadpan empty state until content is added.
 
 ## Deploy
 

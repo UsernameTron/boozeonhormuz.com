@@ -11,13 +11,22 @@ A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormu
 ```
 src/content.config.ts   5 Zod-typed collections (episodes, products, sponsors,
                          evidence [polymorphic], quotes [YAML data])
-src/layouts/BaseLayout   global shell + parody disclaimer footer (never per-page)
-src/pages/index.astro    placeholder homepage (no real copy)
-src/styles/global.css    Tailwind 4 entry + placeholder @theme tokens (final = Checkpoint B)
+src/layouts/BaseLayout   global shell; renders <Nav/> + <Footer/> (disclaimer never per-page)
+src/components/          Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard (polymorphic),
+                         EpisodeCard, ProductCard, QuoteCard, SponsorRead
+src/pages/               / · /evidence-lounge (spine) · /watch + /watch/[slug] ·
+                         /products + /products/[slug] · /sponsor-reads · /quotes · /about
+src/styles/global.css    Tailwind 4 entry + locked @theme brand tokens (Checkpoint B)
 public/CNAME             apex-domain marker — MUST ship in dist/
 .github/workflows/        push to main → withastro/action@v6 → GitHub Pages
 .nvmrc                    24 (matches CI runtime)
 ```
+
+**Content-free shells:** every route renders a deadpan empty state until content lands.
+Collections empty ⇒ `getCollection` filters `!draft`; dynamic `[slug]` routes emit nothing.
+**Local cache gotcha:** Astro 6's content store is `node_modules/.astro/data-store.json` —
+clearing project `.astro/` is NOT enough; `rm -rf node_modules/.astro` for a clean local
+content-free build. (CI is unaffected — `npm ci` wipes `node_modules`.)
 
 Push to `main` builds and deploys. Every future content drop is one `git push`.
 
@@ -53,9 +62,11 @@ npx astro check   # typecheck (must exit 0 before commit)
 
 ## Phase status
 
-- **phase-01 Foundation** — DONE (this build). Content-free site + deploy pipe live.
-- **Checkpoint B (brand tokens)** — owner-owned; gates phase-02. Placeholder tokens in `global.css` until then.
-- **Checkpoint A (content concept)** — owner-owned; gates phase-02 content.
-- **phase-02 Page Shells / phase-03 Production Polish** — not started. HTTPS enforcement, OG/sitemap/robots/analytics, branch protection, legal pre-flight live in later phases.
+- **phase-01 Foundation** — DONE. Content-free site + deploy pipe live.
+- **Checkpoint B (brand tokens)** — DONE. Locked `@theme` (ivory/ink/gold + legal-stamp red), deadpan-luxury frame.
+- **phase-02 Page Shells** — DONE (this build). Full 8-route IA, Evidence-Lounge-centric, content-free shells with deadpan empty states.
+- **HTTPS enforcement** — DONE early (cert approved; `https_enforced:true`).
+- **Checkpoint A (content concept)** — owner-owned; the IA exists, real content (songs/images/copy) is generated via the content factory and dropped in.
+- **phase-03 Production Polish** — not started. OG/sitemap/robots/analytics, branch protection, Lighthouse, dedicated `/legal` route + LICENSE, view transitions.
 
 Planning lives in `.planning/`. Stack rationale in `.planning/RESOLUTION.md` and `RUNBOOK.md`.

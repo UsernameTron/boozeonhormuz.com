@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import QuoteCard from '../components/QuoteCard.astro';
+
+const quotes = await getCollection('quotes');
+---
+
+<BaseLayout title="Quotes — Booze on Hormuz™" description="Things that were, regrettably, said out loud.">
+  <PageHeader eyebrow="On the record" title="Quotes" />
+
+  <section class="px-6 pb-28 max-w-4xl mx-auto">
+    {
+      quotes.length === 0 ? (
+        <p class="font-display text-title text-ink max-w-2xl">
+          Nothing on the record yet. Many people are saying that's for the best.
+        </p>
+      ) : (
+        <div class="grid gap-4 sm:gap-5 sm:grid-cols-2">
+          {quotes.map((q) => (
+            <QuoteCard text={q.data.text} episode={q.data.episode} />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

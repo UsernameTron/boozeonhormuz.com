@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import EvidenceCard from '../components/EvidenceCard.astro';
+
+// The spine of the site. Polymorphic archive grouped by `kind`.
+const all = (await getCollection('evidence')).filter((e) => !e.data.draft);
+
+const KIND_ORDER = ['clip', 'commercial', 'song', 'titlecard', 'gallery', 'lowerthird', 'prompt'] as const;
+const KIND_LABEL: Record<string, string> = {
+  clip: 'Clips',
+  commercial: 'Commercials',
+  song: 'Songs',
+  titlecard: 'Title Cards',
+  gallery: 'Gallery',
+  lowerthird: 'Lower Thirds',
+  prompt: 'Prompts',
+};
+
+// group entries by kind, preserving KIND_ORDER and dropping empty kinds
+const grouped = KIND_ORDER.map((kind) => ({
+  kind,
+  label: KIND_LABEL[kind],
+  items: all.filter((e) => e.data.kind === kind),
+})).filter((g) => g.items.length > 0);
+---
+
+<BaseLayout
+  title="The Evidence Lounge — Booze on Hormuz™"
+  description="Clips, commercials, songs, title cards, and assorted very legal receipts. The evidence is with us."
+>
+  <PageHeader eyebrow="Exhibits A through Z" title="The Evidence Lounge" />
+
+  {
+    grouped.length === 0 ? (
+      <section class="px-6 pb-28 max-w-4xl mx-auto">
+        <p class="font-display text-title text-ink max-w-2xl">
+          The Lounge is being appointed. Velvet rope pending. The shrimp are already chilled.
+        </p>
+        <p class="font-body text-ink-soft mt-4 max-w-xl">
+          Clips, exhibits, and assorted very legal receipts will be on display shortly. Relax.
+          It's probably nothing.
+        </p>
+      </section>
+    ) : (
+      <div class="px-6 pb-28 max-w-4xl mx-auto">
+        <nav aria-label="Exhibits" class="sticky top-0 z-10 bg-paper py-3 border-b border-line flex flex-nowrap overflow-x-auto gap-x-5 -mx-6 px-6 font-body text-sm">
+          {grouped.map((g) => (
+            <a href={`#${g.kind}`} class="text-ink-soft hover:text-gold-ink uppercase tracking-[0.08em] whitespace-nowrap shrink-0">
+              {g.label}
+            </a>
+          ))}
+        </nav>
+
+        {grouped.map((g) => (
+          <section id={g.kind} class="mt-12 scroll-mt-20">
+            <h2 class="font-display text-title text-ink">{g.label}</h2>
+            <div class="grid gap-4 sm:gap-5 sm:grid-cols-2 mt-5">
+              {g.items.map((e) => (
+                <EvidenceCard data={e.data} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    )
+  }
+</BaseLayout>

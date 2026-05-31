@@ -1,0 +1,15 @@
+---
+// Lite-YouTube facade via @astro-community/astro-embed-youtube — fast, privacy-friendly,
+// loads the heavy iframe only on interaction.
+import { YouTube } from '@astro-community/astro-embed-youtube';
+
+interface Props {
+  id: string;
+  title?: string;
+}
+const { id, title } = Astro.props;
+---
+
+<div class="border border-line max-w-full">
+  <YouTube id={id} title={title} />
+</div>

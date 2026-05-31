@@ -1,0 +1,17 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+  tagline: string;
+  disclaimer: string;
+}
+const { slug, name, tagline, disclaimer } = Astro.props;
+---
+
+<article class="border border-line p-5">
+  <h3 class="font-display text-2xl text-ink">
+    <a href={`/products/${slug}`} class="hover:text-gold-ink transition-colors">{name}</a>
+  </h3>
+  <p class="font-display text-title text-ink-soft mt-2">{tagline}</p>
+  <p class="font-body text-sm text-ink-soft/80 mt-4 italic">{disclaimer}</p>
+</article>
