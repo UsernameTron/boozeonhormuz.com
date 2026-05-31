@@ -720,6 +720,12 @@
       .toolbar { flex-wrap: wrap; }
       .top-right .ticker:nth-child(2) { display: none; }
     }
+    /* Narrow phones: the decorative status tickers crowd the brand lockup —
+       drop them and let the brand wordmark + sub-line use the full width. */
+    @media (max-width: 620px) {
+      .top-right { display: none; }
+      .brand-sub { white-space: normal; }
+    }
   </style>
 </head>
 <body>

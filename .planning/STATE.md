@@ -4,26 +4,27 @@
 
 ## Current state
 
-- **Project state:** IN_PROGRESS — phase-01 shipped, site live
+- **Project state:** M01 SHIPPED — site live, all phases (01–04) merged
 - **Classification:** MULTI-MILESTONE
-- **Active milestone:** M01-launch-satire-hub
-- **Active phase:** phase-01 (Foundation Setup) → SHIPPED; next is Checkpoint B (owner) then phase-02
-- **Phase state:** PHASE_SHIPPED — PR #1 merged (squash `602e7d4`), deploy Action green, site live at https://boozeonhormuz.com. **HTTPS enforcement now ENABLED** (API `https_enforced:true`; `http→https` 301 live). verify.py 5/6 → 6/6 once GitHub's edge emits the HSTS header (propagating).
+- **Active milestone:** M01 complete; M02 (pipeline) not started
+- **Active phase:** phase-04 (Creative Tools) → SHIPPED (PRs #12, #13 merged to `main`)
+- **Phase state:** site live at https://boozeonhormuz.com over HTTPS; deploy single-commit via `withastro/action@v6`; Lighthouse CI gate enforced and green. `/tools` hub + two prompt generators live; both tools at 1.0 Lighthouse accessibility.
 
 ## Milestone ledger
 
 | Milestone | Title | State |
 |---|---|---|
-| M01 | Launch Satire Hub | ACTIVE — phase-01 shipped (live); phase-02 blocked on Checkpoints A+B |
-| M02 | Generalize the Website Pipeline | STUB |
+| M01 | Launch Satire Hub | ✅ SHIPPED — phases 01–04 merged; content drops owner-paced |
+| M02 | Generalize the Website Pipeline | STUB · UNBLOCKED (start via `/gsd:new-milestone`) |
 
 ## Phase ledger (M01)
 
-| Phase | Title | State | Est. |
+| Phase | Title | State | Shipped |
 |---|---|---|---|
-| phase-01 | Foundation Setup | ✅ PHASE_SHIPPED (live 2026-05-31) | ~75 min |
-| phase-02 | Page Shells | STUB (blocked on Checkpoint A + B) | ~60 min |
-| phase-03 | Production Polish | STUB (blocked on phase-02 ship) | ~45 min |
+| phase-01 | Foundation Setup | ✅ DONE | PR #1 |
+| phase-02 | Page Shells | ✅ DONE | full 8-route IA |
+| phase-03 | Production Polish | ✅ DONE | PR #10 |
+| phase-04 | Creative Tools (Phase 1 + Phase 2) | ✅ DONE | PR #12, PR #13 |
 
 ## Infrastructure baseline (pre-existing, owner-confirmed)
 
@@ -39,13 +40,16 @@ Superseded files (`PROJECT.md`, `STATE.md`, `todo.md`, `phase-0{1,2,3}-{CONTEXT,
 
 ## Next action
 
-phase-01 SHIPPED (PR #1 merged, deploy green, verify.py 5/6). **Autonomous run is halted at Checkpoint B** — owner-owned, blocks phase-02:
+M01 is shipped. Open threads, owner's choice of priority:
 
-1. **Checkpoint B (owner):** finalize brand tokens — `tokens.css` / Tailwind `@theme` (Fraunces+Inter scale, luxury-satire palette, spacing, OG card style). Placeholder tokens are live in `src/styles/global.css` until then.
-2. **Checkpoint A (owner):** lock content concept before any real copy.
-3. ~~phase-03 quick win: enable HTTPS enforcement~~ ✅ DONE early (2026-05-31) via `gh api -X PUT .../pages -F https_enforced=true`. HSTS header propagating; verify hits 6/6 once it lands.
-4. On Checkpoints A+B: `/gsd:plan-phase` phase-02 (Page Shells).
+1. **Content drops (owner-paced):** generate songs/images/copy via the content factory; set `draft: false` per collection entry. Each drop is one `git push`.
+2. **Creative Tools — future phase (decisions pending):** shared CSS/JS extraction across the two tools; self-host the tool fonts (currently Google CDN inside the iframes); JSON-import hardening (validation + caps); **Melania→fictional-character rename (needs an owner-chosen name)**; shareable prompt URLs (feature design). Top-bar narrow-width polish landed in `chore/reconcile-state-and-tools-polish`.
+3. **M02 — Generalize the Website Pipeline:** start via `/gsd:new-milestone` when ready.
+4. **Repo hardening (owner):** branch protection on `main` (GitHub settings).
 
-## Review outcome (2026-05-31)
+## History
 
-Codex review (phase-01-REVIEWS.md): MEDIUM risk, 7 findings — all fixed in PLAN rev 2. Gemini CLI unavailable (auth scope). Plus orchestrator-caught directory/repo collision and a Tailwind/Vite incompatibility (`@tailwindcss/vite` 4.3.0→4.2.0) resolved during execution.
+- **phase-01** (PR #1): foundation + deploy pipe; HTTPS enforcement enabled early. Codex review: MEDIUM, 7 findings all fixed; Tailwind/Vite pin corrected (`@tailwindcss/vite` 4.3.0→4.2.0).
+- **phase-02 / Checkpoint B**: dark "grift" theme + full page-shell IA (PRs #7, #8).
+- **phase-03** (PR #10): OG/sitemap/robots/analytics, `/legal` + LICENSE, Lighthouse CI.
+- **phase-04** (PRs #12, #13): `/tools` hub + two iframe-embedded prompt generators; Phase 2 polish took both tools to 1.0 Lighthouse accessibility.
