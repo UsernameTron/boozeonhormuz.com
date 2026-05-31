@@ -438,8 +438,9 @@
         <div class="mini-actions">
           <button class="secondary" id="importBtn" style="padding:9px 11px;">Import Brief</button>
           <button class="secondary" id="sampleBtn" style="padding:9px 11px;">Load Showcase Sample</button>
+          <button class="secondary" id="shareBtn" style="padding:9px 11px;">Copy Share Link</button>
         </div>
-        <p class="save-note">Your work isn't saved. Use <b>Export JSON</b> to keep it — nothing is stored on a server.</p>
+        <p class="save-note">Your work isn't saved. Use <b>Export JSON</b> to keep it, or <b>Copy Share Link</b> to put the whole brief in a URL — nothing is stored on a server.</p>
       </div>
 
       <div class="ticker" id="panicTicker">
@@ -969,27 +970,25 @@ function exportBrief() {
   toast("Brief exported");
 }
 
+// Populate the form from a brief object (shared by file import and share-link load).
+// Only sets fields that are present; everything lands in form values, never the DOM.
+function applyBrief(b) {
+  if (!b || typeof b !== "object") return;
+  [["title"],["intensity"],["format"],["concept"],["setting"],["prop"],["reaction"],["phrase"],["music"],["visual"]]
+    .forEach(([id]) => { if (b[id] !== undefined && b[id] !== null) $(id).value = String(b[id]).slice(0, 4000); });
+  if (b.motifs !== undefined) $("motifs").value = Array.isArray(b.motifs) ? b.motifs.join(", ") : String(b.motifs).slice(0, 4000);
+  ["includeLyrics","includeVideo","includeImage","includeSocial"].forEach(id => {
+    if (typeof b[id] === "boolean") $(id).checked = b[id];
+  });
+}
+
 function importBrief(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = () => {
     try {
-      const b = JSON.parse(reader.result);
-      if (b.title) $("title").value = b.title;
-      if (b.intensity) $("intensity").value = b.intensity;
-      if (b.format) $("format").value = b.format;
-      if (b.concept) $("concept").value = b.concept;
-      if (b.setting) $("setting").value = b.setting;
-      if (b.prop) $("prop").value = b.prop;
-      if (b.reaction) $("reaction").value = b.reaction;
-      if (b.phrase) $("phrase").value = b.phrase;
-      if (b.music) $("music").value = b.music;
-      if (b.visual) $("visual").value = b.visual;
-      if (b.motifs) $("motifs").value = Array.isArray(b.motifs) ? b.motifs.join(", ") : b.motifs;
-      ["includeLyrics","includeVideo","includeImage","includeSocial"].forEach(id => {
-        if (typeof b[id] === "boolean") $(id).checked = b[id];
-      });
+      applyBrief(JSON.parse(reader.result));
       generate();
       toast("Brief imported");
     } catch (err) {
@@ -998,6 +997,35 @@ function importBrief(e) {
   };
   reader.readAsText(file);
   e.target.value = "";
+}
+
+// Shareable links: encode the current brief into the URL hash (no backend).
+// base64url so the fragment stays clean; unicode-safe via encodeURIComponent.
+function encodeBrief(obj) {
+  return btoa(encodeURIComponent(JSON.stringify(obj))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function decodeBrief(s) {
+  let b64 = s.replace(/-/g,"+").replace(/_/g,"/");
+  while (b64.length % 4) b64 += "=";
+  return JSON.parse(decodeURIComponent(atob(b64)));
+}
+
+function shareLink() {
+  const enc = encodeBrief(brief());
+  const url = location.origin + location.pathname + "#b=" + enc;
+  history.replaceState(null, "", "#b=" + enc);
+  copyText(url, "Share link copied");
+}
+
+function loadFromHash() {
+  const m = location.hash.match(/[#&]b=([^&]+)/);
+  if (!m || m[1].length > 40000) return false;
+  try {
+    applyBrief(decodeBrief(m[1]));
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 function loadSample() {
@@ -1028,6 +1056,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("importBtn").addEventListener("click", () => $("importFile").click());
   $("importFile").addEventListener("change", importBrief);
   $("sampleBtn").addEventListener("click", loadSample);
+  $("shareBtn").addEventListener("click", shareLink);
   $("resetBtn").addEventListener("click", () => {
     document.querySelectorAll("input[type='text'], input:not([type]), textarea").forEach(el => el.value = "");
     $("title").value = "Booze on Hormuz";
@@ -1053,7 +1082,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const fromShared = loadFromHash();
   generate();
+  if (fromShared) toast("Loaded shared brief");
 });
 </script>
 </body>
