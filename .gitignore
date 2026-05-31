@@ -42,3 +42,6 @@ public/Evidence card*.png
 
 # local design sources (raw PNGs — never deployed; optimized webp ships from public/)
 design-sources/
+
+# private session/state artifacts (session log, decision records — never committed)
+state/
