@@ -8,7 +8,7 @@
 - **Classification:** MULTI-MILESTONE
 - **Active milestone:** M01-launch-satire-hub
 - **Active phase:** phase-01 (Foundation Setup) → SHIPPED; next is Checkpoint B (owner) then phase-02
-- **Phase state:** PHASE_SHIPPED — PR #1 merged (squash `602e7d4`), deploy Action green, site live at https://boozeonhormuz.com (verify.py: 5/6 pass; only `https_enforced_hsts` fails — deferred to phase-03 by design)
+- **Phase state:** PHASE_SHIPPED — PR #1 merged (squash `602e7d4`), deploy Action green, site live at https://boozeonhormuz.com. **HTTPS enforcement now ENABLED** (API `https_enforced:true`; `http→https` 301 live). verify.py 5/6 → 6/6 once GitHub's edge emits the HSTS header (propagating).
 
 ## Milestone ledger
 
@@ -43,7 +43,7 @@ phase-01 SHIPPED (PR #1 merged, deploy green, verify.py 5/6). **Autonomous run i
 
 1. **Checkpoint B (owner):** finalize brand tokens — `tokens.css` / Tailwind `@theme` (Fraunces+Inter scale, luxury-satire palette, spacing, OG card style). Placeholder tokens are live in `src/styles/global.css` until then.
 2. **Checkpoint A (owner):** lock content concept before any real copy.
-3. **phase-03 quick win (when reached):** enable HTTPS enforcement — `gh api -X PUT repos/UsernameTron/boozeonhormuz.com/pages -f https_enforced=true` (cert already approved; this is the only failing verify check).
+3. ~~phase-03 quick win: enable HTTPS enforcement~~ ✅ DONE early (2026-05-31) via `gh api -X PUT .../pages -F https_enforced=true`. HSTS header propagating; verify hits 6/6 once it lands.
 4. On Checkpoints A+B: `/gsd:plan-phase` phase-02 (Page Shells).
 
 ## Review outcome (2026-05-31)
