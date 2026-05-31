@@ -64,7 +64,11 @@ accessibility (0.83 < 0.9) — that's the tool's internal markup, which is Phase
 those files are not independently navigable in the product (reached only through the
 `/tools/*` wrapper pages). Fix: `assertMatrix` relaxes `/apps/.*` to `warn` while every real
 page — including the `/tools/*` wrappers — keeps `accessibility`/`seo` at `error @ 0.9`.
-When the Phase 2 a11y rebuild lands, tighten `/apps/.*` back to `error`.
+
+**Phase 2 update:** both tools now score 1.0 accessibility (Lighthouse mobile), so
+`/apps/.*` accessibility is back to `error @ 0.9`. `/apps/.*` SEO stays `warn` — the raw
+iframe-source files intentionally omit meta descriptions and are not indexed standalone
+(the `/tools/*` wrapper pages are the indexed entries that carry descriptions).
 
 ## Out of scope (Phase 2/3/4)
 

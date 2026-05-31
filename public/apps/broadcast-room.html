@@ -208,12 +208,29 @@
       font: 800 11px/1 var(--mono); cursor: pointer; user-select: none;
     }
     .tab.active { color: #1b1007; background: var(--gold); border-color: var(--gold); }
+    .tab:focus-visible { outline: 2px solid var(--champagne); outline-offset: 2px; }
     .out-actions { display: flex; gap: 8px; align-items: center; }
     .iconbtn {
       width: 40px; height: 40px; display: grid; place-items: center;
       padding: 0; border: 1px solid var(--line); background: rgba(247,206,115,.07);
       color: var(--gold); border-radius: 12px; font-size: 16px;
     }
+    .iconbtn:focus-visible { outline: 2px solid var(--champagne); outline-offset: 2px; }
+    .iconbtn.copied { background: var(--green); border-color: var(--green); color: #04110a; }
+    .output:focus-visible { outline: 2px solid var(--line); outline-offset: -2px; }
+    .dest-line {
+      margin: 2px 0 14px; font: 600 11px/1.6 var(--mono); color: var(--muted);
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .dest-line a {
+      color: var(--gold); text-decoration: none;
+      padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(247,206,115,.06);
+    }
+    .dest-line a:hover { color: var(--champagne); border-color: var(--gold); }
+    .dest-line a:focus-visible { outline: 2px solid var(--champagne); outline-offset: 2px; }
+    .save-note { margin-top: 10px; font-size: 11px; line-height: 1.5; color: var(--muted); }
+    .save-note b { color: var(--ink); }
     .output-body { padding: 16px; overflow: auto; }
     .output {
       display: none;
@@ -314,13 +331,13 @@
 
       <div class="form">
         <div class="field">
-          <label>Song / episode title <small>the slogan hook anchors here</small></label>
+          <label for="title">Song / episode title <small>the slogan hook anchors here</small></label>
           <input id="title" value="Booze on Hormuz" placeholder="Quiet Money Champagne">
         </div>
 
         <div class="row">
           <div class="field">
-            <label>Output intensity</label>
+            <label for="intensity">Output intensity</label>
             <select id="intensity">
               <option value="7">Level 7 — polished scandal luxury</option>
               <option value="9" selected>Level 9 — gold-plated confession</option>
@@ -328,7 +345,7 @@
             </select>
           </div>
           <div class="field">
-            <label>Format target</label>
+            <label for="format">Format target</label>
             <select id="format">
               <option>Music video pack</option>
               <option>Shorts/Reels pack</option>
@@ -339,24 +356,24 @@
         </div>
 
         <div class="field">
-          <label>Core concept <small>what is the joke?</small></label>
+          <label for="concept">Core concept <small>what is the joke?</small></label>
           <textarea id="concept" placeholder="Don Biggly sells a luxury cruise near a crisis zone and insists the evidence is with him.">Don Biggly launches a premium disaster-cruise brand where every champagne toast, sponsor read, and product display accidentally reveals another piece of evidence.</textarea>
         </div>
 
         <div class="row">
           <div class="field">
-            <label>Luxury setting</label>
+            <label for="setting">Luxury setting</label>
             <input id="setting" value="black-marble cruise deck with gold railings, shrimp towers, and warships on the horizon">
           </div>
           <div class="field">
-            <label>Evidence prop</label>
+            <label for="prop">Evidence prop</label>
             <input id="prop" value="gold folder stamped VERY LEGAL RECEIPTS">
           </div>
         </div>
 
         <div class="row">
           <div class="field">
-            <label>Reaction character</label>
+            <label for="reaction">Reaction character</label>
             <select id="reaction">
               <option>lawyer sweating through a linen suit</option>
               <option>accountant coughing into spreadsheets</option>
@@ -366,14 +383,14 @@
             </select>
           </div>
           <div class="field">
-            <label>Signature phrase</label>
+            <label for="phrase">Signature phrase</label>
             <input id="phrase" value="It’s Don Biggly because the evidence is with me.">
           </div>
         </div>
 
         <div class="row">
           <div class="field">
-            <label>Music style</label>
+            <label for="music">Music style</label>
             <select id="music">
               <option selected>minimalist boom-bap / spoken-word comedy</option>
               <option>sleazy yacht-rock parody</option>
@@ -383,7 +400,7 @@
             </select>
           </div>
           <div class="field">
-            <label>Visual style</label>
+            <label for="visual">Visual style</label>
             <select id="visual">
               <option selected>photorealistic editorial satire, luxury press conference</option>
               <option>cinematic fake cruise commercial</option>
@@ -395,7 +412,7 @@
         </div>
 
         <div class="field">
-          <label>Must-have jokes / motifs <small>comma-separated</small></label>
+          <label for="motifs">Must-have jokes / motifs <small>comma-separated</small></label>
           <textarea id="motifs">warships on the horizon, champagne on ice, discovery is coming, quiet money, fake charity table, velvet rope around the subpoena, donors avoiding shrimp, lawyer whispering please stop talking, Melania note: Enjoy discovery</textarea>
         </div>
 
@@ -418,6 +435,7 @@
           <button class="secondary" id="importBtn" style="padding:9px 11px;">Import Brief</button>
           <button class="secondary" id="sampleBtn" style="padding:9px 11px;">Load Showcase Sample</button>
         </div>
+        <p class="save-note">Your work isn't saved. Use <b>Export JSON</b> to keep it — nothing is stored on a server.</p>
       </div>
 
       <div class="ticker" id="panicTicker">
@@ -432,17 +450,17 @@
 
     <section class="card outputs">
       <div class="output-head">
-        <div class="tabs" id="tabs">
-          <div class="tab active" data-tab="master">Master</div>
-          <div class="tab" data-tab="lyrics">Suno</div>
-          <div class="tab" data-tab="storyboard">Storyboard</div>
-          <div class="tab" data-tab="video">Video</div>
-          <div class="tab" data-tab="image">Images</div>
-          <div class="tab" data-tab="launch">Launch</div>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Generated pack sections">
+          <div class="tab active" id="tab-master" role="tab" aria-selected="true" tabindex="0" data-tab="master">Master</div>
+          <div class="tab" id="tab-lyrics" role="tab" aria-selected="false" tabindex="-1" data-tab="lyrics">Suno</div>
+          <div class="tab" id="tab-storyboard" role="tab" aria-selected="false" tabindex="-1" data-tab="storyboard">Storyboard</div>
+          <div class="tab" id="tab-video" role="tab" aria-selected="false" tabindex="-1" data-tab="video">Video</div>
+          <div class="tab" id="tab-image" role="tab" aria-selected="false" tabindex="-1" data-tab="image">Images</div>
+          <div class="tab" id="tab-launch" role="tab" aria-selected="false" tabindex="-1" data-tab="launch">Launch</div>
         </div>
         <div class="out-actions">
-          <button class="iconbtn" id="copyBtn" title="Copy active tab">⧉</button>
-          <button class="iconbtn" id="copyAllBtn" title="Copy full package">▣</button>
+          <button class="iconbtn" id="copyBtn" aria-label="Copy active tab" title="Copy active tab">⧉</button>
+          <button class="iconbtn" id="copyAllBtn" aria-label="Copy full package" title="Copy full package">▣</button>
         </div>
       </div>
       <div class="output-body">
@@ -452,18 +470,25 @@
           <div class="metric green"><div class="k">Prompts</div><div class="v" id="mPrompts">24</div></div>
           <div class="metric cyan"><div class="k">Hooks</div><div class="v" id="mHooks">4</div></div>
         </div>
-        <pre class="output active" id="out-master"></pre>
-        <pre class="output" id="out-lyrics"></pre>
-        <pre class="output" id="out-storyboard"></pre>
-        <pre class="output" id="out-video"></pre>
-        <pre class="output" id="out-image"></pre>
-        <pre class="output" id="out-launch"></pre>
+        <p class="dest-line">Copy a tab, then paste into:
+          <a href="https://suno.com" target="_blank" rel="noopener">Suno</a>
+          <a href="https://sora.com" target="_blank" rel="noopener">Sora</a>
+          <a href="https://gemini.google.com" target="_blank" rel="noopener">Veo / Gemini</a>
+          <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a>
+          <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+        </p>
+        <pre class="output active" id="out-master" role="tabpanel" aria-labelledby="tab-master" tabindex="0"></pre>
+        <pre class="output" id="out-lyrics" role="tabpanel" aria-labelledby="tab-lyrics" tabindex="0"></pre>
+        <pre class="output" id="out-storyboard" role="tabpanel" aria-labelledby="tab-storyboard" tabindex="0"></pre>
+        <pre class="output" id="out-video" role="tabpanel" aria-labelledby="tab-video" tabindex="0"></pre>
+        <pre class="output" id="out-image" role="tabpanel" aria-labelledby="tab-image" tabindex="0"></pre>
+        <pre class="output" id="out-launch" role="tabpanel" aria-labelledby="tab-launch" tabindex="0"></pre>
       </div>
     </section>
   </main>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -900,6 +925,23 @@ function toast(msg) {
   setTimeout(() => t.classList.remove("show"), 1800);
 }
 
+function activateTab(tab) {
+  document.querySelectorAll(".tab").forEach(t => {
+    const on = t === tab;
+    t.classList.toggle("active", on);
+    t.setAttribute("aria-selected", on ? "true" : "false");
+    t.tabIndex = on ? 0 : -1;
+  });
+  document.querySelectorAll(".output").forEach(o => o.classList.remove("active"));
+  activeTab = tab.dataset.tab;
+  $("out-" + activeTab).classList.add("active");
+}
+
+function flashCopied(btn) {
+  btn.classList.add("copied");
+  setTimeout(() => btn.classList.remove("copied"), 1200);
+}
+
 function randomize() {
   $("prop").value = pick(chaos.prop);
   $("reaction").value = pick(chaos.reaction);
@@ -976,8 +1018,8 @@ function loadSample() {
 document.addEventListener("DOMContentLoaded", () => {
   $("generateBtn").addEventListener("click", generate);
   $("randomBtn").addEventListener("click", randomize);
-  $("copyBtn").addEventListener("click", () => copyText($("out-" + activeTab).textContent, "Active tab copied"));
-  $("copyAllBtn").addEventListener("click", () => copyText(allText(), "Full package copied"));
+  $("copyBtn").addEventListener("click", e => { copyText($("out-" + activeTab).textContent, "Active tab copied"); flashCopied(e.currentTarget); });
+  $("copyAllBtn").addEventListener("click", e => { copyText(allText(), "Full package copied"); flashCopied(e.currentTarget); });
   $("exportBtn").addEventListener("click", exportBrief);
   $("importBtn").addEventListener("click", () => $("importFile").click());
   $("importFile").addEventListener("change", importBrief);
@@ -994,13 +1036,16 @@ document.addEventListener("DOMContentLoaded", () => {
     toast("Reset");
   });
 
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-      document.querySelectorAll(".output").forEach(o => o.classList.remove("active"));
-      tab.classList.add("active");
-      activeTab = tab.dataset.tab;
-      $("out-" + activeTab).classList.add("active");
+  const tabEls = [...document.querySelectorAll(".tab")];
+  tabEls.forEach((tab, i) => {
+    tab.addEventListener("click", () => activateTab(tab));
+    tab.addEventListener("keydown", e => {
+      let ni = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") ni = (i + 1) % tabEls.length;
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") ni = (i - 1 + tabEls.length) % tabEls.length;
+      else if (e.key === "Home") ni = 0;
+      else if (e.key === "End") ni = tabEls.length - 1;
+      if (ni !== null) { e.preventDefault(); activateTab(tabEls[ni]); tabEls[ni].focus(); }
     });
   });
 
