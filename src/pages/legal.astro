@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+// Full legal/parody notice. Expands the global footer disclaimer.
+// NOTE(owner): the DMCA designated-agent contact is a placeholder — fill it in
+// during the legal pre-flight before relying on it.
+---
+
+<BaseLayout
+  title="Very Legal Disclaimer — Booze on Hormuz™"
+  description="Parody notice, transformative-use statement, and DMCA contact for Booze on Hormuz."
+>
+  <PageHeader eyebrow="The fine print" title="Very Legal Disclaimer" />
+
+  <section class="px-6 pb-28 max-w-2xl mx-auto font-body text-ink-soft space-y-8 leading-relaxed">
+    <div>
+      <h2 class="font-display text-title text-ink">Parody &amp; satire</h2>
+      <p class="mt-3">
+        Booze on Hormuz and &ldquo;Don Biggly&rdquo; are works of <strong>parody, satire, and
+        fiction</strong>. This is not fake news, not quotes, not leaks, not policy, and not reality.
+        Any names, characters, products, disasters, yachts, receipts, gold folders, or suspiciously
+        premium bad decisions are used in a parodic and transformative manner as protected
+        expression. Nothing here is a statement of fact about any real person, company, or event.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="font-display text-title text-ink">No affiliation or endorsement</h2>
+      <p class="mt-3">
+        No affiliation, endorsement, sponsorship, official statement, factual claim, or real-person
+        confession is intended, implied, bundled, comped, catered, notarized, or hidden in the
+        Evidence Lounge. Resemblance to actual persons is for the purpose of commentary and
+        ridicule.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="font-display text-title text-ink">Right of publicity &amp; commentary</h2>
+      <p class="mt-3">
+        Public figures referenced or evoked are the subject of political and cultural commentary.
+        The content is transformative and noncommercial in spirit; it exists to comment, criticize,
+        and amuse, not to mislead.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="font-display text-title text-ink">Copyright &amp; takedown (DMCA)</h2>
+      <p class="mt-3">
+        Believe something here infringes your rights? Send a notice with the work identified, the
+        URL, your contact details, and a good-faith statement to the designated agent:
+      </p>
+      <p class="mt-3 text-ink">
+        <span class="text-gold-ink">Designated agent:</span>
+        <em>[owner to add contact email]</em>
+      </p>
+      <p class="mt-3 text-sm text-ink-soft/80">
+        Site code is MIT-licensed; satirical content, artwork, and marks are reserved. See the
+        repository LICENSE.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
