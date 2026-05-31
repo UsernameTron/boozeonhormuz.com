@@ -43,7 +43,7 @@ Superseded files (`PROJECT.md`, `STATE.md`, `todo.md`, `phase-0{1,2,3}-{CONTEXT,
 M01 is shipped. Open threads, owner's choice of priority:
 
 1. **Content drops (owner-paced):** generate songs/images/copy via the content factory; set `draft: false` per collection entry. Each drop is one `git push`.
-2. **Creative Tools — remaining future-phase items:** shared CSS/JS extraction across the two tools (sizable refactor); JSON-import hardening (validation + caps); shareable prompt URLs (feature design). _Done:_ top-bar polish (#14), Melania→"First Lady of the Lounge" rename (#15), self-hosted tool fonts (#15, no more Google CDN).
+2. **Creative Tools — one remaining future-phase item:** shared CSS/JS extraction across the two tools (sizable refactor — best as its own scoped phase). _Done:_ top-bar polish (#14), First Lady rename (#15), self-hosted fonts (#15), JSON-import hardening (#17), shareable prompt URLs (#18).
 3. **M02 — Generalize the Website Pipeline:** start via `/gsd:new-milestone` when ready.
 4. **Repo hardening (owner):** branch protection on `main` (GitHub settings).
 
