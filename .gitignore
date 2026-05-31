@@ -27,3 +27,6 @@ pnpm-debug.log*
 .claude/**/*.log
 .claude/**/*.lock
 .claude/scheduled_tasks.lock
+
+# hero source (ship the optimized .webp, not the 2.5MB png)
+public/hero.png
