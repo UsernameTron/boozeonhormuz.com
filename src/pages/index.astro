@@ -2,18 +2,51 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Booze on Hormuz">
+<BaseLayout
+  title="Booze on Hormuz™ — Warships on the horizon. Champagne on ice."
+  description="The world's premier crisis-adjacent luxury experience. Warships on the horizon. Champagne on ice."
+>
   <!--
-    Placeholder hero — NO real copy. Confirms layout + Fraunces/Inter + Tailwind render.
-    Real content is Checkpoint A; final design tokens are Checkpoint B.
+    Branded landing — Checkpoint B reskin. Content-free (no episodes/products/quotes).
+    Typographic hero works as-is; the owner-produced Don Biggly hero image drops into
+    the slot below (see HERO IMAGE SLOT) without layout rework.
   -->
-  <section class="px-6 pt-16 pb-24 max-w-3xl">
-    <p class="font-body text-sm uppercase tracking-[0.2em] text-gold">Coming soon</p>
-    <h1 class="font-display text-5xl md:text-6xl leading-tight mt-4 text-ink">
-      Booze on Hormuz
+  <section class="px-6 pt-20 pb-16 md:pt-28 max-w-4xl mx-auto">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">Est. in very legal waters</p>
+
+    <h1 class="font-display text-display text-ink mt-5">
+      Booze&nbsp;on&nbsp;Hormuz<sup class="text-[0.4em] align-super">™</sup>
     </h1>
-    <p class="font-body text-lg text-ink/70 mt-6 max-w-prose">
-      The foundation is live. Content arrives next.
+
+    <p class="font-display text-title text-ink-soft mt-6 max-w-2xl">
+      Warships on the horizon. Champagne on ice.
+    </p>
+
+    <div class="mt-10 flex items-center gap-5">
+      <a
+        href="#evidence"
+        class="inline-block bg-stamp text-paper font-body text-sm uppercase tracking-[0.15em] px-6 py-3 hover:opacity-90 transition-opacity"
+      >
+        Enter the Evidence Lounge
+      </a>
+    </div>
+
+    <!-- HERO IMAGE SLOT — drop the generated hero here, e.g.:
+         <img src="/hero.webp" alt="Don Biggly aboard the Booze on Hormuz deck"
+              class="mt-14 w-full border border-gold/40" width="1600" height="900" /> -->
+
+    <hr class="mt-16 border-0 border-t border-line" />
+  </section>
+
+  <!-- Deadpan teaser — keeps the CTA functional and content-free until phase-02 builds /evidence -->
+  <section id="evidence" class="px-6 pb-28 max-w-4xl mx-auto scroll-mt-24">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">The Evidence Lounge</p>
+    <p class="font-display text-title text-ink mt-4 max-w-2xl">
+      Now being appointed. Velvet rope pending. The shrimp are already chilled.
+    </p>
+    <p class="font-body text-ink-soft mt-4 max-w-xl">
+      Clips, exhibits, and assorted very legal receipts will be on display shortly.
+      Relax. It's probably nothing.
     </p>
   </section>
 </BaseLayout>

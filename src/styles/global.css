@@ -1,25 +1,49 @@
 @import "tailwindcss";
 
 /*
-  PLACEHOLDER design tokens. Final luxury-satire palette + type scale are
-  Checkpoint B (owner-owned) and gate phase-02. These exist only so the
-  foundation renders with the locked Fraunces + Inter pairing.
+  Brand tokens — Checkpoint B (locked 2026-05-31).
+  Design posture: "deadpan luxury frame" — a composed, expensive cream/serif/gold
+  wrapper that lets the loud Don Biggly hero imagery and copy pop. The elegance is
+  the joke. Accents: champagne gold + a sparing legal-stamp oxblood red.
 
-  Tailwind 4 maps the --font-* and --color-* namespaces to utilities:
-  --font-display -> font-display, --color-gold -> text-gold/bg-gold, etc.
+  Tailwind 4 maps these namespaces to utilities:
+    --color-stamp  -> text-stamp / bg-stamp / border-stamp
+    --text-display -> text-display (with its line-height + tracking)
+    --font-display -> font-display
 */
 @theme {
-  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
-  --font-body: "Inter Variable", system-ui, -apple-system, sans-serif;
+  /* Fonts — locked, self-hosted via Fontsource (imported in BaseLayout) */
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
-  /* placeholder palette — NOT final brand */
-  --color-ink: #16130f;
-  --color-cream: #faf6ec;
-  --color-gold: #b08433;
+  /* Palette — warm ivory base. Contrast vs --color-paper noted. */
+  --color-paper: #faf6ec;     /* background — warm ivory */
+  --color-ink: #1b1712;       /* primary text — warm near-black (~15:1) */
+  --color-ink-soft: #5a5346;  /* secondary text (~6:1) */
+  --color-gold: #b0843b;      /* champagne gold — rules, decoration, large accents (~3:1: not body text) */
+  --color-gold-ink: #7a5c20;  /* text-safe deeper gold (~4.7:1) */
+  --color-stamp: #8b2e2e;     /* legal-stamp oxblood — sparing tags/CTAs (~6.5:1) */
+  --color-line: #e3dcc9;      /* hairline dividers */
+
+  /* Type scale — Fraunces display is confident + tight; eyebrow labels are tracked */
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.2em;
+
+  --text-display: clamp(2.75rem, 6vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-title: clamp(1.5rem, 3vw, 2.25rem);
+  --text-title--line-height: 1.15;
 }
 
 html {
-  background-color: var(--color-cream);
+  background-color: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-body);
+}
+
+body {
+  line-height: 1.6;
 }
