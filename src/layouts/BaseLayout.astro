@@ -15,6 +15,17 @@ const {
   title = 'Booze on Hormuz',
   description = 'Booze on Hormuz.',
 } = Astro.props;
+
+// Absolute canonical + OG image URLs (crawlers require absolute).
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const OG_ROUTES = new Set(['evidence-lounge', 'watch', 'products', 'sponsor-reads', 'quotes', 'about', 'legal']);
+const slug = Astro.url.pathname.replace(/^\/+|\/+$/g, '');
+const ogImage = new URL(OG_ROUTES.has(slug) ? `/open-graph/${slug}.png` : '/og-home.jpg', Astro.site).href;
+
+// Cloudflare Web Analytics — a PUBLIC beacon id (safe to commit), no cookies.
+// TODO(owner): create at dash.cloudflare.com → Web Analytics → add
+// boozeonhormuz.com → paste the token below to enable. Empty = no script.
+const CF_BEACON_TOKEN = '';
 ---
 
 <!doctype html>
@@ -27,9 +38,35 @@ const {
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
-    <!-- Real OG/Twitter meta, sitemap, robots, analytics land in phase-03 -->
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Booze on Hormuz" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {
+      CF_BEACON_TOKEN && (
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={`{"token":"${CF_BEACON_TOKEN}"}`}
+        />
+      )
+    }
   </head>
   <body class="min-h-screen flex flex-col">
     <Nav />
