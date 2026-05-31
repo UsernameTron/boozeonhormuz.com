@@ -36,3 +36,6 @@ outline-boozeonhormuz.com.md
 
 # favicon source mark (ship the generated favicon set, not the raw source)
 public/favicon-DB.png
+
+# evidence card source PNGs (ship optimized webp, not the raw exports)
+public/Evidence card*.png
