@@ -9,13 +9,13 @@ const { slug, title, summary, publishDate } = Astro.props;
 const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
-<article class="border border-line p-5">
+<article class="border border-line bg-charcoal p-5">
   <p class="font-body text-eyebrow uppercase text-gold-ink">{date}</p>
   <h3 class="font-display text-2xl text-ink mt-2">
     <a href={`/watch/${slug}`} class="hover:text-gold-ink transition-colors">{title}</a>
   </h3>
   <p class="font-body text-ink-soft mt-3 max-w-prose">{summary}</p>
-  <a href={`/watch/${slug}`} class="inline-block font-body text-sm uppercase tracking-[0.1em] text-stamp mt-4 hover:opacity-80">
+  <a href={`/watch/${slug}`} class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-4 hover:opacity-80">
     Review the evidence &rarr;
   </a>
 </article>

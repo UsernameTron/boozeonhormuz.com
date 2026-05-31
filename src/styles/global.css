@@ -16,25 +16,28 @@
   --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
-  /* Palette — warm ivory base. Contrast vs --color-paper noted. */
-  --color-paper: #faf6ec;     /* background — warm ivory */
-  --color-ink: #1b1712;       /* primary text — warm near-black (~15:1) */
-  --color-ink-soft: #5a5346;  /* secondary text (~6:1) */
-  --color-gold: #b0843b;      /* champagne gold — rules, decoration, large accents (~3:1: not body text) */
-  --color-gold-ink: #7a5c20;  /* text-safe deeper gold (~4.7:1) */
-  --color-stamp: #8b2e2e;     /* legal-stamp oxblood — sparing tags/CTAs (~6.5:1) */
-  --color-line: #e3dcc9;      /* hairline dividers */
+  /* Palette — "Don Biggly grift": black + gold dominant, dark base */
+  --color-paper: #111111;      /* page background — Executive Black */
+  --color-charcoal: #232323;   /* card / surface — Marble Charcoal */
+  --color-ink: #f4e8d0;        /* primary text — Champagne (~16:1 on black) */
+  --color-ink-soft: #cdbf9e;   /* secondary text — muted champagne (~8:1) */
+  --color-gold: #c8a24a;       /* primary gold — accents, gold text on dark (~8:1) */
+  --color-gold-ink: #c8a24a;   /* gold text role (same bright gold; legible on dark) */
+  --color-gold-deep: #9b762b;  /* dark gold — trim/borders only, not text */
+  --color-stamp: #a61e22;      /* scandal red — primary CTA, warnings/banners only */
+  --color-beige: #e6d7b8;      /* receipt beige — alt accent */
+  --color-line: #9b762b;       /* hairline / brass trim (was light beige) */
 
   /* Type scale — Fraunces display is confident + tight; eyebrow labels are tracked */
   --text-eyebrow: 0.8125rem;
   --text-eyebrow--line-height: 1.2;
   --text-eyebrow--letter-spacing: 0.2em;
 
-  --text-display: clamp(2.25rem, 8vw, 4.5rem);
+  --text-display: clamp(2.5rem, 9vw, 5.5rem);
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.02em;
 
-  --text-title: clamp(1.5rem, 3vw, 2.25rem);
+  --text-title: clamp(1.625rem, 3.5vw, 2.5rem);
   --text-title--line-height: 1.15;
 }
 
