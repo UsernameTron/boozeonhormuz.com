@@ -33,3 +33,6 @@ public/hero.png
 
 # local design brief (scratch, not site content)
 outline-boozeonhormuz.com.md
+
+# favicon source mark (ship the generated favicon set, not the raw source)
+public/favicon-DB.png
