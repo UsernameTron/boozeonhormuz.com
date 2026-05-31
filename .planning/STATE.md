@@ -8,7 +8,7 @@
 - **Classification:** MULTI-MILESTONE
 - **Active milestone:** M01-launch-satire-hub
 - **Active phase:** phase-01 (Foundation Setup)
-- **Phase state:** PHASE_PLANNED — awaiting `/gsd:review`, then `/gsd:execute-phase`
+- **Phase state:** PHASE_AWAITING_SHIP — built + verified locally; **PR #1 open**, awaiting owner merge to `main` (merge triggers the live deploy)
 
 ## Milestone ledger
 
@@ -39,5 +39,10 @@ Superseded files (`PROJECT.md`, `STATE.md`, `todo.md`, `phase-0{1,2,3}-{CONTEXT,
 
 ## Next action
 
-1. `/gsd:review` this `.planning/` set in Claude Code (peer-subagent plan validation).
-2. On pass: `/gsd:execute-phase` for phase-01 in `~/projects/boozeonhormuz-com/`.
+1. **Owner merges PR #1** → `main` (https://github.com/UsernameTron/boozeonhormuz.com/pull/1). Merge triggers the GitHub Actions deploy.
+2. Post-merge: watch the Action green (`gh run watch`), then run `python "booze on hormuz/verify.py" https://boozeonhormuz.com` (HTTP 200, custom domain holds, 404 exists).
+3. On verify pass: phase-01 → PHASE_SHIPPED. Autonomous run **stops at Checkpoint B** (owner brand tokens) before phase-02.
+
+## Review outcome (2026-05-31)
+
+Codex review (phase-01-REVIEWS.md): MEDIUM risk, 7 findings — all fixed in PLAN rev 2. Gemini CLI unavailable (auth scope). Plus orchestrator-caught directory/repo collision and a Tailwind/Vite incompatibility (`@tailwindcss/vite` 4.3.0→4.2.0) resolved during execution.
