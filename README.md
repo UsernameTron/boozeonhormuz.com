@@ -6,7 +6,7 @@ A static Astro 6 site at [boozeonhormuz.com](https://boozeonhormuz.com) — a sa
 
 ## Status
 
-**Foundation live, content-free.** Phase-01 stood up the build-and-deploy pipe; real content arrives in a later phase. Push to `main` → GitHub Actions builds → GitHub Pages serves the apex domain over HTTPS.
+**Live and shipped (M01).** Foundation, full page-shell IA, production polish (OG/sitemap/robots/analytics, `/legal`, Lighthouse CI), and the Creative Tools suite are all merged and deployed. The Evidence Lounge holds its first title-card exhibits; remaining collections render deadpan empty states until content is dropped in (owner-paced). Push to `main` → GitHub Actions builds → GitHub Pages serves the apex domain over HTTPS.
 
 ## Stack
 
@@ -34,14 +34,21 @@ src/content.config.ts   content schema — 5 collections (evidence is polymorphi
 src/layouts/            BaseLayout (global shell + parody disclaimer)
 src/components/         Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard, + typed cards
 src/pages/              / · /evidence-lounge · /watch[/slug] · /products[/slug] ·
-                        /sponsor-reads · /quotes · /about
+                        /sponsor-reads · /quotes · /about · /legal ·
+                        /tools (hub) + /tools/broadcast-room + /tools/evidence-lounge-studio + /tools/safety
 src/styles/global.css   Tailwind entry + brand design tokens
+public/apps/            standalone visitor prompt-generator tools (iframe-embedded by /tools)
+public/fonts/           self-hosted tool fonts (Archivo/Inter/JetBrains Mono, vendored woff2)
 public/                 static assets + CNAME (custom domain)
-.github/workflows/      deploy pipeline
+.github/workflows/      deploy pipeline + Lighthouse CI
 .planning/              project planning (GSD)
 ```
 
-The site is content-free: every route renders a deadpan empty state until content is added.
+Most routes render a deadpan empty state until content is added; the Evidence Lounge has its first exhibits.
+
+## Creative Tools
+
+`/tools` hosts two browser-only prompt generators for the *Don Biggly* satire — the **Biggly Broadcast Pack Generator** (one brief → a full content kit) and the **Evidence Lounge Prompt Generator** (a 20-template workbench). They produce copy-ready prompts for Suno / Sora / Veo / Gemini / ChatGPT / Claude — no login, no API key, no backend, nothing stored on a server. Both score 1.0 on Lighthouse accessibility.
 
 ## Deploy
 
