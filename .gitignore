@@ -39,3 +39,6 @@ public/favicon-DB.png
 
 # evidence card source PNGs (ship optimized webp, not the raw exports)
 public/Evidence card*.png
+
+# local design sources (raw PNGs — never deployed; optimized webp ships from public/)
+design-sources/
