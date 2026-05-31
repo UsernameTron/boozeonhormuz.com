@@ -27,3 +27,15 @@ pnpm-debug.log*
 .claude/**/*.log
 .claude/**/*.lock
 .claude/scheduled_tasks.lock
+
+# hero source (ship the optimized .webp, not the 2.5MB png)
+public/hero.png
+
+# local design brief (scratch, not site content)
+outline-boozeonhormuz.com.md
+
+# favicon source mark (ship the generated favicon set, not the raw source)
+public/favicon-DB.png
+
+# evidence card source PNGs (ship optimized webp, not the raw exports)
+public/Evidence card*.png

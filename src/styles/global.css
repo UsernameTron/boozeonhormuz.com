@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 /*
-  Brand tokens — Checkpoint B (locked 2026-05-31).
-  Design posture: "deadpan luxury frame" — a composed, expensive cream/serif/gold
-  wrapper that lets the loud Don Biggly hero imagery and copy pop. The elegance is
-  the joke. Accents: champagne gold + a sparing legal-stamp oxblood red.
+  Brand tokens — "Don Biggly grift" dark theme.
+  Casino-penthouse / gold-plated-fundraiser: black + gold dominant, marble-charcoal
+  surfaces, champagne text, scandal red reserved for the evidence CTA + warnings.
 
-  Tailwind 4 maps these namespaces to utilities:
-    --color-stamp  -> text-stamp / bg-stamp / border-stamp
-    --text-display -> text-display (with its line-height + tracking)
-    --font-display -> font-display
+  CSS textures (no images) defined below @theme:
+    .metal-gold  — brushed bronze-gold gradient text (wordmark / marquee)
+    .card-marble — charcoal surface + polished-stone sheen
+    .brass-rule  — metallic brass gradient hairline (border-image)
+
+  Tailwind 4 maps token namespaces to utilities:
+    --color-stamp -> text-stamp/bg-stamp/border-stamp; --text-display -> text-display.
 */
 @theme {
   /* Fonts — locked, self-hosted via Fontsource (imported in BaseLayout) */
@@ -43,10 +45,34 @@
 
 html {
   background-color: var(--color-paper);
+  /* warm luxury-hotel lighting — a soft gold glow over the black, fixed behind all content */
+  background-image: radial-gradient(120% 55% at 50% 0%, rgba(200, 162, 74, 0.1), transparent 55%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--color-ink);
   font-family: var(--font-body);
 }
 
 body {
   line-height: 1.6;
+}
+
+/* Brushed bronze-gold gradient text — the expensive, slightly-tacky marquee treatment. */
+.metal-gold {
+  background: linear-gradient(180deg, #e6c86a 0%, #c8a24a 45%, #9b762b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Polished marble-charcoal surface — charcoal base + faint top-left sheen (no image). */
+.card-marble {
+  background-color: var(--color-charcoal);
+  background-image: radial-gradient(130% 120% at 0% 0%, rgba(244, 232, 208, 0.06), transparent 45%);
+}
+
+/* Metallic brass hairline via gradient border-image (use on a 1px-bordered element). */
+.brass-rule {
+  border-style: solid;
+  border-image: linear-gradient(90deg, transparent, #9b762b 12%, #e6c86a 50%, #9b762b 88%, transparent) 1;
 }

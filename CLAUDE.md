@@ -4,7 +4,7 @@ Project governance for the Booze on Hormuz satire hub. Read before making change
 
 ## What this is
 
-A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. Surface: satirical luxury brand. Underneath: the content archive for the *Who the Hell Is Don Biggly?* sketch series. **Currently content-free** — phase-01 built the deploy pipe only.
+A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. Surface: satirical luxury brand. Underneath: the content archive for the *Who the Hell Is Don Biggly?* sketch series. **First content live** — the Evidence Lounge holds its opening title-card exhibits; other collections remain empty (deadpan empty states) until populated.
 
 ## Architecture
 
@@ -53,7 +53,7 @@ npx astro check   # typecheck (must exit 0 before commit)
 
 ## Conventions
 
-- **Content-free until finished** (owner directive). No real episodes/products/quotes/sponsors/evidence.
+- **Content rollout in progress** (owner-paced). Evidence Lounge has its first title-card exhibits; add content per collection by dropping entries (set `draft: false`). Source images live outside git (gitignored); ship optimized WebP under `public/`.
 - **Parody disclaimer** renders globally from `BaseLayout`, never per-page.
 - New evidence artifact type = a new branch in the `evidence` discriminated union, not a new collection.
 - Exact-pin every dependency; commit the lockfile; CI uses `npm ci`.
