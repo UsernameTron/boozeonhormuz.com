@@ -1,0 +1,56 @@
+---
+// Self-hosted variable fonts (Fontsource ships @font-face with font-display: swap)
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Booze on Hormuz',
+  description = 'Booze on Hormuz.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <!-- Real OG/Twitter meta, sitemap, robots, analytics land in phase-03 -->
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- nav placeholder — real navigation is phase-02 -->
+    <header class="px-6 py-5">
+      <nav aria-label="Primary">
+        <a href="/" class="font-display text-xl tracking-tight text-ink">Booze&nbsp;on&nbsp;Hormuz</a>
+      </nav>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!--
+      Parody disclaimer — rendered GLOBALLY from the layout, never per-page.
+      This is a standing legal element; final wording is confirmed at the
+      phase-02 pre-content gate (legal pre-flight).
+    -->
+    <footer class="px-6 py-8 text-sm text-ink/60 border-t border-ink/10 mt-16">
+      <p>
+        <strong>Parody.</strong> Booze on Hormuz and &ldquo;Don Biggly&rdquo; are works of
+        satire and fiction. Names, characters, products, and events are used in a parodic and
+        transformative manner under protected expression. No affiliation, endorsement, or
+        statement of fact about any real person is intended or implied.
+      </p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+BoozeOnHormuz / Don Biggly Knowledge Files Export
+Created: 2026-05-31T03:20:20
+
+Included files:
+- CinematicModifiers.md (2218 bytes)
+- CustomGPT_Instructions_VisualProduction.md (3006 bytes)
+- HookGeneratorGuide.md (2009 bytes)
+- LyricFormatterGuide_UPDATED.md (2852 bytes)
+- official-api-reference.md (12665 bytes)
+- Pasted text.txt (5767 bytes)
+- prompt-templates.md (11569 bytes)
+- README_Suno_Sora_CreativeAssistant.md (1169 bytes)
+- README_Suno_Sora_GPT_UPDATED.md (3988 bytes)
+- SKILL.md (21551 bytes)
+- SoraPromptGeneratorModule.md (2697 bytes)
+- SoraVisualPromptGuide.md (3129 bytes)
+- suno_trump_satire_lyric_machine_enforcement_overlay.json (8609 bytes)
+- suno_trump_satire_machine_expanded_rules.json (5721 bytes)
+- The Ultimate Suno AI Prompt Library_ Advanced Cont.md (15430 bytes)
+- trump_public_record_intensity_module.json (9353 bytes)
+- trump_satire_image_prompt_best_practices.md (6912 bytes)
+- trump_speech_parody_framework.json (8324 bytes)
+- trump_suno_satire_enforcement_overlay_v2_with_50_motifs.json (17151 bytes)

@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/*
+  PLACEHOLDER design tokens. Final luxury-satire palette + type scale are
+  Checkpoint B (owner-owned) and gate phase-02. These exist only so the
+  foundation renders with the locked Fraunces + Inter pairing.
+
+  Tailwind 4 maps the --font-* and --color-* namespaces to utilities:
+  --font-display -> font-display, --color-gold -> text-gold/bg-gold, etc.
+*/
+@theme {
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+  --font-body: "Inter Variable", system-ui, -apple-system, sans-serif;
+
+  /* placeholder palette — NOT final brand */
+  --color-ink: #16130f;
+  --color-cream: #faf6ec;
+  --color-gold: #b08433;
+}
+
+html {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
