@@ -4,25 +4,25 @@
 
 ## Current state
 
-- **Project state:** NEW_PROJECT (reconciled from competing plans 2026-05-31)
+- **Project state:** IN_PROGRESS — phase-01 shipped, site live
 - **Classification:** MULTI-MILESTONE
 - **Active milestone:** M01-launch-satire-hub
-- **Active phase:** phase-01 (Foundation Setup)
-- **Phase state:** PHASE_AWAITING_SHIP — built + verified locally; **PR #1 open**, awaiting owner merge to `main` (merge triggers the live deploy)
+- **Active phase:** phase-01 (Foundation Setup) → SHIPPED; next is Checkpoint B (owner) then phase-02
+- **Phase state:** PHASE_SHIPPED — PR #1 merged (squash `602e7d4`), deploy Action green, site live at https://boozeonhormuz.com (verify.py: 5/6 pass; only `https_enforced_hsts` fails — deferred to phase-03 by design)
 
 ## Milestone ledger
 
 | Milestone | Title | State |
 |---|---|---|
-| M01 | Launch Satire Hub | ACTIVE — phase-01 planned |
+| M01 | Launch Satire Hub | ACTIVE — phase-01 shipped (live); phase-02 blocked on Checkpoints A+B |
 | M02 | Generalize the Website Pipeline | STUB |
 
 ## Phase ledger (M01)
 
 | Phase | Title | State | Est. |
 |---|---|---|---|
-| phase-01 | Foundation Setup | PHASE_PLANNED | ~75 min |
-| phase-02 | Page Shells | STUB (blocked on phase-01 ship + Checkpoint A + B) | ~60 min |
+| phase-01 | Foundation Setup | ✅ PHASE_SHIPPED (live 2026-05-31) | ~75 min |
+| phase-02 | Page Shells | STUB (blocked on Checkpoint A + B) | ~60 min |
 | phase-03 | Production Polish | STUB (blocked on phase-02 ship) | ~45 min |
 
 ## Infrastructure baseline (pre-existing, owner-confirmed)
@@ -39,9 +39,12 @@ Superseded files (`PROJECT.md`, `STATE.md`, `todo.md`, `phase-0{1,2,3}-{CONTEXT,
 
 ## Next action
 
-1. **Owner merges PR #1** → `main` (https://github.com/UsernameTron/boozeonhormuz.com/pull/1). Merge triggers the GitHub Actions deploy.
-2. Post-merge: watch the Action green (`gh run watch`), then run `python "booze on hormuz/verify.py" https://boozeonhormuz.com` (HTTP 200, custom domain holds, 404 exists).
-3. On verify pass: phase-01 → PHASE_SHIPPED. Autonomous run **stops at Checkpoint B** (owner brand tokens) before phase-02.
+phase-01 SHIPPED (PR #1 merged, deploy green, verify.py 5/6). **Autonomous run is halted at Checkpoint B** — owner-owned, blocks phase-02:
+
+1. **Checkpoint B (owner):** finalize brand tokens — `tokens.css` / Tailwind `@theme` (Fraunces+Inter scale, luxury-satire palette, spacing, OG card style). Placeholder tokens are live in `src/styles/global.css` until then.
+2. **Checkpoint A (owner):** lock content concept before any real copy.
+3. **phase-03 quick win (when reached):** enable HTTPS enforcement — `gh api -X PUT repos/UsernameTron/boozeonhormuz.com/pages -f https_enforced=true` (cert already approved; this is the only failing verify check).
+4. On Checkpoints A+B: `/gsd:plan-phase` phase-02 (Page Shells).
 
 ## Review outcome (2026-05-31)
 
