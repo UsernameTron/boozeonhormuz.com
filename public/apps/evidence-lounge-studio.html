@@ -1576,38 +1576,64 @@ function importTemplates() {
   document.getElementById('importFile').click();
 }
 
+// Import limits — defensive caps on an untrusted user-supplied file.
+const IMPORT_MAX_BYTES = 2_000_000;   // 2 MB
+const IMPORT_MAX_TEMPLATES = 300;
+const IMPORT_MAX_NAME = 140;
+const IMPORT_MAX_HEAT = 24;
+const IMPORT_MAX_CONTENT = 20_000;
+const VALID_CATEGORIES = ['lyrics', 'video', 'image', 'site', 'sponsor', 'product', 'safety', 'custom'];
+
+// Coerce an arbitrary imported array into clean, bounded custom templates.
+// Built-ins are NEVER replaced from a file — they stay the project's own set.
+function sanitizeImportedTemplates(arr) {
+  return arr.slice(0, IMPORT_MAX_TEMPLATES).map((t, i) => {
+    const src = (t && typeof t === 'object') ? t : {};
+    const cat = String(src.category ?? 'custom').toLowerCase().trim();
+    return {
+      id: Date.now() + i,
+      name: (String(src.name ?? '').trim().slice(0, IMPORT_MAX_NAME)) || `Imported ${i + 1}`,
+      category: VALID_CATEGORIES.includes(cat) ? cat : 'custom',
+      heat: (String(src.heat ?? 'imported').trim().slice(0, IMPORT_MAX_HEAT)) || 'imported',
+      builtIn: false,
+      content: String(src.content ?? '').slice(0, IMPORT_MAX_CONTENT)
+    };
+  }).filter(t => t.content.trim());
+}
+
 function handleImport(e) {
   const file = e.target.files[0];
+  e.target.value = '';
   if (!file) return;
+  if (file.size > IMPORT_MAX_BYTES) { toast('File too large (max 2 MB)'); return; }
 
   const reader = new FileReader();
+  reader.onerror = () => toast('Could not read file');
   reader.onload = function (evt) {
+    let data;
     try {
-      const data = JSON.parse(evt.target.result);
-      if (data.version && data.builtIn) {
-        templates = data.builtIn;
-        customTemplates = data.custom || [];
-      } else if (Array.isArray(data)) {
-        customTemplates = data.map((t, i) => ({
-          id: Date.now() + i,
-          name: t.name || `Imported ${i + 1}`,
-          category: t.category || 'custom',
-          heat: t.heat || 'imported',
-          builtIn: false,
-          content: t.content || ''
-        }));
-      } else {
-        toast('Unrecognized file format');
-        return;
-      }
-      renderTemplates();
-      toast(`Imported ${getAllTemplates().length} templates`);
+      data = JSON.parse(evt.target.result);
     } catch (err) {
       toast('Failed to parse file');
+      return;
     }
+
+    // Accept either a versioned export ({custom:[...]}) or a bare array of templates.
+    // data.builtIn is intentionally ignored — importing never overwrites the built-ins.
+    let incoming;
+    if (data && Array.isArray(data.custom)) incoming = data.custom;
+    else if (Array.isArray(data)) incoming = data;
+    else if (data && data.version) incoming = [];
+    else { toast('Unrecognized file format'); return; }
+
+    const clean = sanitizeImportedTemplates(incoming);
+    if (!clean.length) { toast('No valid templates in file'); return; }
+
+    customTemplates = clean;   // replace the custom set; built-ins untouched
+    renderTemplates(document.getElementById('searchInput').value);
+    toast(`Imported ${clean.length} template${clean.length === 1 ? '' : 's'}`);
   };
   reader.readAsText(file);
-  e.target.value = '';
 }
 
 function buildPackage() {
