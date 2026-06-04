@@ -1,36 +1,84 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import SponsorRead from '../components/SponsorRead.astro';
 
-const sponsors = (await getCollection('sponsors')).filter((s) => !s.data.draft);
+// Inline, image-driven sponsor list. To add a real image: drop an optimized
+// WebP into `public/sponsors/` and point `image` at `/sponsors/<file>.webp`.
+// `image` is optional — an absent OR failed image renders a neutral placeholder
+// box at the same 16:9 ratio, so the layout never breaks. `blurb` optional.
+interface Sponsor {
+  name: string;
+  image?: string;
+  alt: string;
+  blurb?: string;
+}
 
-// resolve the referenced episode's slug (reference stores entry id) for linking
-const episodes = await getCollection('episodes');
-const slugById = new Map(episodes.map((e) => [e.id, e.data.slug]));
+const sponsors: Sponsor[] = [
+  {
+    name: 'Hormuz Premium Yacht Fuel',
+    image: '/sponsors/hormuz-yacht-fuel.webp',
+    alt: 'A gleaming superyacht refueling at golden hour.',
+    blurb: 'Now with extra plausible deniability. A word from our very legal sponsor.',
+  },
+  {
+    name: 'Discovery Shredding Co.',
+    image: '/sponsors/discovery-shredding.webp',
+    alt: 'An industrial shredder mid-shred, paper confetti everywhere.',
+    blurb: 'We handle your documents so you do not have to remember them.',
+  },
+  {
+    name: 'Panic Room Realty',
+    image: '/sponsors/panic-room-realty.webp',
+    alt: 'A reinforced steel door set into marble paneling.',
+    blurb: 'Square footage you can hide an indictment in.',
+  },
+  {
+    name: 'Legal-Ish Insurance Group',
+    image: '/sponsors/legal-ish-insurance.webp',
+    alt: 'A glossy brochure stamped with a dubious seal of approval.',
+    blurb: 'Covers everything except what actually happened.',
+  },
+];
 ---
 
 <BaseLayout title="Sponsor Reads — Booze on Hormuz™" description="A word from our very legal sponsors.">
   <PageHeader eyebrow="Paid programming" title="Sponsor Reads" />
 
   <section class="px-6 pb-28 max-w-4xl mx-auto">
-    {
-      sponsors.length === 0 ? (
-        <p class="font-display text-title text-ink max-w-2xl">
-          Our sponsors are reviewing the optics. Reads will resume once their lawyers stop weeping.
-        </p>
-      ) : (
-        <div class="grid gap-5">
-          {sponsors.map((s) => (
-            <SponsorRead
-              name={s.data.name}
-              read={s.data.read}
-              episodeSlug={s.data.episode ? slugById.get(s.data.episode.id) : undefined}
-            />
-          ))}
-        </div>
-      )
-    }
+    <p class="font-display text-title text-ink max-w-2xl">
+      Our sponsors are reviewing the optics. Reads will resume once their lawyers stop weeping.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
+      {
+        sponsors.map((s) => (
+          <article class="card-marble border border-line rounded-xl overflow-hidden shadow-lg">
+            <div class="aspect-video w-full overflow-hidden bg-charcoal">
+              {s.image ? (
+                <img
+                  src={s.image}
+                  alt={s.alt}
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                  class="object-cover w-full h-full"
+                  onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm',textContent:'Image coming soon'}))"
+                />
+              ) : (
+                <div class="w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm">
+                  Image coming soon
+                </div>
+              )}
+            </div>
+
+            <div class="p-4">
+              <h3 class="font-display text-title text-ink">{s.name}</h3>
+              {s.blurb && <p class="font-body text-sm text-ink-soft/80 mt-1 italic">{s.blurb}</p>}
+            </div>
+          </article>
+        ))
+      }
+    </div>
   </section>
 </BaseLayout>

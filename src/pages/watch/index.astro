@@ -15,9 +15,24 @@ const episodes = (await getCollection('episodes'))
   <section class="px-6 pb-28 max-w-4xl mx-auto">
     {
       episodes.length === 0 ? (
-        <p class="font-display text-title text-ink max-w-2xl">
-          The premiere is being catered. No episodes have screened yet.
-        </p>
+        <Fragment>
+          <p class="font-display text-title text-ink max-w-2xl">
+            Tremendous premiere. Beautiful catering. Nobody's seen the episodes yet, which many
+            people are saying is very smart, very legal, and frankly fantastic. Nobody does
+            premieres like me. Believe me
+          </p>
+          <div class="mt-10 w-full max-w-4xl mx-auto aspect-video">
+            <iframe
+              class="w-full h-full rounded-xl shadow-lg"
+              src="https://www.youtube.com/embed/Za2XII66eHQ"
+              title="Booze on Hormuz"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            />
+          </div>
+        </Fragment>
       ) : (
         <div class="grid gap-5">
           {episodes.map((e) => (
