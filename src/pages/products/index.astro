@@ -1,28 +1,89 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import ProductCard from '../../components/ProductCard.astro';
 
-const products = (await getCollection('products')).filter((p) => !p.data.draft);
+// Inline, image-driven product list. To add a real image: drop an optimized
+// WebP into `public/products/` and point `image` at `/products/<file>.webp`.
+// `image` is optional — an absent OR failed image renders a neutral placeholder
+// box at the same 4:5 ratio, so the layout never breaks. `price`/`note` optional.
+interface Product {
+  name: string;
+  image?: string;
+  alt: string;
+  price?: string;
+  note?: string;
+}
+
+const products: Product[] = [
+  {
+    name: 'The Hormuz Decanter',
+    image: '/products/hormuz-decanter.webp',
+    alt: 'A heavy crystal decanter on a marble plinth.',
+    price: '$14,000',
+    note: 'Holds exactly one regret. Not for sale, obviously.',
+  },
+  {
+    name: 'Discovery-Proof Briefcase',
+    image: '/products/discovery-proof-briefcase.webp',
+    alt: 'A brushed-metal briefcase with an oversized brass lock.',
+    price: 'Inquire discreetly',
+    note: 'Lock not included. Neither is the alibi.',
+  },
+  {
+    name: 'Premium Panic Cufflinks',
+    image: '/products/premium-panic-cufflinks.webp',
+    alt: 'A pair of gold cufflinks on dark velvet.',
+    note: 'As seen sweating on every lawyer in the room.',
+  },
+  {
+    name: 'Legal Disclaimer Cologne',
+    image: '/products/legal-disclaimer-cologne.webp',
+    alt: 'A faceted cologne bottle with a legal-stamp label.',
+    price: 'Priceless (allegedly)',
+    note: 'Top notes of subpoena. Dries down to plausible deniability.',
+  },
+];
 ---
 
 <BaseLayout title="Products — Booze on Hormuz™" description="Premium amenities for the discerning crisis.">
   <PageHeader eyebrow="The collection" title="Products" />
 
   <section class="px-6 pb-28 max-w-4xl mx-auto">
-    {
-      products.length === 0 ? (
-        <p class="font-display text-title text-ink max-w-2xl">
-          The collection is in private preview. Nothing is available for purchase, which is for the best.
-        </p>
-      ) : (
-        <div class="grid gap-4 sm:gap-5 sm:grid-cols-2">
-          {products.map((p) => (
-            <ProductCard slug={p.data.slug} name={p.data.name} tagline={p.data.tagline} disclaimer={p.data.disclaimer} />
-          ))}
-        </div>
-      )
-    }
+    <p class="font-display text-title text-ink max-w-2xl">
+      The collection is in private preview. Nothing is available for purchase, which is for the best.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
+      {
+        products.map((p) => (
+          <article class="card-marble border border-line rounded-xl overflow-hidden shadow-lg">
+            <div class="aspect-[4/5] w-full overflow-hidden bg-charcoal">
+              {p.image ? (
+                <img
+                  src={p.image}
+                  alt={p.alt}
+                  width="800"
+                  height="1000"
+                  loading="lazy"
+                  decoding="async"
+                  class="object-cover w-full h-full"
+                  onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm',textContent:'Image coming soon'}))"
+                />
+              ) : (
+                <div class="w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm">
+                  Image coming soon
+                </div>
+              )}
+            </div>
+
+            <div class="p-4">
+              <h3 class="font-display text-title text-ink">{p.name}</h3>
+              {p.price && <p class="font-body text-gold-ink mt-1">{p.price}</p>}
+              {p.note && <p class="font-body text-sm text-ink-soft/80 mt-1 italic">{p.note}</p>}
+            </div>
+          </article>
+        ))
+      }
+    </div>
   </section>
 </BaseLayout>
