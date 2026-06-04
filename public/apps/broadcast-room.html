@@ -265,17 +265,6 @@
     .metric.green .v { color: #a7f3d0; }
     .metric.cyan .v { color: var(--cyan); }
 
-    .help {
-      padding: 16px 18px; border-top: 1px solid var(--line);
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-      background: rgba(0,0,0,.18);
-    }
-    .tip {
-      border-left: 3px solid var(--gold); background: rgba(247,206,115,.05);
-      border-radius: 12px; padding: 11px 12px; color: var(--muted); font-size: 12px; line-height: 1.5;
-    }
-    .tip b { color: var(--ink); }
-
     .toast {
       position: fixed; right: 22px; bottom: 22px; z-index: 80;
       transform: translateY(12px); opacity: 0; pointer-events: none;
@@ -297,7 +286,7 @@
       .top { align-items: flex-start; flex-direction: column; }
       h1 { white-space: normal; }
       main { padding: 14px; }
-      .row, .checks, .dashboard, .help { grid-template-columns: 1fr; }
+      .row, .checks, .dashboard { grid-template-columns: 1fr; }
       .buttons { grid-template-columns: 1fr; }
       .primary { grid-column: span 1; }
       .output-head { align-items: flex-start; flex-direction: column; }
@@ -445,11 +434,6 @@
 
       <div class="ticker" id="panicTicker">
         LAWYER STATUS: <span>Sweating</span> · ACCOUNTANT STATUS: <span>Recalculating panic</span> · DONOR STATUS: <span>Avoiding shrimp tower</span>
-      </div>
-
-      <div class="help">
-        <div class="tip"><b>Safety frame:</b> Don Biggly is a fictional satire narrator. The output avoids real fake quotes, protected-class attacks, calls for harm, and voter persuasion.</div>
-        <div class="tip"><b>Comedy engine:</b> Biggly brags, evidence contradicts him, professionals panic, he mistakes disgust for applause, consequences escalate.</div>
       </div>
     </section>
 
