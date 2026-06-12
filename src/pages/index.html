@@ -360,19 +360,6 @@ footer{background:var(--night-deep);border-top:1px solid var(--hairline);padding
 .chat-body{padding:16px;display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto}
 .chat-msg{background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.16);padding:10px 13px;font-size:12.5px;color:var(--ink-dim);line-height:1.55;max-width:88%}
 .chat-typing{font-size:11px;color:var(--ink-faint);font-style:italic;padding:0 16px 14px}
-.modal-veil{position:fixed;inset:0;z-index:90;background:rgba(4,7,16,.78);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
-.modal-veil.open{display:flex}
-.modal{background:var(--night-soft);border:1px solid var(--flare);max-width:480px;width:100%;padding:46px 42px 38px;position:relative;text-align:center;box-shadow:0 40px 100px -30px rgba(0,0,0,.8)}
-@media(max-width:520px){.modal{padding:38px 24px 30px}}
-.modal .m-eyebrow{font-size:10px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--flare);margin-bottom:16px}
-.modal h3{font-family:var(--display);font-weight:300;font-size:30px;line-height:1.18;margin-bottom:14px}
-.modal h3 em{font-style:italic;color:var(--gold-pale)}
-.modal p{font-size:14px;color:var(--ink-dim);margin-bottom:26px}
-.modal .btn{width:100%;margin-bottom:12px}
-.modal .deny{background:none;border:none;cursor:pointer;font-family:var(--body);font-size:11px;color:var(--ink-faint);text-decoration:underline;letter-spacing:.04em}
-.modal .deny:hover{color:var(--ink-dim)}
-.modal .m-close{position:absolute;top:10px;right:14px;background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:22px;line-height:1;padding:6px}
-.modal .m-close:hover{color:var(--ink)}
 @media(max-width:860px){
   .sold-stake{display:none}
   .sun{top:auto;bottom:28px;width:110px;height:110px;opacity:.55}
@@ -951,17 +938,6 @@ footer{background:var(--night-deep);border-top:1px solid var(--hairline);padding
   <div class="chat-typing" id="chatTyping">Brigadier Dakota is typing…</div>
 </div>
 
-<div class="modal-veil" id="veil" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <button class="m-close" id="mClose" aria-label="Close offer">×</button>
-    <p class="m-eyebrow">Leaving so soon? Very weak.</p>
-    <h3 id="modalTitle">Before you go — abandon <em>generational anxiety?</em></h3>
-    <p>Wait. Leaving means surrendering your symbolic slice of the Brink. Don has personally noticed your cursor, which he describes as "weak movement, sad trajectory."</p>
-    <a class="btn btn-flare" href="#qualify" id="mAccept">I'm Strong. I Want the Folder.</a>
-    <button class="deny" id="mDeny">No thanks, I fear opportunity and doors painted on walls</button>
-  </div>
-</div>
-
 <script>
 // founder portrait fallback — DB monogram if don-biggly.jpg isn't deployed yet
 const donImg = document.getElementById('donImg');
@@ -1146,27 +1122,6 @@ document.getElementById('callClose').addEventListener('click', () => {
   document.getElementById('stickyCall').style.display = 'none';
 });
 
-// exit-intent modal — desktop mouse-out; mobile fallback: deep-scroll once
-const veil = document.getElementById('veil');
-let modalShown = false;
-function openModal(){
-  if (modalShown) return; modalShown = true;
-  veil.classList.add('open');
-  document.getElementById('mClose').focus();
-}
-function closeModal(){ veil.classList.remove('open'); }
-document.addEventListener('mouseout', e => {
-  if (!e.relatedTarget && e.clientY <= 0) openModal();
-});
-let deepScrolled = false;
-addEventListener('scroll', () => {
-  if (!deepScrolled && scrollY > document.body.scrollHeight * .82) { deepScrolled = true; setTimeout(openModal, 1200); }
-}, {passive:true});
-document.getElementById('mClose').addEventListener('click', closeModal);
-document.getElementById('mDeny').addEventListener('click', closeModal);
-document.getElementById('mAccept').addEventListener('click', closeModal);
-veil.addEventListener('click', e => { if (e.target === veil) closeModal(); });
-addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
