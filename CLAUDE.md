@@ -8,7 +8,9 @@ A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormu
 
 ## Deployment — Astro pipeline ONLY (critical)
 
-The live site is built by `.github/workflows/deploy.yml` (`withastro/action@v6` → `astro build` → deploys `dist/`). **Files at the repo root never ship.** The root `index.html` (standalone "v3" single-file landing page, committed 2026-06-12) is **inert** — it is not part of the Astro build and does not appear on the live site, which still serves `src/pages/index.astro`. Same for the root `CNAME` (the deployed one is `public/CNAME`). `DEPLOY.md` describes a plain push-the-HTML workflow that does NOT apply to this repo's Pages-via-Actions setup. `extras/` holds v1/v2 reference copies of that standalone page — never deploy them. To actually ship the v3 design, its content must be ported into `src/pages/index.astro` / the Astro layout system, or the Pages source must be deliberately switched off the Actions pipeline (a decision for the owner, not a default).
+The live site is built by `.github/workflows/deploy.yml` (`withastro/action@v6` → `astro build` → deploys `dist/`). **Files at the repo root never ship** — only `src/pages/` routes and `public/` assets. The deployed `CNAME` is `public/CNAME` (the root copy is vestigial). The untracked `DEPLOY.md` describes a plain push-the-HTML workflow that does NOT apply here; `extras/` (gitignored) holds v1/v2 reference copies of the standalone landing page — never deploy them.
+
+**Homepage exception:** the homepage is `src/pages/index.html` — a raw HTML page (Astro serves `.html` pages verbatim: no scoped styles, no script bundling), NOT a BaseLayout page. It is the ported "v3 full-scam" standalone landing page (timeshare-trope satire: countdown bar, qualification quiz, financing calculator, Brigadier Dakota chat, exit-intent modal, sticky 1-800-BIG-BRINK bar). Its footer parody disclaimer + all-caps solicitation block are **load-bearing — keep both** (homepage-only exception to the "disclaimer renders from BaseLayout" rule, since it doesn't use BaseLayout). Its Don imagery ships as `public/don-biggly.webp` + `public/don-biggly-poster.webp` (extracted from the original's embedded base64). Future homepage drops arriving as standalone HTML must be ported the same way: externalize embedded images, swap dead-end anchors for real routes (`/watch`, `/evidence-lounge`), keep head canonical/OG tags.
 
 ## Architecture
 
@@ -18,7 +20,8 @@ src/content.config.ts   5 Zod-typed collections (episodes, products, sponsors,
 src/layouts/BaseLayout   global shell; renders <Nav/> + <Footer/> (disclaimer never per-page)
 src/components/          Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard (polymorphic),
                          EpisodeCard, ProductCard, QuoteCard, SponsorRead
-src/pages/               / · /evidence-lounge (spine) · /watch + /watch/[slug] ·
+src/pages/               / (index.html — raw HTML v3 landing page, see Deployment) ·
+                         /evidence-lounge (spine) · /watch + /watch/[slug] ·
                          /products + /products/[slug] · /sponsor-reads · /quotes · /about · /legal ·
                          /tools (hub) + /tools/broadcast-room + /tools/evidence-lounge-studio + /tools/safety
 src/pages/open-graph/    [...route].ts — generates per-page OG card images via astro-og-canvas
@@ -108,7 +111,8 @@ npx astro check   # typecheck (must exit 0 before commit)
   see `.planning/milestones/M01-launch-satire-hub/phase-04-creative-tools-PLAN.md`.
 - **Post-launch page buildout** — DONE (PRs #23–#24). Watch premiere embed + Don Biggly copy;
   inline image grids on Products and Sponsor Reads; tools de-cluttered (#22 follow-ups).
-- **v3 standalone landing page** — root `index.html` committed (8ef9674) but **not deployed**
-  (see Deployment section above). Porting it into the Astro homepage is open/undecided.
+- **v3 homepage** — DONE. The standalone "v3 full-scam" landing page is ported into the Astro
+  build as `src/pages/index.html` (replacing `index.astro`); embedded imagery externalized to
+  `public/*.webp`; episode cards → `/watch`, lounge CTA/footer → `/evidence-lounge`.
 
 Planning lives in `.planning/`. Stack rationale in `.planning/RESOLUTION.md` and `RUNBOOK.md`.
