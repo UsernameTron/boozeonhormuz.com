@@ -4,7 +4,11 @@ Project governance for the Booze on Hormuz satire hub. Read before making change
 
 ## What this is
 
-A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. Surface: satirical luxury brand. Underneath: the content archive for the *Who the Hell Is Don Biggly?* sketch series. **Content rollout in progress** — the Evidence Lounge holds 7 live exhibits (4 `titlecard` + 3 `gallery`, all `draft: false`); the other four collections (episodes, products, sponsors, quotes) remain empty (deadpan empty states) until populated.
+A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. Surface: satirical luxury brand. Underneath: the content archive for the *Who the Hell Is Don Biggly?* sketch series. **Content rollout in progress** — the Evidence Lounge holds 7 live exhibits (4 `titlecard` + 3 `gallery`, all `draft: false`); `/products` and `/sponsor-reads` render inline image-driven grids (data arrays in the page frontmatter, not collections); `/watch` shows a featured YouTube premiere embed as its empty state. The episodes and quotes collections remain empty until populated.
+
+## Deployment — Astro pipeline ONLY (critical)
+
+The live site is built by `.github/workflows/deploy.yml` (`withastro/action@v6` → `astro build` → deploys `dist/`). **Files at the repo root never ship.** The root `index.html` (standalone "v3" single-file landing page, committed 2026-06-12) is **inert** — it is not part of the Astro build and does not appear on the live site, which still serves `src/pages/index.astro`. Same for the root `CNAME` (the deployed one is `public/CNAME`). `DEPLOY.md` describes a plain push-the-HTML workflow that does NOT apply to this repo's Pages-via-Actions setup. `extras/` holds v1/v2 reference copies of that standalone page — never deploy them. To actually ship the v3 design, its content must be ported into `src/pages/index.astro` / the Astro layout system, or the Pages source must be deliberately switched off the Actions pipeline (a decision for the owner, not a default).
 
 ## Architecture
 
@@ -27,10 +31,18 @@ astro.config.mjs         site=apex (NO base), output:static, sitemap() integrati
 .github/workflows/       deploy.yml (push main → withastro/action@v6 → Pages) +
                          lighthouse.yml (Lighthouse CI on PR/push, config in lighthouserc.json)
 .nvmrc                    24 (matches CI runtime; note package.json engines says >=22.12.0)
+booze on hormuz/          tracked content-factory sources (brand pack, ingest/render/verify
+                          scripts, skill specs) — NOT site code, never imported by the build
+boozeonhormuz_don_biggly_knowledge_files (2)/  tracked Don Biggly knowledge files (lyric/hook/
+                          visual-production guides) — content-factory inputs, not site code
 ```
 
-**Content-free shells:** every route renders a deadpan empty state until content lands.
-Collections empty ⇒ `getCollection` filters `!draft`; dynamic `[slug]` routes emit nothing.
+**Content sourcing is split:** evidence/episodes/quotes use the Zod-typed collections;
+products and sponsor-reads use **inline typed arrays in the page frontmatter** (image-driven
+grids; `image` optional — a missing/failed image renders a fixed-ratio placeholder so layout
+never breaks). To add a product/sponsor: drop an optimized WebP into `public/products/` or
+`public/sponsors/` and add an array entry. Empty collections ⇒ `getCollection` filters
+`!draft`; dynamic `[slug]` routes emit nothing; routes render deadpan empty states.
 **Local cache gotcha:** Astro 6's content store is `node_modules/.astro/data-store.json` —
 clearing project `.astro/` is NOT enough; `rm -rf node_modules/.astro` for a clean local
 content-free build. (CI is unaffected — `npm ci` wipes `node_modules`.)
@@ -72,7 +84,7 @@ npx astro check   # typecheck (must exit 0 before commit)
 
 ## Conventions
 
-- **Content rollout in progress** (owner-paced). Evidence Lounge has 7 live exhibits (titlecard + gallery); add content per collection by dropping entries (set `draft: false`). Source images live outside git (gitignored); ship optimized WebP under `public/`.
+- **Content rollout in progress** (owner-paced). Evidence Lounge has 7 live exhibits (titlecard + gallery); add collection content by dropping entries (set `draft: false`); add products/sponsors via the inline arrays in their pages. Source images live outside git (gitignored `design-sources/`); ship optimized WebP under `public/`.
 - **Parody disclaimer** renders globally from `BaseLayout`, never per-page.
 - New evidence artifact type = a new branch in the `evidence` discriminated union, not a new collection.
 - Exact-pin every dependency; commit the lockfile; CI uses `npm ci`.
@@ -94,5 +106,9 @@ npx astro check   # typecheck (must exit 0 before commit)
 - **M01 (launch-satire-hub milestone)** — DONE (finalized PR #20). Still deferred to a later
   phase: Evidence Lounge responsive rebuild, a11y, shared CSS/JS extraction, font self-hosting —
   see `.planning/milestones/M01-launch-satire-hub/phase-04-creative-tools-PLAN.md`.
+- **Post-launch page buildout** — DONE (PRs #23–#24). Watch premiere embed + Don Biggly copy;
+  inline image grids on Products and Sponsor Reads; tools de-cluttered (#22 follow-ups).
+- **v3 standalone landing page** — root `index.html` committed (8ef9674) but **not deployed**
+  (see Deployment section above). Porting it into the Astro homepage is open/undecided.
 
 Planning lives in `.planning/`. Stack rationale in `.planning/RESOLUTION.md` and `RUNBOOK.md`.
