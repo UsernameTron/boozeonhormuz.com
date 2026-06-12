@@ -45,3 +45,7 @@ design-sources/
 
 # private session/state artifacts (session log, decision records — never committed)
 state/
+
+# v3 standalone landing page — local-only until ported into the Astro build (see CLAUDE.md Deployment section)
+DEPLOY.md
+extras/
