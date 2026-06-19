@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-// Shell — deadpan placeholder framing. Full character bio is owner-authored content (later).
+// Character page: portrait + full in-character bio. The portrait asset
+// (public/don-biggly-portrait.webp) is owner-supplied; a missing/failed file
+// degrades to a neutral placeholder (same pattern as the products grid).
 ---
 
 <BaseLayout
@@ -10,18 +12,55 @@ import PageHeader from '../components/PageHeader.astro';
 >
   <PageHeader eyebrow="An introduction" title="Who the Hell Is Don Biggly?" />
 
-  <section class="px-6 pb-28 max-w-2xl mx-auto font-body text-lg text-ink-soft space-y-5">
-    <p>
-      A full and very flattering biography is being prepared by people who are not under oath.
-      It will appear here shortly.
-    </p>
-    <p>
-      In the meantime: the receipts are gold-bound, the waters are very legal, and the shrimp
-      tower has never been taller. Nobody has ever done hospitality this close to a blast radius.
-      Not even close.
-    </p>
-    <p class="text-ink-soft/80 italic">
-      This page is a placeholder. Like everything else here, it is a work of satire.
-    </p>
+  <section class="px-6 pb-28 max-w-2xl mx-auto">
+    <figure class="card-marble border border-line rounded-xl overflow-hidden shadow-lg max-w-[280px] mx-auto mb-10">
+      <div class="aspect-[4/5] w-full bg-charcoal">
+        <img
+          src="/don-biggly-portrait.webp"
+          alt="Don Biggly, photographed from behind. He approved it without turning around."
+          width="1000"
+          height="1250"
+          loading="lazy"
+          decoding="async"
+          class="object-cover w-full h-full"
+          onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm',textContent:'Portrait pending counsel'}))"
+        />
+      </div>
+      <figcaption class="font-body text-xs text-ink-soft/70 text-center p-2 italic">
+        Official portrait. Likeness withheld on advice of counsel.
+      </figcaption>
+    </figure>
+
+    <div class="font-body text-lg text-ink-soft space-y-5">
+      <p>
+        By every metric his own team was willing to sign, Don Biggly is the most decorated
+        hospitality visionary ever to operate within nautical miles of an active geopolitical
+        incident. Many people say this. The people who say it are paid, but they say it.
+      </p>
+      <p>
+        He holds honorary credentials from institutions that have asked not to be named, and
+        several awards he commissioned, presented to himself, and accepted with visible emotion.
+        The &ldquo;Admiral&rdquo; is honorary. He conferred it. The uniform is real, which his
+        tailor describes as &ldquo;the only verifiable part.&rdquo;
+      </p>
+      <p>
+        The empire began, as all great empires do, with a waterfront nobody else wanted and a
+        disclaimer nobody else would read. Today Booze on Hormuz spans an Exclusion Zone of
+        unrivaled amenities &mdash; a shrimp tower visible from two countries, financing available
+        against the news cycle, and a concierge desk that doubles, when required, as a legal
+        department.
+      </p>
+      <p>
+        He has never been charged with anything that stuck, a record his counsel characterizes
+        as &ldquo;basically an acquittal.&rdquo; His philosophy is simple, gold-bound, and printed
+        on a card he will hand you whether or not you ask: be together, be inspired, be briefed by
+        counsel.
+      </p>
+      <p>
+        A fuller biography is being prepared by people who are not under oath. It will be
+        tremendous. It will also be reviewed, redacted, and &mdash; where legally advisable
+        &mdash; denied.
+      </p>
+    </div>
   </section>
 </BaseLayout>
