@@ -93,6 +93,40 @@ nav{position:sticky;top:0;z-index:50;padding:18px 0;background:rgba(6,10,23,.95)
 .nav-cta:hover{background:var(--flare-deep)}
 .nav-phone{font-variant-numeric:tabular-nums;color:var(--gold-pale)!important;font-weight:700!important;letter-spacing:.08em!important}
 @media(max-width:920px){.nav-links li:not(:last-child){display:none}}
+
+/* --- mobile nav drawer (≤920px) --- */
+.nav-burger{display:none;background:none;border:0;cursor:pointer;padding:8px;margin:-8px -8px -8px 0;color:var(--gold-pale)}
+.nav-burger-box{display:block;width:26px;height:18px;position:relative}
+.nav-burger-line{position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;transition:transform .3s,opacity .2s}
+.nav-burger-line:nth-child(1){top:0}
+.nav-burger-line:nth-child(2){top:8px}
+.nav-burger-line:nth-child(3){top:16px}
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(2){opacity:0}
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.nav-backdrop{position:fixed;inset:0;z-index:90;background:rgba(6,10,23,.72);backdrop-filter:blur(3px);opacity:0;transition:opacity .3s}
+.nav-backdrop.show{opacity:1}
+.nav-drawer{position:fixed;top:0;right:0;bottom:0;z-index:91;width:min(86vw,360px);background:rgba(6,10,23,.98);border-left:1px solid var(--hairline);box-shadow:-28px 0 70px -20px rgba(0,0,0,.8);transform:translateX(100%);transition:transform .34s cubic-bezier(.2,.6,.2,1);display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain}
+.nav-drawer.open{transform:none}
+.nav-drawer[hidden],.nav-backdrop[hidden]{display:none}
+.nav-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--hairline)}
+.nav-drawer-brand{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.02em;color:var(--ink)}
+.nav-drawer-brand .tm{font-size:9px;vertical-align:super;color:var(--gold)}
+.nav-drawer-close{background:none;border:0;color:var(--ink-faint);font-size:24px;line-height:1;cursor:pointer;padding:4px 6px}
+.nav-drawer-close:hover{color:var(--gold-pale)}
+.nav-drawer-body{padding:22px 22px 32px;display:flex;flex-direction:column}
+.nav-drawer-group{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin:22px 0 4px;padding-bottom:8px;border-bottom:1px solid rgba(201,162,39,.14)}
+.nav-drawer-group:first-child{margin-top:0}
+.nav-drawer-list{list-style:none}
+.nav-drawer-list a{display:block;text-decoration:none;padding:13px 2px;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);border-bottom:1px solid rgba(201,162,39,.08);transition:color .25s}
+.nav-drawer-list a:hover{color:var(--gold-pale)}
+.nav-drawer-list li:last-child a{border-bottom:0}
+.nav-drawer-phone{color:var(--gold-pale)!important;font-variant-numeric:tabular-nums}
+.nav-drawer-cta{display:block;text-align:center;text-decoration:none;margin-top:26px;background:var(--flare);color:#fff;padding:15px 20px;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;transition:background .25s}
+.nav-drawer-cta:hover{background:var(--flare-deep)}
+body.nav-open{overflow:hidden}
+@media(max-width:920px){.nav-burger{display:block}}
+@media (prefers-reduced-motion:reduce){.nav-backdrop,.nav-drawer,.nav-burger-line{transition:none}}
 .hero{
   min-height:96svh;display:flex;flex-direction:column;justify-content:center;
   position:relative;overflow:hidden;padding:90px 0 0;
@@ -419,11 +453,49 @@ footer{background:var(--night-deep);border-top:1px solid var(--hairline);padding
       <li><a href="#qualify">See If You Qualify</a></li>
       <li><a href="#offer">Monetize the Panic</a></li>
       <li><a href="#watch">Review the Evidence</a></li>
+      <li><a href="/watch">Watch</a></li>
+      <li><a href="/evidence-lounge">Evidence Lounge</a></li>
       <li><a class="nav-phone" href="#getaway">☎ 1-800-BIG-BRINK</a></li>
       <li><a class="nav-cta" href="#qualify">Enter the Record</a></li>
     </ul>
+    <button class="nav-burger" id="navBurger" type="button"
+            aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer">
+      <span class="nav-burger-box" aria-hidden="true">
+        <span class="nav-burger-line"></span><span class="nav-burger-line"></span><span class="nav-burger-line"></span>
+      </span>
+    </button>
   </div>
 </nav>
+
+<div class="nav-backdrop" id="navBackdrop" hidden></div>
+<aside class="nav-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true" hidden>
+  <div class="nav-drawer-head">
+    <span class="nav-drawer-brand">Booze on Hormuz<span class="tm">™</span></span>
+    <button class="nav-drawer-close" id="navDrawerClose" type="button" aria-label="Close menu">×</button>
+  </div>
+  <nav class="nav-drawer-body" aria-label="Mobile">
+    <p class="nav-drawer-group">On this page</p>
+    <ul class="nav-drawer-list">
+      <li><a href="#getaway">Free Getaway</a></li>
+      <li><a href="#qualify">See If You Qualify</a></li>
+      <li><a href="#offer">Monetize the Panic</a></li>
+      <li><a href="#watch">Review the Evidence</a></li>
+      <li><a class="nav-drawer-phone" href="#getaway">☎ 1-800-BIG-BRINK</a></li>
+    </ul>
+    <p class="nav-drawer-group">Explore the site</p>
+    <ul class="nav-drawer-list">
+      <li><a href="/watch">Watch</a></li>
+      <li><a href="/evidence-lounge">Evidence Lounge</a></li>
+      <li><a href="/products">Products</a></li>
+      <li><a href="/sponsor-reads">Sponsor Reads</a></li>
+      <li><a href="/quotes">Quotes</a></li>
+      <li><a href="/tools">Tools</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/legal">Legal</a></li>
+    </ul>
+    <a class="nav-drawer-cta" href="#qualify">Enter the Record</a>
+  </nav>
+</aside>
 
 <main id="main">
 
@@ -1266,6 +1338,69 @@ document.getElementById('posterPlay').addEventListener('click', e => {
   frame.className = 'video-frame';
   frame.innerHTML = '<iframe src="https://www.youtube.com/embed/Za2XII66eHQ?autoplay=1" title="Who the Hell Is Don Biggly?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
   e.currentTarget.replaceWith(frame);
+});
+
+// mobile nav drawer — mirrors the chat-toggle pattern, adds a11y (Esc, focus, backdrop)
+const navBurger   = document.getElementById('navBurger');
+const navDrawer   = document.getElementById('navDrawer');
+const navBackdrop = document.getElementById('navBackdrop');
+const navClose    = document.getElementById('navDrawerClose');
+let navLastFocus  = null;
+
+function openNav(){
+  navLastFocus = document.activeElement;
+  navDrawer.hidden = false;
+  navBackdrop.hidden = false;
+  void navDrawer.offsetWidth; // commit the off-screen start state so the transition runs
+  navDrawer.classList.add('open');
+  navBackdrop.classList.add('show');
+  navDrawer.setAttribute('aria-hidden', 'false');
+  navBurger.setAttribute('aria-expanded', 'true');
+  navBurger.setAttribute('aria-label', 'Close menu');
+  document.body.classList.add('nav-open');
+  navClose.focus();
+}
+
+function closeNav(){
+  navDrawer.classList.remove('open');
+  navBackdrop.classList.remove('show');
+  navDrawer.setAttribute('aria-hidden', 'true');
+  navBurger.setAttribute('aria-expanded', 'false');
+  navBurger.setAttribute('aria-label', 'Open menu');
+  document.body.classList.remove('nav-open');
+  const done = () => { navDrawer.hidden = true; navBackdrop.hidden = true; };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { done(); }
+  else { navDrawer.addEventListener('transitionend', done, { once: true }); }
+  if (navLastFocus && navLastFocus.focus) navLastFocus.focus();
+}
+
+navBurger.addEventListener('click', () => {
+  navDrawer.classList.contains('open') ? closeNav() : openNav();
+});
+navClose.addEventListener('click', closeNav);
+navBackdrop.addEventListener('click', closeNav);
+
+// any link tap inside the drawer closes it (in-page anchors + real routes)
+navDrawer.addEventListener('click', e => {
+  if (e.target.closest('a')) closeNav();
+});
+
+// Esc closes; Tab/Shift+Tab wrap focus inside the open drawer
+document.addEventListener('keydown', e => {
+  if (!navDrawer.classList.contains('open')) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeNav(); return; }
+  if (e.key === 'Tab') {
+    const f = navDrawer.querySelectorAll('a[href], button:not([disabled])');
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+// growing past the breakpoint while open → close so the desktop nav is clean
+matchMedia('(min-width:921px)').addEventListener('change', e => {
+  if (e.matches && navDrawer.classList.contains('open')) closeNav();
 });
 
 </script>

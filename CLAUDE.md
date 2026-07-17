@@ -94,25 +94,10 @@ npx astro check   # typecheck (must exit 0 before commit)
 - `public/CNAME` is the source of truth for the custom domain.
 - Branch for every change (`feat/`, `fix/`, `chore/`); never commit directly to `main`.
 
-## Phase status
+## Status
 
-- **phase-01 Foundation** — DONE. Content-free site + deploy pipe live.
-- **Checkpoint B (brand tokens)** — DONE. Locked `@theme` (ivory/ink/gold + legal-stamp red), deadpan-luxury frame.
-- **phase-02 Page Shells** — DONE (this build). Full 8-route IA, Evidence-Lounge-centric, content-free shells with deadpan empty states.
-- **HTTPS enforcement** — DONE early (cert approved; `https_enforced:true`).
-- **Checkpoint A (content concept)** — owner-owned; the IA exists, real content (songs/images/copy) is generated via the content factory and dropped in.
-- **phase-03 Production Polish** — DONE (PR #10). OG/sitemap/robots/analytics, `/legal` route + LICENSE.
-- **phase-04 Creative Tools (Phase 1 integration)** — DONE. `/tools` hub + two
-  iframe-embedded prompt generators + `/tools/safety`; Tools added to nav; sitemap covers all
-  four routes. Follow-ups shipped post-plan: Evidence Lounge JSON-import hardening (#17),
-  shareable Broadcast Room prompt URLs (#18).
-- **M01 (launch-satire-hub milestone)** — DONE (finalized PR #20). Still deferred to a later
-  phase: Evidence Lounge responsive rebuild, a11y, shared CSS/JS extraction, font self-hosting —
-  see `.planning/milestones/M01-launch-satire-hub/phase-04-creative-tools-PLAN.md`.
-- **Post-launch page buildout** — DONE (PRs #23–#24). Watch premiere embed + Don Biggly copy;
-  inline image grids on Products and Sponsor Reads; tools de-cluttered (#22 follow-ups).
-- **v3 homepage** — DONE. The standalone "v3 full-scam" landing page is ported into the Astro
-  build as `src/pages/index.html` (replacing `index.astro`); embedded imagery externalized to
-  `public/*.webp`; episode cards → `/watch`, lounge CTA/footer → `/evidence-lounge`.
+> Last verified: 2026-07-17 <!-- refresh via /gsd:sync-docs; guarded by ~/.claude/hooks/claude-md-staleness.js (warns >14d at SessionStart) -->
 
-Planning lives in `.planning/`. Stack rationale in `.planning/RESOLUTION.md` and `RUNBOOK.md`.
+- **Now:** M01 shipped — site live at https://boozeonhormuz.com over HTTPS; M02 (pipeline) not started.
+- **Live state:** [.planning/STATE.md](.planning/STATE.md) · **Roadmap:** [.planning/ROADMAP.md](.planning/ROADMAP.md) · **Stack rationale:** [.planning/RESOLUTION.md](.planning/RESOLUTION.md)
+- Phase-by-phase history lives in STATE.md, not here.
