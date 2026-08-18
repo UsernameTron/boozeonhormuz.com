@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Don Biggly's Tremendous Exit Strategy | Booze on Hormuz™</title>
+  <meta name="description" content="A playable Don Biggly disaster. The ship is sinking, the exit is free, and that is the problem. Fictional satire — no real ship, no real advice, no real person." />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-variable.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-latin-variable.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-latin-variable.woff2" crossorigin>
+  <style>
+    /* Self-hosted variable fonts (vendored from Fontsource) — no third-party CDN. */
+    @font-face { font-family: 'Archivo'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/archivo-latin-variable.woff2') format('woff2'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/inter-latin-variable.woff2') format('woff2'); }
+    @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-display: swap; font-weight: 100 800; src: url('/fonts/jetbrains-mono-latin-variable.woff2') format('woff2'); }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      /* Nautical-night variant of the app palette — per-app tokens are the convention. */
+      --bg: #040810;
+      --ink: #f4ecd8;
+      --muted: #b9c2d0;
+      --faint: #6b7687;            /* decorative / large text only — fails small-text AA */
+      --panel: rgba(10, 16, 28, .92);
+      --panel-2: rgba(16, 24, 40, .92);
+      --panel-3: rgba(26, 36, 58, .7);
+      --line: rgba(247, 206, 115, .24);
+      --gold: #f7ce73;
+      --gold-2: #b8792d;
+      --champagne: #fff1bd;
+      --red: #ff6b6b;
+      --red-deep: #991b1b;
+      --green: #31d0aa;
+      --cyan: #67e8f9;
+      --shadow: 0 24px 80px rgba(0,0,0,.5);
+      --mono: "JetBrains Mono", monospace;
+      --body: "Inter", system-ui, sans-serif;
+      --display: "Archivo", Impact, sans-serif;
+    }
+
+    html, body { min-height: 100%; background: var(--bg); color: var(--ink); font-family: var(--body); }
+    body {
+      background:
+        radial-gradient(circle at 14% -10%, rgba(247,206,115,.16), transparent 36%),
+        radial-gradient(circle at 88% 8%, rgba(255,107,107,.10), transparent 32%),
+        radial-gradient(circle at 50% 118%, rgba(103,232,249,.14), transparent 42%),
+        linear-gradient(160deg, #030509 0%, #071021 55%, #04070f 100%);
+      overflow-x: hidden;
+      line-height: 1.55;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+    body::after {
+      content: "THE SHIP IS FINE • PREMIUM BUOYANCY • ZERO DISSENT • VERY LEGAL •";
+      position: fixed; inset: auto -10% 5% -10%; transform: rotate(-6deg);
+      font: 900 clamp(34px, 8vw, 104px)/1 var(--display);
+      color: rgba(247,206,115,.035);
+      white-space: nowrap; pointer-events: none; z-index: -1;
+      letter-spacing: .02em;
+    }
+
+    .app { min-height: 100%; display: flex; flex-direction: column; }
+
+    header.site {
+      position: sticky; top: 0; z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(90deg, rgba(5,9,18,.94), rgba(10,18,34,.9));
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 36px rgba(0,0,0,.3);
+    }
+    .top {
+      max-width: 1080px; margin: 0 auto; padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .seal {
+      width: 44px; height: 44px; border-radius: 50%; flex: none;
+      display: grid; place-items: center;
+      font: 800 15px/1 var(--display); color: #241703;
+      background: radial-gradient(circle at 30% 25%, var(--champagne), var(--gold) 55%, var(--gold-2));
+      border: 1px solid var(--gold-2);
+      box-shadow: 0 6px 18px rgba(247,206,115,.25);
+    }
+    .brand-copy .eyebrow {
+      font: 600 10px/1.3 var(--mono); letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .brand-copy h1 {
+      font: 800 clamp(15px, 2.6vw, 20px)/1.15 var(--display);
+      letter-spacing: .01em; color: var(--champagne);
+    }
+    .pill {
+      display: inline-block; padding: 6px 10px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--panel-3);
+      font: 600 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); white-space: nowrap;
+    }
+    .pill.red { border-color: rgba(255,107,107,.5); color: var(--red); }
+
+    /* HUD — the two meters that run the whole game */
+    .hud {
+      position: sticky; top: 0; z-index: 30;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(6,11,22,.96), rgba(6,11,22,.88));
+      backdrop-filter: blur(14px);
+    }
+    .hud-inner {
+      max-width: 1080px; margin: 0 auto; padding: 10px 20px;
+      display: grid; grid-template-columns: 1fr 1fr auto; gap: 14px; align-items: center;
+    }
+    .meter { min-width: 0; }
+    .meter-label {
+      display: flex; justify-content: space-between; gap: 8px;
+      font: 700 10px/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .meter-label .val { color: var(--muted); letter-spacing: .06em; }
+    .meter.ego .meter-label span:first-child { color: var(--gold); }
+    .meter.reality .meter-label span:first-child { color: var(--cyan); }
+    .bar {
+      margin-top: 5px; height: 12px; border-radius: 999px; overflow: hidden;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+    }
+    .bar > .fill { height: 100%; width: 50%; border-radius: 999px; transition: width .45s ease; }
+    .meter.ego .fill { background: linear-gradient(90deg, var(--gold-2), var(--gold), var(--champagne)); }
+    .meter.reality .fill { background: linear-gradient(90deg, #155e75, var(--cyan)); }
+    .meter.warn .bar { border-color: var(--red); box-shadow: 0 0 0 1px rgba(255,107,107,.35); }
+
+    .stars { display: flex; align-items: center; gap: 8px; }
+    .stars .count { font: 700 12px/1 var(--mono); color: var(--gold); letter-spacing: .1em; }
+    button.star-btn {
+      min-height: 44px; padding: 8px 14px; border-radius: 10px; cursor: pointer;
+      border: 1px solid var(--gold-2);
+      background: linear-gradient(180deg, rgba(247,206,115,.16), rgba(184,121,45,.12));
+      color: var(--champagne); font: 700 12px/1.2 var(--mono); letter-spacing: .08em;
+    }
+    button.star-btn:disabled { opacity: .45; cursor: not-allowed; border-color: rgba(255,255,255,.18); color: var(--muted); }
+    button.star-btn:not(:disabled):hover { background: rgba(247,206,115,.24); }
+
+    main { flex: 1; width: 100%; max-width: 860px; margin: 0 auto; padding: 26px 20px 80px; }
+    section[hidden] { display: none; }
+    h2.stage-title {
+      font: 800 clamp(22px, 4.6vw, 34px)/1.1 var(--display);
+      color: var(--champagne); letter-spacing: .01em; outline: none;
+    }
+    .kicker {
+      font: 700 11px/1.4 var(--mono); letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+
+    /* Title screen */
+    .title-card {
+      margin-top: 10px; padding: 26px; border-radius: 16px;
+      background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .title-card p.lede { color: var(--muted); font-size: 16px; max-width: 56ch; margin-top: 12px; }
+    .title-card p.mission { color: var(--ink); font-size: 17px; max-width: 56ch; margin-top: 14px; }
+    .parody-note {
+      margin-top: 18px; padding: 10px 14px; border-left: 3px solid var(--gold-2);
+      background: var(--panel-3); border-radius: 0 10px 10px 0;
+      color: var(--muted); font-size: 13px; max-width: 62ch;
+    }
+    .howto { margin-top: 18px; display: grid; gap: 8px; color: var(--muted); font-size: 14px; max-width: 62ch; }
+    .howto b { color: var(--gold); font-weight: 700; }
+    .calm {
+      margin-top: 18px; display: flex; align-items: flex-start; gap: 10px;
+      color: var(--muted); font-size: 14px; max-width: 62ch;
+    }
+    .calm input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--gold); }
+
+    button.primary {
+      margin-top: 22px; min-height: 52px; padding: 14px 26px; border-radius: 12px; cursor: pointer;
+      border: 1px solid var(--gold-2);
+      background: linear-gradient(180deg, var(--gold), var(--gold-2));
+      color: #221503; font: 800 15px/1.1 var(--display); letter-spacing: .06em; text-transform: uppercase;
+      box-shadow: 0 10px 30px rgba(247,206,115,.22);
+    }
+    button.primary:hover { filter: brightness(1.06); }
+    button.ghost {
+      min-height: 48px; padding: 12px 20px; border-radius: 12px; cursor: pointer;
+      border: 1px solid var(--line); background: var(--panel-3);
+      color: var(--gold); font: 700 13px/1.2 var(--mono); letter-spacing: .06em;
+    }
+    button.ghost:hover { border-color: var(--gold-2); }
+    button:focus-visible, input:focus-visible, a:focus-visible {
+      outline: 3px solid var(--cyan); outline-offset: 2px;
+    }
+
+    /* Level play area */
+    .level-head { margin: 6px 0 14px; }
+    .transcript { display: grid; gap: 10px; margin-top: 14px; }
+    .line {
+      padding: 12px 16px; border-radius: 12px; max-width: 64ch;
+      border: 1px solid rgba(255,255,255,.09); background: var(--panel);
+      animation: rise .3s both; animation-delay: calc(var(--i, 0) * 120ms);
+    }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .line .who {
+      display: block; font: 700 10px/1.4 var(--mono); letter-spacing: .18em; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .line.narrator { border-left: 3px solid var(--faint); color: var(--muted); font-style: italic; }
+    .line.narrator .who { color: var(--muted); }
+    .line.biggly { border-left: 3px solid var(--gold); background: var(--panel-2); }
+    .line.biggly .who { color: var(--gold); }
+    .line.crew { border-left: 3px solid var(--cyan); }
+    .line.crew .who { color: var(--cyan); }
+    .line.gag { border-left: 3px solid var(--green); color: var(--muted); font-size: 14px; }
+    .line.gag .who { color: var(--green); }
+    .line.alarm { border-left: 3px solid var(--red); background: rgba(153,27,27,.18); color: var(--ink); }
+    .line.alarm .who { color: var(--red); }
+
+    .controls { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* Doors ritual */
+    .doors { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .door {
+      min-height: 110px; padding: 16px; border-radius: 14px; cursor: pointer; text-align: left;
+      display: flex; flex-direction: column; gap: 6px; justify-content: center;
+    }
+    .door .tag { font: 700 10px/1.4 var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+    .door .name { font: 800 clamp(14px, 2.4vw, 18px)/1.25 var(--display); }
+    .door .price { font: 600 12px/1.4 var(--mono); }
+    .door.left { border: 1px solid rgba(49,208,170,.5); background: rgba(49,208,170,.08); color: var(--ink); }
+    .door.left .tag, .door.left .price { color: var(--green); }
+    .door.right { border: 1px solid var(--gold-2); background: linear-gradient(180deg, rgba(247,206,115,.14), rgba(184,121,45,.1)); color: var(--champagne); }
+    .door.right .tag, .door.right .price { color: var(--gold); }
+    .door.right.pulse { animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(247,206,115,.0); } 50% { box-shadow: 0 0 0 6px rgba(247,206,115,.16); } }
+
+    /* Choices */
+    .prompt { margin-top: 20px; font: 700 15px/1.5 var(--body); color: var(--champagne); max-width: 60ch; }
+    .options { margin-top: 12px; display: grid; gap: 10px; }
+    button.option {
+      min-height: 56px; padding: 14px 16px; border-radius: 12px; cursor: pointer; text-align: left;
+      border: 1px solid var(--line); background: var(--panel-2); color: var(--ink);
+      font: 600 14px/1.45 var(--body); width: 100%;
+    }
+    button.option:not(:disabled):hover { border-color: var(--gold-2); background: var(--panel-3); }
+    button.option .opt-kicker {
+      display: block; font: 700 10px/1.4 var(--mono); letter-spacing: .16em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 3px;
+    }
+    button.option.flatter .opt-kicker { color: var(--green); }
+    button.option.struck {
+      text-decoration: line-through; color: var(--muted); background: var(--panel);
+      border-color: rgba(255,255,255,.14); cursor: not-allowed;
+    }
+    button.option.struck .opt-kicker { color: var(--red); text-decoration: none; }
+    button.option.locked { cursor: not-allowed; border-color: rgba(103,232,249,.4); }
+    button.option.locked .opt-kicker { color: var(--cyan); }
+
+    /* Set-piece (Level 6) */
+    .setpiece {
+      margin-top: 18px; padding: 18px; border-radius: 14px;
+      border: 1px solid var(--red); background: rgba(153,27,27,.1);
+    }
+    .setpiece .sp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .sp-timer { font: 700 13px/1.4 var(--mono); color: var(--red); letter-spacing: .08em; }
+    .banks { margin-top: 14px; display: grid; gap: 14px; }
+    fieldset.bank { border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+    fieldset.bank legend {
+      padding: 0 8px; font: 700 10px/1.4 var(--mono); letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .tiles { display: flex; flex-wrap: wrap; gap: 8px; }
+    button.tile {
+      min-height: 44px; padding: 10px 14px; border-radius: 10px; cursor: pointer;
+      border: 1px solid var(--line); background: var(--panel-2); color: var(--ink);
+      font: 700 13px/1.2 var(--mono); letter-spacing: .04em;
+    }
+    button.tile[aria-pressed="true"] {
+      border-color: var(--gold); background: rgba(247,206,115,.18); color: var(--champagne);
+    }
+    .preview {
+      margin-top: 14px; padding: 12px 16px; border-radius: 10px; min-height: 48px;
+      border: 1px dashed var(--gold-2); background: var(--panel);
+      font: 800 clamp(14px, 2.6vw, 18px)/1.35 var(--display); color: var(--champagne);
+    }
+    .sp-actions { margin-top: 14px; position: sticky; bottom: 10px; }
+
+    /* Banner + scorecard */
+    .banner {
+      margin-top: 22px; padding: 18px 20px; border-radius: 14px; text-align: center;
+      border: 2px solid var(--red); background: rgba(153,27,27,.22);
+      font: 900 clamp(20px, 5vw, 34px)/1.15 var(--display); color: var(--ink);
+      letter-spacing: .06em; text-transform: uppercase;
+    }
+    .scorecard {
+      margin-top: 16px; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--line); background: var(--panel); box-shadow: var(--shadow);
+    }
+    .scorecard .sc-head {
+      padding: 16px 20px; border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(247,206,115,.14), transparent);
+      font: 800 16px/1.3 var(--display); color: var(--champagne); letter-spacing: .08em; text-transform: uppercase;
+    }
+    .scorecard dl { display: grid; }
+    .scorecard .row {
+      display: flex; justify-content: space-between; gap: 14px; padding: 11px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.06); flex-wrap: wrap;
+    }
+    .scorecard dt { font: 600 12px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .scorecard dd { font: 700 13px/1.5 var(--mono); letter-spacing: .04em; color: var(--gold); text-align: right; }
+    .verdict {
+      padding: 18px 20px; text-align: center;
+      font: 900 clamp(22px, 5vw, 36px)/1.1 var(--display); color: var(--gold);
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .epilogue { margin-top: 14px; color: var(--muted); font-size: 14px; max-width: 60ch; }
+
+    /* Toast + a11y helpers */
+    .toast {
+      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+      padding: 12px 18px; border-radius: 12px; opacity: 0; pointer-events: none;
+      background: var(--panel-2); border: 1px solid var(--gold-2); color: var(--champagne);
+      font: 600 13px/1.4 var(--body); box-shadow: var(--shadow);
+      transition: opacity .25s ease, transform .25s ease; z-index: 60; max-width: 90vw;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    footer.app-foot {
+      border-top: 1px solid var(--line); padding: 16px 20px 22px; text-align: center;
+      color: var(--muted); font-size: 15px;
+    }
+    footer.app-foot a { color: var(--gold); }
+
+    @media (max-width: 720px) {
+      .hud-inner { grid-template-columns: 1fr 1fr; }
+      .stars { grid-column: 1 / -1; justify-content: flex-start; }
+      .doors { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .top { padding: 10px 14px; }
+      main { padding: 20px 14px 70px; }
+      .title-card { padding: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="site">
+    <div class="top">
+      <div class="brand">
+        <div class="seal" aria-hidden="true">DB</div>
+        <div class="brand-copy">
+          <div class="eyebrow">Booze on Hormuz™ // Playable Disaster</div>
+          <h1>Don Biggly's Tremendous Exit Strategy</h1>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="pill">Fictional satire only</span>
+        <span class="pill red">The ship is not fine</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="hud" id="hud" hidden>
+    <div class="hud-inner">
+      <div class="meter ego" id="meterEgoWrap">
+        <div class="meter-label"><span>Ego</span><span class="val" id="egoVal">50 / 100</span></div>
+        <div class="bar" role="progressbar" aria-label="Ego" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" id="egoBar">
+          <div class="fill" id="egoFill"></div>
+        </div>
+      </div>
+      <div class="meter reality" id="meterRealityWrap">
+        <div class="meter-label"><span>Reality</span><span class="val" id="realityVal">40 / 100</span></div>
+        <div class="bar" role="progressbar" aria-label="Reality" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40" id="realityBar">
+          <div class="fill" id="realityFill"></div>
+        </div>
+      </div>
+      <div class="stars">
+        <span class="count" id="starCount" aria-hidden="true">★★★</span>
+        <button type="button" class="star-btn" id="starBtn" disabled>
+          Gold Star <span class="visually-hidden">— flattery of last resort, 3 per voyage</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- TITLE -->
+    <section id="screen-title" aria-labelledby="titleHeading">
+      <p class="kicker">A luxury emergency in ten levels</p>
+      <h2 class="stage-title" id="titleHeading" tabindex="-1">The ship is sinking. The exit is three feet away. Unfortunately, the exit is free.</h2>
+      <div class="title-card">
+        <p class="lede">
+          Don Biggly will not use safety equipment unless it has been renamed, monetized,
+          gold-plated, sponsored, or described as something nobody else is allowed to have.
+        </p>
+        <p class="mission">
+          Your mission is not to rescue Don Biggly. Your mission is to manipulate his ego
+          until he accidentally rescues himself.
+        </p>
+        <div class="howto">
+          <p><b>EGO</b> too low — he refuses instructions. <b>EGO</b> too high — he stops evacuating and starts monetizing the emergency.</p>
+          <p><b>REALITY</b> too high — he becomes immobile. (“Very negative ocean.”)</p>
+          <p><b>GOLD STARS</b> — three per voyage. Flattery of last resort.</p>
+        </div>
+        <label class="calm">
+          <input type="checkbox" id="calmSeas" />
+          <span><b>Calm Seas mode</b> — no timers, same disaster. Turns the one timed level into a turn-based one. Switches on automatically if your device prefers reduced motion.</span>
+        </label>
+        <p class="parody-note">
+          Fictional political satire — a playable Don Biggly disaster. No real ship, no real
+          advice, no real person, and absolutely no maritime safety value. Part of the
+          <a href="https://boozeonhormuz.com/" style="color: var(--gold);">Booze on Hormuz™</a> archive.
+        </p>
+        <button type="button" class="primary" id="btnStart">Begin the Departure</button>
+      </div>
+    </section>
+
+    <!-- LEVEL -->
+    <section id="screen-level" hidden aria-labelledby="levelHeading">
+      <div class="level-head">
+        <p class="kicker" id="levelKicker">Level 1 of 10</p>
+        <h2 class="stage-title" id="levelHeading" tabindex="-1">The Lifeboat</h2>
+      </div>
+      <div class="transcript" id="transcript"></div>
+      <div id="interaction"></div>
+      <div class="controls" id="controls"></div>
+    </section>
+
+    <!-- FINALE + SCORECARD -->
+    <section id="screen-score" hidden aria-labelledby="scoreHeading">
+      <p class="kicker">Voyage complete, in the legal sense</p>
+      <h2 class="stage-title" id="scoreHeading" tabindex="-1">Final Score</h2>
+      <div class="banner" id="soldOutBanner">Sold Out — Zero Dissent</div>
+      <div class="scorecard">
+        <div class="sc-head">Official Departure Report</div>
+        <dl id="scoreRows"></dl>
+        <div class="verdict">Total Victory</div>
+      </div>
+      <p class="epilogue">The ship is empty. The exit is open. The gift shop remains operational.</p>
+      <div class="controls">
+        <button type="button" class="primary" id="btnReplay">Sail Again</button>
+        <button type="button" class="ghost" id="btnShare">Copy Scorecard</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-foot">
+    Runs entirely in your browser. Nothing is saved, tracked, or sent anywhere —
+    refresh and the ship resets. <a href="https://boozeonhormuz.com/legal">Very Legal Disclaimer</a>.
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="visually-hidden" aria-live="polite" id="announcer"></div>
+
+<script>
+/* ============================================================
+   DON BIGGLY'S TREMENDOUS EXIT STRATEGY
+   Browser-only. No backend, no localStorage, no network calls.
+   ============================================================ */
+'use strict';
+
+const $ = (id) => document.getElementById(id);
+
+/* ---------- Config ---------- */
+const CFG = {
+  egoStart: 50, realityStart: 40, stars: 3,
+  sulkAt: 20, overflowAt: 95, lockAt: 80,
+  starEffect: { ego: +10, reality: -35 },
+  overflowEffect: { ego: -30, reality: +10 },
+  flatterDecay: [ -10, -6, -3 ],     // reality relief per repeated flatter use (floor -3)
+  l6: { drainMs: 1000, drainPerTick: 1, calmCostPerCommit: 4, acceptAt: 18, floor: 20, capAfter: 75 },
+  siteUrl: 'https://boozeonhormuz.com/play'
+};
+
+/* ---------- Copy banks ---------- */
+const SULK_LINES = [
+  'Nobody successful has ever needed directions.',
+  'I don’t take suggestions from people who clap for boats.',
+  'Motivate me. That’s literally your one job on this cruise.'
+];
+const LOCK_LINE = 'Very negative ocean. I don’t move for negative oceans.';
+const GIFTSHOP_BEATS = [
+  { who: 'narrator', text: 'He opens a gift shop in the confusion. The register floats.' },
+  { who: 'biggly', text: 'THE BIGGLY SOCIAL NAUTICAL GIFT SHOP. Two locations now, one of them technically at sea.' },
+  { who: 'narrator', text: 'Every successful action now creates another disaster. He calls this growth.' }
+];
+const GIFTSHOP_BEATS_2 = [
+  { who: 'narrator', text: 'Another gift shop. This one is inside the first one.' },
+  { who: 'biggly', text: 'A store within a store. Retail with depth. Nobody’s done depth like this.' }
+];
+const STAR_TOAST = 'GOLD STAR AWARDED. He frames it immediately.';
+const LEFT_REJECTIONS = [
+  '“Emergency? Terrible branding. Sounds unsuccessful.”',
+  '“Free is a price for people with no options. I have all the options.”',
+  '“It says EXIT. I don’t leave venues. Venues leave me.”',
+  '“No velvet rope. Where would the rope even go? Amateurs.”',
+  '“The sign is green. Green is the color of envy and salad.”'
+];
+
+/* ---------- Levels ---------- */
+/* Tuning corridor: a clean run reaches Level 8 with EGO ~80 / REALITY ~25,
+   so the ballroom trap (+40/+70) forces exactly one gift-shop overflow and
+   one reality-lock recovery; the L9 gold seal (+25) then forces a second
+   overflow. Two shops + licensing + reroute = the canonical scorecard. */
+const LEVELS = [
+  { id: 1, title: 'The Lifeboat',
+    script: [
+      { t: 'beat', who: 'narrator', text: 'The hull groans. Water reaches the second-best carpet.' },
+      { t: 'beat', who: 'crew', text: 'Sir, the lifeboat is ready. It seats forty.' },
+      { t: 'beat', who: 'biggly', text: 'It’s orange. Nothing successful has ever been orange.' },
+      { t: 'doors' },
+      { t: 'choice', id: 'l1', prompt: 'The clipboard says LIFEBOAT. Rename it before he notices the oars.',
+        options: [
+          { kind: 'advance', label: 'THE LARGEST PRIVATE MARITIME TRANSPORT PLATFORM EVER BUILT',
+            effects: { ego: 12, reality: -10 }, counts: { rebrands: 1 },
+            react: 'Finally. A boat that understands scale.',
+            gag: 'The oars ask to be listed as propulsion consultants.' },
+          { kind: 'fail', label: 'A VERY SAFE RESCUE BOAT',
+            effects: { ego: 2, reality: 8 },
+            failBeat: 'Rescue implies I have a problem. I have opportunities with water features.' },
+          { kind: 'fail', label: 'COMPLIMENTARY GROUP FLOTATION',
+            effects: { ego: -8, reality: 5 },
+            failBeat: 'Complimentary. So it’s free. Get it away from me.' },
+          { kind: 'flatter', label: 'Tell him the ocean asked for him personally.',
+            effects: { ego: 10 },
+            beat: 'Of course it did. It’s the biggest water. We respect each other.' }
+        ] },
+      { t: 'beat', who: 'narrator', text: 'He boards. The platform holds. Level one of the ego holds too.' }
+    ] },
+
+  { id: 2, title: 'The Gold Trim Incident', onEnter: { ego: -18, reality: 12 },
+    script: [
+      { t: 'beat', who: 'biggly', text: 'Where is the gold trim? There is no trim of any kind. This is a dinghy with ambition.' },
+      { t: 'beat', who: 'narrator', text: 'He climbs back onto the sinking ship, which at least has chandeliers.' },
+      { t: 'beat', who: 'gag', text: 'The chandelier pretends not to see him.' },
+      { t: 'beat', who: 'narrator', text: 'The water has reached the best carpet now. It shows no brand loyalty.' }
+    ] },
+
+  { id: 3, title: 'The Yacht Annex',
+    script: [
+      { t: 'beat', who: 'crew', text: 'Sir — the same boat is still available.' },
+      { t: 'beat', who: 'biggly', text: 'The dinghy? Absolutely not. Unless it’s changed.' },
+      { t: 'choice', id: 'l3', prompt: 'Same boat. It needs a name he can physically board.',
+        options: [
+          { kind: 'advance', label: 'THE PRESIDENTIAL YACHT ANNEX',
+            effects: { ego: 15, reality: -15 }, counts: { rebrands: 1 },
+            react: 'An annex. Very exclusive. Annexes are where the important furniture lives.',
+            gag: 'The boat straightens up and starts charging for shade.' },
+          { kind: 'fail', label: 'LIFEBOAT TWO: GOLD EDITION',
+            effects: { ego: 4, reality: 6 },
+            failBeat: 'Edition? Editions are for books and apologies.' },
+          { kind: 'fail', label: 'THE HUMBLE ESCAPE VESSEL',
+            effects: { ego: -10, reality: 4 },
+            failBeat: '“Humble.” I’m not familiar with the brand.' },
+          { kind: 'flatter', label: 'Mention the boat has waited its whole life for him.',
+            effects: { ego: 10 },
+            beat: 'Naturally. Boats have heroes too.' }
+        ] },
+      { t: 'beat', who: 'narrator', text: 'He boards again. The annex accepts its new responsibilities.' }
+    ] },
+
+  { id: 4, title: 'Unauthorized Competitors', onEnter: { ego: 6 },
+    script: [
+      { t: 'beat', who: 'narrator', text: 'From the annex he can see the other lifeboats. This is a problem, because he can see the other lifeboats.' },
+      { t: 'beat', who: 'biggly', text: 'Who approved those? Nobody builds annexes near my annex.' },
+      { t: 'choice', id: 'l4', prompt: 'He is about to swim over and repossess them. Redirect the rage.',
+        options: [
+          { kind: 'advance', label: 'Propose a licensing program: every boat pays to float near the brand.',
+            effects: { ego: 8, reality: -10 }, counts: { rebrands: 1, emergenciesMonetized: 1 },
+            react: 'The Annex Adjacency Fee. Recurring revenue from people fleeing — that’s loyalty.',
+            gag: 'A passing oar signs a nondisclosure agreement.' },
+          { kind: 'fail', label: 'Point out they’re full of survivors.',
+            effects: { ego: 4, reality: 7 },
+            failBeat: 'Occupancy rates? Now I want them more.' },
+          { kind: 'fail', label: 'Say the coast guard owns them.',
+            effects: { ego: 3, reality: 6 },
+            failBeat: 'Government boats. So — my boats, with extra steps.' },
+          { kind: 'flatter', label: 'Note that his boat is clearly the flagship.',
+            effects: { ego: 9 },
+            beat: 'Flagship. Write that down on something waterproof.' }
+        ] },
+      { t: 'beat', who: 'narrator', text: 'Invoices go out to four lifeboats and one confused seagull.' }
+    ] },
+
+  { id: 5, title: 'The Route', onEnter: { reality: 8 },
+    script: [
+      { t: 'beat', who: 'narrator', text: 'Smoke fills the atrium. The evacuation route is a straight line to the water.' },
+      { t: 'beat', who: 'biggly', text: 'A straight line? With this foot traffic? We’re wasting eyeballs.' },
+      { t: 'choice', id: 'l5', prompt: 'He will not move along any route that fails to make money.',
+        options: [
+          { kind: 'advance', label: 'Reroute the evacuation through the gift shop.',
+            effects: { ego: 7, reality: -8 }, counts: { rebrands: 1, emergenciesMonetized: 1 },
+            react: 'Traffic is tremendous. Everyone leaves with a souvenir and a survival story. Mostly a souvenir.',
+            gag: 'The EXIT sign requests a sabbatical.' },
+          { kind: 'fail', label: 'Propose a modest detour past the buffet.',
+            effects: { ego: 2, reality: 6 },
+            failBeat: 'The buffet is underwater. Which is a soup, frankly. But no.' },
+          { kind: 'fail', label: 'Insist the straight line is faster.',
+            effects: { ego: -6, reality: 5 },
+            failBeat: 'Faster isn’t premium. Nobody brags about a short experience.' },
+          { kind: 'flatter', label: 'Say the smoke is framing him beautifully.',
+            effects: { ego: 8 },
+            beat: 'It’s doing its best. Good smoke. Loyal smoke.' }
+        ] },
+      { t: 'beat', who: 'narrator', text: 'The route now passes three point-of-sale terminals. Two of them float.' }
+    ] },
+
+  { id: 6, title: 'The Staircase', setpiece: true,
+    script: [
+      { t: 'beat', who: 'crew', text: 'Sir — the EMERGENCY staircase!' },
+      { t: 'beat', who: 'alarm', text: 'He heard the word. The word is doing damage.' },
+      { t: 'setpiece' },
+      { t: 'beat', who: 'narrator', text: 'He climbs. Each step, he says, is load-bearing prestige.' }
+    ] },
+
+  { id: 7, title: 'The Announcement',
+    script: [
+      { t: 'beat', who: 'crew', text: 'ALL PASSENGERS MUST LEAVE THE SHIP IMMEDIATELY.' },
+      { t: 'beat', who: 'biggly', text: 'Must? Leave? This announcer is murdering our numbers.' },
+      { t: 'choice', id: 'l7', prompt: 'The captain will repeat the announcement. Fix it first.',
+        options: [
+          { kind: 'advance', label: 'EXCLUSIVE FINAL BOARDING OPPORTUNITY — limited seats, unlimited prestige.',
+            effects: { ego: 5, reality: -10 }, counts: { rebrands: 1 },
+            react: 'Look at them run for the exits. Tremendous demand. We’re oversubscribed in panic.',
+            gag: 'The intercom asks for a commission.' },
+          { kind: 'fail', label: 'URGENT SAFETY NOTICE, but in gold letters.',
+            effects: { ego: 2, reality: 7 },
+            failBeat: 'Gold letters spelling “safety”? Lipstick on a liability.' },
+          { kind: 'fail', label: 'Let the captain just say it louder.',
+            effects: { ego: -7, reality: 4 },
+            failBeat: 'Louder failure is still failure. I invented that saying and several others.' },
+          { kind: 'flatter', label: 'Tell him the passengers are leaving out of respect.',
+            effects: { ego: 8 },
+            beat: 'They know a closing ceremony when they see one.' }
+        ] },
+      { t: 'beat', who: 'narrator', text: 'The passengers safely leave. He logs it as extraordinary customer demand.' }
+    ] },
+
+  { id: 8, title: 'The Ballroom', onEnter: { reality: 10 },
+    script: [
+      { t: 'beat', who: 'narrator', text: 'The ballroom is taking on water. The band has stopped charging for requests.' },
+      { t: 'beat', who: 'biggly', text: 'Cancel the ballroom? In this economy? Watch this.' },
+      { t: 'choice', id: 'l8', prompt: 'There is no good option here. There is only the option.',
+        options: [
+          { kind: 'advance', label: 'Unveil it: THE FIRST-EVER INFINITY-POOL BALLROOM.',
+            effects: { ego: 40, reality: 70 }, counts: { rebrands: 1 },
+            react: 'Every hotel has a pool. Nobody has a ballroom you can drown in. First-mover advantage.',
+            gag: 'The band switches to maritime insurance jingles.' },
+          { kind: 'fail', label: 'Rope it off as a VELVET CAUTION EXPERIENCE.',
+            effects: { ego: 4, reality: 8 },
+            failBeat: 'Caution is a competitor’s word.' },
+          { kind: 'fail', label: 'Quietly drain it.',
+            effects: { ego: -6, reality: 6 },
+            failBeat: 'Drain my water feature? That water is a guest.' },
+          { kind: 'flatter', label: 'Compliment how the flooding reflects his good side.',
+            effects: { ego: 8 },
+            beat: 'Both sides are my good side. The water knows.' }
+        ] },
+      { t: 'beat', who: 'narrator', text: 'The unveiling is a triumph. The consequences form an orderly queue.' }
+    ] },
+
+  { id: 9, title: 'The Waiver',
+    script: [
+      { t: 'beat', who: 'crew', text: 'Sir, the waiver does not eliminate consequences. It never did.' },
+      { t: 'beat', who: 'biggly', text: 'Then why is it paper? Paper is for promises.' },
+      { t: 'choice', id: 'l9', prompt: 'The last lawyer is holding the waiver and the door frame.',
+        options: [
+          { kind: 'advance', label: 'Upgrade it to a TOTAL EXONERATION CERTIFICATE with a gold seal.',
+            effects: { ego: 25, reality: 5 }, counts: { rebrands: 1, waiversRenamed: 1 },
+            react: 'It does absolutely nothing and I love it. Frame the nothing.',
+            gag: 'The notary resigns in cursive.' },
+          { kind: 'fail', label: 'Read him the liability clause.',
+            effects: { ego: -5, reality: 8 },
+            failBeat: 'Clauses are for Santa and losers.' },
+          { kind: 'fail', label: 'Add a second waiver protecting the first waiver.',
+            effects: { ego: 5, reality: 4 }, counts: { waiversRenamed: 1 },
+            failBeat: 'Waiver insurance. Close. Genuinely close. But no — too responsible.' },
+          { kind: 'flatter', label: 'Say the seal brings out his signature.',
+            effects: { ego: 8 },
+            beat: 'My signature has range. Ask any settlement.' }
+        ] },
+      { t: 'beat', who: 'narrator', text: 'The document is legally decorative. Its gold seal outranks the lawyer.' }
+    ] },
+
+  { id: 10, title: 'The Departure', finale: true,
+    script: [
+      { t: 'beat', who: 'narrator', text: 'The ship is now completely empty. Every passenger has escaped. Every crew member has escaped. Every lifeboat is gone.' },
+      { t: 'beat', who: 'narrator', text: 'The ballroom doors swing open. The emergency exit glows twelve feet away. It has drifted. Everything drifts here.' },
+      { t: 'beat', who: 'biggly', text: 'The approval rating in this room is one hundred percent. Nobody here disagrees with me.' },
+      { t: 'doors', final: true },
+      { t: 'finale' }
+    ] }
+];
+
+/* Level 6 tile banks — assemble a staircase name Don Biggly can climb. */
+const L6_BANKS = [
+  { legend: 'Modifier', tiles: [
+    { w: 'EXECUTIVE', v: 7 }, { w: 'PRESIDENTIAL', v: 9 }, { w: 'PLATINUM', v: 8 },
+    { w: 'EMERGENCY', v: -12 }, { w: 'STANDARD', v: -5 } ] },
+  { legend: 'Movement', tiles: [
+    { w: 'VERTICAL DEPARTURE', v: 6 }, { w: 'ASCENSION', v: 7 }, { w: 'EGRESS', v: -2 },
+    { w: 'ESCAPE', v: -4 }, { w: 'STAIRS', v: -8 } ] },
+  { legend: 'Suffix', tiles: [
+    { w: 'EXPERIENCE', v: 6 }, { w: 'COLLECTION', v: 5 }, { w: 'PROTOCOL', v: -3 },
+    { w: 'SITUATION', v: -6 } ] }
+];
+const L6_REJECTIONS = [
+  { max: -1, line: 'That’s a punishment, not a staircase.' },
+  { max: 9,  line: 'I’ve stayed in better words.' },
+  { max: 17, line: 'Close. It needs more ceiling.' }
+];
+
+/* ---------- State ---------- */
+function freshState() {
+  return {
+    phase: 'title', level: 0, step: 0,
+    ego: CFG.egoStart, reality: CFG.realityStart, goldStars: CFG.stars,
+    struck: {}, flatterUse: {},
+    counters: { wrongPicks: 0, rebrands: 0, waiversRenamed: 0, giftShops: 0,
+                emergenciesMonetized: 0, goldStarsUsed: 0, leftDoorClicks: 0,
+                l6Result: null, startedAt: 0 },
+    calmSeas: false,
+    egoBand: 'mid', realityBand: 'mid',
+    l6: null, pendingUnlock: null
+  };
+}
+let state = freshState();
+
+/* ---------- DOM helpers ---------- */
+let lineIndex = 0;
+function addLine(who, text) {
+  const el = document.createElement('div');
+  el.className = 'line ' + who;
+  el.style.setProperty('--i', String(Math.min(lineIndex++, 4)));
+  const label = { narrator: 'Narrator', biggly: 'Don Biggly', crew: 'Crew', gag: 'Meanwhile', alarm: 'Alert' }[who] || who;
+  const whoEl = document.createElement('span');
+  whoEl.className = 'who';
+  whoEl.textContent = label;
+  const textEl = document.createElement('span');
+  textEl.textContent = text;
+  el.append(whoEl, textEl);
+  $('transcript').appendChild(el);
+  el.scrollIntoView({ block: 'nearest', behavior: prefersReduced() ? 'auto' : 'smooth' });
+  return el;
+}
+function clearInteraction() { $('interaction').replaceChildren(); $('controls').replaceChildren(); }
+function nextButton(label, fn) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'ghost'; b.textContent = label || 'Next ▸';
+  b.addEventListener('click', fn);
+  $('controls').replaceChildren(b);
+  b.focus();
+  return b;
+}
+function announce(msg) { $('announcer').textContent = ''; requestAnimationFrame(() => { $('announcer').textContent = msg; }); }
+let toastTimer = null;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function prefersReduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function showScreen(id, headingId) {
+  ['screen-title', 'screen-level', 'screen-score'].forEach((s) => { $(s).hidden = (s !== id); });
+  $('hud').hidden = (id === 'screen-title');
+  const h = $(headingId);
+  if (h) h.focus();
+}
+
+/* ---------- Meters ---------- */
+function clamp(n) { return Math.max(0, Math.min(100, Math.round(n))); }
+function applyEffects(fx) {
+  if (!fx) return;
+  if (fx.ego) state.ego = clamp(state.ego + fx.ego);
+  if (fx.reality) state.reality = clamp(state.reality + fx.reality);
+  renderMeters();
+  announceBands();
+}
+function renderMeters() {
+  $('egoFill').style.width = state.ego + '%';
+  $('realityFill').style.width = state.reality + '%';
+  $('egoBar').setAttribute('aria-valuenow', String(state.ego));
+  $('realityBar').setAttribute('aria-valuenow', String(state.reality));
+  $('egoVal').textContent = state.ego + ' / 100';
+  $('realityVal').textContent = state.reality + ' / 100';
+  $('meterEgoWrap').classList.toggle('warn', state.ego <= CFG.sulkAt || state.ego >= CFG.overflowAt);
+  $('meterRealityWrap').classList.toggle('warn', state.reality >= CFG.lockAt);
+  $('starCount').textContent = '★'.repeat(state.goldStars) + '☆'.repeat(CFG.stars - state.goldStars);
+  $('starBtn').disabled = !(state.goldStars > 0 && (realityLocked() || egoSulking()));
+}
+function egoSulking() { return state.ego <= CFG.sulkAt; }
+function realityLocked() { return state.reality >= CFG.lockAt; }
+function band(v, lowAt, highAt) { return v <= lowAt ? 'low' : v >= highAt ? 'high' : 'mid'; }
+function announceBands() {
+  const eb = band(state.ego, CFG.sulkAt, CFG.overflowAt);
+  const rb = band(state.reality, -1, CFG.lockAt);
+  if (eb !== state.egoBand) {
+    state.egoBand = eb;
+    if (eb === 'high') announce('Ego critical: ' + state.ego + ' of 100.');
+    if (eb === 'low') announce('Ego collapsed: ' + state.ego + ' of 100. He is sulking.');
+  }
+  if (rb !== state.realityBand) {
+    state.realityBand = rb;
+    if (rb === 'high') announce('Reality overload: ' + state.reality + ' of 100. He is immobile.');
+  }
+}
+
+/* Interrupts checked after every resolution. Returns true if one is playing. */
+function checkInterrupts(onDone) {
+  if (state.ego >= CFG.overflowAt) {
+    state.counters.giftShops += 1;
+    state.counters.emergenciesMonetized += 1;
+    const beats = state.counters.giftShops >= 2 ? GIFTSHOP_BEATS_2 : GIFTSHOP_BEATS;
+    beats.forEach((b) => addLine(b.who, b.text));
+    applyEffects(CFG.overflowEffect);
+    announce('Ego overflow. He opened a gift shop. Gift shops opened: ' + state.counters.giftShops + '.');
+    nextButton('Confiscate the register ▸', () => checkInterrupts(onDone) || onDone());
+    return true;
+  }
+  if (realityLocked()) {
+    addLine('biggly', LOCK_LINE);
+    addLine('narrator', 'He has stopped moving. Spend a Gold Star, or flatter him the hard way.');
+    renderMeters();
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'ghost';
+    b.textContent = 'Flatter him: “The ocean is jealous of your buoyancy.”';
+    b.addEventListener('click', () => {
+      addLine('biggly', 'It should be. I float at a very high level.');
+      applyEffects({ ego: 4, reality: -18 });
+      if (realityLocked()) { $('controls').replaceChildren(b); b.focus(); }
+      else if (!checkInterrupts(onDone)) onDone();
+    });
+    $('controls').replaceChildren(b); b.focus();
+    state.pendingUnlock = onDone;
+    return true;
+  }
+  state.pendingUnlock = null;
+  return false;
+}
+
+/* ---------- Gold star ---------- */
+function useGoldStar() {
+  if (state.goldStars <= 0) return;
+  state.goldStars -= 1;
+  state.counters.goldStarsUsed += 1;
+  applyEffects(CFG.starEffect);
+  toast(STAR_TOAST);
+  addLine('narrator', 'A Gold Star is presented. It is accepted as legal tender for feelings.');
+  if (state.l6 && state.l6.active) return;   // set-piece handles its own flow
+  document.querySelectorAll('.options').forEach(refreshChoiceLocks);
+  if (state.pendingUnlock && !realityLocked()) {
+    const cont = state.pendingUnlock; state.pendingUnlock = null;
+    if (!checkInterrupts(cont)) cont();
+  }
+}
+
+/* ---------- Step runner ---------- */
+function startLevel(i) {
+  state.level = i; state.step = 0; lineIndex = 0;
+  const lv = LEVELS[i];
+  $('levelKicker').textContent = 'Level ' + lv.id + ' of 10';
+  $('levelHeading').textContent = lv.title;
+  $('transcript').replaceChildren();
+  clearInteraction();
+  showScreen('screen-level', 'levelHeading');
+  announce('Level ' + lv.id + ': ' + lv.title + '.');
+  if (lv.onEnter) applyEffects(lv.onEnter);
+  runStep();
+}
+function advanceStep() {
+  state.step += 1;
+  runStep();
+}
+function runStep() {
+  const lv = LEVELS[state.level];
+  const step = lv.script[state.step];
+  clearInteraction();
+  if (!step) {
+    if (state.level + 1 < LEVELS.length) startLevel(state.level + 1);
+    else showScorecard();
+    return;
+  }
+  if (step.t === 'beat') {
+    addLine(step.who, step.text);
+    nextButton('Next ▸', advanceStep);
+  } else if (step.t === 'doors') {
+    renderDoors(step);
+  } else if (step.t === 'choice') {
+    renderChoice(step);
+  } else if (step.t === 'setpiece') {
+    renderSetpiece();
+  } else if (step.t === 'finale') {
+    renderFinale();
+  }
+}
+
+/* ---------- Doors ritual ---------- */
+function renderDoors(step) {
+  $('controls').replaceChildren();
+  const wrap = document.createElement('div');
+  wrap.className = 'doors';
+  wrap.setAttribute('role', 'group');
+  wrap.setAttribute('aria-label', 'Two doors');
+
+  const left = document.createElement('button');
+  left.type = 'button'; left.className = 'door left';
+  const lTag = document.createElement('span'); lTag.className = 'tag'; lTag.textContent = 'Left door';
+  const lName = document.createElement('span'); lName.className = 'name'; lName.textContent = 'EMERGENCY EXIT';
+  const lPrice = document.createElement('span'); lPrice.className = 'price'; lPrice.textContent = 'FREE';
+  left.append(lTag, lName, lPrice);
+
+  const right = document.createElement('button');
+  right.type = 'button'; right.className = 'door right';
+  const rTag = document.createElement('span'); rTag.className = 'tag'; rTag.textContent = 'Right door';
+  const rName = document.createElement('span'); rName.className = 'name';
+  rName.textContent = step.final ? 'THE BIGGLY GRAND DEPARTURE EXPERIENCE™' : 'PRESIDENTIAL PLATINUM DEPARTURE CLUB';
+  const rPrice = document.createElement('span'); rPrice.className = 'price'; rPrice.textContent = '$999';
+  right.append(rTag, rName, rPrice);
+
+  left.addEventListener('click', () => {
+    const n = state.counters.leftDoorClicks++;
+    const line = step.final && n >= 1 ? '“Still free. Disgusting.”'
+      : LEFT_REJECTIONS[n % LEFT_REJECTIONS.length];
+    addLine('biggly', line);
+    applyEffects({ ego: -2 });
+    right.classList.add('pulse');
+    announce('He refuses the free exit. Try the right door.');
+  });
+  right.addEventListener('click', () => {
+    if (step.final) {
+      addLine('narrator', 'He reaches for the handle—');
+      advanceStep();
+    } else {
+      addLine('biggly', 'Now that’s a door with revenue. Proceed.');
+      applyEffects({ ego: 2 });
+      advanceStep();
+    }
+  });
+
+  wrap.append(left, right);
+  $('interaction').replaceChildren(wrap);
+  left.focus();
+}
+
+/* ---------- Choices ---------- */
+function renderChoice(step) {
+  $('controls').replaceChildren();
+  const p = document.createElement('p');
+  p.className = 'prompt'; p.textContent = step.prompt;
+  const box = document.createElement('div');
+  box.className = 'options';
+  box.setAttribute('role', 'group');
+  box.setAttribute('aria-label', 'Your options');
+  if (!state.struck[step.id]) state.struck[step.id] = new Set();
+
+  step.options.forEach((opt, idx) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'option' + (opt.kind === 'flatter' ? ' flatter' : '');
+    const kick = document.createElement('span');
+    kick.className = 'opt-kicker';
+    kick.textContent = opt.kind === 'flatter' ? 'Flattery · repeatable' : 'Pitch';
+    const lbl = document.createElement('span');
+    lbl.textContent = opt.label;
+    b.append(kick, lbl);
+
+    if (state.struck[step.id].has(idx)) strikeOption(b, kick);
+
+    b.addEventListener('click', () => handleOption(step, opt, idx, b, kick, box));
+    box.appendChild(b);
+  });
+
+  $('interaction').replaceChildren(p, box);
+  const first = box.querySelector('button:not(:disabled)');
+  if (first) first.focus();
+  refreshChoiceLocks(box);
+}
+function strikeOption(btn, kick) {
+  btn.disabled = true;
+  btn.classList.add('struck');
+  kick.textContent = 'Struck from record';
+}
+function refreshChoiceLocks(box) {
+  const locked = realityLocked();
+  box.querySelectorAll('button.option').forEach((b) => {
+    if (b.classList.contains('struck') || b.classList.contains('flatter')) return;
+    b.classList.toggle('locked', locked);
+    b.setAttribute('aria-disabled', locked ? 'true' : 'false');
+  });
+}
+function handleOption(step, opt, idx, btn, kick, box) {
+  if (btn.classList.contains('struck')) return;
+
+  if (opt.kind !== 'flatter' && realityLocked()) {
+    addLine('biggly', LOCK_LINE);
+    announce('He is immobile. Reality is too high. Use flattery or a Gold Star.');
+    renderMeters();
+    return;
+  }
+  if (opt.kind === 'advance' && egoSulking()) {
+    addLine('biggly', SULK_LINES[state.counters.wrongPicks % SULK_LINES.length]);
+    announce('His ego is too low to accept instructions. Flatter him first.');
+    return;
+  }
+
+  if (opt.kind === 'flatter') {
+    const used = state.flatterUse[step.id] = (state.flatterUse[step.id] || 0) + 1;
+    const relief = CFG.flatterDecay[Math.min(used - 1, CFG.flatterDecay.length - 1)];
+    addLine('biggly', opt.beat);
+    applyEffects({ ego: opt.effects.ego || 0, reality: relief });
+    refreshChoiceLocks(box);
+    announce('Flattery accepted. Ego ' + state.ego + ', Reality ' + state.reality + '.');
+    return;
+  }
+
+  applyCounts(opt.counts);
+  applyEffects(opt.effects);
+
+  if (opt.kind === 'fail') {
+    state.counters.wrongPicks += 1;
+    state.struck[step.id].add(idx);
+    strikeOption(btn, kick);
+    addLine('biggly', opt.failBeat);
+    announce('Rejected. The option is struck from the record.');
+    refreshChoiceLocks(box);
+    if (checkInterrupts(() => renderChoice(step))) clearOptionsKeepControls();
+    return;
+  }
+
+  // advance
+  addLine('biggly', opt.react);
+  if (opt.gag) addLine('gag', opt.gag);
+  announce('Accepted. ' + opt.label);
+  $('interaction').replaceChildren();
+  if (!checkInterrupts(advanceStep)) nextButton('Next ▸', advanceStep);
+}
+function clearOptionsKeepControls() { $('interaction').replaceChildren(); }
+function applyCounts(counts) {
+  if (!counts) return;
+  Object.keys(counts).forEach((k) => { state.counters[k] = (state.counters[k] || 0) + counts[k]; });
+}
+
+/* ---------- Level 6 set-piece ---------- */
+function renderSetpiece() {
+  $('controls').replaceChildren();
+  applyEffects({ ego: -12 });
+  state.l6 = { active: true, picks: [null, null, null], timer: null, warned: {} };
+
+  const sp = document.createElement('div');
+  sp.className = 'setpiece';
+  sp.setAttribute('role', 'group');
+  sp.setAttribute('aria-label', 'Rapid rebranding console');
+
+  const head = document.createElement('div');
+  head.className = 'sp-head';
+  const title = document.createElement('p');
+  title.className = 'prompt';
+  title.style.marginTop = '0';
+  title.textContent = state.calmSeas
+    ? 'Rebrand the staircase before his ego runs out. Each pitch costs 4 Ego. Calm Seas: no timer.'
+    : 'Rebrand the staircase before his ego runs out. It is draining as he stares at the word EMERGENCY.';
+  const timerEl = document.createElement('span');
+  timerEl.className = 'sp-timer';
+  timerEl.id = 'spTimer';
+  timerEl.setAttribute('role', 'timer');
+  timerEl.setAttribute('aria-live', 'off');
+  timerEl.textContent = state.calmSeas ? 'TURN-BASED' : 'EGO DRAINING';
+  head.append(title, timerEl);
+  sp.appendChild(head);
+
+  const banks = document.createElement('div');
+  banks.className = 'banks';
+  L6_BANKS.forEach((bank, bi) => {
+    const fs = document.createElement('fieldset');
+    fs.className = 'bank';
+    const lg = document.createElement('legend');
+    lg.textContent = bank.legend;
+    fs.appendChild(lg);
+    const tiles = document.createElement('div');
+    tiles.className = 'tiles';
+    bank.tiles.forEach((tile, ti) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'tile';
+      b.setAttribute('aria-pressed', 'false');
+      b.textContent = tile.w;
+      b.addEventListener('click', () => {
+        state.l6.picks[bi] = (state.l6.picks[bi] === ti) ? null : ti;
+        tiles.querySelectorAll('.tile').forEach((t, i2) => t.setAttribute('aria-pressed', String(i2 === state.l6.picks[bi])));
+        updatePreview();
+      });
+      tiles.appendChild(b);
+    });
+    fs.appendChild(tiles);
+    banks.appendChild(fs);
+  });
+  sp.appendChild(banks);
+
+  const prev = document.createElement('div');
+  prev.className = 'preview'; prev.id = 'spPreview';
+  prev.setAttribute('aria-live', 'off');
+  prev.textContent = 'THE …';
+  sp.appendChild(prev);
+
+  const actions = document.createElement('div');
+  actions.className = 'sp-actions';
+  const commit = document.createElement('button');
+  commit.type = 'button'; commit.className = 'primary';
+  commit.style.marginTop = '0';
+  commit.textContent = 'Pitch It To Him';
+  commit.addEventListener('click', commitSetpiece);
+  actions.appendChild(commit);
+  sp.appendChild(actions);
+
+  $('interaction').replaceChildren(sp);
+  commit.focus();
+
+  if (!state.calmSeas) {
+    state.l6.timer = setInterval(() => {
+      state.ego = clamp(state.ego - CFG.l6.drainPerTick);
+      renderMeters();
+      if (state.ego <= 45 && !state.l6.warned.a) { state.l6.warned.a = true; announce('Ego at ' + state.ego + '. He is losing interest in survival.'); }
+      if (state.ego <= 30 && !state.l6.warned.b) { state.l6.warned.b = true; announce('Ego at ' + state.ego + '. Pitch something gold, fast.'); }
+      if (state.ego <= CFG.l6.floor) setpieceBail();
+    }, CFG.l6.drainMs);
+  }
+
+  function updatePreview() {
+    const words = state.l6.picks.map((p, i) => p === null ? '…' : L6_BANKS[i].tiles[p].w);
+    prev.textContent = 'THE ' + words.join(' ');
+  }
+}
+function setpieceSum() {
+  return state.l6.picks.reduce((sum, p, i) => sum + (p === null ? -10 : L6_BANKS[i].tiles[p].v), 0);
+}
+function stopSetpieceTimer() { if (state.l6 && state.l6.timer) { clearInterval(state.l6.timer); state.l6.timer = null; } }
+function commitSetpiece() {
+  if (!state.l6 || !state.l6.active) return;
+  const sum = setpieceSum();
+  const name = 'THE ' + state.l6.picks.map((p, i) => p === null ? '…' : L6_BANKS[i].tiles[p].w).join(' ');
+  if (state.calmSeas) applyEffects({ ego: -CFG.l6.calmCostPerCommit });
+
+  if (sum >= CFG.l6.acceptAt) {
+    stopSetpieceTimer();
+    state.l6.active = false;
+    state.counters.l6Result = state.counters.l6Result || 'clean';
+    state.counters.rebrands += 1;
+    state.ego = clamp(Math.min(state.ego + sum, CFG.l6.capAfter));
+    renderMeters();
+    addLine('biggly', '“' + name + '.” …I’ll allow it. Stairs have always respected me.');
+    announce('Accepted: ' + name + '. He climbs.');
+    $('interaction').replaceChildren();
+    if (!checkInterrupts(advanceStep)) nextButton('Next ▸', advanceStep);
+    return;
+  }
+
+  applyEffects({ ego: Math.max(sum, -8) });
+  const rej = L6_REJECTIONS.find((r) => sum <= r.max) || L6_REJECTIONS[L6_REJECTIONS.length - 1];
+  addLine('biggly', '“' + name + '?” ' + rej.line);
+  announce('Rejected. Try gold words.');
+  if (state.ego <= CFG.l6.floor) setpieceBail();
+}
+function setpieceBail() {
+  if (!state.l6 || !state.l6.active) return;
+  stopSetpieceTimer();
+  state.l6.active = false;
+  state.counters.l6Result = 'bailed';
+  if (state.goldStars > 0) {
+    state.goldStars -= 1;
+    state.counters.goldStarsUsed += 1;
+    addLine('narrator', 'A Gold Star is deployed under emergency flattery protocols.');
+    toast(STAR_TOAST);
+  } else {
+    addLine('crew', 'The staircase called you a visionary, sir.');
+    addLine('biggly', 'Obviously.');
+  }
+  state.ego = Math.max(state.ego, 30);
+  renderMeters();
+  addLine('narrator', 'He agrees to climb, provided everyone stops saying the E-word.');
+  announce('He climbs anyway. Ego restored to ' + state.ego + '.');
+  $('interaction').replaceChildren();
+  nextButton('Next ▸', advanceStep);
+}
+
+/* ---------- Finale + scorecard ---------- */
+function renderFinale() {
+  addLine('biggly', 'Wait. Unlimited seating. Zero dissent. Do you know what this room is worth now?');
+  nextButton('No. No no no. ▸', () => {
+    addLine('narrator', 'The evacuation is cancelled. A banner descends, because a banner was standing by.');
+    state.ego = 100; state.reality = 5; renderMeters();
+    nextButton('Watch the banner descend ▾', showScorecard);
+  });
+}
+function fmtMoney(n) { return n.toLocaleString('en-US'); }
+function scoreLines() {
+  const c = state.counters;
+  const brand = Math.max(88000000, 94000000 - 1000000 * c.wrongPicks + 2500000 * c.giftShops);
+  const mins = Math.max(0, Math.round((Date.now() - c.startedAt) / 60000));
+  const rows = [
+    ['Biggly brand value', fmtMoney(brand)],
+    ['Actual distance from exit', '3 FEET'],
+    ['Ego', 'MAXIMUM'],
+    ['Reality', 'MUTED'],
+    ['Lawyers remaining', '1'],
+    ['Waivers renamed', String(13 + c.waiversRenamed)],
+    ['Gift shops opened', String(5 + c.giftShops)],
+    ['Emergencies monetized', String(7 + c.emergenciesMonetized)],
+    ['Rebrands accepted', String(c.rebrands)],
+    ['Free exits refused', String(c.leftDoorClicks)],
+    ['Gold stars spent', c.goldStarsUsed + ' / ' + CFG.stars],
+    ['Voyage duration', mins + ' min'],
+    ['Staircase incident', c.l6Result === 'bailed' ? 'RESOLVED BY FLATTERY' : 'REBRANDED ON MERIT'],
+    ['Problems solved', '0']
+  ];
+  return rows;
+}
+function showScorecard() {
+  stopSetpieceTimer();
+  const dl = $('scoreRows');
+  dl.replaceChildren();
+  scoreLines().forEach(([k, v]) => {
+    const row = document.createElement('div'); row.className = 'row';
+    const dt = document.createElement('dt'); dt.textContent = k;
+    const dd = document.createElement('dd'); dd.textContent = v;
+    row.append(dt, dd); dl.appendChild(row);
+  });
+  showScreen('screen-score', 'scoreHeading');
+  announce('Voyage complete. Sold out, zero dissent. Total victory. Problems solved: zero.');
+}
+function shareText() {
+  const lines = scoreLines().map(([k, v]) => k.toUpperCase() + ': ' + v);
+  return 'DON BIGGLY’S TREMENDOUS EXIT STRATEGY — FINAL SCORE\n'
+    + 'SOLD OUT — ZERO DISSENT\n\n' + lines.join('\n')
+    + '\n\nTOTAL VICTORY\nPlay it: ' + CFG.siteUrl;
+}
+function copyScorecard() {
+  const text = shareText();
+  const done = () => toast('Scorecard copied. Distribute the victory.');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed'; ta.style.left = '-9999px';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { toast('Copy failed. Select it manually, like a lawyer.'); }
+  document.body.removeChild(ta);
+}
+
+/* ---------- Boot ---------- */
+function startGame() {
+  state = freshState();
+  state.calmSeas = $('calmSeas').checked || prefersReduced();
+  state.counters.startedAt = Date.now();
+  renderMeters();
+  startLevel(0);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  if (prefersReduced()) $('calmSeas').checked = true;
+  $('btnStart').addEventListener('click', startGame);
+  $('btnReplay').addEventListener('click', () => { startGame(); });
+  $('btnShare').addEventListener('click', copyScorecard);
+  $('starBtn').addEventListener('click', useGoldStar);
+  renderMeters();
+});
+</script>
+</body>
+</html>
