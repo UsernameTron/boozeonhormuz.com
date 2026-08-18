@@ -1,13 +1,14 @@
 ---
-// Primary navigation. Evidence Lounge is the spine — emphasized.
+// Primary navigation. The Album is the center of gravity — emphasized.
+// Legacy world-building routes (Evidence Lounge, Products, …) live in the Footer.
 const links = [
-  { href: '/evidence-lounge', label: 'Evidence Lounge', primary: true },
+  { href: '/album', label: 'Album', primary: true },
   { href: '/watch', label: 'Watch' },
-  { href: '/products', label: 'Products' },
-  { href: '/sponsor-reads', label: 'Sponsor Reads' },
-  { href: '/quotes', label: 'Quotes' },
-  { href: '/tools', label: 'Tools' },
-  { href: '/about', label: 'About' },
+  { href: '/listen', label: 'Listen' },
+  { href: '/archive', label: 'Archive' },
+  { href: '/experience', label: 'Experience' },
+  { href: '/studio', label: 'Studio' },
+  { href: '/press', label: 'Press' },
 ];
 const path = Astro.url.pathname;
 const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));

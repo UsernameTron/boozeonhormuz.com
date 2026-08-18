@@ -18,7 +18,7 @@ const {
 
 // Absolute canonical + OG image URLs (crawlers require absolute).
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const OG_ROUTES = new Set(['evidence-lounge', 'watch', 'products', 'sponsor-reads', 'quotes', 'about', 'legal']);
+const OG_ROUTES = new Set(['album', 'listen', 'archive', 'studio', 'press', 'evidence-lounge', 'watch', 'products', 'sponsor-reads', 'quotes', 'about', 'legal']);
 const slug = Astro.url.pathname.replace(/^\/+|\/+$/g, '');
 const ogImage = new URL(OG_ROUTES.has(slug) ? `/open-graph/${slug}.png` : '/og-home.jpg', Astro.site).href;
 

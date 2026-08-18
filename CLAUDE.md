@@ -4,31 +4,43 @@ Project governance for the Booze on Hormuz satire hub. Read before making change
 
 ## What this is
 
-A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. Surface: satirical luxury brand. Underneath: the content archive for the *Who the Hell Is Don Biggly?* sketch series. **Content rollout in progress** — the Evidence Lounge holds 7 live exhibits (4 `titlecard` + 3 `gallery`, all `draft: false`); `/products` and `/sponsor-reads` render inline image-driven grids (data arrays in the page frontmatter, not collections); `/watch` shows a featured YouTube premiere embed as its empty state. The episodes and quotes collections remain empty until populated.
+A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. **Media-first since the makeover:** the site is the permanent home of the whole project — the album, music videos, performances, shorts, artwork — plus one quiet commercial door (`/studio`). The original timeshare-trope landing page is preserved intact at `/experience` as part of the world. The media collections (albums/tracks/videos/images) are the publishing system: dropping one track file populates `/album`, `/listen`, `/archive`, the homepage, and its own page — no album-completion dependency anywhere (see `docs/CONTENT-MODEL.md`). **Content rollout in progress** — the Evidence Lounge holds 7 live exhibits (4 `titlecard` + 3 `gallery`, all `draft: false`) which also seed the homepage Visual Evidence grid and `/archive`; `/products` and `/sponsor-reads` render inline image-driven grids (data arrays in the page frontmatter, not collections); `/watch` shows a featured YouTube premiere embed as its empty state. The albums collection holds the live album shell; tracks/videos/images/episodes/quotes fill as work is finished.
 
 ## Deployment — Astro pipeline ONLY (critical)
 
 The live site is built by `.github/workflows/deploy.yml` (`withastro/action@v6` → `astro build` → deploys `dist/`). **Files at the repo root never ship** — only `src/pages/` routes and `public/` assets. The deployed `CNAME` is `public/CNAME` (the root copy is vestigial). The untracked `DEPLOY.md` describes a plain push-the-HTML workflow that does NOT apply here; `extras/` (gitignored) holds v1/v2 reference copies of the standalone landing page — never deploy them.
 
-**Homepage exception:** the homepage is `src/pages/index.html` — a raw HTML page (Astro serves `.html` pages verbatim: no scoped styles, no script bundling), NOT a BaseLayout page. It is the ported "v3 full-scam" standalone landing page (timeshare-trope satire: countdown bar, qualification quiz, financing calculator, Brigadier Dakota chat, exit-intent modal, sticky 1-800-BIG-BRINK bar). Its footer parody disclaimer + all-caps solicitation block are **load-bearing — keep both** (homepage-only exception to the "disclaimer renders from BaseLayout" rule, since it doesn't use BaseLayout). Its Don imagery ships as `public/don-biggly.webp` + `public/don-biggly-poster.webp` (extracted from the original's embedded base64). Future homepage drops arriving as standalone HTML must be ported the same way: externalize embedded images, swap dead-end anchors for real routes (`/watch`, `/evidence-lounge`), keep head canonical/OG tags.
+**The Experience exception (was the homepage):** `src/pages/experience.html` — a raw HTML page (Astro serves `.html` pages verbatim: no scoped styles, no script bundling), NOT a BaseLayout page. It is the ported "v3 full-scam" standalone landing page (timeshare-trope satire: countdown bar, qualification quiz, financing calculator, Brigadier Dakota chat, exit-intent modal, sticky 1-800-BIG-BRINK bar), moved from the root during the media-first makeover and preserved as an artifact — **never delete or "modernize" it**. Its footer parody disclaimer + all-caps solicitation block are **load-bearing — keep both** (only-page exception to the "disclaimer renders from BaseLayout" rule, since it doesn't use BaseLayout). Its Don imagery ships as `public/don-biggly.webp` + `public/don-biggly-poster.webp` (extracted from the original's embedded base64). Future standalone-HTML drops must be ported the same way: externalize embedded images, swap dead-end anchors for real routes, keep head canonical/OG tags pointed at their own route. The homepage proper is now `src/pages/index.astro` — a BaseLayout media-first trailer for the archive.
 
 ## Architecture
 
 ```
-src/content.config.ts   5 Zod-typed collections (episodes, products, sponsors,
-                         evidence [polymorphic], quotes [YAML data])
+src/content.config.ts   9 Zod-typed collections: episodes, products, sponsors,
+                         evidence [polymorphic], quotes [YAML data] + the media library —
+                         albums ← tracks ← videos/images (references; status-gated rollout)
+src/lib/media.ts        media-library helpers: status filters, type labels, ISO durations
 src/layouts/BaseLayout   global shell; renders <Nav/> + <Footer/> (disclaimer never per-page)
 src/components/          Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard (polymorphic),
-                         EpisodeCard, ProductCard, QuoteCard, SponsorRead
-src/pages/               / (index.html — raw HTML v3 landing page, see Deployment) ·
-                         /evidence-lounge (spine) · /watch + /watch/[slug] ·
-                         /products + /products/[slug] · /sponsor-reads · /quotes · /about · /legal ·
+                         EpisodeCard, ProductCard, QuoteCard, SponsorRead + media-first set:
+                         MediaThumb (img-or-placeholder), WatchCard, TrackRow, AudioTrack
+src/pages/               / (index.astro — media-first trailer: hero → album → featured film →
+                         performance → listen → visual evidence → experience door → studio strip) ·
+                         /album + /album/[slug] (track pages) · /watch + /watch/[slug] (videos +
+                         legacy episodes, client-side filters, VideoObject JSON-LD) · /listen ·
+                         /archive (all media + evidence exhibits, filterable) ·
+                         /experience (experience.html — the preserved v3 landing page) ·
+                         /studio (real contact, mailto-composed) · /press ·
+                         /evidence-lounge · /products + /products/[slug] · /sponsor-reads ·
+                         /quotes · /about · /legal ·
                          /tools (hub) + /tools/broadcast-room + /tools/evidence-lounge-studio + /tools/safety
 src/pages/open-graph/    [...route].ts — generates per-page OG card images via astro-og-canvas
 src/styles/global.css    Tailwind 4 entry + locked @theme brand tokens (Checkpoint B)
 public/apps/             standalone visitor prompt-generator tools (broadcast-room.html,
                          evidence-lounge-studio.html); embedded via <iframe> by /tools pages
+public/audio|covers|stills|thumbs|video/  web-delivery media (masters live OUTSIDE git —
+                          see docs/CONTENT-MODEL.md for the three-layer rule)
 public/CNAME             apex-domain marker — MUST ship in dist/
+docs/CONTENT-MODEL.md    the publishing procedure: add a track/video/image, status lifecycle
 astro.config.mjs         site=apex (NO base), output:static, sitemap() integration; tailwind
                          plugin cast to `any` to bridge @tailwindcss/vite↔Astro Vite type skew
 .github/workflows/       deploy.yml (push main → withastro/action@v6 → Pages) +
@@ -40,12 +52,18 @@ boozeonhormuz_don_biggly_knowledge_files (2)/  tracked Don Biggly knowledge file
                           visual-production guides) — content-factory inputs, not site code
 ```
 
-**Content sourcing is split:** evidence/episodes/quotes use the Zod-typed collections;
-products and sponsor-reads use **inline typed arrays in the page frontmatter** (image-driven
-grids; `image` optional — a missing/failed image renders a fixed-ratio placeholder so layout
-never breaks). To add a product/sponsor: drop an optimized WebP into `public/products/` or
-`public/sponsors/` and add an array entry. Empty collections ⇒ `getCollection` filters
-`!draft`; dynamic `[slug]` routes emit nothing; routes render deadpan empty states.
+**Content sourcing is split:** the media library (albums/tracks/videos/images) plus
+evidence/episodes/quotes use the Zod-typed collections; products and sponsor-reads use
+**inline typed arrays in the page frontmatter** (image-driven grids; `image` optional — a
+missing/failed image renders a fixed-ratio placeholder so layout never breaks; `MediaThumb`
+gives the media pages the same contract). To add a product/sponsor: drop an optimized WebP
+into `public/products/` or `public/sponsors/` and add an array entry. To add a
+track/video/image: follow `docs/CONTENT-MODEL.md` — track `status`
+(`unreleased`/`preview`/`released`/`hidden`) gates rollout, so the album ships unfinished by
+design. Empty collections ⇒ `getCollection` filters `!draft`; dynamic `[slug]` routes emit
+nothing; routes render deadpan empty states. **Interface rule (makeover):** the content can
+be deranged, the interface cannot — nav, playback, filters, and the /studio contact form
+behave totally normally; the only fake sales mechanics live inside `/experience`.
 **Local cache gotcha:** Astro 6's content store is `node_modules/.astro/data-store.json` —
 clearing project `.astro/` is NOT enough; `rm -rf node_modules/.astro` for a clean local
 content-free build. (CI is unaffected — `npm ci` wipes `node_modules`.)

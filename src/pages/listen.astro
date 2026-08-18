@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import AudioTrack from '../components/AudioTrack.astro';
+import { playableTracks } from '../lib/media';
+
+// Every playable track, featured first. The player is deliberately boring —
+// the comedy lives in the songs.
+const playable = playableTracks(await getCollection('tracks'));
+const ordered = [...playable.filter((t) => t.data.featured), ...playable.filter((t) => !t.data.featured)];
+---
+
+<BaseLayout
+  title="Listen — Booze on Hormuz™"
+  description="Tracks and audio from the Booze on Hormuz album — musical satire, streaming as it's finished."
+>
+  <PageHeader eyebrow="The audio record" title="Listen" />
+
+  <section class="px-6 pb-28 max-w-4xl mx-auto">
+    {
+      ordered.length === 0 ? (
+        <Fragment>
+          <p class="font-display text-title text-ink max-w-2xl">
+            The first tracks are in the mastering suite behind a very gold door. When they clear
+            the console, they stream here first — no launch event, no waiting for the album to be
+            finished, no permission asked.
+          </p>
+          <p class="font-body text-ink-soft mt-6">
+            Meanwhile, the <a href="/watch" class="text-gold-ink hover:opacity-80">screening room</a> is open.
+          </p>
+        </Fragment>
+      ) : (
+        <div class="grid gap-5">
+          {ordered.map((t) => (
+            <AudioTrack
+              title={t.data.title}
+              slug={t.data.slug}
+              cover={t.data.cover}
+              audio={t.data.audio}
+              duration={t.data.duration}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

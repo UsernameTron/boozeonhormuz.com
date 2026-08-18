@@ -1,0 +1,36 @@
+---
+// One tracklist row. Released/preview tracks link to their page; unreleased
+// tracks render as locked rows — the album is designed to be visibly unfinished.
+interface Props {
+  trackNumber: number;
+  title: string;
+  slug: string;
+  status: 'unreleased' | 'preview' | 'released' | 'hidden';
+  duration?: string;
+}
+const { trackNumber, title, slug, status, duration } = Astro.props;
+const playable = status === 'preview' || status === 'released';
+const number = String(trackNumber).padStart(2, '0');
+---
+
+{
+  playable ? (
+    <a
+      href={`/album/${slug}`}
+      class="flex items-baseline gap-4 px-4 py-3 border-b border-line/40 hover:bg-charcoal transition-colors group"
+    >
+      <span class="font-body text-sm text-gold-ink tabular-nums">{number}</span>
+      <span class="font-display text-lg text-ink flex-1 group-hover:text-gold-ink transition-colors">{title}</span>
+      {status === 'preview' && (
+        <span class="font-body text-eyebrow uppercase text-ink-soft/70">Preview</span>
+      )}
+      <span class="font-body text-sm text-ink-soft tabular-nums">{duration ?? ''}</span>
+    </a>
+  ) : (
+    <div class="flex items-baseline gap-4 px-4 py-3 border-b border-line/40 opacity-50" aria-label={`Track ${number}: ${title} — unreleased`}>
+      <span class="font-body text-sm text-gold-ink tabular-nums">{number}</span>
+      <span class="font-display text-lg text-ink flex-1">{title}</span>
+      <span class="font-body text-eyebrow uppercase text-ink-soft/70">Unreleased</span>
+    </div>
+  )
+}

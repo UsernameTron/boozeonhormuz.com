@@ -1,0 +1,26 @@
+---
+import MediaThumb from './MediaThumb.astro';
+
+// One card per watchable thing — video collection entries and legacy episodes
+// both render through this so /watch stays one consistent grid.
+interface Props {
+  href: string;
+  title: string;
+  typeLabel: string; // 'Music Video' | 'Performance' | 'Sketch' | 'Short' | 'Episode'
+  thumbnail?: string;
+  duration?: string;
+  trackTitle?: string;
+}
+const { href, title, typeLabel, thumbnail, duration, trackTitle } = Astro.props;
+---
+
+<a href={href} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
+  <MediaThumb src={thumbnail} alt={title} play />
+  <div class="p-4">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">
+      {typeLabel}{duration && <span class="text-ink-soft/70 normal-case tracking-normal"> · {duration}</span>}
+    </p>
+    <h3 class="font-display text-xl text-ink mt-1 group-hover:text-gold-ink transition-colors">{title}</h3>
+    {trackTitle && <p class="font-body text-sm text-ink-soft/80 mt-1">From “{trackTitle}”</p>}
+  </div>
+</a>
