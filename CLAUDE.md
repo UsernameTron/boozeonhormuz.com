@@ -29,14 +29,17 @@ src/pages/               / (index.astro — media-first trailer: hero → album 
                          legacy episodes, client-side filters, VideoObject JSON-LD) · /listen ·
                          /archive (all media + evidence exhibits, filterable) ·
                          /experience (experience.html — the preserved v3 landing page) ·
+                         /play (iframe-hosted browser game, see public/apps/) ·
                          /studio (real contact, mailto-composed) · /press ·
                          /evidence-lounge · /products + /products/[slug] · /sponsor-reads ·
                          /quotes · /about · /legal ·
                          /tools (hub) + /tools/broadcast-room + /tools/evidence-lounge-studio + /tools/safety
 src/pages/open-graph/    [...route].ts — generates per-page OG card images via astro-og-canvas
 src/styles/global.css    Tailwind 4 entry + locked @theme brand tokens (Checkpoint B)
-public/apps/             standalone visitor prompt-generator tools (broadcast-room.html,
-                         evidence-lounge-studio.html); embedded via <iframe> by /tools pages
+public/apps/             standalone visitor apps: prompt-generator tools (broadcast-room.html,
+                         evidence-lounge-studio.html; iframed by /tools pages) + the browser
+                         game (exit-strategy.html; iframed by /play) — all browser-only,
+                         no backend/API key/localStorage
 public/audio|covers|stills|thumbs|video/  web-delivery media (masters live OUTSIDE git —
                           see docs/CONTENT-MODEL.md for the three-layer rule)
 public/CNAME             apex-domain marker — MUST ship in dist/
