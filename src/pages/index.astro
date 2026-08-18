@@ -23,9 +23,11 @@ const videos = liveVideos(await getCollection('videos'));
 const images = liveImages(await getCollection('images'));
 
 const albumPreviewTracks = tracks.slice(0, 4);
-const featuredFilm =
-  videos.find((v) => v.data.featured && v.data.type === 'music-video') ??
-  videos.find((v) => v.data.type === 'music-video');
+// The hero video is the front door; the Featured Film slot shows the NEXT
+// film so the homepage never plays the same thing twice.
+const heroVideo = videos.find((v) => v.data.hero);
+const films = videos.filter((v) => v.data.type === 'music-video' && !v.data.hero);
+const featuredFilm = films.find((v) => v.data.featured) ?? films[0];
 const performances = videos.filter((v) => v.data.type === 'performance').slice(0, 3);
 const listenTracks = [
   ...playable.filter((t) => t.data.featured),
@@ -75,11 +77,31 @@ const visualGrid =
       fetchpriority="high"
     />
     <div class="absolute inset-0 bg-gradient-to-b from-paper/40 via-paper/60 to-paper"></div>
-    <div class="relative px-6 pt-24 pb-20 md:pt-36 md:pb-28 max-w-4xl mx-auto text-center">
+    <div
+      class:list={[
+        'relative px-6 max-w-4xl mx-auto text-center',
+        heroVideo ? 'pt-14 pb-14 md:pt-20 md:pb-20' : 'pt-24 pb-20 md:pt-36 md:pb-28',
+      ]}
+    >
       <h1 class="font-display text-display metal-gold">Booze on Hormuz</h1>
       <p class="font-body text-lg md:text-xl text-ink-soft mt-6 max-w-xl mx-auto">
         Musical satire. Performance. Video. Very questionable hospitality.
       </p>
+      {
+        heroVideo && (
+          <div class="mt-10 max-w-3xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-line">
+            {heroVideo.data.youtubeId ? (
+              <YouTubeEmbed id={heroVideo.data.youtubeId} title={heroVideo.data.title} />
+            ) : (
+              heroVideo.data.src && (
+                <video controls preload="metadata" src={heroVideo.data.src} poster={heroVideo.data.thumbnail} class="w-full aspect-video">
+                  Your browser does not support video playback.
+                </video>
+              )
+            )}
+          </div>
+        )
+      }
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a
           href="/watch"
@@ -144,36 +166,43 @@ const visualGrid =
     )
   }
 
-  <!-- C. FEATURED FILM -->
-  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
-    <p class="font-body text-eyebrow uppercase text-gold-ink">Featured Film</p>
-    {
-      featuredFilm ? (
-        <div class="mt-6">
-          <a href={`/watch/${featuredFilm.data.slug}`} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
-            <MediaThumb src={featuredFilm.data.thumbnail} alt={featuredFilm.data.title} play />
-          </a>
-          <h2 class="font-display text-title text-ink mt-4">
-            <a href={`/watch/${featuredFilm.data.slug}`} class="hover:text-gold-ink transition-colors">
-              {featuredFilm.data.title}
+  <!-- C. FEATURED FILM — the NEXT film (the hero already plays up top);
+       with no hero video set, the premiere embed stands in here instead. -->
+  {
+    (featuredFilm || !heroVideo) && (
+      <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">Featured Film</p>
+        {featuredFilm ? (
+          <div class="mt-6">
+            <a href={`/watch/${featuredFilm.data.slug}`} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
+              <MediaThumb
+                src={featuredFilm.data.thumbnail ?? (featuredFilm.data.youtubeId ? `https://i.ytimg.com/vi/${featuredFilm.data.youtubeId}/hqdefault.jpg` : undefined)}
+                alt={featuredFilm.data.title}
+                play
+              />
             </a>
-          </h2>
-        </div>
-      ) : (
-        <div class="mt-6">
-          <h2 class="font-display text-title text-ink">The Premiere</h2>
-          <div class="mt-4">
-            <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — premiere" />
+            <h2 class="font-display text-title text-ink mt-4">
+              <a href={`/watch/${featuredFilm.data.slug}`} class="hover:text-gold-ink transition-colors">
+                {featuredFilm.data.title}
+              </a>
+            </h2>
           </div>
-        </div>
-      )
-    }
-    <p class="mt-4">
-      <a href="/watch" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
-        More films &rarr;
-      </a>
-    </p>
-  </section>
+        ) : (
+          <div class="mt-6">
+            <h2 class="font-display text-title text-ink">The Premiere</h2>
+            <div class="mt-4">
+              <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — premiere" />
+            </div>
+          </div>
+        )}
+        <p class="mt-4">
+          <a href="/watch" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
+            More films &rarr;
+          </a>
+        </p>
+      </section>
+    )
+  }
 
   <!-- D. PERFORMANCE -->
   <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">

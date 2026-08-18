@@ -128,6 +128,7 @@ const videos = defineCollection({
     transcript: z.string().optional(),
     orientation: z.enum(['16:9', '9:16', '1:1']).default('16:9'),
     featured: z.boolean().default(false), // homepage Featured Film / Performance slots
+    hero: z.boolean().default(false), // THE homepage hero video — flag exactly one
     publishDate: z.coerce.date(),
     draft: z.boolean().default(true),
   }),

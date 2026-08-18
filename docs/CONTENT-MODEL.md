@@ -97,6 +97,7 @@ duration: "3:14"
 description: "Unique one-paragraph description (video-SEO)."
 transcript: ""              # paste captions text when available
 featured: true
+hero: false                 # `hero: true` on exactly ONE video = the homepage hero player
 publishDate: 2026-09-01
 draft: false
 ---
