@@ -1,0 +1,166 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+
+// The revenue page. Critical separation from the rest of the site: the comedy
+// stays inside /experience — everything here, especially the contact form, is
+// real and behaves normally. No fake qualification mechanics.
+
+// Monitored studio inbox. The form composes an email in the visitor's own
+// mail client — no backend, no data stored, consistent with the site's
+// browser-only stance.
+const STUDIO_EMAIL = 'imbeddedjournalist@gmail.com';
+
+// TODO(owner): set to the 60–90s studio reel's YouTube id when it's cut.
+// Empty = the premiere stands in as the interim reel.
+const REEL_YOUTUBE_ID = '';
+
+const capabilities = [
+  'Concept & writing',
+  'Original music',
+  'Performance',
+  'Music video',
+  'Short-form clips',
+  'Campaign artwork',
+];
+
+const examples = [
+  {
+    href: '/watch',
+    title: 'The films',
+    note: 'Full musical-comedy production — writing, performance, and video as one finished package.',
+  },
+  {
+    href: '/evidence-lounge',
+    title: 'The Evidence Lounge',
+    note: 'A complete visual world: title cards, fake ads, and gallery artwork with one readable joke per frame.',
+  },
+  {
+    href: '/experience',
+    title: 'The Experience',
+    note: 'An entire satirical sales funnel — qualification quiz, financing calculator, live chat — built end to end.',
+  },
+];
+---
+
+<BaseLayout
+  title="Studio — Booze on Hormuz™"
+  description="Original musical comedy turned into finished media — concept, songs, performance, video, and campaign creative, built for your audience."
+>
+  <PageHeader eyebrow="The serious door" title="Studio" />
+
+  <section class="px-6 pb-28 max-w-4xl mx-auto">
+    <p class="font-display text-title text-ink max-w-2xl">
+      Original musical comedy, turned into finished media.
+    </p>
+    <p class="font-body text-ink-soft mt-4 max-w-prose">
+      Everything on this site — the songs, the films, the artwork, the entire resort — was
+      written, performed, and produced as one package. If you want that kind of thing built for
+      your audience, this is the door.
+    </p>
+
+    <div class="mt-10">
+      {
+        REEL_YOUTUBE_ID ? (
+          <YouTubeEmbed id={REEL_YOUTUBE_ID} title="Booze on Hormuz studio reel" />
+        ) : (
+          <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — the work, in ninety seconds or so" />
+        )
+      }
+    </div>
+
+    <h2 class="font-display text-xl text-ink mt-14">Three examples</h2>
+    <div class="grid sm:grid-cols-3 gap-5 mt-5">
+      {
+        examples.map((e) => (
+          <a href={e.href} class="group block card-marble border border-line rounded-xl p-5 hover:border-gold transition-colors">
+            <h3 class="font-display text-lg text-ink group-hover:text-gold-ink transition-colors">{e.title}</h3>
+            <p class="font-body text-sm text-ink-soft mt-2">{e.note}</p>
+          </a>
+        ))
+      }
+    </div>
+
+    <h2 class="font-display text-xl text-ink mt-14">What the studio does</h2>
+    <ul class="flex flex-wrap gap-3 mt-5">
+      {
+        capabilities.map((c) => (
+          <li class="font-body text-sm uppercase tracking-[0.1em] border border-line/60 text-ink-soft px-4 py-2 rounded-sm">
+            {c}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="font-display text-xl text-ink mt-14">Start a conversation</h2>
+    <p class="font-body text-sm text-ink-soft mt-2 max-w-prose">
+      This form is real. It opens a pre-filled email in your own mail app — nothing is stored on
+      this site. Or write directly: <a href={`mailto:${STUDIO_EMAIL}`} class="text-gold-ink hover:opacity-80">{STUDIO_EMAIL}</a>
+    </p>
+
+    <form id="studio-form" class="mt-6 grid gap-4 max-w-xl" data-email={STUDIO_EMAIL}>
+      <label class="grid gap-1.5">
+        <span class="font-body text-sm text-ink-soft">Name</span>
+        <input name="name" required class="bg-charcoal border border-line/60 rounded-sm px-3 py-2.5 font-body text-ink focus:border-gold outline-none" />
+      </label>
+      <label class="grid gap-1.5">
+        <span class="font-body text-sm text-ink-soft">Company / project</span>
+        <input name="company" class="bg-charcoal border border-line/60 rounded-sm px-3 py-2.5 font-body text-ink focus:border-gold outline-none" />
+      </label>
+      <label class="grid gap-1.5">
+        <span class="font-body text-sm text-ink-soft">Email</span>
+        <input name="email" type="email" required class="bg-charcoal border border-line/60 rounded-sm px-3 py-2.5 font-body text-ink focus:border-gold outline-none" />
+      </label>
+      <label class="grid gap-1.5">
+        <span class="font-body text-sm text-ink-soft">What are you trying to make?</span>
+        <textarea name="brief" rows="4" required class="bg-charcoal border border-line/60 rounded-sm px-3 py-2.5 font-body text-ink focus:border-gold outline-none"></textarea>
+      </label>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <label class="grid gap-1.5">
+          <span class="font-body text-sm text-ink-soft">Budget range</span>
+          <select name="budget" class="bg-charcoal border border-line/60 rounded-sm px-3 py-2.5 font-body text-ink focus:border-gold outline-none">
+            <option value="">Prefer not to say yet</option>
+            <option>Under $5k</option>
+            <option>$5k–$15k</option>
+            <option>$15k–$50k</option>
+            <option>$50k+</option>
+          </select>
+        </label>
+        <label class="grid gap-1.5">
+          <span class="font-body text-sm text-ink-soft">Target date</span>
+          <input name="date" type="text" placeholder="e.g. Q1, a launch, 'someday'" class="bg-charcoal border border-line/60 rounded-sm px-3 py-2.5 font-body text-ink placeholder:text-ink-soft/40 focus:border-gold outline-none" />
+        </label>
+      </div>
+      <button
+        type="submit"
+        class="justify-self-start font-body uppercase tracking-[0.1em] bg-stamp text-ink px-8 py-3.5 rounded-sm hover:opacity-90 transition-opacity"
+      >
+        Compose the email
+      </button>
+    </form>
+
+    <script>
+      // Composes a mailto draft from the form — browser-only, nothing stored.
+      const form = document.getElementById('studio-form') as HTMLFormElement | null;
+      form?.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        const data = new FormData(form);
+        const get = (k: string) => String(data.get(k) ?? '').trim();
+        const body = [
+          `Name: ${get('name')}`,
+          `Company/project: ${get('company') || '—'}`,
+          `Reply-to: ${get('email')}`,
+          `Budget range: ${get('budget') || '—'}`,
+          `Target date: ${get('date') || '—'}`,
+          '',
+          'What we are trying to make:',
+          get('brief'),
+        ].join('\n');
+        const subject = `Studio inquiry — ${get('name')}${get('company') ? ` (${get('company')})` : ''}`;
+        const to = form.dataset.email;
+        window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      });
+    </script>
+  </section>
+</BaseLayout>

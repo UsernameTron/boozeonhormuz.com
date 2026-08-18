@@ -1,0 +1,35 @@
+---
+import MediaThumb from './MediaThumb.astro';
+
+// Compact listen row — cover, title, native audio controls. The interface is
+// deliberately normal; the comedy lives in the material, not the player.
+interface Props {
+  title: string;
+  slug: string;
+  cover?: string;
+  audio?: string;
+  duration?: string;
+}
+const { title, slug, cover, audio, duration } = Astro.props;
+---
+
+<article class="card-marble border border-line rounded-xl overflow-hidden shadow-lg flex flex-col sm:flex-row">
+  <a href={`/album/${slug}`} class="block sm:w-36 shrink-0">
+    <MediaThumb src={cover} alt={`Cover art for ${title}`} aspect="aspect-square" />
+  </a>
+  <div class="p-4 flex-1 min-w-0">
+    <a href={`/album/${slug}`} class="font-display text-xl text-ink hover:text-gold-ink transition-colors">
+      {title}
+    </a>
+    {duration && <span class="font-body text-sm text-ink-soft tabular-nums ml-2">{duration}</span>}
+    {
+      audio ? (
+        <audio controls preload="none" src={audio} class="w-full mt-3">
+          Your browser does not support audio playback.
+        </audio>
+      ) : (
+        <p class="font-body text-sm text-ink-soft/70 italic mt-3">Audio arriving shortly. The mastering suite has excellent catering.</p>
+      )
+    }
+  </div>
+</article>

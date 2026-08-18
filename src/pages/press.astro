@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+// Press page: plain description, downloadable assets, contact. Like /studio,
+// the interface here is deliberately normal — the deranged version of "about"
+// lives at /about and inside /experience.
+const assets = [
+  {
+    href: '/don-biggly-poster.webp',
+    title: 'Official poster',
+    note: 'Who the Hell Is Don Biggly? — key art, WebP.',
+  },
+  {
+    href: '/don-biggly.webp',
+    title: 'Don Biggly character image',
+    note: 'The fictional founder and developer, WebP.',
+  },
+  {
+    href: '/hero.webp',
+    title: 'Site hero image',
+    note: 'Brand key visual, WebP.',
+  },
+];
+---
+
+<BaseLayout
+  title="Press — Booze on Hormuz™"
+  description="What Booze on Hormuz is, in plain language — plus press assets and contact."
+>
+  <PageHeader eyebrow="In plain language" title="Press" />
+
+  <section class="px-6 pb-28 max-w-4xl mx-auto">
+    <div class="font-body text-ink-soft max-w-prose space-y-4">
+      <p class="font-display text-title text-ink">
+        Booze on Hormuz is a satirical music and video project.
+      </p>
+      <p>
+        It centers on an album of original comedy songs and the fictional character Don Biggly — a
+        luxury developer attempting to sell fractional ownership of an international crisis. The
+        project spans the album, full music videos, live performance material, short-form clips,
+        artwork, and a complete parody sales funnel (preserved at
+        <a href="/experience" class="text-gold-ink hover:opacity-80">/experience</a>).
+      </p>
+      <p>
+        Everything on this site is parody and protected expression. No real person, product, or
+        policy is being quoted or reported on. The full disclaimer lives at
+        <a href="/legal" class="text-gold-ink hover:opacity-80">/legal</a>.
+      </p>
+      <p>
+        The character's deranged self-introduction is at
+        <a href="/about" class="text-gold-ink hover:opacity-80">/about</a>; this page is the
+        version you can quote.
+      </p>
+    </div>
+
+    <h2 class="font-display text-xl text-ink mt-14">Press assets</h2>
+    <div class="grid sm:grid-cols-3 gap-5 mt-5">
+      {
+        assets.map((a) => (
+          <a href={a.href} download class="group block card-marble border border-line rounded-xl overflow-hidden hover:border-gold transition-colors">
+            <img src={a.href} alt={a.title} loading="lazy" decoding="async" class="w-full aspect-square object-cover" />
+            <div class="p-4">
+              <h3 class="font-display text-lg text-ink group-hover:text-gold-ink transition-colors">{a.title}</h3>
+              <p class="font-body text-xs text-ink-soft mt-1">{a.note}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <h2 class="font-display text-xl text-ink mt-14">Contact</h2>
+    <p class="font-body text-ink-soft mt-3 max-w-prose">
+      Press and booking inquiries go through the
+      <a href="/studio" class="text-gold-ink hover:opacity-80">Studio page</a> — the contact form
+      there is real and behaves normally.
+    </p>
+  </section>
+</BaseLayout>

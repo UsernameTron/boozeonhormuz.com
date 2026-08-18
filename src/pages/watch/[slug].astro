@@ -3,33 +3,163 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
 import SponsorRead from '../../components/SponsorRead.astro';
+import WatchCard from '../../components/WatchCard.astro';
+import {
+  liveVideos,
+  liveImages,
+  playableTracks,
+  videoTypeLabel,
+  toISODuration,
+} from '../../lib/media';
 
+// One watch route serves both worlds: media-library videos (dedicated watch
+// pages with VideoObject structured data) and legacy episodes of
+// Who the Hell Is Don Biggly?
 export async function getStaticPaths() {
   const episodes = (await getCollection('episodes')).filter((e) => !e.data.draft);
   const sponsors = (await getCollection('sponsors')).filter((s) => !s.data.draft);
-  return episodes.map((entry) => ({
+  const videos = liveVideos(await getCollection('videos'));
+  const images = liveImages(await getCollection('images'));
+  const tracks = playableTracks(await getCollection('tracks'));
+
+  const episodePaths = episodes.map((entry) => ({
     params: { slug: entry.data.slug },
     props: {
+      kind: 'episode' as const,
       entry,
-      // sponsor reads that reference this episode (matched by entry id)
       relatedSponsors: sponsors.filter((s) => s.data.episode?.id === entry.id),
+      video: null,
+      track: null,
+      stills: [],
+      related: [],
     },
   }));
+
+  const videoPaths = videos.map((video) => {
+    const track = video.data.track ? (tracks.find((t) => t.id === video.data.track!.id) ?? null) : null;
+    return {
+      params: { slug: video.data.slug },
+      props: {
+        kind: 'video' as const,
+        entry: null,
+        relatedSponsors: [],
+        video,
+        track,
+        stills: track ? images.filter((i) => i.data.track?.id === track.id).slice(0, 6) : [],
+        related: videos
+          .filter(
+            (v) =>
+              v.id !== video.id &&
+              (v.data.type === video.data.type || (track && v.data.track?.id === track.id)),
+          )
+          .slice(0, 3),
+      },
+    };
+  });
+
+  return [...episodePaths, ...videoPaths];
 }
 
-const { entry, relatedSponsors } = Astro.props;
-const { title, summary, youtubeId, publishDate } = entry.data;
+const { kind, entry, relatedSponsors, video, track, stills, related } = Astro.props;
+
+// Shared display fields resolved per branch.
+const title = kind === 'video' ? video!.data.title : entry!.data.title;
+const description = kind === 'video' ? video!.data.description : entry!.data.summary;
+const publishDate = kind === 'video' ? video!.data.publishDate : entry!.data.publishDate;
+const youtubeId = kind === 'video' ? video!.data.youtubeId : entry!.data.youtubeId;
 const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// VideoObject structured data (video-SEO): unique name/description/thumbnail
+// per watch page, ISO-8601 duration, absolute URLs.
+const thumbnail =
+  kind === 'video'
+    ? (video!.data.thumbnail ?? (youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined))
+    : youtubeId
+      ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+      : undefined;
+const videoLd =
+  youtubeId || (kind === 'video' && video!.data.src)
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        name: title,
+        description,
+        thumbnailUrl: thumbnail?.startsWith('/') ? new URL(thumbnail, Astro.site).href : thumbnail,
+        uploadDate: publishDate.toISOString(),
+        ...(kind === 'video' && toISODuration(video!.data.duration)
+          ? { duration: toISODuration(video!.data.duration) }
+          : {}),
+        ...(youtubeId
+          ? { embedUrl: `https://www.youtube.com/embed/${youtubeId}` }
+          : { contentUrl: new URL(video!.data.src!, Astro.site).href }),
+      })
+    : null;
 ---
 
-<BaseLayout title={`${title} — Booze on Hormuz™`} description={summary}>
+<BaseLayout title={`${title} — Booze on Hormuz™`} description={description}>
+  {videoLd && <script is:inline type="application/ld+json" set:html={videoLd} />}
+
   <article class="px-6 pt-16 pb-28 max-w-4xl mx-auto">
-    <p class="font-body text-eyebrow uppercase text-gold-ink">{date}</p>
+    <p class="font-body text-eyebrow uppercase text-gold-ink">
+      {kind === 'video' ? videoTypeLabel[video!.data.type] : 'Episode'}
+      <span class="text-ink-soft/70 normal-case tracking-normal"> · {date}</span>
+      {kind === 'video' && video!.data.duration && (
+        <span class="text-ink-soft/70 normal-case tracking-normal"> · {video!.data.duration}</span>
+      )}
+    </p>
     <h1 class="font-display text-display text-ink mt-4">{title}</h1>
 
     {youtubeId && <div class="mt-8"><YouTubeEmbed id={youtubeId} title={title} /></div>}
+    {
+      kind === 'video' && !youtubeId && video!.data.src && (
+        <video controls preload="metadata" src={video!.data.src} poster={video!.data.thumbnail} class="w-full mt-8 rounded-xl shadow-lg">
+          Your browser does not support video playback.
+        </video>
+      )
+    }
 
-    <p class="font-body text-lg text-ink-soft mt-8 max-w-prose">{summary}</p>
+    <p class="font-body text-lg text-ink-soft mt-8 max-w-prose">{description}</p>
+
+    {
+      kind === 'video' && track && (
+        <p class="font-body text-sm text-ink-soft mt-4">
+          From the track{' '}
+          <a href={`/album/${track.data.slug}`} class="text-gold-ink hover:opacity-80">
+            {track.data.title}
+          </a>
+        </p>
+      )
+    }
+
+    {
+      kind === 'video' && video!.data.transcript && (
+        <details class="mt-8 max-w-prose">
+          <summary class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink cursor-pointer">
+            Transcript
+          </summary>
+          <p class="font-body text-sm text-ink-soft whitespace-pre-line mt-3">{video!.data.transcript}</p>
+        </details>
+      )
+    }
+
+    {
+      stills.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-title text-ink">Stills</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-5">
+            {stills.map((i) => (
+              <img
+                src={i.data.thumb ?? i.data.image}
+                alt={i.data.alt}
+                loading="lazy"
+                decoding="async"
+                class="w-full object-cover border border-line rounded-lg"
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     {
       relatedSponsors.length > 0 && (
@@ -45,8 +175,27 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
       )
     }
 
+    {
+      related.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-title text-ink">Related</h2>
+          <div class="grid sm:grid-cols-3 gap-5 mt-5">
+            {related.map((v) => (
+              <WatchCard
+                href={`/watch/${v.data.slug}`}
+                title={v.data.title}
+                typeLabel={videoTypeLabel[v.data.type]}
+                thumbnail={v.data.thumbnail ?? (v.data.youtubeId ? `https://i.ytimg.com/vi/${v.data.youtubeId}/hqdefault.jpg` : undefined)}
+                duration={v.data.duration}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
     <a href="/watch" class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-12 hover:opacity-80">
-      &larr; Back to all episodes
+      &larr; Back to Watch
     </a>
   </article>
 </BaseLayout>

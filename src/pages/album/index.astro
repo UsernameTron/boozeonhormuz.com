@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import MediaThumb from '../../components/MediaThumb.astro';
+import TrackRow from '../../components/TrackRow.astro';
+import { listedTracks } from '../../lib/media';
+
+// The album is live while unfinished — unreleased tracks appear as locked
+// rows, released/preview tracks link to their own pages. No completion
+// dependency anywhere.
+const album = (await getCollection('albums')).find((a) => !a.data.draft);
+const tracks = listedTracks(await getCollection('tracks'));
+const releasedCount = tracks.filter((t) => t.data.status !== 'unreleased').length;
+
+const statusLabel: Record<string, string> = {
+  'in-progress': 'In Progress — Assembled in Public',
+  preview: 'Preview',
+  released: 'Released',
+};
+---
+
+<BaseLayout
+  title="The Album — Booze on Hormuz™"
+  description="The Booze on Hormuz album — musical satire, assembled in public, one tremendous track at a time."
+>
+  <PageHeader eyebrow="The main body of work" title="The Album" />
+
+  <section class="px-6 pb-28 max-w-4xl mx-auto">
+    {
+      album ? (
+        <Fragment>
+          <div class="grid md:grid-cols-[320px_1fr] gap-8 items-start">
+            <div class="border border-line rounded-xl overflow-hidden shadow-lg">
+              <MediaThumb src={album.data.artwork} alt={`${album.data.title} album artwork`} aspect="aspect-square" />
+            </div>
+            <div>
+              <h2 class="font-display text-title text-ink">{album.data.title}</h2>
+              <p class="font-body text-eyebrow uppercase text-gold-ink mt-2">
+                {statusLabel[album.data.status] ?? album.data.status}
+              </p>
+              <p class="font-body text-ink-soft mt-4 max-w-prose">{album.data.tagline}</p>
+              {releasedCount > 0 && (
+                <p class="font-body text-sm text-ink-soft/70 mt-2">
+                  {releasedCount} of {tracks.length} tracks live.
+                </p>
+              )}
+              {album.data.credits.length > 0 && (
+                <p class="font-body text-sm text-ink-soft/70 mt-4">{album.data.credits.join(' · ')}</p>
+              )}
+            </div>
+          </div>
+
+          <h3 class="font-display text-xl text-ink mt-14">Tracklist</h3>
+          {
+            tracks.length > 0 ? (
+              <div class="mt-4 card-marble border border-line rounded-xl overflow-hidden">
+                {tracks.map((t) => (
+                  <TrackRow
+                    trackNumber={t.data.trackNumber}
+                    title={t.data.title}
+                    slug={t.data.slug}
+                    status={t.data.status}
+                    duration={t.data.duration}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p class="font-display text-xl text-ink mt-4 max-w-2xl">
+                The tracklist is sequestered. Very few albums have the discipline to release zero
+                tracks this confidently — but the first ones are close, and when they land they
+                land here first.
+              </p>
+            )
+          }
+        </Fragment>
+      ) : (
+        <p class="font-display text-title text-ink max-w-2xl">
+          The album is in a secure, undisclosed, extremely gold location. Check back shortly.
+        </p>
+      )
+    }
+  </section>
+</BaseLayout>

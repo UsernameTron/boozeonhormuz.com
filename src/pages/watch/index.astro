@@ -2,19 +2,60 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import EpisodeCard from '../../components/EpisodeCard.astro';
+import WatchCard from '../../components/WatchCard.astro';
+import { liveVideos, playableTracks, videoTypeLabel } from '../../lib/media';
 
+// One grid for everything watchable: media-library videos plus legacy episodes
+// of Who the Hell Is Don Biggly? (episodes file under the Sketches filter).
+const videos = liveVideos(await getCollection('videos'));
 const episodes = (await getCollection('episodes'))
   .filter((e) => !e.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const trackTitleById = new Map(
+  playableTracks(await getCollection('tracks')).map((t) => [t.id, t.data.title]),
+);
+
+const cards = [
+  ...videos.map((v) => ({
+    href: `/watch/${v.data.slug}`,
+    title: v.data.title,
+    type: v.data.type,
+    typeLabel: videoTypeLabel[v.data.type],
+    thumbnail: v.data.thumbnail ?? (v.data.youtubeId ? `https://i.ytimg.com/vi/${v.data.youtubeId}/hqdefault.jpg` : undefined),
+    duration: v.data.duration,
+    trackTitle: v.data.track ? trackTitleById.get(v.data.track.id) : undefined,
+    date: v.data.publishDate,
+  })),
+  ...episodes.map((e) => ({
+    href: `/watch/${e.data.slug}`,
+    title: e.data.title,
+    type: 'sketch',
+    typeLabel: 'Episode',
+    thumbnail: e.data.youtubeId ? `https://i.ytimg.com/vi/${e.data.youtubeId}/hqdefault.jpg` : undefined,
+    duration: undefined,
+    trackTitle: undefined,
+    date: e.data.publishDate,
+  })),
+].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+
+const filters = [
+  { key: 'all', label: 'All' },
+  { key: 'music-video', label: 'Music Videos' },
+  { key: 'performance', label: 'Performances' },
+  { key: 'sketch', label: 'Sketches' },
+  { key: 'short', label: 'Shorts' },
+];
 ---
 
-<BaseLayout title="Watch — Booze on Hormuz™" description="Episodes of Who the Hell Is Don Biggly?">
+<BaseLayout
+  title="Watch — Booze on Hormuz™"
+  description="Full music videos, performances, sketches, and shorts from Booze on Hormuz and Who the Hell Is Don Biggly?"
+>
   <PageHeader eyebrow="Now screening" title="Watch" />
 
   <section class="px-6 pb-28 max-w-4xl mx-auto">
     {
-      episodes.length === 0 ? (
+      cards.length === 0 ? (
         <Fragment>
           <p class="font-display text-title text-ink max-w-2xl">
             Tremendous premiere. Beautiful catering. Nobody's seen the episodes yet, which many
@@ -34,16 +75,62 @@ const episodes = (await getCollection('episodes'))
           </div>
         </Fragment>
       ) : (
-        <div class="grid gap-5">
-          {episodes.map((e) => (
-            <EpisodeCard
-              slug={e.data.slug}
-              title={e.data.title}
-              summary={e.data.summary}
-              publishDate={e.data.publishDate}
-            />
-          ))}
-        </div>
+        <Fragment>
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter videos" id="watch-filters">
+            {filters.map((f, idx) => (
+              <button
+                type="button"
+                data-filter={f.key}
+                aria-pressed={idx === 0 ? 'true' : 'false'}
+                class:list={[
+                  'font-body text-sm uppercase tracking-[0.1em] px-4 py-2 rounded-sm border transition-colors',
+                  'aria-pressed:border-gold aria-pressed:text-gold-ink border-line/60 text-ink-soft hover:text-gold-ink',
+                ]}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 mt-8" id="watch-grid">
+            {cards.map((c) => (
+              <div data-type={c.type}>
+                <WatchCard
+                  href={c.href}
+                  title={c.title}
+                  typeLabel={c.typeLabel}
+                  thumbnail={c.thumbnail}
+                  duration={c.duration}
+                  trackTitle={c.trackTitle}
+                />
+              </div>
+            ))}
+          </div>
+
+          <p class="hidden font-display text-xl text-ink mt-10" id="watch-empty">
+            Nothing in this category yet. The lawyers are reviewing the footage.
+          </p>
+
+          <script>
+            // Plain client-side filter — the interface behaves totally normally.
+            const group = document.getElementById('watch-filters');
+            const grid = document.getElementById('watch-grid');
+            const empty = document.getElementById('watch-empty');
+            group?.addEventListener('click', (ev) => {
+              const btn = (ev.target as HTMLElement).closest('button[data-filter]');
+              if (!btn || !grid || !empty) return;
+              const filter = btn.getAttribute('data-filter');
+              group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+              let visible = 0;
+              grid.querySelectorAll<HTMLElement>('[data-type]').forEach((card) => {
+                const show = filter === 'all' || card.dataset.type === filter;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
+              });
+              empty.classList.toggle('hidden', visible > 0);
+            });
+          </script>
+        </Fragment>
       )
     }
   </section>

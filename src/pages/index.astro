@@ -1,0 +1,326 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import MediaThumb from '../components/MediaThumb.astro';
+import WatchCard from '../components/WatchCard.astro';
+import AudioTrack from '../components/AudioTrack.astro';
+import {
+  listedTracks,
+  playableTracks,
+  liveVideos,
+  liveImages,
+  videoTypeLabel,
+} from '../lib/media';
+
+// The homepage is a trailer for the archive: someone should understand within
+// five seconds that there is something here to watch. Every section reads from
+// the media collections and degrades to a deadpan state while they fill.
+const album = (await getCollection('albums')).find((a) => !a.data.draft);
+const tracks = listedTracks(await getCollection('tracks'));
+const playable = playableTracks(await getCollection('tracks'));
+const videos = liveVideos(await getCollection('videos'));
+const images = liveImages(await getCollection('images'));
+
+const albumPreviewTracks = tracks.slice(0, 4);
+// The hero video is the front door; the Featured Film slot shows the NEXT
+// film so the homepage never plays the same thing twice.
+const heroVideo = videos.find((v) => v.data.hero);
+const films = videos.filter((v) => v.data.type === 'music-video' && !v.data.hero);
+const featuredFilm = films.find((v) => v.data.featured) ?? films[0];
+const performances = videos.filter((v) => v.data.type === 'performance').slice(0, 3);
+const listenTracks = [
+  ...playable.filter((t) => t.data.featured),
+  ...playable.filter((t) => !t.data.featured),
+].slice(0, 3);
+
+// Visual Evidence grid: media images first; while that collection fills, the
+// live Evidence Lounge exhibits (titlecard/gallery kinds ship real art) stand in.
+const evidenceArt = (await getCollection('evidence')).filter(
+  (e) => !e.data.draft && (e.data.kind === 'titlecard' || e.data.kind === 'gallery'),
+);
+const trackSlugById = new Map(playable.map((t) => [t.id, t.data.slug]));
+const visualGrid =
+  images.length > 0
+    ? images
+        .filter((i) => i.data.featured)
+        .concat(images.filter((i) => !i.data.featured))
+        .slice(0, 12)
+        .map((i) => ({
+          href:
+            i.data.track && trackSlugById.has(i.data.track.id)
+              ? `/album/${trackSlugById.get(i.data.track.id)}`
+              : '/archive',
+          image: i.data.thumb ?? i.data.image,
+          alt: i.data.alt,
+          title: i.data.title,
+        }))
+    : evidenceArt.slice(0, 12).map((e: any) => ({
+        href: '/evidence-lounge',
+        image: e.data.image,
+        alt: e.data.title,
+        title: e.data.title,
+      }));
+---
+
+<BaseLayout
+  title="Booze on Hormuz™ — Musical Satire, Performance, Video"
+  description="Musical satire. Performance. Video. Very questionable hospitality. The home of the Booze on Hormuz album and Who the Hell Is Don Biggly?"
+>
+  <!-- A. HERO — immediate media, minimal copy -->
+  <section class="relative overflow-hidden border-b brass-rule">
+    <img
+      src="/hero.webp"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 w-full h-full object-cover opacity-35"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-paper/40 via-paper/60 to-paper"></div>
+    <div
+      class:list={[
+        'relative px-6 max-w-4xl mx-auto text-center',
+        heroVideo ? 'pt-14 pb-14 md:pt-20 md:pb-20' : 'pt-24 pb-20 md:pt-36 md:pb-28',
+      ]}
+    >
+      <h1 class="font-display text-display metal-gold">Booze on Hormuz</h1>
+      <p class="font-body text-lg md:text-xl text-ink-soft mt-6 max-w-xl mx-auto">
+        Musical satire. Performance. Video. Very questionable hospitality.
+      </p>
+      {
+        heroVideo && (
+          <div class="mt-10 max-w-3xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-line">
+            {heroVideo.data.youtubeId ? (
+              <YouTubeEmbed id={heroVideo.data.youtubeId} title={heroVideo.data.title} />
+            ) : (
+              heroVideo.data.src && (
+                <video controls preload="metadata" src={heroVideo.data.src} poster={heroVideo.data.thumbnail} class="w-full aspect-video">
+                  Your browser does not support video playback.
+                </video>
+              )
+            )}
+          </div>
+        )
+      }
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a
+          href="/watch"
+          class="inline-block font-body uppercase tracking-[0.1em] bg-stamp text-ink px-8 py-3.5 rounded-sm hover:opacity-90 transition-opacity"
+        >
+          &#9655;&nbsp; Watch
+        </a>
+        <a
+          href="/album"
+          class="inline-block font-body uppercase tracking-[0.1em] border border-gold text-gold-ink px-8 py-3.5 rounded-sm hover:bg-charcoal transition-colors"
+        >
+          Enter the Album
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- B. THE ALBUM -->
+  {
+    album && (
+      <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">The Album</p>
+        <div class="mt-6 grid md:grid-cols-[280px_1fr] gap-8 items-start">
+          <a href="/album" class="block border border-line rounded-xl overflow-hidden shadow-lg">
+            <MediaThumb src={album.data.artwork} alt={`${album.data.title} album artwork`} aspect="aspect-square" />
+          </a>
+          <div>
+            <h2 class="font-display text-title text-ink">
+              {album.data.title}
+              <span class="font-body text-eyebrow uppercase text-ink-soft/70 align-middle ml-3">
+                {album.data.status === 'in-progress' ? 'In Progress' : album.data.status}
+              </span>
+            </h2>
+            <p class="font-body text-ink-soft mt-3 max-w-prose">{album.data.tagline}</p>
+            <a
+              href="/album"
+              class="inline-block font-body uppercase tracking-[0.1em] text-gold-ink border border-gold px-6 py-3 rounded-sm mt-6 hover:bg-charcoal transition-colors"
+            >
+              &#9655;&nbsp; Explore Tracks
+            </a>
+            {albumPreviewTracks.length > 0 && (
+              <ul class="mt-6 border-t border-line/40">
+                {albumPreviewTracks.map((t) => (
+                  <li class="border-b border-line/40 py-2.5 flex items-baseline gap-3">
+                    <span class="font-body text-sm text-gold-ink tabular-nums">
+                      {String(t.data.trackNumber).padStart(2, '0')}
+                    </span>
+                    {t.data.status === 'unreleased' ? (
+                      <span class="font-display text-ink/60">{t.data.title}</span>
+                    ) : (
+                      <a href={`/album/${t.data.slug}`} class="font-display text-ink hover:text-gold-ink transition-colors">
+                        {t.data.title}
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- C. FEATURED FILM — the NEXT film (the hero already plays up top);
+       with no hero video set, the premiere embed stands in here instead. -->
+  {
+    (featuredFilm || !heroVideo) && (
+      <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">Featured Film</p>
+        {featuredFilm ? (
+          <div class="mt-6">
+            <a href={`/watch/${featuredFilm.data.slug}`} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
+              <MediaThumb
+                src={featuredFilm.data.thumbnail ?? (featuredFilm.data.youtubeId ? `https://i.ytimg.com/vi/${featuredFilm.data.youtubeId}/hqdefault.jpg` : undefined)}
+                alt={featuredFilm.data.title}
+                play
+              />
+            </a>
+            <h2 class="font-display text-title text-ink mt-4">
+              <a href={`/watch/${featuredFilm.data.slug}`} class="hover:text-gold-ink transition-colors">
+                {featuredFilm.data.title}
+              </a>
+            </h2>
+          </div>
+        ) : (
+          <div class="mt-6">
+            <h2 class="font-display text-title text-ink">The Premiere</h2>
+            <div class="mt-4">
+              <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — premiere" />
+            </div>
+          </div>
+        )}
+        <p class="mt-4">
+          <a href="/watch" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
+            More films &rarr;
+          </a>
+        </p>
+      </section>
+    )
+  }
+
+  <!-- D. PERFORMANCE -->
+  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">Performance</p>
+    {
+      performances.length > 0 ? (
+        <div class="grid sm:grid-cols-3 gap-5 mt-6">
+          {performances.map((v) => (
+            <WatchCard
+              href={`/watch/${v.data.slug}`}
+              title={v.data.title}
+              typeLabel={videoTypeLabel[v.data.type]}
+              thumbnail={v.data.thumbnail}
+              duration={v.data.duration}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="font-display text-xl text-ink mt-6 max-w-2xl">
+          Live material is being prepared. The stage is gold. The lighting is aggressive. It will
+          be tremendous, and then it will be here.
+        </p>
+      )
+    }
+  </section>
+
+  <!-- E. LISTEN -->
+  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">Listen</p>
+    {
+      listenTracks.length > 0 ? (
+        <div class="grid gap-5 mt-6">
+          {listenTracks.map((t) => (
+            <AudioTrack
+              title={t.data.title}
+              slug={t.data.slug}
+              cover={t.data.cover}
+              audio={t.data.audio}
+              duration={t.data.duration}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="font-display text-xl text-ink mt-6 max-w-2xl">
+          The first tracks are in the mastering suite. Audio lands here the moment it clears the
+          gold-plated console.
+        </p>
+      )
+    }
+    <p class="mt-6">
+      <a href="/listen" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
+        Hear everything &rarr;
+      </a>
+    </p>
+  </section>
+
+  <!-- F. VISUAL EVIDENCE -->
+  {
+    visualGrid.length > 0 && (
+      <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">Visual Evidence</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
+          {visualGrid.map((g) => (
+            <a href={g.href} class="group block border border-line rounded-lg overflow-hidden hover:border-gold transition-colors">
+              <img src={g.image} alt={g.alt} loading="lazy" decoding="async" class="w-full h-full object-cover" />
+            </a>
+          ))}
+        </div>
+        <p class="mt-6">
+          <a href="/archive" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
+            Open the full archive &rarr;
+          </a>
+        </p>
+      </section>
+    )
+  }
+
+  <!-- G. THE ORIGINAL EXPERIENCE -->
+  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+    <a
+      href="/experience"
+      class="group grid sm:grid-cols-[200px_1fr] gap-6 items-center card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors"
+    >
+      <img
+        src="/don-biggly.webp"
+        alt="Don Biggly, fictional founder and developer — a satirical character"
+        loading="lazy"
+        decoding="async"
+        class="w-full h-full object-cover"
+      />
+      <div class="p-6 sm:pl-0">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">The Original Experience</p>
+        <h2 class="font-display text-title text-ink mt-2 group-hover:text-gold-ink transition-colors">
+          Visit the Resort
+        </h2>
+        <p class="font-body text-ink-soft mt-2 max-w-prose">
+          Enter the original luxury-crisis ownership experience — qualification quiz, financing
+          calculator, Brigadier Dakota, and the full 1-800-BIG-BRINK treatment, preserved intact.
+        </p>
+        <span class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-4">
+          Enter the Record &rarr;
+        </span>
+      </div>
+    </a>
+  </section>
+
+  <!-- H. THE COMMERCIAL DOOR — one restrained strip, no hard selling -->
+  <section class="px-6 py-12 max-w-4xl mx-auto border-t border-line/40">
+    <div class="flex flex-wrap items-baseline justify-between gap-4">
+      <div>
+        <p class="font-display text-xl text-ink">Want something this ridiculous built for your audience?</p>
+        <p class="font-body text-sm text-ink-soft mt-1">
+          Original songs · comedy concepts · video · campaign creative
+        </p>
+      </div>
+      <a href="/studio" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
+        Work With The Studio &rarr;
+      </a>
+    </div>
+  </section>
+</BaseLayout>

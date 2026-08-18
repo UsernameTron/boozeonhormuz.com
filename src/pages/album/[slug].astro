@@ -1,0 +1,210 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
+import MediaThumb from '../../components/MediaThumb.astro';
+import WatchCard from '../../components/WatchCard.astro';
+import { playableTracks, liveVideos, liveImages, videoTypeLabel } from '../../lib/media';
+
+// Each song is its own little universe: audio, artwork, films, performances,
+// clips, gallery, credits, and links — assembled automatically from the
+// collections that reference this track.
+export async function getStaticPaths() {
+  const tracks = playableTracks(await getCollection('tracks'));
+  const videos = liveVideos(await getCollection('videos'));
+  const images = liveImages(await getCollection('images'));
+  return tracks.map((track) => ({
+    params: { slug: track.data.slug },
+    props: {
+      track,
+      videos: videos.filter((v) => v.data.track?.id === track.id),
+      gallery: images.filter((i) => i.data.track?.id === track.id),
+      related: tracks.filter((t) => t.id !== track.id).slice(0, 3),
+    },
+  }));
+}
+
+const { track, videos, gallery, related } = Astro.props;
+const { title, trackNumber, status, description, cover, audio, duration, releaseDate, credits, streamingLinks } = track.data;
+
+const musicVideos = videos.filter((v) => v.data.type === 'music-video');
+const performances = videos.filter((v) => v.data.type === 'performance');
+const clips = videos.filter((v) => v.data.type === 'short' || v.data.type === 'sketch');
+const date = releaseDate?.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// Track body (the short creative note) renders below the player.
+const { Content } = await render(track);
+---
+
+<BaseLayout title={`${title} — Booze on Hormuz™`} description={description ?? `${title} — a track from the Booze on Hormuz album.`}>
+  <article class="px-6 pt-16 pb-28 max-w-4xl mx-auto">
+    <p class="font-body text-eyebrow uppercase text-gold-ink">
+      Track {String(trackNumber).padStart(2, '0')}
+      {status === 'preview' && <span class="text-ink-soft/70"> · Preview</span>}
+      {date && <span class="text-ink-soft/70 normal-case tracking-normal"> · {date}</span>}
+    </p>
+    <h1 class="font-display text-display text-ink mt-4">{title}</h1>
+
+    <div class="grid md:grid-cols-[280px_1fr] gap-8 items-start mt-8">
+      <div class="border border-line rounded-xl overflow-hidden shadow-lg">
+        <MediaThumb src={cover} alt={`Cover art for ${title}`} aspect="aspect-square" />
+      </div>
+      <div>
+        {description && <p class="font-body text-lg text-ink-soft max-w-prose">{description}</p>}
+        {
+          audio ? (
+            <audio controls preload="metadata" src={audio} class="w-full mt-6">
+              Your browser does not support audio playback.
+            </audio>
+          ) : (
+            <p class="font-body text-sm text-ink-soft/70 italic mt-6">
+              Audio arriving shortly. The mastering suite has excellent catering.
+            </p>
+          )
+        }
+        {duration && <p class="font-body text-sm text-ink-soft/70 mt-2 tabular-nums">{duration}</p>}
+        {
+          streamingLinks.length > 0 && (
+            <ul class="flex flex-wrap gap-3 mt-5">
+              {streamingLinks.map((l) => (
+                <li>
+                  <a
+                    href={l.url}
+                    rel="noopener"
+                    class="inline-block font-body text-sm uppercase tracking-[0.1em] border border-gold text-gold-ink px-4 py-2 rounded-sm hover:bg-charcoal transition-colors"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="font-body text-ink-soft mt-10 max-w-prose [&_p]:mt-4">
+      <Content />
+    </div>
+
+    {
+      musicVideos.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-title text-ink">The Film</h2>
+          <div class="grid gap-6 mt-5">
+            {musicVideos.map((v) =>
+              v.data.youtubeId ? (
+                <div>
+                  <YouTubeEmbed id={v.data.youtubeId} title={v.data.title} />
+                  <p class="font-body text-sm text-ink-soft mt-2">
+                    <a href={`/watch/${v.data.slug}`} class="text-gold-ink hover:opacity-80">
+                      {v.data.title} &rarr;
+                    </a>
+                  </p>
+                </div>
+              ) : (
+                <WatchCard
+                  href={`/watch/${v.data.slug}`}
+                  title={v.data.title}
+                  typeLabel={videoTypeLabel[v.data.type]}
+                  thumbnail={v.data.thumbnail}
+                  duration={v.data.duration}
+                />
+              ),
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      performances.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-title text-ink">Performances</h2>
+          <div class="grid sm:grid-cols-2 gap-5 mt-5">
+            {performances.map((v) => (
+              <WatchCard
+                href={`/watch/${v.data.slug}`}
+                title={v.data.title}
+                typeLabel={videoTypeLabel[v.data.type]}
+                thumbnail={v.data.thumbnail}
+                duration={v.data.duration}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      clips.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-title text-ink">Clips</h2>
+          <div class="grid sm:grid-cols-3 gap-5 mt-5">
+            {clips.map((v) => (
+              <WatchCard
+                href={`/watch/${v.data.slug}`}
+                title={v.data.title}
+                typeLabel={videoTypeLabel[v.data.type]}
+                thumbnail={v.data.thumbnail}
+                duration={v.data.duration}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      gallery.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-title text-ink">Gallery</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-5">
+            {gallery.map((i) => (
+              <figure class="border border-line rounded-lg overflow-hidden">
+                <img src={i.data.image} alt={i.data.alt} loading="lazy" decoding="async" class="w-full object-cover" />
+                {i.data.caption && (
+                  <figcaption class="font-body text-xs text-ink-soft/70 p-2">{i.data.caption}</figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      credits.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-xl text-ink">Credits</h2>
+          <ul class="font-body text-sm text-ink-soft mt-3 space-y-1">
+            {credits.map((c) => (
+              <li>{c}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      related.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display text-xl text-ink">More from the album</h2>
+          <ul class="mt-3 space-y-2">
+            {related.map((t) => (
+              <li>
+                <a href={`/album/${t.data.slug}`} class="font-body text-gold-ink hover:opacity-80">
+                  {String(t.data.trackNumber).padStart(2, '0')} — {t.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <a href="/album" class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-12 hover:opacity-80">
+      &larr; Back to the album
+    </a>
+  </article>
+</BaseLayout>

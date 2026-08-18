@@ -1,10 +1,61 @@
 ---
-// Global parody disclaimer — rendered from the layout on every page, never per-page.
-// Standing legal element; final wording confirmed at the legal pre-flight gate.
+// Global footer: full site map + parody disclaimer — rendered from the layout
+// on every page, never per-page. Standing legal element; final wording
+// confirmed at the legal pre-flight gate.
+const columns = [
+  {
+    heading: 'The Work',
+    links: [
+      { href: '/album', label: 'Album' },
+      { href: '/watch', label: 'Watch' },
+      { href: '/listen', label: 'Listen' },
+      { href: '/archive', label: 'Archive' },
+    ],
+  },
+  {
+    heading: 'The World',
+    links: [
+      { href: '/experience', label: 'The Experience' },
+      { href: '/evidence-lounge', label: 'Evidence Lounge' },
+      { href: '/products', label: 'Products' },
+      { href: '/sponsor-reads', label: 'Sponsor Reads' },
+      { href: '/quotes', label: 'Quotes' },
+      { href: '/tools', label: 'Tools' },
+    ],
+  },
+  {
+    heading: 'The Fine Print',
+    links: [
+      { href: '/studio', label: 'Studio' },
+      { href: '/press', label: 'Press' },
+      { href: '/about', label: 'About' },
+      { href: '/legal', label: 'Legal' },
+    ],
+  },
+];
 ---
 
 <footer class="px-6 py-8 mt-16 border-t border-line text-sm text-ink-soft max-w-4xl mx-auto">
-  <p>
+  <nav aria-label="Footer" class="grid grid-cols-2 sm:grid-cols-3 gap-8 pb-8 border-b border-line/40">
+    {
+      columns.map((col) => (
+        <div>
+          <p class="font-body text-eyebrow uppercase text-gold-ink">{col.heading}</p>
+          <ul class="mt-3 space-y-2">
+            {col.links.map((l) => (
+              <li>
+                <a href={l.href} class="hover:text-gold-ink transition-colors">
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </nav>
+
+  <p class="mt-8">
     <strong>Very Legal Disclaimer. Tremendous. Huge:</strong>
   </p>
   <p class="mt-2">

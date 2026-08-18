@@ -1,0 +1,40 @@
+---
+// Image-or-placeholder box. Same contract as the product grid: a missing OR
+// failed image renders a fixed-ratio placeholder so the layout never breaks.
+interface Props {
+  src?: string;
+  alt: string;
+  aspect?: string; // Tailwind aspect class, e.g. 'aspect-video' | 'aspect-square'
+  play?: boolean; // overlay a play glyph (video thumbnails)
+}
+const { src, alt, aspect = 'aspect-video', play = false } = Astro.props;
+---
+
+<div class:list={[aspect, 'relative w-full overflow-hidden bg-charcoal']}>
+  {
+    src ? (
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        class="object-cover w-full h-full"
+        onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm',textContent:'Image coming soon'}))"
+      />
+    ) : (
+      <div class="w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm">
+        Image coming soon
+      </div>
+    )
+  }
+  {
+    play && (
+      <span
+        aria-hidden="true"
+        class="absolute inset-0 grid place-items-center text-5xl text-ink/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)] pointer-events-none"
+      >
+        &#9655;
+      </span>
+    )
+  }
+</div>
