@@ -192,6 +192,44 @@
       outline: 3px solid var(--cyan); outline-offset: 2px;
     }
 
+    /* Title-screen doors mock + verdict stamp */
+    .doors-frame { position: relative; margin-top: 20px; }
+    .doors.mock .door { cursor: default; }
+    .verdict-stamp {
+      position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none;
+    }
+    .verdict-stamp span {
+      transform: rotate(-7deg); text-align: center; max-width: 90%;
+      padding: 10px 18px; border: 2px solid var(--red); border-radius: 8px;
+      background: rgba(4, 8, 16, .88); box-shadow: var(--shadow);
+      font: 800 clamp(14px, 2.8vw, 19px)/1.35 var(--display); color: var(--ink);
+      letter-spacing: .02em;
+    }
+    .verdict-stamp b { color: var(--red); display: block; font: 700 10px/1.6 var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+    details.rules { margin-top: 18px; max-width: 62ch; }
+    details.rules summary {
+      cursor: pointer; font: 700 11px/1.5 var(--mono); letter-spacing: .16em;
+      text-transform: uppercase; color: var(--gold); padding: 6px 0;
+    }
+    details.rules .howto { margin-top: 8px; }
+
+    /* Ship status — a dark laugh at every level entry */
+    .ship-status {
+      margin-top: 10px; padding: 9px 14px; border-radius: 8px; max-width: 64ch;
+      border: 1px solid rgba(255,107,107,.45); border-left: 3px solid var(--red);
+      background: rgba(153,27,27,.14);
+      font: 700 12px/1.5 var(--mono); letter-spacing: .06em; color: var(--ink);
+    }
+    .ship-status .tag { color: var(--red); letter-spacing: .16em; }
+
+    /* HUD caption — the meters talk when a band crosses */
+    .hud-note {
+      grid-column: 1 / -1; min-height: 18px;
+      font: 700 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase;
+      color: var(--red);
+    }
+    .hud-note:empty { display: none; }
+
     /* Level play area */
     .level-head { margin: 6px 0 14px; }
     .transcript { display: grid; gap: 10px; margin-top: 14px; }
@@ -389,31 +427,53 @@
           Gold Star <span class="visually-hidden">— flattery of last resort, 3 per voyage</span>
         </button>
       </div>
+      <p class="hud-note" id="hudNote" aria-hidden="true"></p>
     </div>
   </div>
 
   <main>
-    <!-- TITLE -->
+    <!-- TITLE — the entire joke, before the first click -->
     <section id="screen-title" aria-labelledby="titleHeading">
       <p class="kicker">A luxury emergency in ten levels</p>
       <h2 class="stage-title" id="titleHeading" tabindex="-1">The ship is sinking. The exit is three feet away. Unfortunately, the exit is free.</h2>
       <div class="title-card">
-        <p class="lede">
-          Don Biggly will not use safety equipment unless it has been renamed, monetized,
-          gold-plated, sponsored, or described as something nobody else is allowed to have.
-        </p>
+        <div class="doors-frame" id="titleDoors">
+          <div class="doors mock" role="img" aria-label="Two doors. Left: emergency exit, free. Right: Presidential Platinum Departure Club, 999 dollars. Don Biggly's verdict: Emergency? Terrible branding. Sounds unsuccessful.">
+            <div class="door left" aria-hidden="true">
+              <span class="tag">Left door</span>
+              <span class="name">EMERGENCY EXIT</span>
+              <span class="price">FREE</span>
+            </div>
+            <div class="door right" aria-hidden="true">
+              <span class="tag">Right door</span>
+              <span class="name">PRESIDENTIAL PLATINUM DEPARTURE CLUB</span>
+              <span class="price">$999</span>
+            </div>
+          </div>
+          <div class="verdict-stamp" aria-hidden="true">
+            <span>“Emergency? Terrible branding. Sounds unsuccessful.”<b>— Don Biggly, refusing to be saved</b></span>
+          </div>
+        </div>
         <p class="mission">
           Your mission is not to rescue Don Biggly. Your mission is to manipulate his ego
           until he accidentally rescues himself.
         </p>
-        <div class="howto">
-          <p><b>EGO</b> too low — he refuses instructions. <b>EGO</b> too high — he stops evacuating and starts monetizing the emergency.</p>
-          <p><b>REALITY</b> too high — he becomes immobile. (“Very negative ocean.”)</p>
-          <p><b>GOLD STARS</b> — three per voyage. Flattery of last resort.</p>
-        </div>
+        <p class="lede">
+          He will not touch safety equipment until it has been renamed, monetized,
+          gold-plated, or described as something nobody else is allowed to have. People are
+          fleeing for their lives. He is reading it as demand.
+        </p>
+        <details class="rules">
+          <summary>House rules</summary>
+          <div class="howto">
+            <p><b>EGO</b> too low — he refuses instructions. <b>EGO</b> too high — he stops evacuating and starts monetizing the emergency.</p>
+            <p><b>REALITY</b> too high — he becomes immobile. (“Very negative ocean.”)</p>
+            <p><b>GOLD STARS</b> — three per voyage. Flattery of last resort.</p>
+          </div>
+        </details>
         <label class="calm">
           <input type="checkbox" id="calmSeas" />
-          <span><b>Calm Seas mode</b> — no timers, same disaster. Turns the one timed level into a turn-based one. Switches on automatically if your device prefers reduced motion.</span>
+          <span><b>Calm Seas mode</b> — no timers, same disaster. Switches on automatically if your device prefers reduced motion.</span>
         </label>
         <p class="parody-note">
           Fictional political satire — a playable Don Biggly disaster. No real ship, no real
@@ -429,6 +489,7 @@
       <div class="level-head">
         <p class="kicker" id="levelKicker">Level 1 of 10</p>
         <h2 class="stage-title" id="levelHeading" tabindex="-1">The Lifeboat</h2>
+        <p class="ship-status" id="levelStatus"><span class="tag">SHIP STATUS:</span> <span id="levelStatusText"></span></p>
       </div>
       <div class="transcript" id="transcript"></div>
       <div id="interaction"></div>
@@ -485,25 +546,25 @@ const CFG = {
 /* ---------- Copy banks ---------- */
 const SULK_LINES = [
   'Nobody successful has ever needed directions.',
-  'I don’t take suggestions from people who clap for boats.',
-  'Motivate me. That’s literally your one job on this cruise.'
+  'I don’t take notes from people who clap when the boat floats.',
+  'Motivate me. That is your one job on this cruise.'
 ];
 const LOCK_LINE = 'Very negative ocean. I don’t move for negative oceans.';
 const GIFTSHOP_BEATS = [
-  { who: 'narrator', text: 'He opens a gift shop in the confusion. The register floats.' },
-  { who: 'biggly', text: 'THE BIGGLY SOCIAL NAUTICAL GIFT SHOP. Two locations now, one of them technically at sea.' },
-  { who: 'narrator', text: 'Every successful action now creates another disaster. He calls this growth.' }
+  { who: 'narrator', text: 'He opens a gift shop in the confusion. The register floats. It learned fast.' },
+  { who: 'biggly', text: 'THE BIGGLY SOCIAL NAUTICAL GIFT SHOP. Two locations. One is technically at sea. Both are technically profitable.' },
+  { who: 'narrator', text: 'Every successful action now creates another disaster. He calls this a flywheel.' }
 ];
 const GIFTSHOP_BEATS_2 = [
   { who: 'narrator', text: 'Another gift shop. This one is inside the first one.' },
-  { who: 'biggly', text: 'A store within a store. Retail with depth. Nobody’s done depth like this.' }
+  { who: 'biggly', text: 'A store within a store. Retail with depth. Nobody has gone this deep for margin and come back.' }
 ];
 const STAR_TOAST = 'GOLD STAR AWARDED. He frames it immediately.';
 const LEFT_REJECTIONS = [
   '“Emergency? Terrible branding. Sounds unsuccessful.”',
-  '“Free is a price for people with no options. I have all the options.”',
-  '“It says EXIT. I don’t leave venues. Venues leave me.”',
-  '“No velvet rope. Where would the rope even go? Amateurs.”',
+  '“Free is a price for people with no options. I am the options.”',
+  '“It says EXIT. I don’t leave rooms. Rooms conclude around me.”',
+  '“No velvet rope. Where would the rope even go? Amateur hour at sea.”',
   '“The sign is green. Green is the color of envy and salad.”'
 ];
 
@@ -514,189 +575,199 @@ const LEFT_REJECTIONS = [
    overflow. Two shops + licensing + reroute = the canonical scorecard. */
 const LEVELS = [
   { id: 1, title: 'The Lifeboat',
+    status: 'Sinking. The band is negotiating. The bar is open.',
     script: [
-      { t: 'beat', who: 'narrator', text: 'The hull groans. Water reaches the second-best carpet.' },
-      { t: 'beat', who: 'crew', text: 'Sir, the lifeboat is ready. It seats forty.' },
-      { t: 'beat', who: 'biggly', text: 'It’s orange. Nothing successful has ever been orange.' },
       { t: 'doors' },
-      { t: 'choice', id: 'l1', prompt: 'The clipboard says LIFEBOAT. Rename it before he notices the oars.',
+      { t: 'beat', who: 'narrator', text: 'The hull opens like a ledger. Water takes the second-best carpet without making an offer.' },
+      { t: 'beat', who: 'crew', text: 'Sir. Lifeboat. Now. It seats forty.' },
+      { t: 'beat', who: 'biggly', text: 'Forty? I don’t do group survival. Group survival is coach.' },
+      { t: 'choice', id: 'l1', prompt: 'The clipboard says LIFEBOAT. He has already stopped reading. Rename it.',
         options: [
-          { kind: 'advance', label: 'THE LARGEST PRIVATE MARITIME TRANSPORT PLATFORM EVER BUILT',
+          { kind: 'advance', label: 'THE LARGEST PRIVATE MARITIME TRANSPORT PLATFORM EVER BUILT (docking fee applies)',
             effects: { ego: 12, reality: -10 }, counts: { rebrands: 1 },
-            react: 'Finally. A boat that understands scale.',
-            gag: 'The oars ask to be listed as propulsion consultants.' },
+            react: 'Now that’s a vessel. The largest ever built — people are already jealous of the wake.',
+            gag: 'The oars ask to be invoiced as propulsion consultants.' },
           { kind: 'fail', label: 'A VERY SAFE RESCUE BOAT',
             effects: { ego: 2, reality: 8 },
-            failBeat: 'Rescue implies I have a problem. I have opportunities with water features.' },
+            failBeat: 'Rescue is a poverty word. I have opportunities with water features.' },
           { kind: 'fail', label: 'COMPLIMENTARY GROUP FLOTATION',
             effects: { ego: -8, reality: 5 },
-            failBeat: 'Complimentary. So it’s free. Get it away from me.' },
+            failBeat: 'Complimentary. So it’s free. Burn it.' },
           { kind: 'flatter', label: 'Tell him the ocean asked for him personally.',
             effects: { ego: 10 },
-            beat: 'Of course it did. It’s the biggest water. We respect each other.' }
+            beat: 'Of course it did. Biggest water there is. We respect each other — one of us professionally.' }
         ] },
-      { t: 'beat', who: 'narrator', text: 'He boards. The platform holds. Level one of the ego holds too.' }
+      { t: 'beat', who: 'narrator', text: 'He boards the platform. Forty seats, one occupant. He logs it as record attendance.' }
     ] },
 
   { id: 2, title: 'The Gold Trim Incident', onEnter: { ego: -18, reality: 12 },
+    status: 'Listing to starboard. Legally, tilting.',
     script: [
-      { t: 'beat', who: 'biggly', text: 'Where is the gold trim? There is no trim of any kind. This is a dinghy with ambition.' },
-      { t: 'beat', who: 'narrator', text: 'He climbs back onto the sinking ship, which at least has chandeliers.' },
-      { t: 'beat', who: 'gag', text: 'The chandelier pretends not to see him.' },
-      { t: 'beat', who: 'narrator', text: 'The water has reached the best carpet now. It shows no brand loyalty.' }
+      { t: 'beat', who: 'biggly', text: 'Where is the gold trim? There is no trim of any kind. This is a dinghy with a résumé.' },
+      { t: 'beat', who: 'narrator', text: 'He climbs back aboard the sinking ship, which at least has chandeliers.' },
+      { t: 'beat', who: 'gag', text: 'The chandelier files for emancipation.' },
+      { t: 'beat', who: 'narrator', text: 'The water reaches the best carpet. It leaves no tip.' }
     ] },
 
   { id: 3, title: 'The Yacht Annex',
+    status: 'The pool and the ocean have merged. The pool lost.',
     script: [
-      { t: 'beat', who: 'crew', text: 'Sir — the same boat is still available.' },
-      { t: 'beat', who: 'biggly', text: 'The dinghy? Absolutely not. Unless it’s changed.' },
-      { t: 'choice', id: 'l3', prompt: 'Same boat. It needs a name he can physically board.',
+      { t: 'beat', who: 'crew', text: 'Sir — the same boat is still available. It is the only boat still available.' },
+      { t: 'beat', who: 'biggly', text: 'Available. Ugh. Say less available.' },
+      { t: 'choice', id: 'l3', prompt: 'Same dinghy. It needs a name he can board without dying of modesty.',
         options: [
-          { kind: 'advance', label: 'THE PRESIDENTIAL YACHT ANNEX',
+          { kind: 'advance', label: 'THE PRESIDENTIAL YACHT ANNEX (membership retroactive, dues due)',
             effects: { ego: 15, reality: -15 }, counts: { rebrands: 1 },
-            react: 'An annex. Very exclusive. Annexes are where the important furniture lives.',
-            gag: 'The boat straightens up and starts charging for shade.' },
+            react: 'An annex. Exclusive by definition — it’s where the important furniture goes to be alone.',
+            gag: 'The dinghy straightens its posture and starts charging for shade.' },
           { kind: 'fail', label: 'LIFEBOAT TWO: GOLD EDITION',
             effects: { ego: 4, reality: 6 },
-            failBeat: 'Edition? Editions are for books and apologies.' },
+            failBeat: 'Editions are for books and apologies. I’ve never finished either.' },
           { kind: 'fail', label: 'THE HUMBLE ESCAPE VESSEL',
             effects: { ego: -10, reality: 4 },
-            failBeat: '“Humble.” I’m not familiar with the brand.' },
+            failBeat: 'Humble. I had that removed. Beautiful procedure, very quick.' },
           { kind: 'flatter', label: 'Mention the boat has waited its whole life for him.',
             effects: { ego: 10 },
-            beat: 'Naturally. Boats have heroes too.' }
+            beat: 'Boats have heroes. I’m most of them.' }
         ] },
-      { t: 'beat', who: 'narrator', text: 'He boards again. The annex accepts its new responsibilities.' }
+      { t: 'beat', who: 'narrator', text: 'He boards again. The annex accepts the position and does not ask about the last guy.' }
     ] },
 
   { id: 4, title: 'Unauthorized Competitors', onEnter: { ego: 6 },
+    status: 'Deck 4 is now a reef. The reef is charging admission.',
     script: [
       { t: 'beat', who: 'narrator', text: 'From the annex he can see the other lifeboats. This is a problem, because he can see the other lifeboats.' },
-      { t: 'beat', who: 'biggly', text: 'Who approved those? Nobody builds annexes near my annex.' },
-      { t: 'choice', id: 'l4', prompt: 'He is about to swim over and repossess them. Redirect the rage.',
+      { t: 'beat', who: 'biggly', text: 'Who licensed those? Nobody floats near my brand for free.' },
+      { t: 'choice', id: 'l4', prompt: 'He is one insult away from swimming over to repossess a boat full of survivors. Redirect.',
         options: [
-          { kind: 'advance', label: 'Propose a licensing program: every boat pays to float near the brand.',
+          { kind: 'advance', label: 'Launch the ANNEX ADJACENCY FEE — every boat pays to float near the brand (collection method: shouting)',
             effects: { ego: 8, reality: -10 }, counts: { rebrands: 1, emergenciesMonetized: 1 },
-            react: 'The Annex Adjacency Fee. Recurring revenue from people fleeing — that’s loyalty.',
-            gag: 'A passing oar signs a nondisclosure agreement.' },
-          { kind: 'fail', label: 'Point out they’re full of survivors.',
+            react: 'Recurring revenue from people fleeing for their lives. That’s not greed. That’s retention.',
+            gag: 'A passing oar signs the nondisclosure agreement mid-stroke.' },
+          { kind: 'fail', label: 'Point out the boats are full of survivors.',
             effects: { ego: 4, reality: 7 },
-            failBeat: 'Occupancy rates? Now I want them more.' },
+            failBeat: 'Full? So demand is proven. Now I want the waitlist.' },
           { kind: 'fail', label: 'Say the coast guard owns them.',
             effects: { ego: 3, reality: 6 },
-            failBeat: 'Government boats. So — my boats, with extra steps.' },
+            failBeat: 'Government boats are my boats with extra steps. Ask the flag.' },
           { kind: 'flatter', label: 'Note that his boat is clearly the flagship.',
             effects: { ego: 9 },
-            beat: 'Flagship. Write that down on something waterproof.' }
+            beat: 'Flagship. Carve it into something that floats.' }
         ] },
-      { t: 'beat', who: 'narrator', text: 'Invoices go out to four lifeboats and one confused seagull.' }
+      { t: 'beat', who: 'narrator', text: 'Eleven invoices go out by flare gun. Two are paid out of fear, which he books as loyalty.' }
     ] },
 
   { id: 5, title: 'The Route', onEnter: { reality: 8 },
+    status: 'The atrium is smoke. The smoke has a maître d’.',
     script: [
-      { t: 'beat', who: 'narrator', text: 'Smoke fills the atrium. The evacuation route is a straight line to the water.' },
-      { t: 'beat', who: 'biggly', text: 'A straight line? With this foot traffic? We’re wasting eyeballs.' },
+      { t: 'beat', who: 'narrator', text: 'The evacuation route is a straight line to the water. Nobody has ever monetized a straight line.' },
+      { t: 'beat', who: 'biggly', text: 'A straight line? Through MY ship? That’s foot traffic with zero conversion.' },
       { t: 'choice', id: 'l5', prompt: 'He will not move along any route that fails to make money.',
         options: [
-          { kind: 'advance', label: 'Reroute the evacuation through the gift shop.',
+          { kind: 'advance', label: 'Reroute the evacuation through the gift shop (exit through survival, checkout required)',
             effects: { ego: 7, reality: -8 }, counts: { rebrands: 1, emergenciesMonetized: 1 },
-            react: 'Traffic is tremendous. Everyone leaves with a souvenir and a survival story. Mostly a souvenir.',
-            gag: 'The EXIT sign requests a sabbatical.' },
-          { kind: 'fail', label: 'Propose a modest detour past the buffet.',
+            react: 'Traffic is tremendous. Everyone leaves with a souvenir and a heartbeat — in that order.',
+            gag: 'The EXIT sign requests to be called a brand ambassador.' },
+          { kind: 'fail', label: 'Suggest a modest detour past the buffet.',
             effects: { ego: 2, reality: 6 },
-            failBeat: 'The buffet is underwater. Which is a soup, frankly. But no.' },
+            failBeat: 'The buffet is a soup now. A big, disloyal soup.' },
           { kind: 'fail', label: 'Insist the straight line is faster.',
             effects: { ego: -6, reality: 5 },
-            failBeat: 'Faster isn’t premium. Nobody brags about a short experience.' },
-          { kind: 'flatter', label: 'Say the smoke is framing him beautifully.',
+            failBeat: 'Fast is for people who aren’t being photographed.' },
+          { kind: 'flatter', label: 'Say the smoke is framing him well.',
             effects: { ego: 8 },
-            beat: 'It’s doing its best. Good smoke. Loyal smoke.' }
+            beat: 'Good smoke. Loyal smoke. It knows my angles.' }
         ] },
-      { t: 'beat', who: 'narrator', text: 'The route now passes three point-of-sale terminals. Two of them float.' }
+      { t: 'beat', who: 'narrator', text: 'The route now has three registers and a queue. The queue is moving. So is the ship. Down.' }
     ] },
 
   { id: 6, title: 'The Staircase', setpiece: true,
+    status: 'Stairs exist. He has heard about them.',
     script: [
-      { t: 'beat', who: 'crew', text: 'Sir — the EMERGENCY staircase!' },
+      { t: 'beat', who: 'crew', text: 'Sir — the EMERGENCY staircase! Take it!' },
       { t: 'beat', who: 'alarm', text: 'He heard the word. The word is doing damage.' },
       { t: 'setpiece' },
       { t: 'beat', who: 'narrator', text: 'He climbs. Each step, he says, is load-bearing prestige.' }
     ] },
 
   { id: 7, title: 'The Announcement',
+    status: 'Lifeboats remaining: other people’s.',
     script: [
-      { t: 'beat', who: 'crew', text: 'ALL PASSENGERS MUST LEAVE THE SHIP IMMEDIATELY.' },
-      { t: 'beat', who: 'biggly', text: 'Must? Leave? This announcer is murdering our numbers.' },
-      { t: 'choice', id: 'l7', prompt: 'The captain will repeat the announcement. Fix it first.',
+      { t: 'beat', who: 'crew', text: 'ALL PASSENGERS MUST ABANDON SHIP. THIS IS NOT A DRILL.' },
+      { t: 'beat', who: 'biggly', text: 'Abandon? On the record? This announcer is killing our resale.' },
+      { t: 'choice', id: 'l7', prompt: 'The captain will say it again, louder, unless it becomes marketing first.',
         options: [
-          { kind: 'advance', label: 'EXCLUSIVE FINAL BOARDING OPPORTUNITY — limited seats, unlimited prestige.',
+          { kind: 'advance', label: 'EXCLUSIVE FINAL BOARDING OPPORTUNITY — limited seats, unlimited prestige (blackout dates: now)',
             effects: { ego: 5, reality: -10 }, counts: { rebrands: 1 },
-            react: 'Look at them run for the exits. Tremendous demand. We’re oversubscribed in panic.',
-            gag: 'The intercom asks for a commission.' },
+            react: 'Look at them sprint for the exits. We’re oversubscribed in panic. Panic is word-of-mouth with cardio.',
+            gag: 'The intercom asks for commission, in writing, from the water.' },
           { kind: 'fail', label: 'URGENT SAFETY NOTICE, but in gold letters.',
             effects: { ego: 2, reality: 7 },
-            failBeat: 'Gold letters spelling “safety”? Lipstick on a liability.' },
+            failBeat: 'Gold letters spelling “safety.” Lipstick on a liability.' },
           { kind: 'fail', label: 'Let the captain just say it louder.',
             effects: { ego: -7, reality: 4 },
-            failBeat: 'Louder failure is still failure. I invented that saying and several others.' },
+            failBeat: 'Louder failure is still failure. I coined that. Royalties pending.' },
           { kind: 'flatter', label: 'Tell him the passengers are leaving out of respect.',
             effects: { ego: 8 },
-            beat: 'They know a closing ceremony when they see one.' }
+            beat: 'A standing ovation that runs. Historic.' }
         ] },
-      { t: 'beat', who: 'narrator', text: 'The passengers safely leave. He logs it as extraordinary customer demand.' }
+      { t: 'beat', who: 'narrator', text: 'Every passenger safely leaves. He logs the stampede as extraordinary demand and comps himself the ship.' }
     ] },
 
   { id: 8, title: 'The Ballroom', onEnter: { reality: 10 },
+    status: 'The ballroom is accepting the ocean. No prenup.',
     script: [
       { t: 'beat', who: 'narrator', text: 'The ballroom is taking on water. The band has stopped charging for requests.' },
-      { t: 'beat', who: 'biggly', text: 'Cancel the ballroom? In this economy? Watch this.' },
+      { t: 'beat', who: 'biggly', text: 'Cancel the ballroom? In this economy? Watch me.' },
       { t: 'choice', id: 'l8', prompt: 'There is no good option here. There is only the option.',
         options: [
-          { kind: 'advance', label: 'Unveil it: THE FIRST-EVER INFINITY-POOL BALLROOM.',
+          { kind: 'advance', label: 'Unveil it: THE FIRST-EVER INFINITY-POOL BALLROOM (swim-up chandelier, cover charge applies)',
             effects: { ego: 40, reality: 70 }, counts: { rebrands: 1 },
-            react: 'Every hotel has a pool. Nobody has a ballroom you can drown in. First-mover advantage.',
-            gag: 'The band switches to maritime insurance jingles.' },
+            react: 'Every hotel has a pool. Nobody has a ballroom that can drown you and still charge corkage. First-mover advantage.',
+            gag: 'The band switches to maritime insurance jingles, double-time.' },
           { kind: 'fail', label: 'Rope it off as a VELVET CAUTION EXPERIENCE.',
             effects: { ego: 4, reality: 8 },
-            failBeat: 'Caution is a competitor’s word.' },
+            failBeat: 'Caution is a competitor’s word. We don’t stock it.' },
           { kind: 'fail', label: 'Quietly drain it.',
             effects: { ego: -6, reality: 6 },
-            failBeat: 'Drain my water feature? That water is a guest.' },
-          { kind: 'flatter', label: 'Compliment how the flooding reflects his good side.',
+            failBeat: 'Drain my water feature? That water is a guest. A paying guest, once I find its card.' },
+          { kind: 'flatter', label: 'Compliment how the flooding catches his good side.',
             effects: { ego: 8 },
-            beat: 'Both sides are my good side. The water knows.' }
+            beat: 'Both sides are the good side. The water agrees. Smart water.' }
         ] },
-      { t: 'beat', who: 'narrator', text: 'The unveiling is a triumph. The consequences form an orderly queue.' }
+      { t: 'beat', who: 'narrator', text: 'The unveiling is a triumph. The consequences form an orderly queue, which he charges to skip.' }
     ] },
 
   { id: 9, title: 'The Waiver',
+    status: 'The ocean has begun accepting deliveries.',
     script: [
-      { t: 'beat', who: 'crew', text: 'Sir, the waiver does not eliminate consequences. It never did.' },
-      { t: 'beat', who: 'biggly', text: 'Then why is it paper? Paper is for promises.' },
-      { t: 'choice', id: 'l9', prompt: 'The last lawyer is holding the waiver and the door frame.',
+      { t: 'beat', who: 'crew', text: 'Sir, the waiver does not eliminate consequences. It never did. I’m the last lawyer. I counted.' },
+      { t: 'beat', who: 'biggly', text: 'Then why is it paper? Paper is where promises live.' },
+      { t: 'choice', id: 'l9', prompt: 'The last lawyer is holding the waiver and, separately, the door frame.',
         options: [
-          { kind: 'advance', label: 'Upgrade it to a TOTAL EXONERATION CERTIFICATE with a gold seal.',
+          { kind: 'advance', label: 'Upgrade it to a TOTAL EXONERATION CERTIFICATE — gold seal, zero legal effect (frame sold separately)',
             effects: { ego: 25, reality: 5 }, counts: { rebrands: 1, waiversRenamed: 1 },
-            react: 'It does absolutely nothing and I love it. Frame the nothing.',
-            gag: 'The notary resigns in cursive.' },
+            react: 'It does absolutely nothing, and it does it beautifully. Frame the nothing.',
+            gag: 'The notary resigns in cursive, then in print, then by flare.' },
           { kind: 'fail', label: 'Read him the liability clause.',
             effects: { ego: -5, reality: 8 },
-            failBeat: 'Clauses are for Santa and losers.' },
+            failBeat: 'Clauses are for Santa and the indicted. I’m neither, allegedly.' },
           { kind: 'fail', label: 'Add a second waiver protecting the first waiver.',
             effects: { ego: 5, reality: 4 }, counts: { waiversRenamed: 1 },
-            failBeat: 'Waiver insurance. Close. Genuinely close. But no — too responsible.' },
-          { kind: 'flatter', label: 'Say the seal brings out his signature.',
+            failBeat: 'Waiver insurance. Close. Genuinely close. But no — it sounds responsible, and responsibility photographs terribly.' },
+          { kind: 'flatter', label: 'Say the gold seal brings out his signature.',
             effects: { ego: 8 },
             beat: 'My signature has range. Ask any settlement.' }
         ] },
-      { t: 'beat', who: 'narrator', text: 'The document is legally decorative. Its gold seal outranks the lawyer.' }
+      { t: 'beat', who: 'narrator', text: 'The certificate is legally decorative. Its seal outranks the lawyer, who leaves by the free door — alive, employed, and gone.' }
     ] },
 
   { id: 10, title: 'The Departure', finale: true,
+    status: 'Occupancy: one. Approval: one hundred percent.',
     script: [
-      { t: 'beat', who: 'narrator', text: 'The ship is now completely empty. Every passenger has escaped. Every crew member has escaped. Every lifeboat is gone.' },
-      { t: 'beat', who: 'narrator', text: 'The ballroom doors swing open. The emergency exit glows twelve feet away. It has drifted. Everything drifts here.' },
-      { t: 'beat', who: 'biggly', text: 'The approval rating in this room is one hundred percent. Nobody here disagrees with me.' },
+      { t: 'beat', who: 'narrator', text: 'The ship is empty. Every passenger escaped. Every crew member escaped. Every lifeboat is gone, fully licensed.' },
+      { t: 'beat', who: 'narrator', text: 'The ballroom doors swing open. The emergency exit glows twelve feet away. It has drifted. Everything here drifts.' },
+      { t: 'beat', who: 'biggly', text: 'Listen to that. Nobody here disagrees with me. Not one voice. This room finally works.' },
       { t: 'doors', final: true },
       { t: 'finale' }
     ] }
@@ -814,6 +885,14 @@ function announceBands() {
     state.realityBand = rb;
     if (rb === 'high') announce('Reality overload: ' + state.reality + ' of 100. He is immobile.');
   }
+  // Visible HUD caption (mirrors the announcer; aria-hidden to avoid doubling)
+  const note = $('hudNote');
+  if (note) {
+    note.textContent =
+      state.egoBand === 'high' ? 'EGO: CRITICAL. He is shopping.' :
+      state.egoBand === 'low' ? 'EGO: COLLAPSED. He is sulking at sea level.' :
+      state.realityBand === 'high' ? 'REALITY: LOUD. He has stopped moving.' : '';
+  }
 }
 
 /* Interrupts checked after every resolution. Returns true if one is playing. */
@@ -871,10 +950,12 @@ function startLevel(i) {
   const lv = LEVELS[i];
   $('levelKicker').textContent = 'Level ' + lv.id + ' of 10';
   $('levelHeading').textContent = lv.title;
+  $('levelStatusText').textContent = lv.status || '';
+  $('levelStatus').hidden = !lv.status;
   $('transcript').replaceChildren();
   clearInteraction();
   showScreen('screen-level', 'levelHeading');
-  announce('Level ' + lv.id + ': ' + lv.title + '.');
+  announce('Level ' + lv.id + ': ' + lv.title + '. Ship status: ' + (lv.status || 'unknown'));
   if (lv.onEnter) applyEffects(lv.onEnter);
   runStep();
 }
@@ -892,7 +973,14 @@ function runStep() {
     return;
   }
   if (step.t === 'beat') {
-    addLine(step.who, step.text);
+    // Batch consecutive beats into one group — every click lands a full
+    // setup→punchline unit instead of a fragment.
+    let i = state.step;
+    while (i < lv.script.length && lv.script[i].t === 'beat') {
+      addLine(lv.script[i].who, lv.script[i].text);
+      i++;
+    }
+    state.step = i - 1;
     nextButton('Next ▸', advanceStep);
   } else if (step.t === 'doors') {
     renderDoors(step);
@@ -1068,8 +1156,8 @@ function renderSetpiece() {
   title.className = 'prompt';
   title.style.marginTop = '0';
   title.textContent = state.calmSeas
-    ? 'Rebrand the staircase before his ego runs out. Each pitch costs 4 Ego. Calm Seas: no timer.'
-    : 'Rebrand the staircase before his ego runs out. It is draining as he stares at the word EMERGENCY.';
+    ? 'Rebuild the staircase’s name before his ego drowns first. Gold words only. Each pitch costs 4 Ego. Calm Seas: no timer.'
+    : 'Rebuild the staircase’s name before his ego drowns first. Gold words only. It is draining as he stares at the word EMERGENCY.';
   const timerEl = document.createElement('span');
   timerEl.className = 'sp-timer';
   timerEl.id = 'spTimer';
@@ -1157,7 +1245,7 @@ function commitSetpiece() {
     state.counters.rebrands += 1;
     state.ego = clamp(Math.min(state.ego + sum, CFG.l6.capAfter));
     renderMeters();
-    addLine('biggly', '“' + name + '.” …I’ll allow it. Stairs have always respected me.');
+    addLine('biggly', '“' + name + '.” …I’ll allow it. Stairs have always respected me. Ask any escalator.');
     announce('Accepted: ' + name + '. He climbs.');
     $('interaction').replaceChildren();
     if (!checkInterrupts(advanceStep)) nextButton('Next ▸', advanceStep);
@@ -1182,7 +1270,7 @@ function setpieceBail() {
     toast(STAR_TOAST);
   } else {
     addLine('crew', 'The staircase called you a visionary, sir.');
-    addLine('biggly', 'Obviously.');
+    addLine('biggly', 'Obviously. Send it something.');
   }
   state.ego = Math.max(state.ego, 30);
   renderMeters();
@@ -1194,9 +1282,9 @@ function setpieceBail() {
 
 /* ---------- Finale + scorecard ---------- */
 function renderFinale() {
-  addLine('biggly', 'Wait. Unlimited seating. Zero dissent. Do you know what this room is worth now?');
+  addLine('biggly', 'Wait. Unlimited seating. Zero dissent. Do you have any idea what this room appraises at, now that it’s perfect?');
   nextButton('No. No no no. ▸', () => {
-    addLine('narrator', 'The evacuation is cancelled. A banner descends, because a banner was standing by.');
+    addLine('narrator', 'The evacuation is cancelled. A banner descends, because a banner was standing by. It always is.');
     state.ego = 100; state.reality = 5; renderMeters();
     nextButton('Watch the banner descend ▾', showScorecard);
   });
