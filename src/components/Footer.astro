@@ -37,10 +37,10 @@ const columns = [
 ---
 
 <footer class="px-6 py-8 mt-16 border-t border-line text-sm text-ink-soft max-w-4xl mx-auto">
-  <nav aria-label="Footer" class="grid grid-cols-2 sm:grid-cols-3 gap-8 pb-8 border-b border-line/40">
+  <nav aria-label="Footer" class="grid gap-8 pb-8 border-b border-line/40" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr))">
     {
       columns.map((col) => (
-        <div>
+        <div class="min-w-0">
           <p class="font-body text-eyebrow uppercase text-gold-ink">{col.heading}</p>
           <ul class="mt-3 space-y-2">
             {col.links.map((l) => (
