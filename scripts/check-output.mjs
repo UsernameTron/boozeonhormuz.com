@@ -29,7 +29,7 @@ let references = 0;
 const broken = [];
 for (const file of files.filter((f) => /\.(html|css)$/.test(f))) {
   const content = readFileSync(file, 'utf8');
-  assert.doesNotMatch(content, /Fixture (?:unreleased track|preview track|released track|hidden track|draft track|secret video|secret image|public image)/, 'Fixture content leaked into production output');
+  assert.doesNotMatch(content, /Fixture(?:\s|%20|&#32;)/, 'Fixture content leaked into production output');
   const rel = relative(root, file).replaceAll('\\', '/');
   const route = '/' + rel.replace(/index\.html$/, '');
   if (file.endsWith('.html') && !rel.startsWith('apps/')) {

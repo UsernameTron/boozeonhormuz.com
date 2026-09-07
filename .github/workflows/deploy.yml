@@ -85,3 +85,13 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Checkout read-only smoke script
+        uses: actions/checkout@v6
+      - name: Setup Node for deployed-site verification
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify deployed routes and custom domain
+        env:
+          DEPLOYED_URL: ${{ steps.deployment.outputs.page_url }}
+        run: node scripts/smoke-site.mjs --origin "$DEPLOYED_URL"

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { listedTracks, playableTracks, liveVideos, liveImages, toISODuration } from '../../src/lib/media.ts';
+import { listedTracks, playableTracks, liveVideos, liveImages, toISODuration, featuredFirst, validateWatchSlugs } from '../../src/lib/media.ts';
 
 const track = (id, status, trackNumber, draft = false) => ({ id, data: { status, trackNumber, draft } });
 test('track lifecycle controls visibility, ordering and page eligibility without mutating input', () => {
@@ -21,4 +21,16 @@ test('duration conversion supports missing and valid metadata', () => {
   assert.equal(toISODuration('invalid'), undefined);
   assert.equal(toISODuration('3:14'), 'PT3M14S');
   assert.equal(toISODuration('0:09'), 'PT0M9S');
+});
+test('an older featured performance precedes newer unfeatured entries without losing recency order', () => {
+  const items = [
+    { id: 'new', data: { publishDate: new Date('2026-09-01'), featured: false, draft: false } },
+    { id: 'old-feature', data: { publishDate: new Date('2026-01-01'), featured: true, draft: false } },
+    { id: 'middle', data: { publishDate: new Date('2026-06-01'), featured: false, draft: false } },
+  ];
+  assert.deepEqual(featuredFirst(liveVideos(items)).map((v) => v.id), ['old-feature', 'new', 'middle']);
+  assert.deepEqual(items.map((v) => v.id), ['new', 'old-feature', 'middle']);
+});
+test('public episode/video watch slugs cannot collide', () => {
+  assert.throws(() => validateWatchSlugs([{ id: 'episode', data: { slug: 'same' } }, { id: 'video', data: { slug: 'same' } }]), /Duplicate public watch slug/);
 });

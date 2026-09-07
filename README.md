@@ -6,7 +6,7 @@ A static Astro 6 site at [boozeonhormuz.com](https://boozeonhormuz.com) — a sa
 
 ## Status
 
-The Astro site is live. Its catalog currently contains the premiere video, album shell and seven Evidence Lounge exhibits; the intentionally unfinished music catalog supports incremental releases. The September 2026 verification and release workflow improvements are prepared locally on a feature branch and await owner approval to publish. Check the Actions run before treating any feature-branch change as deployed.
+The Astro site is live. Its catalog currently contains the premiere video, album shell and seven Evidence Lounge exhibits; the intentionally unfinished music catalog supports incremental releases. These documents describe this revision. Confirm the deployed commit and successful Actions run before treating any change as live. Publishing changes requires explicit owner approval.
 
 ## Stack
 
@@ -55,7 +55,7 @@ The media routes are `/album`, `/album/<slug>`, `/listen`, `/watch`, `/watch/<sl
 
 `/tools` hosts two browser-only prompt generators for the *Don Biggly* satire — the **Biggly Broadcast Pack Generator** (one brief → a full content kit) and the **Evidence Lounge Prompt Generator** (a 20-template workbench). They produce copy-ready prompts for Suno / Sora / Veo / Gemini / ChatGPT / Claude — no login, no API key, no backend, nothing stored on a server.
 
-The prepared upgrade adds reviewed portable-project imports, merge/undo for custom templates, explicit opt-in device saving, a Broadcast-to-Studio file handoff, and a real 30-second vertical Shorts/Reels preset with a five-shot manifest. See [creative project files](docs/CREATIVE-PROJECTS.md) for compatibility, storage and output contracts. Publication status remains as described above.
+This revision adds reviewed portable-project imports, merge/undo for custom templates, explicit opt-in device saving, a Broadcast-to-Studio file handoff, and a real 30-second vertical Shorts/Reels preset with a five-shot manifest. See [creative project files](docs/CREATIVE-PROJECTS.md) for compatibility, storage and output contracts. Confirm publication status as described above.
 
 ## Verification and deploy
 
@@ -63,7 +63,7 @@ Run `npm run verify` locally against a clean install. The fixture test creates a
 
 `npm run test:lighthouse` runs three mobile audits on each of 12 explicit routes. Point `CHROME_PATH` at a Chrome installation if it is not auto-detected. Reports stay in `.lighthouseci/`; accessibility and site-page SEO are blocking, while performance remains a 90-point warning until measured release budgets are approved.
 
-The prepared workflow validates pull requests without publishing. Approved changes reaching `main` (or a manual run on `main`) must pass **Release validation** before Pages can deploy the exact validated build. Adding that named check to branch protection is an owner settings step, not a change this branch makes. See [DevOps handoff](docs/DEVOPS-HANDOFF.md) for release, approval and rollback details.
+The workflow validates pull requests without publishing. Approved changes reaching `main` (or a manual run on `main`) must pass **Release validation** before Pages can deploy the exact validated build. Adding that named check to branch protection is an owner settings step, not a change this branch makes. See [DevOps handoff](docs/DEVOPS-HANDOFF.md) for release, approval and rollback details.
 
 ## Author
 

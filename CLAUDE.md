@@ -2,7 +2,7 @@
 
 Project governance for the Booze on Hormuz satire hub. Read before making changes.
 
-> September 2026 implementation note: release verification and artifact-gated workflows are prepared on a local feature branch. They are not confirmed active in production. Use [README.md](README.md) and [docs/DEVOPS-HANDOFF.md](docs/DEVOPS-HANDOFF.md) for current commands, release checks and approval boundaries. Historical deployment descriptions below predate that work; the checked-in workflows and package lockfile define the implementation.
+> These documents describe this repository revision. Confirm the deployed SHA and Actions run before treating a change as live. Publishing requires explicit owner approval. Use [README.md](README.md) and [docs/DEVOPS-HANDOFF.md](docs/DEVOPS-HANDOFF.md) for current commands, release checks and approval boundaries. The checked-in workflows and package lockfile define the implementation; old runbooks and planning milestones are historical references.
 
 ## What this is
 
@@ -10,7 +10,7 @@ A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormu
 
 ## Deployment — Astro pipeline ONLY (critical)
 
-The live site is built by `.github/workflows/deploy.yml` (`withastro/action@v6` → `astro build` → deploys `dist/`). **Files at the repo root never ship** — only `src/pages/` routes and `public/` assets. The deployed `CNAME` is `public/CNAME` (the root copy is vestigial). The untracked `DEPLOY.md` describes a plain push-the-HTML workflow that does NOT apply here; `extras/` (gitignored) holds v1/v2 reference copies of the standalone landing page — never deploy them.
+The release workflow `.github/workflows/deploy.yml` installs the exact lockfile on Node 24, runs `npm run verify`, uploads the validated `dist/`, and audits that same artifact with Lighthouse. Main releases deploy only after **Release validation** succeeds, then run a read-only live smoke check. Pull requests cannot publish. **Files at the repo root never ship** — only `src/pages/` routes and `public/` assets. The deployed `CNAME` is `public/CNAME` (the root copy is vestigial). The untracked `DEPLOY.md` describes a plain push-the-HTML workflow that does NOT apply here; `extras/` (gitignored) holds v1/v2 reference copies of the standalone landing page — never deploy them.
 
 **The Experience exception (was the homepage):** `src/pages/experience.html` — a raw HTML page (Astro serves `.html` pages verbatim: no scoped styles, no script bundling), NOT a BaseLayout page. It is the ported "v3 full-scam" standalone landing page (timeshare-trope satire: countdown bar, qualification quiz, financing calculator, Brigadier Dakota chat, exit-intent modal, sticky 1-800-BIG-BRINK bar), moved from the root during the media-first makeover and preserved as an artifact — **never delete or "modernize" it**. Its footer parody disclaimer + all-caps solicitation block are **load-bearing — keep both** (only-page exception to the "disclaimer renders from BaseLayout" rule, since it doesn't use BaseLayout). Its Don imagery ships as `public/don-biggly.webp` + `public/don-biggly-poster.webp` (extracted from the original's embedded base64). Future standalone-HTML drops must be ported the same way: externalize embedded images, swap dead-end anchors for real routes, keep head canonical/OG tags pointed at their own route. The homepage proper is now `src/pages/index.astro` — a BaseLayout media-first trailer for the archive.
 
@@ -29,7 +29,7 @@ src/pages/               / (index.astro — media-first trailer: hero → album 
                          performance → listen → visual evidence → experience door → studio strip) ·
                          /album + /album/[slug] (track pages) · /watch + /watch/[slug] (videos +
                          legacy episodes, client-side filters, VideoObject JSON-LD) · /listen ·
-                         /archive (all media + evidence exhibits, filterable) ·
+                         /archive (search, populated filters and URL-driven artwork viewer) · /art/[id] ·
                          /experience (experience.html — the preserved v3 landing page) ·
                          /play (iframe-hosted browser game, see public/apps/) ·
                          /studio (real contact, mailto-composed) · /press ·
@@ -41,15 +41,15 @@ src/styles/global.css    Tailwind 4 entry + locked @theme brand tokens (Checkpoi
 public/apps/             standalone visitor apps: prompt-generator tools (broadcast-room.html,
                          evidence-lounge-studio.html; iframed by /tools pages) + the browser
                          game (exit-strategy.html; iframed by /play) — all browser-only,
-                         no backend/API key/localStorage
+                         no backend/API key; optional explicit device storage
 public/audio|covers|stills|thumbs|video/  web-delivery media (masters live OUTSIDE git —
                           see docs/CONTENT-MODEL.md for the three-layer rule)
 public/CNAME             apex-domain marker — MUST ship in dist/
 docs/CONTENT-MODEL.md    the publishing procedure: add a track/video/image, status lifecycle
 astro.config.mjs         site=apex (NO base), output:static, sitemap() integration; tailwind
                          plugin cast to `any` to bridge @tailwindcss/vite↔Astro Vite type skew
-.github/workflows/       deploy.yml (push main → withastro/action@v6 → Pages) +
-                         lighthouse.yml (Lighthouse CI on PR/push, config in lighthouserc.json)
+.github/workflows/       deploy.yml (source/browser checks → exact artifact → gated Pages → smoke) +
+                         lighthouse.yml (reusable audit, config in lighthouserc.json)
 .nvmrc                    24 (matches CI runtime; note package.json engines says >=22.12.0)
 booze on hormuz/          tracked content-factory sources (brand pack, ingest/render/verify
                           scripts, skill specs) — NOT site code, never imported by the build
@@ -69,20 +69,25 @@ design. Empty collections ⇒ `getCollection` filters `!draft`; dynamic `[slug]`
 nothing; routes render deadpan empty states. **Interface rule (makeover):** the content can
 be deranged, the interface cannot — nav, playback, filters, and the /studio contact form
 behave totally normally; the only fake sales mechanics live inside `/experience`.
-**Local cache gotcha:** Astro 6's content store is `node_modules/.astro/data-store.json` —
-clearing project `.astro/` is NOT enough; `rm -rf node_modules/.astro` for a clean local
-content-free build. (CI is unaffected — `npm ci` wipes `node_modules`.)
+**Local cache gotcha:** Astro 6's default content store is `node_modules/.astro/data-store.json`.
+Disposable fixture builds use their own dependencies, `.astro` types and explicit `.astro-cache`
+directory. Never share those caches with production; `npm run verify` rebuilds production after
+fixtures and rejects leaked fixture labels. Use the isolated harness for synthetic content.
 
 **Creative Tools (`/tools`):** two standalone HTML prompt generators live in `public/apps/`
 and are embedded via `<iframe>` inside BaseLayout-wrapped Astro pages. The iframe is a
 deliberate isolation boundary — each tool ships a full `* { margin:0 }` reset and its own
 `:root` token set that would collide with Tailwind `@theme` / `global.css` if inlined. This
 keeps the tool sandboxed while Nav + Footer + the global disclaimer still wrap it. Native
-port (shared CSS/JS, brand fonts) is deferred to a later phase. Tools are browser-only: no
-backend, no API key, no localStorage. **Tool URL ≠ content URL:** `/evidence-lounge` is the
+port is deferred to a later phase. Both apps use a small shared portable-project module and
+responsive step navigation while retaining their own styles. Tools are browser-only: no
+backend or API key; explicit opt-in device saving, reviewed restore/import and portable exports
+are described in `docs/CREATIVE-PROJECTS.md`. **Tool URL ≠ content URL:** `/evidence-lounge` is the
 exhibit gallery; the *tool* is `/tools/evidence-lounge-studio`. Do not merge them.
 
-Push to `main` builds and deploys. Every future content drop is one `git push`.
+Content changes follow a reviewed branch and approved release. Do not push or publish without
+explicit owner approval, and do not bypass failed validation. Listening resume and game report
+saving are also opt-in and local; the current empty audio catalog remains a valid public state.
 
 ## Stack (exact-pinned)
 
@@ -95,7 +100,9 @@ Push to `main` builds and deploys. Every future content drop is one `git push`.
 | @astro-community/astro-embed-youtube | 0.5.10 | YouTube embed used by YouTubeEmbed.astro |
 | @fontsource-variable/fraunces | 5.2.9 | display face |
 | @fontsource-variable/inter | 5.2.8 | body face |
-| @astrojs/check / typescript | 0.9.9 / 6.0.3 | dev — typecheck (`npx astro check`; no npm script) |
+| @astrojs/check / typescript | 0.9.9 / 6.0.3 | dev — typecheck (`npm run check`) |
+| sharp | 0.34.5 | additive responsive-media generation; originals remain unchanged |
+| @playwright/test / @lhci/cli | 1.63.0 / 0.15.1 | browser regression suite and mobile audit |
 
 **Do not bump `@tailwindcss/vite` to 4.3.x** until Astro ships a Vite 8 line. It will break the build (`Missing field tsconfigPaths`).
 
@@ -106,6 +113,8 @@ npm run dev       # localhost:4321
 npm run build     # static build → dist/
 npm run preview   # serve dist/
 npx astro check   # typecheck (must exit 0 before commit)
+npm run verify   # source, isolated fixtures, production media/output and browser gates
+npm run test:lighthouse # audit the frozen verified production output
 ```
 
 ## Conventions
@@ -119,8 +128,8 @@ npx astro check   # typecheck (must exit 0 before commit)
 
 ## Status
 
-> Last verified: 2026-07-17 <!-- refresh via /gsd:sync-docs; guarded by ~/.claude/hooks/claude-md-staleness.js (warns >14d at SessionStart) -->
-
-- **Now:** M01 shipped — site live at https://boozeonhormuz.com over HTTPS; M02 (pipeline) not started.
-- **Live state:** [.planning/STATE.md](.planning/STATE.md) · **Roadmap:** [.planning/ROADMAP.md](.planning/ROADMAP.md) · **Stack rationale:** [.planning/RESOLUTION.md](.planning/RESOLUTION.md)
-- Phase-by-phase history lives in STATE.md, not here.
+- This revision includes media optimization, archive artwork pages, portable creative projects,
+  a listening queue with optional resume, and game result artifacts. Run the release checks
+  against the revision being published; live state is the deployed SHA in Actions.
+- [.planning/STATE.md](.planning/STATE.md), [.planning/ROADMAP.md](.planning/ROADMAP.md) and
+  [.planning/RESOLUTION.md](.planning/RESOLUTION.md) preserve earlier milestone history.

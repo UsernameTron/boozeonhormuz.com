@@ -4,7 +4,7 @@
 
 Static Astro 6.4.2 site deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. The site has a public premiere, album shell, seven exhibits, two creative apps and a game. There is no server-side application runtime or database.
 
-**Release state, September 6, 2026:** the workflow and verification changes described below are local implementation, pending owner approval to push/publish. No DNS, Pages environment, branch-protection or production settings were changed. The pre-change reference is `b906b87b0a18e0102d8a0afdc7c2190666e8474a`, which builds successfully locally; record the actual deployed SHA and Actions artifact IDs at release time.
+**Revision and release status:** this document describes the current repository revision; confirm the deployed SHA and Actions run for live status. Push/publication requires explicit owner approval. These source changes do not themselves alter DNS, Pages environment or branch-protection settings. The pre-change reference is `b906b87b0a18e0102d8a0afdc7c2190666e8474a`, which builds successfully locally; record the actual deployed SHA and Actions artifact IDs at release time.
 
 ## Environment requirements
 
@@ -29,7 +29,7 @@ npm run verify   # all deterministic source/content/build/browser checks
 npm run test:lighthouse # three mobile runs on each explicit route
 ```
 
-## Prepared deployment flow
+## Deployment flow
 
 - **PRs:** validate source and production output only. No Pages deployment job can run for a pull-request event.
 - **Release trigger:** push to `main`, or `workflow_dispatch` explicitly on `main`. Other manually selected branches can validate but cannot deploy.
@@ -39,16 +39,17 @@ npm run test:lighthouse # three mobile runs on each explicit route
 - **Concurrency:** production uses the existing `pages` group with `cancel-in-progress: false`; PR validation uses a per-PR group.
 - **Domain:** `public/CNAME` must remain exactly `boozeonhormuz.com`; it ships in `dist/` and is asserted. Check live DNS/TLS in the hosting dashboard when needed; historic certificate dates and old setup notes are not current status.
 - **Permissions:** validation has `contents: read`. Only the deployment job receives `pages: write` and `id-token: write` in the `github-pages` environment.
+- **Post-deployment smoke:** only after a successful main release, `scripts/smoke-site.mjs` reads the deployed Pages URL. It checks HTTP success on all 12 critical routes plus `/CNAME`, the homepage canonical, premiere source/structured data and final custom-domain hostname. Up to three attempts use 10-second request timeouts and 5-second propagation delays. A failure marks the deployment job unsuccessful but does not undo the already completed deployment, rebuild output or mutate hosting. Inspect the release and live site before deciding on an owner-approved recovery. Verify this script locally with `node scripts/smoke-site.mjs --origin http://127.0.0.1:4333 --attempts 1`; local loopback skips only the final-hostname match.
 
 The owner must explicitly approve push/publication. Once approved, use a reviewed feature-branch PR, verify the required checks and deployment status, then inspect the live premiere and important routes. Do not bypass failing checks to ship.
 
 ## Test and report contracts
 
-`npm run test:unit` covers draft/hidden filtering, track ordering, page eligibility, video ordering, image visibility and duration conversion. `npm run test:fixtures` creates a temporary project with its own locked dependencies, `.astro` types and `.astro-cache/data-store.json`. It copies `scripts/` and runs `npm run build`, including hooks, against draft/hidden/unreleased/preview/released tracks, a silent WAV, local/YouTube video metadata in three orientations, and public/draft images. Missing audio and artwork are legitimate states. The local MP4 fixture checks markup and source selection only, not video decoding. Temporary paths and logs are printed for debugging; no test content is written into the real catalog.
+`npm run test:unit` covers draft/hidden filtering, track ordering, page eligibility, video ordering, image visibility and duration conversion. `npm run test:fixtures` creates a temporary project with its own locked dependencies, `.astro` types and `.astro-cache/data-store.json`. It copies `scripts/` and runs `npm run build`, including hooks, against draft/hidden/unreleased/preview/released tracks, a silent WAV, local/YouTube video metadata in three orientations, and public/draft images. Missing audio and artwork are legitimate states. Three tiny synthetic H.264 MP4 fixtures exercise real Chromium metadata, landscape/portrait/square dimensions, paused initial state, inline playback, decoded completion and timed WebVTT cues. Temporary paths and logs are printed for debugging; no test content is written into the real catalog.
 
-`npm run check:output` checks the domain, sitemap, canonicals, local HTML/CSS asset and page references, premiere source and structured data, all explicit audit routes, and absence of fixture titles after the production rebuild. Invalid source-less public videos and duplicate episode/video watch slugs are identified content-contract gaps pending validation work; do not add tests treating them as desirable behavior.
+`npm run check:output` checks the domain, sitemap, canonicals, local HTML/CSS asset and page references, premiere source and structured data, all explicit audit routes, and absence of fixture titles after the production rebuild. Source-less public videos and duplicate episode/video watch slugs now fail the build, and disposable negative fixtures require those failures. `npm run check:media` verifies original source hashes and derivative dimensions after the production build.
 
-`npm run test:e2e` starts its own production preview on `BOH_TEST_PORT` (default 4321), refuses a pre-existing server, and uses two Chromium workers. It captures all 12 critical routes at 320, 390, 768 and 1440 pixels, checks horizontal overflow and headings, navigates/filter/empty states, activates the premiere facade, round-trips creative JSON imports/exports, checks safe text rendering and modal Escape/focus, and starts/resets the game with reduced-motion Calm Seas enabled. Provider requests are stubbed, so the suite does not claim that real external playback works. Manually activate the real premiere before publication. Game completion and new features have additional tests as their implementation lands.
+`npm run test:e2e` starts its own production preview on `BOH_TEST_PORT` (default 4321), refuses a pre-existing server, and uses two Chromium workers. It captures all 12 critical routes at 320, 390, 768 and 1440 pixels, checks horizontal overflow and headings, navigates/filter/empty states, activates the premiere facade, round-trips creative JSON imports/exports, checks safe text rendering and modal Escape/focus, and starts/resets the game with reduced-motion Calm Seas enabled. Additional cases exercise artwork viewer history and focus, game completion/report artifacts, the real audio queue and optional resume, and portable projects including output snapshots, byte limits, merge/undo and storage failures. Provider requests are stubbed, so the suite does not claim that real external playback works. Manually activate the real premiere before publication.
 
 Lighthouse audits `/`, `/album/`, `/watch/`, `/watch/the-premiere/`, `/listen/`, `/archive/`, `/play/`, both tool wrappers, and all three `/apps/*.html` files. Three mobile runs per route are retained. Accessibility >=90 blocks; SEO >=90 blocks on site pages and warns on standalone apps. Performance >=90 and best practices >=90 warn. Do not turn the aspirational performance target into a blocking requirement until measurements establish attainable per-route budgets and the integrated changes meet them. Hardware, network and external thumbnails can affect lab scores.
 
@@ -87,9 +88,9 @@ No application environment variables or API credentials are required. `BOH_TEST_
 |---|---|
 | Existing source install/typecheck/build | Passed before product edits |
 | Existing browser routes | 10 tests passed; 48 responsive screenshots captured |
-| Existing local asset references | Nine intended placeholder images still requested missing files on about/products/sponsor pages; output check stays failing until repaired |
-| Content validation gaps | Source-less public video and duplicate watch slugs require rejection rules |
-| Release validation in branch | Prepared; production activation and required-check settings await owner approval |
+| Original local asset references | Nine intended placeholder images requested missing files; integrated media components now resolve these as placeholders without broken requests |
+| Public video contracts | Source-less public video and duplicate watch slugs now fail the build, backed by negative fixtures |
+| Release validation | Source workflow gates the validated artifact; confirm deployed SHA and configure the named required check with owner approval |
 
 ## Known tech debt / constraints
 

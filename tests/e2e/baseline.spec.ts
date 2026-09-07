@@ -36,13 +36,15 @@ test('primary navigation reaches album and exposes the active route', async ({ p
   await expect(nav.getByRole('link', { name: 'Album', exact: true })).toHaveAttribute('aria-current', 'page');
 });
 
-test('archive filters expose an empty category and restore the catalog', async ({ page }) => {
+test('archive populated filters and empty searches restore the catalog', async ({ page }) => {
   await page.goto('/archive/');
   const group = page.getByRole('group', { name: 'Filter the archive' });
-  await group.getByRole('button', { name: 'Tracks', exact: true }).click();
-  await expect(group.getByRole('button', { name: 'Tracks', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await group.locator('[data-filter="image"]').click();
+  await expect(group.locator('[data-filter="image"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#archive-grid [data-type="image"]:visible')).not.toHaveCount(0);
+  await page.getByLabel('Search the archive').fill('No matching fixture query 90210');
   await expect(page.locator('#archive-empty')).toBeVisible();
-  await group.getByRole('button', { name: 'All', exact: true }).click();
+  await page.getByRole('button', { name: 'Reset', exact: true }).click();
   await expect(page.locator('#archive-empty')).toBeHidden();
   await expect(page.locator('#archive-grid [data-type]:visible')).not.toHaveCount(0);
 });
