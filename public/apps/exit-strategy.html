@@ -69,7 +69,8 @@
     .app { min-height: 100%; display: flex; flex-direction: column; }
 
     header.site {
-      position: sticky; top: 0; z-index: 40;
+      /* The brand scrolls away so it cannot obscure the sticky game meters. */
+      position: relative; z-index: 40;
       backdrop-filter: blur(18px);
       background: linear-gradient(90deg, rgba(5,9,18,.94), rgba(10,18,34,.9));
       border-bottom: 1px solid var(--line);
@@ -353,6 +354,24 @@
     }
     .epilogue { margin-top: 14px; color: var(--muted); font-size: 14px; max-width: 60ch; }
 
+    /* Completed reports stay readable without introducing another scroll pane. */
+    .report-tools, .recap-panel, .saved-panel { margin-top: 24px; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+    .report-tools p, .recap-panel p, .saved-panel p { color: var(--muted); font-size: 14px; margin: 8px 0; }
+    .report-tools .controls { margin-top: 14px; }
+    .report-tools h3, .recap-panel h3, .saved-panel h3 { color: var(--champagne); font: 800 20px/1.3 var(--display); }
+    .recap-panel ol, .recap-panel ul { padding-left: 24px; margin-top: 14px; }
+    .recap-panel li { margin: 12px 0; overflow-wrap: anywhere; }
+    .recap-panel li span { display: block; color: var(--muted); font-size: 14px; }
+    .recap-panel summary, .saved-panel summary { cursor: pointer; padding: 12px 0; color: var(--gold); font-weight: 700; }
+    .report-status { min-height: 24px; }
+    [hidden] { display: none !important; }
+    .report-tools button, .saved-panel button { max-width: 100%; overflow-wrap: anywhere; }
+    @media (max-width: 480px) {
+      .report-tools, .recap-panel, .saved-panel { padding: 14px; }
+      .scorecard .row { padding: 11px 14px; }
+      .scorecard dd { text-align: left; }
+    }
+
     /* Toast + a11y helpers */
     .toast {
       position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
@@ -509,24 +528,67 @@
       <p class="epilogue">The ship is empty. The exit is open. The gift shop remains operational.</p>
       <div class="controls">
         <button type="button" class="primary" id="btnReplay">Sail Again</button>
-        <button type="button" class="ghost" id="btnShare">Copy Scorecard</button>
       </div>
+      <div class="report-tools" aria-labelledby="reportToolsHeading">
+        <h3 id="reportToolsHeading">Take the victory with you</h3>
+        <p>This final score is frozen. Take your time; the lawyers have.</p>
+        <div class="controls">
+          <button type="button" class="ghost" id="btnShare">Copy Scorecard</button>
+          <button type="button" class="ghost" id="btnPNG">Download PNG scorecard</button>
+          <button type="button" class="ghost" id="btnText">Download scorecard text</button>
+        </div>
+        <p class="report-status" id="exportStatus" role="status"></p>
+      </div>
+      <div class="recap-panel" aria-labelledby="recapHeading">
+        <h3 id="recapHeading">Your voyage, on the record</h3>
+        <p id="recapSummary"></p>
+        <details>
+          <summary>Review your actual decisions</summary>
+          <ol id="recapRows"></ol>
+        </details>
+        <h3>For your next departure</h3>
+        <ul id="replayMilestones"></ul>
+        <div class="controls">
+          <button type="button" class="ghost" id="btnRecapText">Download recap text</button>
+          <button type="button" class="ghost" id="btnRecapJSON">Download recap JSON</button>
+        </div>
+        <p>Optional: save this completed report on this device. This replaces your previous saved report. It never saves a voyage in progress.</p>
+        <button type="button" class="ghost" id="btnSaveReport">Save this report on this device</button>
+        <p class="report-status" id="saveStatus" role="status"></p>
+      </div>
+    </section>
+    <section class="saved-panel" id="savedPanel" aria-labelledby="savedHeading" hidden>
+      <h3 id="savedHeading">Saved on this device</h3>
+      <p id="savedDescription"></p>
+      <details id="savedDetails" hidden>
+        <summary>View your saved completed report</summary>
+        <p id="savedPreview" style="white-space: pre-wrap; overflow-wrap: anywhere;"></p>
+      </details>
+      <div class="controls">
+        <button type="button" class="ghost" id="btnSavedText" hidden>Export saved recap text</button>
+        <button type="button" class="ghost" id="btnSavedJSON" hidden>Export saved recap JSON</button>
+        <button type="button" class="ghost" id="btnClearSaved">Clear saved report</button>
+      </div>
+      <p class="report-status" id="savedStatus" role="status"></p>
     </section>
   </main>
 
   <footer class="app-foot">
-    Runs entirely in your browser. Nothing is saved, tracked, or sent anywhere —
-    refresh and the ship resets. <a href="https://boozeonhormuz.com/legal">Very Legal Disclaimer</a>.
+    Runs entirely in your browser. No accounts or tracking; game data is never sent anywhere.
+    Refresh resets the voyage. A completed report is saved on this device only when you choose Save;
+    you can export or clear it here. <a href="https://boozeonhormuz.com/legal">Very Legal Disclaimer</a>.
   </footer>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="visually-hidden" aria-live="polite" id="announcer"></div>
 
-<script>
+<script type="module">
+import { createRecap, recordDecision, completeVoyage, replayMilestones, scoreText, recapText,
+  readSavedReport, saveReport, clearSavedReport, renderScorecard } from './exit-strategy-artifacts.js';
 /* ============================================================
    DON BIGGLY'S TREMENDOUS EXIT STRATEGY
-   Browser-only. No backend, no localStorage, no network calls.
+   Browser-only. No backend or network calls. Completed-report storage is opt-in.
    ============================================================ */
 'use strict';
 
@@ -802,10 +864,19 @@ function freshState() {
                 l6Result: null, startedAt: 0 },
     calmSeas: false,
     egoBand: 'mid', realityBand: 'mid',
-    l6: null, pendingUnlock: null
+    l6: null, pendingUnlock: null,
+    recap: createRecap(), completed: null
   };
 }
 let state = freshState();
+let savedReport = null;
+let savedReportError = null;
+
+function remember(kind, label, outcome) {
+  if (state.completed) return;
+  const level = LEVELS[state.level];
+  recordDecision(state.recap, { level: level.id, title: level.title, kind, label, outcome });
+}
 
 /* ---------- DOM helpers ---------- */
 let lineIndex = 0;
@@ -844,7 +915,8 @@ function toast(msg) {
 function prefersReduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
 function showScreen(id, headingId) {
   ['screen-title', 'screen-level', 'screen-score'].forEach((s) => { $(s).hidden = (s !== id); });
-  $('hud').hidden = (id === 'screen-title');
+  $('hud').hidden = (id !== 'screen-level');
+  $('savedPanel').hidden = id === 'screen-level' || (!savedReport && !savedReportError);
   const h = $(headingId);
   if (h) h.focus();
 }
@@ -915,6 +987,7 @@ function checkInterrupts(onDone) {
     b.type = 'button'; b.className = 'ghost';
     b.textContent = 'Flatter him: “The ocean is jealous of your buoyancy.”';
     b.addEventListener('click', () => {
+      remember('flattery', 'The ocean is jealous of your buoyancy.', 'Flattery accepted.');
       addLine('biggly', 'It should be. I float at a very high level.');
       applyEffects({ ego: 4, reality: -18 });
       if (realityLocked()) { $('controls').replaceChildren(b); b.focus(); }
@@ -931,6 +1004,7 @@ function checkInterrupts(onDone) {
 /* ---------- Gold star ---------- */
 function useGoldStar() {
   if (state.goldStars <= 0) return;
+  remember('gold-star', 'Gold Star', 'A Gold Star was spent; ego and reality meters adjusted.');
   state.goldStars -= 1;
   state.counters.goldStarsUsed += 1;
   applyEffects(CFG.starEffect);
@@ -946,6 +1020,7 @@ function useGoldStar() {
 
 /* ---------- Step runner ---------- */
 function startLevel(i) {
+  state.phase = 'playing';
   state.level = i; state.step = 0; lineIndex = 0;
   const lv = LEVELS[i];
   $('levelKicker').textContent = 'Level ' + lv.id + ' of 10';
@@ -1020,12 +1095,14 @@ function renderDoors(step) {
     const n = state.counters.leftDoorClicks++;
     const line = step.final && n >= 1 ? '“Still free. Disgusting.”'
       : LEFT_REJECTIONS[n % LEFT_REJECTIONS.length];
+    remember('free-exit', 'EMERGENCY EXIT — FREE', line);
     addLine('biggly', line);
     applyEffects({ ego: -2 });
     right.classList.add('pulse');
     announce('He refuses the free exit. Try the right door.');
   });
   right.addEventListener('click', () => {
+    remember('paid-exit', rName.textContent + ' — $999', step.final ? 'He reaches for the handle.' : 'Now that’s a door with revenue. Proceed.');
     if (step.final) {
       addLine('narrator', 'He reaches for the handle—');
       advanceStep();
@@ -1091,18 +1168,21 @@ function handleOption(step, opt, idx, btn, kick, box) {
   if (btn.classList.contains('struck')) return;
 
   if (opt.kind !== 'flatter' && realityLocked()) {
+    remember('pitch-blocked', opt.label, 'Reality too high; pitch could not proceed.');
     addLine('biggly', LOCK_LINE);
     announce('He is immobile. Reality is too high. Use flattery or a Gold Star.');
     renderMeters();
     return;
   }
   if (opt.kind === 'advance' && egoSulking()) {
+    remember('pitch-blocked', opt.label, 'Ego too low; pitch could not proceed.');
     addLine('biggly', SULK_LINES[state.counters.wrongPicks % SULK_LINES.length]);
     announce('His ego is too low to accept instructions. Flatter him first.');
     return;
   }
 
   if (opt.kind === 'flatter') {
+    remember('flattery', opt.label, opt.beat);
     const used = state.flatterUse[step.id] = (state.flatterUse[step.id] || 0) + 1;
     const relief = CFG.flatterDecay[Math.min(used - 1, CFG.flatterDecay.length - 1)];
     addLine('biggly', opt.beat);
@@ -1116,6 +1196,7 @@ function handleOption(step, opt, idx, btn, kick, box) {
   applyEffects(opt.effects);
 
   if (opt.kind === 'fail') {
+    remember('pitch-rejected', opt.label, opt.failBeat);
     state.counters.wrongPicks += 1;
     state.struck[step.id].add(idx);
     strikeOption(btn, kick);
@@ -1127,6 +1208,7 @@ function handleOption(step, opt, idx, btn, kick, box) {
   }
 
   // advance
+  remember('pitch-accepted', opt.label, opt.react);
   addLine('biggly', opt.react);
   if (opt.gag) addLine('gag', opt.gag);
   announce('Accepted. ' + opt.label);
@@ -1239,6 +1321,7 @@ function commitSetpiece() {
   if (state.calmSeas) applyEffects({ ego: -CFG.l6.calmCostPerCommit });
 
   if (sum >= CFG.l6.acceptAt) {
+    remember('pitch-accepted', name, 'Staircase rebrand accepted. He climbs.');
     stopSetpieceTimer();
     state.l6.active = false;
     state.counters.l6Result = state.counters.l6Result || 'clean';
@@ -1254,6 +1337,7 @@ function commitSetpiece() {
 
   applyEffects({ ego: Math.max(sum, -8) });
   const rej = L6_REJECTIONS.find((r) => sum <= r.max) || L6_REJECTIONS[L6_REJECTIONS.length - 1];
+  remember('pitch-rejected', name, rej.line);
   addLine('biggly', '“' + name + '?” ' + rej.line);
   announce('Rejected. Try gold words.');
   if (state.ego <= CFG.l6.floor) setpieceBail();
@@ -1284,55 +1368,31 @@ function setpieceBail() {
 function renderFinale() {
   addLine('biggly', 'Wait. Unlimited seating. Zero dissent. Do you have any idea what this room appraises at, now that it’s perfect?');
   nextButton('No. No no no. ▸', () => {
+    remember('finale', 'No. No no no.', 'The evacuation is cancelled. The banner descends.');
     addLine('narrator', 'The evacuation is cancelled. A banner descends, because a banner was standing by. It always is.');
     state.ego = 100; state.reality = 5; renderMeters();
     nextButton('Watch the banner descend ▾', showScorecard);
   });
 }
-function fmtMoney(n) { return n.toLocaleString('en-US'); }
-function scoreLines() {
-  const c = state.counters;
-  const brand = Math.max(88000000, 94000000 - 1000000 * c.wrongPicks + 2500000 * c.giftShops);
-  const mins = Math.max(0, Math.round((Date.now() - c.startedAt) / 60000));
-  const rows = [
-    ['Biggly brand value', fmtMoney(brand)],
-    ['Actual distance from exit', '3 FEET'],
-    ['Ego', 'MAXIMUM'],
-    ['Reality', 'MUTED'],
-    ['Lawyers remaining', '1'],
-    ['Waivers renamed', String(13 + c.waiversRenamed)],
-    ['Gift shops opened', String(5 + c.giftShops)],
-    ['Emergencies monetized', String(7 + c.emergenciesMonetized)],
-    ['Rebrands accepted', String(c.rebrands)],
-    ['Free exits refused', String(c.leftDoorClicks)],
-    ['Gold stars spent', c.goldStarsUsed + ' / ' + CFG.stars],
-    ['Voyage duration', mins + ' min'],
-    ['Staircase incident', c.l6Result === 'bailed' ? 'RESOLVED BY FLATTERY' : 'REBRANDED ON MERIT'],
-    ['Problems solved', '0']
-  ];
-  return rows;
-}
 function showScorecard() {
   stopSetpieceTimer();
+  state.completed ||= completeVoyage(state.counters, state.recap, state.calmSeas, Date.now());
+  state.phase = 'complete';
   const dl = $('scoreRows');
   dl.replaceChildren();
-  scoreLines().forEach(([k, v]) => {
+  state.completed.rows.forEach(([k, v]) => {
     const row = document.createElement('div'); row.className = 'row';
     const dt = document.createElement('dt'); dt.textContent = k;
     const dd = document.createElement('dd'); dd.textContent = v;
     row.append(dt, dd); dl.appendChild(row);
   });
+  renderRecap(state.completed);
   showScreen('screen-score', 'scoreHeading');
   announce('Voyage complete. Sold out, zero dissent. Total victory. Problems solved: zero.');
 }
-function shareText() {
-  const lines = scoreLines().map(([k, v]) => k.toUpperCase() + ': ' + v);
-  return 'DON BIGGLY’S TREMENDOUS EXIT STRATEGY — FINAL SCORE\n'
-    + 'SOLD OUT — ZERO DISSENT\n\n' + lines.join('\n')
-    + '\n\nTOTAL VICTORY\nPlay it: ' + CFG.siteUrl;
-}
 function copyScorecard() {
-  const text = shareText();
+  if (!state.completed) return;
+  const text = scoreText(state.completed);
   const done = () => toast('Scorecard copied. Distribute the victory.');
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
@@ -1345,13 +1405,97 @@ function fallbackCopy(text, done) {
   ta.value = text; ta.setAttribute('readonly', '');
   ta.style.position = 'fixed'; ta.style.left = '-9999px';
   document.body.appendChild(ta); ta.select();
-  try { document.execCommand('copy'); done(); } catch (e) { toast('Copy failed. Select it manually, like a lawyer.'); }
+  try {
+    if (!document.execCommand('copy')) throw new Error('Copy unavailable');
+    done();
+  } catch { toast('Copy unavailable. Use Download scorecard text to keep the victory.'); }
   document.body.removeChild(ta);
+}
+
+/* ---------- Completed-voyage exports and explicit device storage ---------- */
+function renderRecap(report) {
+  $('recapSummary').textContent = report.recap.total + ' decisions recorded in ' + report.mode + ' mode.'
+    + (report.recap.omitted ? ' Showing the latest ' + report.recap.decisions.length + '; ' + report.recap.omitted + ' earlier decisions omitted.' : ' Only the choices you actually made appear below.');
+  $('recapRows').start = report.recap.omitted + 1;
+  $('recapRows').replaceChildren(...report.recap.decisions.map((decision) => {
+    const item = document.createElement('li');
+    const title = document.createElement('strong');
+    title.textContent = 'Level ' + decision.level + ' · ' + decision.title;
+    const label = document.createElement('span'); label.textContent = 'Selected: ' + decision.label;
+    const outcome = document.createElement('span'); outcome.textContent = 'Outcome: ' + decision.outcome;
+    item.append(title, label, outcome);
+    return item;
+  }));
+  $('replayMilestones').replaceChildren(...replayMilestones(report).map((text) => {
+    const item = document.createElement('li'); item.textContent = text; return item;
+  }));
+}
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url; link.download = name;
+  document.body.appendChild(link); link.click(); link.remove();
+  // Leave enough time for browser download handling before releasing the data.
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function downloadReport(report, format, recap = false) {
+  if (!report) return;
+  try {
+    const text = format === 'json' ? JSON.stringify(report, null, 2) : recap ? recapText(report) : scoreText(report);
+    downloadBlob(new Blob([text], { type: format === 'json' ? 'application/json' : 'text/plain;charset=utf-8' }), 'biggly-' + (recap ? 'voyage-recap' : 'scorecard') + '.' + format);
+    $('exportStatus').textContent = 'Your report download is ready.';
+  } catch {
+    $('exportStatus').textContent = 'Download unavailable. Use Copy Scorecard or select your visible report.';
+    toast('Download unavailable. Your report is still visible.');
+  }
+}
+async function downloadPNG() {
+  const report = state.completed;
+  if (!report) return;
+  const button = $('btnPNG');
+  button.disabled = true;
+  $('exportStatus').textContent = 'Preparing your official victory…';
+  try {
+    await Promise.all([
+      document.fonts.load('800 56px Archivo'),
+      document.fonts.load('600 25px Inter'),
+      document.fonts.load('700 25px "JetBrains Mono"'),
+    ]);
+    const canvas = renderScorecard(document.createElement('canvas'), report);
+    const blob = await new Promise((resolve, reject) => canvas.toBlob((value) => value ? resolve(value) : reject(new Error('PNG unavailable')), 'image/png'));
+    downloadBlob(blob, 'biggly-scorecard.png');
+    $('exportStatus').textContent = 'PNG scorecard ready: 1200 × 1600 pixels.';
+  } catch {
+    $('exportStatus').textContent = 'PNG export unavailable in this browser. Use Download scorecard text below.';
+  } finally {
+    button.disabled = false;
+  }
+}
+function storageAction(action) {
+  try { return action(window.localStorage); }
+  catch { return { ok: false, error: 'Device storage is unavailable. Downloads and the game still work.' }; }
+}
+function refreshSavedPanel() {
+  const result = storageAction(readSavedReport);
+  savedReport = result.report || null;
+  savedReportError = result.error || null;
+  $('savedPanel').hidden = state.phase === 'playing' || (!savedReport && !savedReportError);
+  $('savedDescription').textContent = savedReport ? 'One completed report is saved locally. Starting or refreshing a voyage never updates it.' : savedReportError || '';
+  $('savedDetails').hidden = !savedReport;
+  $('savedPreview').textContent = savedReport ? recapText(savedReport) : '';
+  $('btnSavedText').hidden = !savedReport;
+  $('btnSavedJSON').hidden = !savedReport;
 }
 
 /* ---------- Boot ---------- */
 function startGame() {
+  stopSetpieceTimer();
   state = freshState();
+  $('recapRows').replaceChildren();
+  $('replayMilestones').replaceChildren();
+  $('scoreRows').replaceChildren();
+  $('saveStatus').textContent = '';
+  $('exportStatus').textContent = '';
   state.calmSeas = $('calmSeas').checked || prefersReduced();
   state.counters.startedAt = Date.now();
   renderMeters();
@@ -1363,6 +1507,29 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btnReplay').addEventListener('click', () => { startGame(); });
   $('btnShare').addEventListener('click', copyScorecard);
   $('starBtn').addEventListener('click', useGoldStar);
+  $('btnPNG').addEventListener('click', downloadPNG);
+  $('btnText').addEventListener('click', () => downloadReport(state.completed, 'txt'));
+  $('btnRecapText').addEventListener('click', () => downloadReport(state.completed, 'txt', true));
+  $('btnRecapJSON').addEventListener('click', () => downloadReport(state.completed, 'json', true));
+  $('btnSaveReport').addEventListener('click', () => {
+    if (!state.completed) return;
+    const result = storageAction((storage) => saveReport(storage, state.completed));
+    $('saveStatus').textContent = result.ok ? 'Completed report saved on this device. Clear it below whenever you like.' : result.error;
+    refreshSavedPanel();
+  });
+  $('btnSavedText').addEventListener('click', () => downloadReport(savedReport, 'txt', true));
+  $('btnSavedJSON').addEventListener('click', () => downloadReport(savedReport, 'json', true));
+  $('btnClearSaved').addEventListener('click', () => {
+    const result = storageAction(clearSavedReport);
+    if (result.ok) {
+      savedReport = null; savedReportError = null;
+      $('savedPanel').hidden = true;
+      $('saveStatus').textContent = 'Saved report cleared. Your current voyage is unchanged.';
+      toast('Saved report cleared.');
+      (state.completed ? $('btnSaveReport') : $('btnStart')).focus();
+    } else $('savedStatus').textContent = result.error;
+  });
+  refreshSavedPanel();
   renderMeters();
 });
 </script>
