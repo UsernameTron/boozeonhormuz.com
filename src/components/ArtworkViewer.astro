@@ -17,7 +17,7 @@ const items = Astro.props.items.map((item) => ({ ...item, full: mediaImageSource
         <p data-viewer-caption class="viewer-caption text-sm text-ink-soft" hidden></p>
         <footer class="viewer-footer">
           <div class="viewer-navigation"><button type="button" data-viewer-prev class="viewer-button" aria-label="Previous artwork">← Previous</button><span data-viewer-count class="text-sm text-ink-soft" role="status"></span><button type="button" data-viewer-next class="viewer-button" aria-label="Next artwork">Next →</button></div>
-          <div class="viewer-links"><a data-viewer-details class="text-gold-ink" href="/archive">View details</a><a data-viewer-download class="text-gold-ink" download>Download artwork</a></div>
+          <div class="viewer-links"><a data-viewer-details class="text-gold-ink" href="/archive">View details</a><a data-viewer-download class="text-gold-ink" href={items[0]?.full || '/archive/'} hidden={!items[0]?.full} download>Download artwork</a></div>
         </footer>
       </div>
     </dialog>
@@ -44,5 +44,6 @@ const items = Astro.props.items.map((item) => ({ ...item, full: mediaImageSource
   .viewer-navigation { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   .viewer-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   .viewer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .viewer-links a[hidden] { display: none; }
   @media (max-width: 479px) { .viewer-panel { padding: 12px; } .viewer-header { gap: 8px; } .viewer-navigation { justify-content: space-between; width: 100%; gap: 6px; } .viewer-button { padding-inline: 9px; } }
 </style>
