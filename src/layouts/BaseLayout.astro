@@ -2,6 +2,8 @@
 // Self-hosted variable fonts (Fontsource ships @font-face with font-display: swap)
 import '@fontsource-variable/fraunces';
 import '@fontsource-variable/inter';
+import frauncesFont from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
+import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -12,6 +14,7 @@ interface Props {
   ogImage?: string;
   ogImageWidth?: number;
   ogImageHeight?: number;
+  preloadFonts?: boolean;
 }
 
 const {
@@ -20,6 +23,7 @@ const {
   ogImage: customOgImage,
   ogImageWidth: customOgImageWidth,
   ogImageHeight: customOgImageHeight,
+  preloadFonts = false,
 } = Astro.props;
 
 // Absolute canonical + OG image URLs (crawlers require absolute).
@@ -41,6 +45,8 @@ const CF_BEACON_TOKEN = '';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {preloadFonts && <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin="anonymous" />}
+    {preloadFonts && <link rel="preload" href={frauncesFont} as="font" type="font/woff2" crossorigin="anonymous" />}
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />

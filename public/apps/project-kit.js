@@ -201,7 +201,7 @@ export function downloadJSON(value, filename) {
 }
 
 export function mountProjectTools({ tool, container, getProject, applyImport, notify }) {
-  const bar = document.createElement('details');
+  const bar = container.querySelector(':scope > .project-tools') ?? document.createElement('details');
   bar.className = 'project-tools';
   bar.innerHTML = `<summary>Project files &amp; device storage</summary><div class="project-actions"><button type="button" data-action="export">Export Project</button><button type="button" data-action="import">Import Project / legacy file</button>${tool === 'broadcast' ? '<button type="button" data-action="handoff">Export for Studio</button><a href="/apps/evidence-lounge-studio.html" target="_blank" rel="noopener">Open Studio ↗</a>' : ''}<button type="button" data-action="undo" hidden>Undo import</button></div><label class="device-choice"><input type="checkbox" data-action="save"> Save on this device</label><div class="project-actions"><button type="button" data-action="restore">Restore device save</button><button type="button" data-action="clear">Delete device save</button></div><p class="storage-status" role="status">Session only. Export a project to keep your work. Device saving is optional and stays in this browser.</p>`;
   container.append(bar);

@@ -717,7 +717,7 @@
       .studio-steps a { color: var(--gold-2); border: 1px solid var(--border); border-radius: 8px; padding: 9px; text-decoration: none; font-size: 12px; min-height: 44px; }
       #templatesPanel, #panel1, #previewSection { scroll-margin-top: 64px; }
       .hero-card { padding: 12px; } .hero-card h1 { font-size: 24px; } .hero-card p, .hero-card .signature { display: none; }
-      .templates-list { max-height: 220px; } .toolbar { position: sticky; top: 55px; z-index: 15; }
+      .templates-list { height: 220px; max-height: 220px; flex: 0 0 220px; } .toolbar { position: sticky; top: 55px; z-index: 15; }
       .preview-box { max-height: none; } .top-bar { height: auto; padding: 10px 14px; }
       .brand-sub, .brand-seal { display: none; }
     }
@@ -797,6 +797,7 @@
         <button class="tb-btn" id="importBtn">Import / Merge</button>
         <p class="footer-note">Session only by default. Export Project keeps your editor and variables; device saving is optional. Nothing is stored on a server.</p>
       </div>
+      <details class="project-tools"><summary>Project files &amp; device storage</summary></details>
     </aside>
 
     <main class="main-area">
@@ -1395,7 +1396,7 @@ function renderTemplates(filter = '') {
       <span class="name">${escapeHtml(t.name)}</span>
       <span class="cat"><span>${escapeHtml(t.category)}${t.builtIn ? '' : ' · custom'}</span><span class="pill">${escapeHtml(t.heat || 'custom')}</span></span>
     </button>
-  `).join('');
+  `).join('') || '<p class="no-vars-msg" role="status">No templates match your search.</p>';
 
   list.querySelectorAll('.tpl-item').forEach(el => {
     el.addEventListener('click', () => loadTemplate(Number(el.dataset.id)));
