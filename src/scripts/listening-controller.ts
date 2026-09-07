@@ -35,6 +35,7 @@ export function initializeListeningRoom(root: HTMLElement) {
   let active = 0;
   let queueing = false;
   let playRequest = 0;
+  let failedIndex: number | null = null;
   let lastSaved = -Infinity;
   let lastSavedSignature: string | null = null;
   let saved: ResumePosition | null = null;
@@ -111,7 +112,7 @@ export function initializeListeningRoom(root: HTMLElement) {
     hasInteracted = true;
     pendingRestore = null;
     pauseOthers(index);
-    active = index; queueing = continuous;
+    active = index; queueing = continuous; failedIndex = null;
     const audio = current();
     updateMetadata();
     if (fromStart) { try { audio.currentTime = 0; } catch { /* Metadata may not be ready yet. */ } }
@@ -124,7 +125,7 @@ export function initializeListeningRoom(root: HTMLElement) {
       message(`Playing ${queue[active].title}.${queueing ? ' The queue continues when this track ends.' : ''}`);
     } catch {
       if (request !== playRequest || active !== index) return;
-      queueing = false;
+      queueing = false; failedIndex = index;
       message(`Could not start ${queue[active].title}. Try Play again, another track, or its native audio controls.`);
     }
     updateControls();
@@ -157,6 +158,7 @@ export function initializeListeningRoom(root: HTMLElement) {
   audioElements.forEach((audio, index) => {
     audio.addEventListener('play', () => {
       hasInteracted = true;
+      failedIndex = null;
       pendingRestore = null;
       pauseOthers(index);
       const changed = active !== index;
@@ -167,7 +169,7 @@ export function initializeListeningRoom(root: HTMLElement) {
     audio.addEventListener('pause', () => {
       if (index === active) {
         persist(true); updateControls();
-        if (!audio.ended) message(`Paused ${queue[index].title}.${queueing ? ' Press Play to continue the queue.' : ''}`);
+        if (!audio.ended && !audio.error && failedIndex !== index) message(`Paused ${queue[index].title}.${queueing ? ' Press Play to continue the queue.' : ''}`);
       }
     });
     audio.addEventListener('timeupdate', () => { if (index === active) { updateControls(); persist(); } });
@@ -175,7 +177,7 @@ export function initializeListeningRoom(root: HTMLElement) {
     audio.addEventListener('durationchange', () => { if (index === active) updateControls(); });
     audio.addEventListener('error', () => {
       if (index !== active) return;
-      queueing = false; pendingRestore = null;
+      queueing = false; pendingRestore = null; failedIndex = index;
       message(`Audio unavailable for ${queue[index].title}. Try another track or open its track page.`);
       updateControls();
     });
