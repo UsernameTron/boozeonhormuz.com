@@ -93,13 +93,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       setExpanded(false);
     });
     // Keyboard events inside the frame do not bubble into the wrapper.
-    frame.addEventListener('load', () => {
-      frame.contentDocument?.addEventListener('keydown', (event) => {
-        if (expanded && event.key === 'Escape') {
-          event.preventDefault();
-          setExpanded(false);
-        }
-      });
-    });
+    const onFrameKeydown = (event: KeyboardEvent) => {
+      if (expanded && event.key === 'Escape') {
+        event.preventDefault();
+        setExpanded(false);
+      }
+    };
+    const attachFrameKeyboard = () => frame.contentDocument?.addEventListener('keydown', onFrameKeydown);
+    frame.addEventListener('load', attachFrameKeyboard);
+    attachFrameKeyboard(); // A cached frame may already have loaded before this script.
+
   }
 </script>
