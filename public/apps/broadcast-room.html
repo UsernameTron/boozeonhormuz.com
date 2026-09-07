@@ -6,6 +6,7 @@
   <title>Biggly Broadcast Pack Generator | Booze on Hormuz™</title>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-latin-variable.woff2" crossorigin>
+  <link rel="stylesheet" href="/apps/project-kit.css">
   <style>
     /* Self-hosted variable fonts (vendored from Fontsource) — no third-party CDN. */
     @font-face { font-family: 'Archivo'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/archivo-latin-variable.woff2') format('woff2'); }
@@ -291,6 +292,19 @@
       .primary { grid-column: span 1; }
       .output-head { align-items: flex-start; flex-direction: column; }
     }
+    .step-nav { position: sticky; top: 74px; z-index: 39; display: flex; gap: 12px; align-items: center; padding: 10px 22px; background: #120b05; border-bottom: 1px solid var(--line); }
+    .step-nav a, .step-nav button { color: var(--gold); font: 700 13px var(--body); min-height: 44px; padding: 10px; text-decoration: none; border: 1px solid var(--line); border-radius: 8px; background: transparent; }
+    .generation-status { padding: 12px 18px; color: var(--gold); font-size: 13px; border-bottom: 1px solid var(--line); }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    #briefPanel, #outputPanel { scroll-margin-top: 142px; }
+    @media (max-width: 700px) {
+      .top { padding: 10px 14px; } .top .meta, .top .eyebrow, .seal { display: none; }
+      h1 { font-size: 19px; line-height: 1.15; } header { position: static; }
+      .step-nav { top: 0; padding: 8px 14px; } .card-head { padding: 14px; }
+      .card-head .stamp, .ticker { display: none; }
+      #briefPanel, #outputPanel { scroll-margin-top: 65px; }
+      .output { min-height: 260px; max-height: none; }
+    }
   </style>
 </head>
 <body>
@@ -312,8 +326,9 @@
     </div>
   </header>
 
+  <nav class="step-nav" aria-label="Workbench steps"><a href="#briefPanel">1. Brief</a><a href="#outputPanel">2. Output</a><button id="quickGenerate" type="button">Generate</button></nav>
   <main>
-    <section class="card">
+    <section class="card" id="briefPanel" tabindex="-1">
       <div class="card-head">
         <div>
           <h2>One concept in. Full content kit out.</h2>
@@ -349,6 +364,7 @@
         </div>
 
         <div class="field">
+          <p id="presetNote" class="preset-note" role="status"></p>
           <label for="concept">Core concept <small>what is the joke?</small></label>
           <textarea id="concept" placeholder="Don Biggly sells a luxury cruise near a crisis zone and insists the evidence is with him.">Don Biggly launches a premium disaster-cruise brand where every champagne toast, sponsor read, and product display accidentally reveals another piece of evidence.</textarea>
         </div>
@@ -373,6 +389,7 @@
               <option>donor staring into shrimp cocktail</option>
               <option>reporter freezing mid-question</option>
               <option>the First Lady of the Lounge moving her chair six inches away</option>
+              <option>aide silently measuring the nearest exit</option>
             </select>
           </div>
           <div class="field">
@@ -419,7 +436,7 @@
         <div class="buttons">
           <button class="primary" id="generateBtn">Generate Broadcast Pack</button>
           <button class="secondary" id="randomBtn">Add Legal Chaos</button>
-          <button class="greenbtn" id="exportBtn">Export JSON</button>
+          <button class="greenbtn" id="exportBtn">Export Current Brief</button>
           <button class="danger" id="resetBtn">Reset</button>
         </div>
 
@@ -429,7 +446,8 @@
           <button class="secondary" id="sampleBtn" style="padding:9px 11px;">Load Showcase Sample</button>
           <button class="secondary" id="shareBtn" style="padding:9px 11px;">Copy Share Link</button>
         </div>
-        <p class="save-note">Your work isn't saved. Use <b>Export JSON</b> to keep it, or <b>Copy Share Link</b> to put the whole brief in a URL — nothing is stored on a server.</p>
+        <p class="save-note">Export Current Brief and Copy Share Link always use the current form. Copy output uses the last generated package. Nothing is stored on a server.</p>
+        <details class="project-tools"><summary>Project files &amp; device storage</summary></details>
       </div>
 
       <div class="ticker" id="panicTicker">
@@ -437,7 +455,8 @@
       </div>
     </section>
 
-    <section class="card outputs">
+    <section class="card outputs" id="outputPanel" tabindex="-1">
+      <p id="generationStatus" class="generation-status" role="status">Ready to generate.</p>
       <div class="output-head">
         <div class="tabs" id="tabs" role="tablist" aria-label="Generated pack sections">
           <div class="tab active" id="tab-master" role="tab" aria-selected="true" tabindex="0" data-tab="master">Master</div>
@@ -456,7 +475,7 @@
         <div class="dashboard">
           <div class="metric"><div class="k">Pack status</div><div class="v" id="mStatus">Ready</div></div>
           <div class="metric red"><div class="k">Panic level</div><div class="v" id="mPanic">87%</div></div>
-          <div class="metric green"><div class="k">Prompts</div><div class="v" id="mPrompts">24</div></div>
+          <div class="metric green"><div class="k">Output pieces</div><div class="v" id="mPrompts">24</div></div>
           <div class="metric cyan"><div class="k">Hooks</div><div class="v" id="mHooks">4</div></div>
         </div>
         <p class="dest-line">Copy a tab, then paste into:
@@ -472,6 +491,7 @@
         <pre class="output" id="out-video" role="tabpanel" aria-labelledby="tab-video" tabindex="0"></pre>
         <pre class="output" id="out-image" role="tabpanel" aria-labelledby="tab-image" tabindex="0"></pre>
         <pre class="output" id="out-launch" role="tabpanel" aria-labelledby="tab-launch" tabindex="0"></pre>
+        <details id="shotManifest" class="shot-manifest" hidden><summary>Five-shot production manifest</summary><p class="preset-note">These are proposed shots. Add your own image/clip references and review progress; no media has been generated.</p><button type="button" class="secondary" id="exportShots">Export Shot Manifest</button><div id="shotRows"></div></details>
       </div>
     </section>
   </main>
@@ -479,10 +499,28 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script>
+<script type="module">
+import { PROJECT_FORMAT, PROJECT_VERSION, GENERATOR_VERSION, sanitizeBrief, snapshotIsCurrent, literalSubstitute, mergeTemplates, makeShorts, downloadJSON, mountProjectTools } from "./project-kit.js";
 const $ = (id) => document.getElementById(id);
 let activeTab = "master";
 let lastPack = {};
+let formRevision = 0;
+let generatedRevision = -1;
+let projectUI;
+let shots = [];
+const briefIds = ["title", "intensity", "format", "concept", "setting", "prop", "reaction", "phrase", "music", "visual", "motifs", "includeLyrics", "includeVideo", "includeImage", "includeSocial"];
+
+function markBriefChanged() {
+  formRevision++;
+  updateGenerationStatus();
+  projectUI?.changed();
+}
+function updateGenerationStatus() {
+  const stale = generatedRevision !== formRevision;
+  $("generationStatus").textContent = stale ? "Brief changed — regenerate to copy current output." : "Output matches the current brief.";
+  ["copyBtn", "copyAllBtn"].forEach(id => { $(id).disabled = stale; });
+  $("mStatus").textContent = stale ? "Needs update" : "Built";
+}
 
 const chaos = {
   prop: [
@@ -859,8 +897,47 @@ FAST PRODUCTION ORDER
 8. Publish with the disclaimer intact.`;
 }
 
+function updatePreset() {
+  const shorts = $('format').value === 'Shorts/Reels pack';
+  $('presetNote').textContent = shorts
+    ? 'Shorts/Reels preset: proposed 30 seconds · vertical 9:16 · five 6-second shots · captions up to 80 characters. Choose included sections below. These are production defaults, not provider limits.'
+    : 'Music-video workflow uses the original long-form production package. Site and campaign labels keep that full-package structure; check only the sections you need.';
+}
+function renderShots() {
+  $('shotManifest').hidden = shots.length === 0;
+  const rows = $('shotRows'); rows.replaceChildren();
+  for (const shot of shots) {
+    const row = document.createElement('article');
+    const heading = document.createElement('h3'); heading.textContent = `${shot.id} · ${shot.start}–${shot.end}s · ${shot.aspectRatio}`;
+    const caption = document.createElement('p'); caption.textContent = shot.caption; row.append(heading, caption);
+    if (shot.review === 'review' && (shot.image || shot.clip)) { const note = document.createElement('p'); note.className = 'preset-note'; note.textContent = 'Review the retained media references against this shot before approving.'; row.append(note); }
+    for (const key of ['image', 'clip', 'review']) {
+      const label = document.createElement('label'); label.textContent = key === 'review' ? 'Review status' : `${key === 'image' ? 'Image' : 'Clip'} reference (optional)`;
+      const field = document.createElement(key === 'review' ? 'select' : 'input');
+      field.id = `${shot.id}-${key}`;
+      if (key === 'review') for (const value of ['planned', 'in-progress', 'review', 'approved']) { const option = document.createElement('option'); option.value = value; option.textContent = value; field.append(option); }
+      else field.maxLength = 2000;
+      field.value = shot[key]; field.addEventListener('input', () => { shot[key] = field.value; projectUI?.changed(); });
+      label.append(field); row.append(label);
+    }
+    rows.append(row);
+  }
+}
+function shortPieces(b, plan) {
+  const shotList = plan.map(s => `${s.id.toUpperCase()} | ${s.start}–${s.end}s | ${s.aspectRatio}\n${s.prompt}\nOn-screen caption (max 80 characters): ${s.caption}`).join('\n\n');
+  return {
+    lyrics: b.includeLyrics ? `[30-SECOND HOOK PROMPT]\nWrite a concise spoken or sung comedy hook for a proposed 30-second vertical short titled "${b.title}". ${b.music}.\nConcept: ${b.concept}\nSignature phrase: ${b.phrase}\nReserve the final six seconds for the payoff and satire end card. No full-length verse structure.\n${safetyBlock()}` : '[Suno pack disabled]',
+    storyboard: b.includeVideo ? `[SHORTS STORYBOARD — 30 SECONDS, FIVE SHOTS]\n${shotList}` : '[Storyboard pack disabled]',
+    video: b.includeVideo ? `[VERTICAL CLIP PROMPTS — FIVE PROPOSED 6-SECOND CLIPS]\nOne clip per stable shot ID. Maintain character, wardrobe and prop continuity. Proposed timing totals 30 seconds; adjust to your production tools.\n${shotList}` : '[Video pack disabled]',
+    image: b.includeImage ? `[VERTICAL IMAGE PROMPTS — FIVE FOUNDATION FRAMES]\n${plan.map(s => `${s.id.toUpperCase()} IMAGE PROMPT: ${s.prompt} Keep clean space for the caption; add lettering in editing.`).join('\n\n')}` : '[Image pack disabled]',
+    launch: b.includeSocial ? `[SHORTS LAUNCH PACK]\nProposed duration: 30 seconds. Framing: 9:16.\nCaptions (each at most 80 characters):\n${plan.map(s => `${s.id}: ${s.caption}`).join('\n')}\n\nBooze on Hormuz and Don Biggly are fictional satire. No real quote, policy, endorsement, or travel advice.` : '[Launch pack disabled]',
+    master: `[BIGGLY SHORTS / REELS PRODUCTION BRIEF]\nTitle: ${b.title}\nConcept: ${b.concept}\nProposed target: 30 seconds, 9:16 portrait, five shots of 6 seconds each.\nCaption default: at most 80 characters per shot. Keep text clear of interface overlays.\nIncluded sections: ${[b.includeLyrics && '30-second hook', b.includeVideo && 'five-shot storyboard and clip prompts', b.includeImage && 'vertical foundation frames', b.includeSocial && 'short captions and disclaimer'].filter(Boolean).join(', ') || 'master brief only'}.\nThese are production defaults, not model-provider limits. No images or clips have been generated.\n\n${safetyBlock()}`,
+  };
+}
+
 function generate() {
   const b = brief();
+  if (lastPack.brief && JSON.stringify(lastPack.brief) !== JSON.stringify(b) && generatedRevision === formRevision) formRevision++;
   const pieces = {
     lyrics: b.includeLyrics ? buildLyrics(b) : "[Suno pack disabled]",
     storyboard: b.includeVideo ? buildStoryboard(b) : "[Storyboard pack disabled]",
@@ -869,7 +946,15 @@ function generate() {
     launch: b.includeSocial ? buildLaunch(b) : "[Launch pack disabled]"
   };
   pieces.master = buildMaster(b, pieces);
+  if (b.format === "Shorts/Reels pack") {
+    const plan = makeShorts(b, shots);
+    Object.assign(pieces, shortPieces(b, plan));
+    shots = b.includeVideo ? plan : [];
+  } else shots = [];
+  renderShots(); updatePreset();
   lastPack = { brief: b, pieces, generated: new Date().toISOString() };
+  generatedRevision = formRevision;
+  updateGenerationStatus();
 
   $("out-master").textContent = pieces.master;
   $("out-lyrics").textContent = pieces.lyrics;
@@ -878,14 +963,17 @@ function generate() {
   $("out-image").textContent = pieces.image;
   $("out-launch").textContent = pieces.launch;
 
-  const promptCount = [pieces.lyrics, pieces.storyboard, pieces.video, pieces.image, pieces.launch].join("\n").match(/PROMPT|CLIP|VARIATION|SHOT|CAPTION|BLURB/g)?.length || 24;
-  const panic = b.intensity === "11" ? "99%" : b.intensity === "7" ? "72%" : "87%";
-  $("mStatus").textContent = "Built";
-  $("mPanic").textContent = panic;
-  $("mPrompts").textContent = Math.max(18, promptCount);
-  $("mHooks").textContent = b.includeLyrics ? "4" : "0";
-  $("panicTicker").innerHTML = `LAWYER STATUS: <span>${b.intensity === "11" ? "Molting" : "Sweating"}</span> · ACCOUNTANT STATUS: <span>Recalculating panic</span> · DONOR STATUS: <span>Avoiding shrimp tower</span>`;
+  updateMetrics(b);
+  projectUI?.changed();
   toast("Broadcast pack generated");
+}
+
+function updateMetrics(b) {
+  const short = b.format === 'Shorts/Reels pack';
+  $('mPanic').textContent = b.intensity === '11' ? '99%' : b.intensity === '7' ? '72%' : '87%';
+  $('mPrompts').textContent = String(1 + Number(b.includeLyrics) + Number(b.includeVideo) * (short ? 6 : 2) + Number(b.includeImage) * (short ? 5 : 1) + Number(b.includeSocial));
+  $('mHooks').textContent = b.includeLyrics ? (short ? '1' : '4') : '0';
+  $('panicTicker').textContent = `LAWYER STATUS: ${b.intensity === '11' ? 'Molting' : 'Sweating'} · ACCOUNTANT STATUS: Recalculating panic · DONOR STATUS: Avoiding shrimp tower`;
 }
 
 function allText() {
@@ -933,7 +1021,7 @@ function flashCopied(btn) {
 
 function randomize() {
   $("prop").value = pick(chaos.prop);
-  $("reaction").value = pick(chaos.reaction);
+  $("reaction").value = pick(Array.from($("reaction").options, option => option.value));
   $("phrase").value = pick(chaos.phrase);
   const current = linesFromCSV($("motifs").value);
   const add = Array.from(new Set([...current, pick(chaos.motif), pick(chaos.motif), pick(chaos.motif)]));
@@ -943,7 +1031,7 @@ function randomize() {
 }
 
 function exportBrief() {
-  const payload = { version: 1, app: "Biggly Broadcast Pack Generator", ...brief(), generated: new Date().toISOString() };
+  const payload = { version: 1, app: "Biggly Broadcast Pack Generator", ...currentBrief(), generated: new Date().toISOString() };
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type: "application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -959,7 +1047,7 @@ function exportBrief() {
 function applyBrief(b) {
   if (!b || typeof b !== "object") return;
   [["title"],["intensity"],["format"],["concept"],["setting"],["prop"],["reaction"],["phrase"],["music"],["visual"]]
-    .forEach(([id]) => { if (b[id] !== undefined && b[id] !== null) $(id).value = String(b[id]).slice(0, 4000); });
+    .forEach(([id]) => { if (b[id] !== undefined && b[id] !== null) { const el = $(id); const value = String(b[id]).slice(0, 4000); if (el.tagName !== "SELECT" || Array.from(el.options).some(o => o.value === value)) el.value = value; } });
   if (b.motifs !== undefined) $("motifs").value = Array.isArray(b.motifs) ? b.motifs.join(", ") : String(b.motifs).slice(0, 4000);
   ["includeLyrics","includeVideo","includeImage","includeSocial"].forEach(id => {
     if (typeof b[id] === "boolean") $(id).checked = b[id];
@@ -967,20 +1055,41 @@ function applyBrief(b) {
 }
 
 function importBrief(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      applyBrief(JSON.parse(reader.result));
-      generate();
-      toast("Brief imported");
-    } catch (err) {
-      toast("Import failed");
-    }
-  };
-  reader.readAsText(file);
+  projectUI.previewFile(e.target.files[0]);
   e.target.value = "";
+}
+
+function currentBrief() {
+  const value = brief();
+  for (const id of briefIds) if (typeof value[id] === 'string') value[id] = $(id).value;
+  return value;
+}
+function currentProject() {
+  return { format: PROJECT_FORMAT, version: PROJECT_VERSION, generatorVersion: GENERATOR_VERSION, tool: 'broadcast',
+    title: $('title').value, updatedAt: new Date().toISOString(), brief: currentBrief(), shots,
+    generation: { revision: formRevision, generatedRevision, ...(lastPack.pieces ? { snapshot: lastPack } : {}) } };
+}
+function applyProjectImport(incoming) {
+  if (incoming.kind === 'brief') {
+    applyBrief(incoming.brief); formRevision++; generate(); return;
+  }
+  const project = incoming.project;
+  // A project is a complete session; missing optional fields retain the current default.
+  applyBrief(project.brief);
+  formRevision = project.generation.revision;
+  generatedRevision = project.generation.generatedRevision;
+  shots = project.shots;
+  if (project.generation.snapshot) {
+    lastPack = project.generation.snapshot;
+    for (const key of ['master', 'lyrics', 'storyboard', 'video', 'image', 'launch']) $('out-' + key).textContent = lastPack.pieces[key];
+  } else {
+    lastPack = {}; generatedRevision = -1;
+    for (const key of ['master', 'lyrics', 'storyboard', 'video', 'image', 'launch']) $('out-' + key).textContent = 'Generate this imported brief to create output.';
+  }
+  if (!snapshotIsCurrent(brief(), lastPack.pieces ? lastPack : null, project.generatorVersion)) generatedRevision = -1;
+  updateGenerationStatus(); updatePreset(); renderShots();
+  if (lastPack.brief) updateMetrics(lastPack.brief);
+  else { $("mPrompts").textContent = "0"; $("mHooks").textContent = "0"; }
 }
 
 // Shareable links: encode the current brief into the URL hash (no backend).
@@ -995,7 +1104,7 @@ function decodeBrief(s) {
 }
 
 function shareLink() {
-  const enc = encodeBrief(brief());
+  const enc = encodeBrief(currentBrief());
   const url = location.origin + location.pathname + "#b=" + enc;
   history.replaceState(null, "", "#b=" + enc);
   copyText(url, "Share link copied");
@@ -1005,7 +1114,7 @@ function loadFromHash() {
   const m = location.hash.match(/[#&]b=([^&]+)/);
   if (!m || m[1].length > 40000) return false;
   try {
-    applyBrief(decodeBrief(m[1]));
+    applyBrief(sanitizeBrief(decodeBrief(m[1])));
     return true;
   } catch (e) {
     return false;
@@ -1032,10 +1141,14 @@ function loadSample() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  $("format").addEventListener("change", updatePreset);
+  $("exportShots").addEventListener("click", () => { if (generatedRevision !== formRevision) { toast("Regenerate before exporting the current shot manifest."); return; } downloadJSON({ format: "boh-shot-manifest", version: 1, generatorVersion: GENERATOR_VERSION, title: lastPack.brief.title, duration: 30, aspectRatio: "9:16", shots }, "boh-shots.json"); });
   $("generateBtn").addEventListener("click", generate);
+  $("quickGenerate").addEventListener("click", () => { generate(); $("outputPanel").scrollIntoView({ block: "start" }); $("outputPanel").focus({ preventScroll: true }); });
+  document.querySelector(".form").addEventListener("input", event => { if (briefIds.includes(event.target.id)) markBriefChanged(); });
   $("randomBtn").addEventListener("click", randomize);
-  $("copyBtn").addEventListener("click", e => { copyText($("out-" + activeTab).textContent, "Active tab copied"); flashCopied(e.currentTarget); });
-  $("copyAllBtn").addEventListener("click", e => { copyText(allText(), "Full package copied"); flashCopied(e.currentTarget); });
+  $("copyBtn").addEventListener("click", e => { if (generatedRevision !== formRevision) return; copyText($("out-" + activeTab).textContent, "Active tab copied"); flashCopied(e.currentTarget); });
+  $("copyAllBtn").addEventListener("click", e => { if (generatedRevision !== formRevision) return; copyText(allText(), "Full package copied"); flashCopied(e.currentTarget); });
   $("exportBtn").addEventListener("click", exportBrief);
   $("importBtn").addEventListener("click", () => $("importFile").click());
   $("importFile").addEventListener("change", importBrief);
@@ -1066,6 +1179,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  document.querySelectorAll('.form input:not([type="checkbox"]), .form textarea').forEach(el => { if (briefIds.includes(el.id)) el.maxLength = 4000; });
+  projectUI = mountProjectTools({ tool: 'broadcast', container: document.querySelector('.form'), getProject: currentProject, applyImport: applyProjectImport, notify: toast });
   const fromShared = loadFromHash();
   generate();
   if (fromShared) toast("Loaded shared brief");

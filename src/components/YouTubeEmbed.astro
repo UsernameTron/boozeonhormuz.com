@@ -2,14 +2,22 @@
 // Lite-YouTube facade via @astro-community/astro-embed-youtube — fast, privacy-friendly,
 // loads the heavy iframe only on interaction.
 import { YouTube } from '@astro-community/astro-embed-youtube';
+import { type VideoOrientation, videoThumbnail } from '../lib/media';
+import { responsiveImage, mediaImageSource } from '../lib/responsive-media';
 
 interface Props {
   id: string;
   title?: string;
+  poster?: string;
+  orientation?: VideoOrientation;
 }
-const { id, title } = Astro.props;
+const { id, title, poster, orientation = '16:9' } = Astro.props;
+const thumbnail = videoThumbnail({ thumbnail: mediaImageSource(poster), youtubeId: id });
+const responsive = responsiveImage(thumbnail);
 ---
 
-<div class="border border-line max-w-full">
-  <YouTube id={id} title={title} />
+<div class="video-frame border border-line" data-orientation={orientation} style={`--video-ratio: ${orientation.replace(':', ' / ')}`}>
+  <YouTube id={id} title={title} poster={thumbnail} style="background-image: none" playlabel={`Play ${title ?? 'video'}`}>
+  </YouTube>
+  <img class="video-poster" src={thumbnail} {...responsive} sizes="(min-width: 896px) 800px, calc(100vw - 48px)" alt="" loading="lazy" decoding="async" onerror="this.hidden=true" />
 </div>

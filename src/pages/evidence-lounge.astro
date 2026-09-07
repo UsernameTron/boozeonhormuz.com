@@ -3,9 +3,12 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import EvidenceCard from '../components/EvidenceCard.astro';
+import ArtworkViewer from '../components/ArtworkViewer.astro';
+import { buildArchive, isArtwork, artHref, qualifiedId } from '../lib/archive';
 
 // The spine of the site. Polymorphic archive grouped by `kind`.
 const all = (await getCollection('evidence')).filter((e) => !e.data.draft);
+const artwork = buildArchive({ tracks: await getCollection('tracks'), videos: [], images: [], evidence: all }).filter(isArtwork);
 
 const KIND_ORDER = ['clip', 'commercial', 'song', 'titlecard', 'gallery', 'lowerthird', 'prompt'] as const;
 const KIND_LABEL: Record<string, string> = {
@@ -58,7 +61,7 @@ const grouped = KIND_ORDER.map((kind) => ({
             <h2 class="font-display text-title text-ink">{g.label}</h2>
             <div class="grid gap-4 sm:gap-5 sm:grid-cols-2 mt-5">
               {g.items.map((e) => (
-                <EvidenceCard data={e.data} />
+                <EvidenceCard data={e.data} artworkHref={e.data.kind === 'titlecard' || e.data.kind === 'gallery' ? artHref('evidence', e.id) : undefined} artworkId={qualifiedId('evidence', e.id)} />
               ))}
             </div>
           </section>
@@ -66,4 +69,5 @@ const grouped = KIND_ORDER.map((kind) => ({
       </div>
     )
   }
+  <ArtworkViewer items={artwork} />
 </BaseLayout>

@@ -5,12 +5,19 @@ import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 import MediaThumb from '../components/MediaThumb.astro';
 import WatchCard from '../components/WatchCard.astro';
 import AudioTrack from '../components/AudioTrack.astro';
+import LocalVideo from '../components/LocalVideo.astro';
+import ArtworkViewer from '../components/ArtworkViewer.astro';
+import { buildArchive, isArtwork, artHref, qualifiedId } from '../lib/archive';
+import { responsiveImage } from '../lib/responsive-media';
 import {
   listedTracks,
   playableTracks,
   liveVideos,
   liveImages,
   videoTypeLabel,
+  featuredFirst,
+  videoThumbnail,
+  videoAspect,
 } from '../lib/media';
 
 // The homepage is a trailer for the archive: someone should understand within
@@ -28,7 +35,7 @@ const albumPreviewTracks = tracks.slice(0, 4);
 const heroVideo = videos.find((v) => v.data.hero);
 const films = videos.filter((v) => v.data.type === 'music-video' && !v.data.hero);
 const featuredFilm = films.find((v) => v.data.featured) ?? films[0];
-const performances = videos.filter((v) => v.data.type === 'performance').slice(0, 3);
+const performances = featuredFirst(videos.filter((v) => v.data.type === 'performance')).slice(0, 3);
 const listenTracks = [
   ...playable.filter((t) => t.data.featured),
   ...playable.filter((t) => !t.data.featured),
@@ -39,7 +46,7 @@ const listenTracks = [
 const evidenceArt = (await getCollection('evidence')).filter(
   (e) => !e.data.draft && (e.data.kind === 'titlecard' || e.data.kind === 'gallery'),
 );
-const trackSlugById = new Map(playable.map((t) => [t.id, t.data.slug]));
+const visualArtwork = buildArchive({ tracks: playable, videos: [], images, evidence: evidenceArt }).filter(isArtwork);
 const visualGrid =
   images.length > 0
     ? images
@@ -47,16 +54,15 @@ const visualGrid =
         .concat(images.filter((i) => !i.data.featured))
         .slice(0, 12)
         .map((i) => ({
-          href:
-            i.data.track && trackSlugById.has(i.data.track.id)
-              ? `/album/${trackSlugById.get(i.data.track.id)}`
-              : '/archive',
+          href: artHref('images', i.id),
+          id: qualifiedId('images', i.id),
           image: i.data.thumb ?? i.data.image,
           alt: i.data.alt,
           title: i.data.title,
         }))
     : evidenceArt.slice(0, 12).map((e: any) => ({
-        href: '/evidence-lounge',
+        href: artHref('evidence', e.id),
+        id: qualifiedId('evidence', e.id),
         image: e.data.image,
         alt: e.data.title,
         title: e.data.title,
@@ -71,6 +77,10 @@ const visualGrid =
   <section class="relative overflow-hidden border-b brass-rule">
     <img
       src="/hero.webp"
+      {...responsiveImage('/hero.webp')}
+      sizes="100vw"
+      loading="eager"
+      decoding="async"
       alt=""
       aria-hidden="true"
       class="absolute inset-0 w-full h-full object-cover opacity-35"
@@ -80,7 +90,7 @@ const visualGrid =
     <div
       class:list={[
         'relative px-6 max-w-4xl mx-auto text-center',
-        heroVideo ? 'pt-14 pb-14 md:pt-20 md:pb-20' : 'pt-24 pb-20 md:pt-36 md:pb-28',
+        heroVideo ? 'pt-10 pb-12 md:pt-16 md:pb-16' : 'pt-14 pb-14 md:pt-24 md:pb-20',
       ]}
     >
       <h1 class="font-display text-display metal-gold">Booze on Hormuz</h1>
@@ -89,14 +99,12 @@ const visualGrid =
       </p>
       {
         heroVideo && (
-          <div class="mt-10 max-w-3xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-line">
+          <div class="mt-6 max-w-3xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-line">
             {heroVideo.data.youtubeId ? (
-              <YouTubeEmbed id={heroVideo.data.youtubeId} title={heroVideo.data.title} />
+              <YouTubeEmbed id={heroVideo.data.youtubeId} title={heroVideo.data.title} poster={heroVideo.data.thumbnail} orientation={heroVideo.data.orientation} />
             ) : (
               heroVideo.data.src && (
-                <video controls preload="metadata" src={heroVideo.data.src} poster={heroVideo.data.thumbnail} class="w-full aspect-video">
-                  Your browser does not support video playback.
-                </video>
+                <LocalVideo src={heroVideo.data.src} title={heroVideo.data.title} poster={heroVideo.data.thumbnail} orientation={heroVideo.data.orientation} captions={heroVideo.data.captions} />
               )
             )}
           </div>
@@ -119,14 +127,96 @@ const visualGrid =
     </div>
   </section>
 
+  <!-- C. FEATURED FILM — the NEXT film (the hero already plays up top);
+       with no hero video set, the premiere embed stands in here instead. -->
+  {
+    (featuredFilm || !heroVideo) && (
+      <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">Featured Film</p>
+        {featuredFilm ? (
+          <div class="mt-6">
+            <a href={`/watch/${featuredFilm.data.slug}`} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
+              <MediaThumb
+                src={videoThumbnail(featuredFilm.data)}
+                aspect={videoAspect[featuredFilm.data.orientation]}
+                fit="contain"
+                alt={featuredFilm.data.title}
+                play
+              />
+            </a>
+            <h2 class="font-display text-title text-ink mt-4">
+              <a href={`/watch/${featuredFilm.data.slug}`} class="hover:text-gold-ink transition-colors">
+                {featuredFilm.data.title}
+              </a>
+            </h2>
+          </div>
+        ) : (
+          <div class="mt-6">
+            <h2 class="font-display text-title text-ink">The Premiere</h2>
+            <div class="mt-4">
+              <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — premiere" />
+            </div>
+          </div>
+        )}
+        <p class="mt-4">
+          <a href="/watch" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
+            More films &rarr;
+          </a>
+        </p>
+      </section>
+    )
+  }
+
+  <!-- F. VISUAL EVIDENCE -->
+  {
+    visualGrid.length > 0 && (
+      <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
+        <p class="font-body text-eyebrow uppercase text-gold-ink">Visual Evidence</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
+          {visualGrid.map((g) => (
+            <a href={g.href} data-art-id={g.id} class="group block border border-line rounded-lg overflow-hidden hover:border-gold transition-colors">
+              <MediaThumb src={g.image} alt={g.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" />
+            </a>
+          ))}
+        </div>
+        <p class="mt-6">
+          <a href="/archive" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
+            Open the full archive &rarr;
+          </a>
+        </p>
+      </section>
+    )
+  }
+
+  <!-- G2. THE GAME -->
+  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
+    <a
+      href="/play"
+      class="group block card-marble border border-line rounded-xl p-6 sm:p-8 shadow-lg hover:border-gold transition-colors"
+    >
+      <p class="font-body text-eyebrow uppercase text-gold-ink">A Playable Disaster</p>
+      <h2 class="font-display text-title text-ink mt-2 group-hover:text-gold-ink transition-colors">
+        Don Biggly's Tremendous Exit Strategy
+      </h2>
+      <p class="font-body text-ink-soft mt-2 max-w-prose">
+        The ship is sinking. The exit is three feet away. Unfortunately, the exit is free.
+        Manipulate his ego until he accidentally rescues himself — ten levels, two meters,
+        zero problems solved.
+      </p>
+      <span class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-4">
+        &#9655;&nbsp; Play &rarr;
+      </span>
+    </a>
+  </section>
+
   <!-- B. THE ALBUM -->
   {
     album && (
-      <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto">
+      <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto">
         <p class="font-body text-eyebrow uppercase text-gold-ink">The Album</p>
         <div class="mt-6 grid md:grid-cols-[280px_1fr] gap-8 items-start">
           <a href="/album" class="block border border-line rounded-xl overflow-hidden shadow-lg">
-            <MediaThumb src={album.data.artwork} alt={`${album.data.title} album artwork`} aspect="aspect-square" />
+            <MediaThumb src={album.data.artwork} alt={`${album.data.title} album artwork`} aspect={album.data.artwork ? "aspect-square" : "aspect-[3/1]"} fit="contain" sizes="(min-width: 768px) 280px, calc(100vw - 48px)" />
           </a>
           <div>
             <h2 class="font-display text-title text-ink">
@@ -166,46 +256,8 @@ const visualGrid =
     )
   }
 
-  <!-- C. FEATURED FILM — the NEXT film (the hero already plays up top);
-       with no hero video set, the premiere embed stands in here instead. -->
-  {
-    (featuredFilm || !heroVideo) && (
-      <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
-        <p class="font-body text-eyebrow uppercase text-gold-ink">Featured Film</p>
-        {featuredFilm ? (
-          <div class="mt-6">
-            <a href={`/watch/${featuredFilm.data.slug}`} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
-              <MediaThumb
-                src={featuredFilm.data.thumbnail ?? (featuredFilm.data.youtubeId ? `https://i.ytimg.com/vi/${featuredFilm.data.youtubeId}/hqdefault.jpg` : undefined)}
-                alt={featuredFilm.data.title}
-                play
-              />
-            </a>
-            <h2 class="font-display text-title text-ink mt-4">
-              <a href={`/watch/${featuredFilm.data.slug}`} class="hover:text-gold-ink transition-colors">
-                {featuredFilm.data.title}
-              </a>
-            </h2>
-          </div>
-        ) : (
-          <div class="mt-6">
-            <h2 class="font-display text-title text-ink">The Premiere</h2>
-            <div class="mt-4">
-              <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — premiere" />
-            </div>
-          </div>
-        )}
-        <p class="mt-4">
-          <a href="/watch" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
-            More films &rarr;
-          </a>
-        </p>
-      </section>
-    )
-  }
-
   <!-- D. PERFORMANCE -->
-  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
     <p class="font-body text-eyebrow uppercase text-gold-ink">Performance</p>
     {
       performances.length > 0 ? (
@@ -216,6 +268,8 @@ const visualGrid =
               title={v.data.title}
               typeLabel={videoTypeLabel[v.data.type]}
               thumbnail={v.data.thumbnail}
+              youtubeId={v.data.youtubeId}
+              orientation={v.data.orientation}
               duration={v.data.duration}
             />
           ))}
@@ -230,7 +284,7 @@ const visualGrid =
   </section>
 
   <!-- E. LISTEN -->
-  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
     <p class="font-body text-eyebrow uppercase text-gold-ink">Listen</p>
     {
       listenTracks.length > 0 ? (
@@ -259,35 +313,16 @@ const visualGrid =
     </p>
   </section>
 
-  <!-- F. VISUAL EVIDENCE -->
-  {
-    visualGrid.length > 0 && (
-      <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
-        <p class="font-body text-eyebrow uppercase text-gold-ink">Visual Evidence</p>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
-          {visualGrid.map((g) => (
-            <a href={g.href} class="group block border border-line rounded-lg overflow-hidden hover:border-gold transition-colors">
-              <img src={g.image} alt={g.alt} loading="lazy" decoding="async" class="w-full h-full object-cover" />
-            </a>
-          ))}
-        </div>
-        <p class="mt-6">
-          <a href="/archive" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
-            Open the full archive &rarr;
-          </a>
-        </p>
-      </section>
-    )
-  }
-
   <!-- G. THE ORIGINAL EXPERIENCE -->
-  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
+  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
     <a
       href="/experience"
       class="group grid sm:grid-cols-[200px_1fr] gap-6 items-center card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors"
     >
       <img
         src="/don-biggly.webp"
+        {...responsiveImage('/don-biggly.webp')}
+        sizes="(min-width: 640px) 200px, calc(100vw - 48px)"
         alt="Don Biggly, fictional founder and developer — a satirical character"
         loading="lazy"
         decoding="async"
@@ -309,27 +344,6 @@ const visualGrid =
     </a>
   </section>
 
-  <!-- G2. THE GAME -->
-  <section class="px-6 py-16 md:py-20 max-w-4xl mx-auto border-t border-line/40">
-    <a
-      href="/play"
-      class="group block card-marble border border-line rounded-xl p-6 sm:p-8 shadow-lg hover:border-gold transition-colors"
-    >
-      <p class="font-body text-eyebrow uppercase text-gold-ink">A Playable Disaster</p>
-      <h2 class="font-display text-title text-ink mt-2 group-hover:text-gold-ink transition-colors">
-        Don Biggly's Tremendous Exit Strategy
-      </h2>
-      <p class="font-body text-ink-soft mt-2 max-w-prose">
-        The ship is sinking. The exit is three feet away. Unfortunately, the exit is free.
-        Manipulate his ego until he accidentally rescues himself — ten levels, two meters,
-        zero problems solved.
-      </p>
-      <span class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-4">
-        &#9655;&nbsp; Play &rarr;
-      </span>
-    </a>
-  </section>
-
   <!-- H. THE COMMERCIAL DOOR — one restrained strip, no hard selling -->
   <section class="px-6 py-12 max-w-4xl mx-auto border-t border-line/40">
     <div class="flex flex-wrap items-baseline justify-between gap-4">
@@ -344,4 +358,5 @@ const visualGrid =
       </a>
     </div>
   </section>
+  <ArtworkViewer items={visualArtwork} />
 </BaseLayout>

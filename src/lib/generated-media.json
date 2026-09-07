@@ -1,0 +1,310 @@
+{
+  "/don-biggly-poster.webp": {
+    "width": 980,
+    "height": 980,
+    "bytes": 136824,
+    "sha256": "d5880b0f69cefde5f154284944bbe0162f13fb1f1ef2afa9553a6d2bcf3a7453",
+    "candidates": [
+      {
+        "src": "/_media/43daae4c4f52645f-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 19110
+      },
+      {
+        "src": "/_media/43daae4c4f52645f-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 56112
+      },
+      {
+        "src": "/_media/43daae4c4f52645f-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 99234
+      },
+      {
+        "src": "/_media/43daae4c4f52645f-980.webp",
+        "width": 980,
+        "height": 980,
+        "bytes": 128134
+      }
+    ]
+  },
+  "/don-biggly.webp": {
+    "width": 500,
+    "height": 500,
+    "bytes": 45734,
+    "sha256": "a64d920754dc0ccfce4c1d2373a9f459ab09c876369d08507eea0af3cadae628",
+    "candidates": [
+      {
+        "src": "/_media/d184a7db66ccbc3b-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 17988
+      },
+      {
+        "src": "/_media/d184a7db66ccbc3b-500.webp",
+        "width": 500,
+        "height": 500,
+        "bytes": 42766
+      }
+    ]
+  },
+  "/evidence/charity-had-no-charity.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 98172,
+    "sha256": "fca86aa0a116c387f363b46d2c34f93136152b40438cdd6588df28184ae99386",
+    "candidates": [
+      {
+        "src": "/_media/f98e666839704d77-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 7818
+      },
+      {
+        "src": "/_media/f98e666839704d77-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 20866
+      },
+      {
+        "src": "/_media/f98e666839704d77-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 37272
+      },
+      {
+        "src": "/_media/f98e666839704d77-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 52462
+      }
+    ]
+  },
+  "/evidence/discovery-is-coming.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 91832,
+    "sha256": "3cf0783b5a0c874c38d39c5429c34092c087f19fbae33679294336103284cecc",
+    "candidates": [
+      {
+        "src": "/_media/0ed1f50546b152d3-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 7188
+      },
+      {
+        "src": "/_media/0ed1f50546b152d3-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 19614
+      },
+      {
+        "src": "/_media/0ed1f50546b152d3-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 34330
+      },
+      {
+        "src": "/_media/0ed1f50546b152d3-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 49634
+      }
+    ]
+  },
+  "/evidence/hush-money-as-philanthropy.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 104246,
+    "sha256": "29159e3a0bbb937b1bf1dca13b1cd93f11a1b6dab5b32299df7cea9860b0c1af",
+    "candidates": [
+      {
+        "src": "/_media/f62238b4f0c6d28e-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 7646
+      },
+      {
+        "src": "/_media/f62238b4f0c6d28e-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 20712
+      },
+      {
+        "src": "/_media/f62238b4f0c6d28e-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 37214
+      },
+      {
+        "src": "/_media/f62238b4f0c6d28e-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 54080
+      }
+    ]
+  },
+  "/evidence/make-rap-great-again.webp": {
+    "width": 1500,
+    "height": 1000,
+    "bytes": 220700,
+    "sha256": "bf4d7caf810eeca148c7f45e2dd1bb9a794da44340f61fa23204024fb54d23ab",
+    "candidates": [
+      {
+        "src": "/_media/88541192917af8f0-320.webp",
+        "width": 320,
+        "height": 213,
+        "bytes": 20358
+      },
+      {
+        "src": "/_media/88541192917af8f0-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 60480
+      },
+      {
+        "src": "/_media/88541192917af8f0-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 105464
+      },
+      {
+        "src": "/_media/88541192917af8f0-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 150474
+      }
+    ]
+  },
+  "/evidence/quiet-money-changes-hands.webp": {
+    "width": 1500,
+    "height": 1000,
+    "bytes": 131418,
+    "sha256": "01257eb0dff4a8d87399d55a924fb4dc8d2f61c8bde3e787ff14977a94f944ad",
+    "candidates": [
+      {
+        "src": "/_media/df509e7744983a68-320.webp",
+        "width": 320,
+        "height": 213,
+        "bytes": 12726
+      },
+      {
+        "src": "/_media/df509e7744983a68-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 35174
+      },
+      {
+        "src": "/_media/df509e7744983a68-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 61104
+      },
+      {
+        "src": "/_media/df509e7744983a68-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 85632
+      }
+    ]
+  },
+  "/evidence/quiet-money-loud-receipts.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 103810,
+    "sha256": "86bab1bf0259ccd3f762d75f76280ad3f1f351ae7277d52f2166780d701108d3",
+    "candidates": [
+      {
+        "src": "/_media/7be5fe2da1b693dc-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 8214
+      },
+      {
+        "src": "/_media/7be5fe2da1b693dc-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 22090
+      },
+      {
+        "src": "/_media/7be5fe2da1b693dc-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 38554
+      },
+      {
+        "src": "/_media/7be5fe2da1b693dc-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 55126
+      }
+    ]
+  },
+  "/evidence/the-don-takes-the-stage.webp": {
+    "width": 1500,
+    "height": 1000,
+    "bytes": 166648,
+    "sha256": "31ca27f69ecbe60c22c0a78172f9fee4905d06734427fb4517a17f9732836300",
+    "candidates": [
+      {
+        "src": "/_media/d192d6ee433ed11b-320.webp",
+        "width": 320,
+        "height": 213,
+        "bytes": 18158
+      },
+      {
+        "src": "/_media/d192d6ee433ed11b-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 48638
+      },
+      {
+        "src": "/_media/d192d6ee433ed11b-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 82010
+      },
+      {
+        "src": "/_media/d192d6ee433ed11b-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 116070
+      }
+    ]
+  },
+  "/hero.webp": {
+    "width": 1536,
+    "height": 1024,
+    "bytes": 433492,
+    "sha256": "c48bbf8c682a5eb38930dd64fa2555007f505a9f53d96c83d9242c8ccd3dbcc7",
+    "candidates": [
+      {
+        "src": "/_media/0eb630ce50a9f366-320.webp",
+        "width": 320,
+        "height": 213,
+        "bytes": 22738
+      },
+      {
+        "src": "/_media/0eb630ce50a9f366-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 82484
+      },
+      {
+        "src": "/_media/0eb630ce50a9f366-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 166092
+      },
+      {
+        "src": "/_media/0eb630ce50a9f366-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 260546
+      }
+    ]
+  }
+}

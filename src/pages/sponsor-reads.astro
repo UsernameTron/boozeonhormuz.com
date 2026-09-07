@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 
+import MediaThumb from '../components/MediaThumb.astro';
+
 // Inline, image-driven sponsor list. To add a real image: drop an optimized
 // WebP into `public/sponsors/` and point `image` at `/sponsors/<file>.webp`.
 // `image` is optional — an absent OR failed image renders a neutral placeholder
@@ -53,24 +55,7 @@ const sponsors: Sponsor[] = [
       {
         sponsors.map((s) => (
           <article class="card-marble border border-line rounded-xl overflow-hidden shadow-lg">
-            <div class="aspect-video w-full overflow-hidden bg-charcoal">
-              {s.image ? (
-                <img
-                  src={s.image}
-                  alt={s.alt}
-                  width="1280"
-                  height="720"
-                  loading="lazy"
-                  decoding="async"
-                  class="object-cover w-full h-full"
-                  onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm',textContent:'Image coming soon'}))"
-                />
-              ) : (
-                <div class="w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm">
-                  Image coming soon
-                </div>
-              )}
-            </div>
+            <MediaThumb src={s.image} alt={s.alt} aspect="aspect-video" fit="contain" />
 
             <div class="p-4">
               <h3 class="font-display text-title text-ink">{s.name}</h3>

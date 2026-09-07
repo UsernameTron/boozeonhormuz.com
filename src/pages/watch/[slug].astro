@@ -4,12 +4,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
 import SponsorRead from '../../components/SponsorRead.astro';
 import WatchCard from '../../components/WatchCard.astro';
+import MediaThumb from '../../components/MediaThumb.astro';
+import { artHref } from '../../lib/archive';
+import { mediaImageSource, responsiveImage } from '../../lib/responsive-media';
+import LocalVideo from '../../components/LocalVideo.astro';
 import {
   liveVideos,
   liveImages,
   playableTracks,
   videoTypeLabel,
   toISODuration,
+  videoThumbnail,
+  validateWatchSlugs,
 } from '../../lib/media';
 
 // One watch route serves both worlds: media-library videos (dedicated watch
@@ -19,6 +25,7 @@ export async function getStaticPaths() {
   const episodes = (await getCollection('episodes')).filter((e) => !e.data.draft);
   const sponsors = (await getCollection('sponsors')).filter((s) => !s.data.draft);
   const videos = liveVideos(await getCollection('videos'));
+  validateWatchSlugs([...videos, ...episodes]);
   const images = liveImages(await getCollection('images'));
   const tracks = playableTracks(await getCollection('tracks'));
 
@@ -71,12 +78,8 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
 
 // VideoObject structured data (video-SEO): unique name/description/thumbnail
 // per watch page, ISO-8601 duration, absolute URLs.
-const thumbnail =
-  kind === 'video'
-    ? (video!.data.thumbnail ?? (youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined))
-    : youtubeId
-      ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
-      : undefined;
+const thumbnail = videoThumbnail({ thumbnail: kind === 'video' ? mediaImageSource(video!.data.thumbnail) : undefined, youtubeId });
+const socialDimensions = responsiveImage(thumbnail);
 const videoLd =
   youtubeId || (kind === 'video' && video!.data.src)
     ? JSON.stringify({
@@ -96,10 +99,10 @@ const videoLd =
     : null;
 ---
 
-<BaseLayout title={`${title} — Booze on Hormuz™`} description={description}>
+<BaseLayout title={`${title} — Booze on Hormuz™`} description={description} ogImage={thumbnail} ogImageWidth={socialDimensions.width} ogImageHeight={socialDimensions.height}>
   {videoLd && <script is:inline type="application/ld+json" set:html={videoLd} />}
 
-  <article class="px-6 pt-16 pb-28 max-w-4xl mx-auto">
+  <article class="px-6 pt-10 md:pt-16 pb-20 md:pb-28 max-w-4xl mx-auto">
     <p class="font-body text-eyebrow uppercase text-gold-ink">
       {kind === 'video' ? videoTypeLabel[video!.data.type] : 'Episode'}
       <span class="text-ink-soft/70 normal-case tracking-normal"> · {date}</span>
@@ -109,12 +112,10 @@ const videoLd =
     </p>
     <h1 class="font-display text-display text-ink mt-4">{title}</h1>
 
-    {youtubeId && <div class="mt-8"><YouTubeEmbed id={youtubeId} title={title} /></div>}
+    {youtubeId && <div class="mt-8"><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} /></div>}
     {
       kind === 'video' && !youtubeId && video!.data.src && (
-        <video controls preload="metadata" src={video!.data.src} poster={video!.data.thumbnail} class="w-full mt-8 rounded-xl shadow-lg">
-          Your browser does not support video playback.
-        </video>
+        <div class="mt-8"><LocalVideo src={video!.data.src} title={title} poster={video!.data.thumbnail} orientation={video!.data.orientation} captions={video!.data.captions} /></div>
       )
     }
 
@@ -148,13 +149,7 @@ const videoLd =
           <h2 class="font-display text-title text-ink">Stills</h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-5">
             {stills.map((i) => (
-              <img
-                src={i.data.thumb ?? i.data.image}
-                alt={i.data.alt}
-                loading="lazy"
-                decoding="async"
-                class="w-full object-cover border border-line rounded-lg"
-              />
+              <a href={artHref('images', i.id)} class="block"><MediaThumb src={i.data.thumb ?? i.data.image} alt={i.data.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" /></a>
             ))}
           </div>
         </section>
@@ -185,7 +180,8 @@ const videoLd =
                 href={`/watch/${v.data.slug}`}
                 title={v.data.title}
                 typeLabel={videoTypeLabel[v.data.type]}
-                thumbnail={v.data.thumbnail ?? (v.data.youtubeId ? `https://i.ytimg.com/vi/${v.data.youtubeId}/hqdefault.jpg` : undefined)}
+                thumbnail={videoThumbnail(v.data)}
+                orientation={v.data.orientation}
                 duration={v.data.duration}
               />
             ))}

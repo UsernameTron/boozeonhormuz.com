@@ -1,32 +1,49 @@
 ---
 // Image-or-placeholder box. Same contract as the product grid: a missing OR
 // failed image renders a fixed-ratio placeholder so the layout never breaks.
+import { responsiveImage, mediaImageSource } from '../lib/responsive-media';
 interface Props {
   src?: string;
   alt: string;
-  aspect?: string; // Tailwind aspect class, e.g. 'aspect-video' | 'aspect-square'
-  play?: boolean; // overlay a play glyph (video thumbnails)
+  aspect?: string;
+  fit?: 'cover' | 'contain' | 'natural';
+  srcset?: string;
+  sizes?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  priority?: boolean;
+  play?: boolean;
+  fallback?: string;
 }
-const { src, alt, aspect = 'aspect-video', play = false } = Astro.props;
+const { alt, aspect = 'aspect-video', fit = 'cover', play = false, sizes = '(min-width: 896px) 400px, (min-width: 640px) 45vw, calc(100vw - 48px)', loading = 'lazy', priority = false, fallback = 'Image coming soon' } = Astro.props;
+const src = mediaImageSource(Astro.props.src);
+const responsive = responsiveImage(src);
+const width = Astro.props.width ?? responsive.width;
+const height = Astro.props.height ?? responsive.height;
+const srcset = Astro.props.srcset ?? responsive.srcset;
+const naturalRatio = fit === 'natural' && width && height ? `${width} / ${height}` : undefined;
 ---
 
-<div class:list={[aspect, 'relative w-full overflow-hidden bg-charcoal']}>
+<div class:list={[naturalRatio ? undefined : aspect, 'media-thumb relative w-full overflow-hidden bg-charcoal']} style={naturalRatio ? `aspect-ratio: ${naturalRatio}` : undefined}>
   {
     src ? (
       <img
         src={src}
         alt={alt}
-        loading="lazy"
+        srcset={srcset}
+        sizes={srcset ? sizes : undefined}
+        width={width}
+        height={height}
+        loading={priority ? 'eager' : loading}
+        fetchpriority={priority ? 'high' : undefined}
         decoding="async"
-        class="object-cover w-full h-full"
-        onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm',textContent:'Image coming soon'}))"
+        class:list={['w-full h-full', fit === 'cover' ? 'object-cover' : 'object-contain']}
+        onerror="this.hidden=true;this.nextElementSibling.hidden=false"
       />
-    ) : (
-      <div class="w-full h-full grid place-items-center text-ink-soft/60 font-body text-sm">
-        Image coming soon
-      </div>
-    )
+    ) : null
   }
+  <div hidden={!!src} role="img" aria-label={`${alt} — image unavailable`} class="media-fallback absolute inset-0 p-4 text-center place-content-center text-ink-soft font-body text-sm">{fallback}</div>
   {
     play && (
       <span
@@ -38,3 +55,8 @@ const { src, alt, aspect = 'aspect-video', play = false } = Astro.props;
     )
   }
 </div>
+
+<style>
+  .media-fallback:not([hidden]) { display: grid; }
+  .media-thumb > img[hidden] { display: none; }
+</style>

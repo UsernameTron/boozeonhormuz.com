@@ -1,35 +1,44 @@
 ---
 import MediaThumb from './MediaThumb.astro';
 
-// Compact listen row — cover, title, native audio controls. The interface is
-// deliberately normal; the comedy lives in the material, not the player.
 interface Props {
+  id?: string;
   title: string;
   slug: string;
   cover?: string;
   audio?: string;
   duration?: string;
 }
-const { title, slug, cover, audio, duration } = Astro.props;
+const { id, title, slug, cover, audio, duration } = Astro.props;
 ---
 
-<article class="card-marble border border-line rounded-xl overflow-hidden shadow-lg flex flex-col sm:flex-row">
-  <a href={`/album/${slug}`} class="block sm:w-36 shrink-0">
-    <MediaThumb src={cover} alt={`Cover art for ${title}`} aspect="aspect-square" />
+<article class="audio-track card-marble border border-line rounded-xl shadow-lg" data-listen-track-id={id ?? slug}>
+  <a href={`/album/${slug}`} class="audio-cover" tabindex="-1" aria-hidden="true">
+    <MediaThumb src={cover} alt={`Cover art for ${title}`} aspect="aspect-square" fit="contain" sizes="80px" />
   </a>
-  <div class="p-4 flex-1 min-w-0">
-    <a href={`/album/${slug}`} class="font-display text-xl text-ink hover:text-gold-ink transition-colors">
-      {title}
-    </a>
-    {duration && <span class="font-body text-sm text-ink-soft tabular-nums ml-2">{duration}</span>}
-    {
-      audio ? (
-        <audio controls preload="none" src={audio} class="w-full mt-3">
-          Your browser does not support audio playback.
-        </audio>
-      ) : (
-        <p class="font-body text-sm text-ink-soft/70 italic mt-3">Audio arriving shortly. The mastering suite has excellent catering.</p>
-      )
-    }
+  <div class="audio-info">
+    <a href={`/album/${slug}`} class="font-display text-xl text-ink hover:text-gold-ink transition-colors">{title}</a>
+    {duration && <span class="font-body text-sm text-ink-soft tabular-nums block mt-1">{duration}</span>}
+  </div>
+  <div class="audio-controls">
+    {audio ? (
+      <audio controls preload="none" src={audio} aria-label={`Listen to ${title}`}>
+        Your browser does not support audio playback. <a href={audio}>Open the audio file</a>.
+      </audio>
+    ) : (
+      <p class="font-body text-sm text-ink-soft italic">Audio arriving shortly. The mastering suite has excellent catering.</p>
+    )}
   </div>
 </article>
+
+<style>
+  .audio-track { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: .75rem 1rem; padding: 1rem; }
+  .audio-cover { display: block; width: 80px; height: 80px; border-radius: .4rem; overflow: hidden; }
+  .audio-info { min-width: 0; align-self: center; overflow-wrap: anywhere; }
+  .audio-controls { grid-column: 1 / -1; min-width: 0; }
+  audio { display: block; width: 100%; min-width: 0; height: 44px; }
+  @media (min-width: 640px) {
+    .audio-cover { grid-row: 1 / 3; }
+    .audio-controls { grid-column: 2; }
+  }
+</style>

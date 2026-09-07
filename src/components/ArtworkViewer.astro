@@ -1,0 +1,49 @@
+---
+import type { Artwork } from '../lib/archive';
+import { responsiveImage, mediaImageSource } from '../lib/responsive-media';
+interface Props { items: Artwork[] }
+const items = Astro.props.items.map((item) => ({ ...item, full: mediaImageSource(item.full), ...responsiveImage(item.full) }));
+---
+{items.length > 0 && (
+  <Fragment>
+    <script id="artwork-viewer-data" type="application/json" set:html={JSON.stringify(items).replaceAll('<', '\\u003c')} />
+    <dialog id="artwork-viewer" aria-labelledby="artwork-viewer-title" class="artwork-viewer">
+      <div class="viewer-panel">
+        <header class="viewer-header">
+          <div class="min-w-0"><p class="text-eyebrow uppercase text-gold-ink" data-viewer-label></p><h2 id="artwork-viewer-title" class="font-display text-xl text-ink"></h2></div>
+          <button type="button" data-viewer-close class="viewer-button" aria-label="Close artwork viewer">Close ×</button>
+        </header>
+        <div class="viewer-image-area"><img data-viewer-image alt="" decoding="async" /><p data-viewer-fallback hidden class="text-ink-soft p-8">Image unavailable. You can still read this exhibit’s details.</p></div>
+        <p data-viewer-caption class="viewer-caption text-sm text-ink-soft" hidden></p>
+        <footer class="viewer-footer">
+          <div class="viewer-navigation"><button type="button" data-viewer-prev class="viewer-button" aria-label="Previous artwork">← Previous</button><span data-viewer-count class="text-sm text-ink-soft" role="status"></span><button type="button" data-viewer-next class="viewer-button" aria-label="Next artwork">Next →</button></div>
+          <div class="viewer-links"><a data-viewer-details class="text-gold-ink" href="/archive">View details</a><a data-viewer-download class="text-gold-ink" href={items[0]?.full || '/archive/'} hidden={!items[0]?.full} download>Download artwork</a></div>
+        </footer>
+      </div>
+    </dialog>
+  </Fragment>
+)}
+
+<script>
+  import { initializeArtworkViewer } from '../lib/artwork-viewer';
+  initializeArtworkViewer();
+</script>
+
+<style>
+  .artwork-viewer { width: min(1100px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 0; border: 1px solid var(--color-gold); border-radius: 12px; color: var(--color-ink); background: var(--color-paper); overflow-y: auto; }
+  .artwork-viewer::backdrop { background: rgb(0 0 0 / .85); }
+  .viewer-panel { padding: 16px; }
+  .viewer-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+  .viewer-button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--color-line); border-radius: 4px; color: var(--color-ink); background: var(--color-charcoal); flex-shrink: 0; }
+  .viewer-button:disabled { opacity: .5; cursor: default; }
+  .viewer-image-area { display: grid; place-items: center; background: #080808; min-height: 120px; }
+  .viewer-image-area img { display: block; max-width: 100%; max-height: min(64dvh, 720px); object-fit: contain; }
+  .viewer-image-area img[hidden] { display: none; }
+  .viewer-caption { margin-top: 12px; }
+  .viewer-footer { margin-top: 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; }
+  .viewer-navigation { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .viewer-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .viewer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .viewer-links a[hidden] { display: none; }
+  @media (max-width: 479px) { .viewer-panel { padding: 12px; } .viewer-header { gap: 8px; } .viewer-navigation { justify-content: space-between; width: 100%; gap: 6px; } .viewer-button { padding-inline: 9px; } }
+</style>
