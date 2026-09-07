@@ -61,7 +61,7 @@ This revision adds reviewed portable-project imports, merge/undo for custom temp
 
 Run `npm run verify` locally against a clean install. The fixture test creates a separate temporary copy with its own dependencies and Astro cache, so test content never enters the production catalog. `npm run check:output` checks critical routes, canonical tags, sitemap, custom domain and local asset references. Browser screenshots and failure traces are retained under `test-results/`; open the HTML report with `npx playwright show-report`.
 
-`npm run test:lighthouse` runs three mobile audits on each of 12 explicit routes. Point `CHROME_PATH` at a Chrome installation if it is not auto-detected. Reports stay in `.lighthouseci/`; accessibility and site-page SEO are blocking, while performance remains a 90-point warning until measured release budgets are approved.
+`npm run test:lighthouse` runs three mobile audits on each of 12 explicit routes. Point `CHROME_PATH` at a Chrome installation if it is not auto-detected. Reports stay in `.lighthouseci/`. Explicit median gates cover performance (at least 90), LCP, CLS, TBT, accessibility and site-page SEO. See the [measured mobile baseline and budgets](docs/PERFORMANCE-BASELINE.md) for route-specific limits and environment details.
 
 The workflow validates pull requests without publishing. Approved changes reaching `main` (or a manual run on `main`) must pass **Release validation** before Pages can deploy the exact validated build. Adding that named check to branch protection is an owner settings step, not a change this branch makes. See [DevOps handoff](docs/DEVOPS-HANDOFF.md) for release, approval and rollback details.
 
