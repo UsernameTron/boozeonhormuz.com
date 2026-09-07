@@ -3,12 +3,12 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import AudioTrack from '../components/AudioTrack.astro';
-import { playableTracks } from '../lib/media';
+import ListeningController from '../components/ListeningController.astro';
+import { listeningQueue, orderedListeningTracks } from '../lib/listening';
 
-// Every playable track, featured first. The player is deliberately boring —
-// the comedy lives in the songs.
-const playable = playableTracks(await getCollection('tracks'));
-const ordered = [...playable.filter((t) => t.data.featured), ...playable.filter((t) => !t.data.featured)];
+const tracks = await getCollection('tracks');
+const ordered = orderedListeningTracks(tracks);
+const queue = listeningQueue(tracks);
 ---
 
 <BaseLayout
@@ -31,9 +31,11 @@ const ordered = [...playable.filter((t) => t.data.featured), ...playable.filter(
           </p>
         </Fragment>
       ) : (
+        <ListeningController queue={queue}>
         <div class="grid gap-5">
           {ordered.map((t) => (
             <AudioTrack
+              id={t.id}
               title={t.data.title}
               slug={t.data.slug}
               cover={t.data.cover}
@@ -42,6 +44,7 @@ const ordered = [...playable.filter((t) => t.data.featured), ...playable.filter(
             />
           ))}
         </div>
+        </ListeningController>
       )
     }
   </section>
