@@ -20,6 +20,25 @@ export const liveVideos = (videos: Video[]) =>
     .filter((v) => !v.data.draft)
     .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
+export const featuredFirst = <T extends { data: { featured: boolean } }>(entries: T[]) =>
+  [...entries].sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+
+export type VideoOrientation = '16:9' | '9:16' | '1:1';
+export const videoAspect: Record<VideoOrientation, string> = {
+  '16:9': 'aspect-video', '9:16': 'aspect-[9/16]', '1:1': 'aspect-square',
+};
+export const videoThumbnail = (video: { thumbnail?: string; youtubeId?: string }) =>
+  video.thumbnail ?? (video.youtubeId ? `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg` : undefined);
+
+// Both collections own /watch/<slug>; fail before a collision silently replaces a page.
+export function validateWatchSlugs(entries: { id: string; data: { slug: string } }[]) {
+  const slugs = new Set<string>();
+  for (const entry of entries) {
+    if (slugs.has(entry.data.slug)) throw new Error(`Duplicate public watch slug: ${entry.data.slug}`);
+    slugs.add(entry.data.slug);
+  }
+}
+
 export const liveImages = (images: MediaImage[]) => images.filter((i) => !i.data.draft);
 
 export const videoTypeLabel: Record<Video['data']['type'], string> = {

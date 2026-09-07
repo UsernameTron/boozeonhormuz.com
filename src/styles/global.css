@@ -57,6 +57,31 @@ body {
   line-height: 1.6;
 }
 
+:focus-visible { outline: 3px solid var(--color-gold); outline-offset: 4px; }
+main:focus { outline: none; }
+.skip-link { position: fixed; z-index: 100; left: 1rem; top: 1rem; padding: .75rem 1rem; background: var(--color-ink); color: var(--color-paper); transform: translateY(-200%); }
+.skip-link:focus { transform: translateY(0); }
+button, summary, input, select, textarea { touch-action: manipulation; }
+button { cursor: pointer; }
+img, video { max-width: 100%; }
+.video-frame { position: relative; width: 100%; aspect-ratio: var(--video-ratio, 16 / 9); background: #080808; overflow: hidden; margin-inline: auto; }
+.video-frame[data-orientation="9:16"] { max-width: min(100%, 360px); }
+.video-frame[data-orientation="1:1"] { max-width: 640px; }
+.video-frame video { width: 100%; height: 100%; object-fit: contain; }
+.video-frame lite-youtube { position: relative; z-index: 1; display: block; width: 100%; height: 100%; max-width: none; background-image: none !important; background-color: transparent; }
+.video-frame lite-youtube::after { padding-bottom: 0; }
+.video-frame .video-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.video-frame lite-youtube.lyt-activated + .video-poster { display: none; }
+.watch-card-media { background: #080808; }
+.watch-card-media[data-orientation="9:16"] > .media-thumb { max-width: 240px; margin-inline: auto; }
+@media (max-width: 639px) {
+  .archive-filter-list { flex-wrap: nowrap; overflow-x: auto; padding: 4px 4px 10px; margin-inline: -4px; }
+  .archive-filter-list button { flex: none; min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
 /* Brushed bronze-gold gradient text — the expensive, slightly-tacky marquee treatment. */
 .metal-gold {
   background: linear-gradient(180deg, #e6c86a 0%, #c8a24a 45%, #9b762b 100%);

@@ -1,0 +1,17 @@
+---
+import type { VideoOrientation } from '../lib/media';
+interface Props {
+  src: string;
+  title: string;
+  poster?: string;
+  orientation?: VideoOrientation;
+  captions?: { src: string; label: string; srclang: string; default?: boolean }[];
+}
+const { src, title, poster, orientation = '16:9', captions = [] } = Astro.props;
+---
+<div class="video-frame" data-orientation={orientation} style={`--video-ratio: ${orientation.replace(':', ' / ')}`}>
+  <video controls playsinline preload="metadata" src={src} poster={poster} aria-label={title}>
+    {captions.map((caption) => <track kind="captions" {...caption} />)}
+    Your browser does not support video playback. <a href={src}>Open the video</a>.
+  </video>
+</div>

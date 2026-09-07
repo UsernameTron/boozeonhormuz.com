@@ -1,6 +1,17 @@
 import { defineCollection, reference } from 'astro:content';
 import { z } from 'astro:schema';
 import { glob, file } from 'astro/loaders';
+import { statSync } from 'node:fs';
+import path from 'node:path';
+
+const publicAssetExists = (src: string) => {
+  if (/^https:\/\//.test(src)) return URL.canParse(src);
+  if (!src.startsWith('/') || src.startsWith('//') || src.includes('\\')) return false;
+  const publicDir = path.resolve('public');
+  const asset = path.resolve(publicDir, `.${src}`);
+  if (!asset.startsWith(publicDir + path.sep)) return false;
+  try { return statSync(asset).isFile(); } catch { return false; }
+};
 
 // Schemas map to RENDERING TEMPLATES, not taxonomy.
 // `evidence` is a discriminated union on `kind` so a new artifact type is a new
@@ -126,11 +137,26 @@ const videos = defineCollection({
     duration: z.string().regex(/^\d+:\d{2}$/).optional(), // m:ss
     description: z.string(), // unique per video (video-SEO)
     transcript: z.string().optional(),
+    captions: z.array(z.object({
+      src: z.string(), // WebVTT, separate from the plain-text transcript
+      srclang: z.string().min(2),
+      label: z.string().min(1),
+      default: z.boolean().default(false),
+    })).default([]),
     orientation: z.enum(['16:9', '9:16', '1:1']).default('16:9'),
     featured: z.boolean().default(false), // homepage Featured Film / Performance slots
     hero: z.boolean().default(false), // THE homepage hero video — flag exactly one
     publishDate: z.coerce.date(),
     draft: z.boolean().default(true),
+  }).superRefine((video, context) => {
+    if (video.draft) return;
+    if (!video.youtubeId && !video.src) context.addIssue({ code: 'custom', path: ['src'], message: 'A public video needs a YouTube ID or playable source.' });
+    if (video.youtubeId && !/^[A-Za-z0-9_-]{11}$/.test(video.youtubeId)) context.addIssue({ code: 'custom', path: ['youtubeId'], message: 'Use the 11-character YouTube video ID.' });
+    if (video.src && !publicAssetExists(video.src)) context.addIssue({ code: 'custom', path: ['src'], message: 'Video source must be an existing public file or HTTPS URL.' });
+    video.captions.forEach((caption, index) => {
+      if (!publicAssetExists(caption.src) || !/\.vtt(?:[?#].*)?$/i.test(caption.src)) context.addIssue({ code: 'custom', path: ['captions', index, 'src'], message: 'Captions must reference an existing public or HTTPS WebVTT file.' });
+    });
+    if (video.captions.filter((caption) => caption.default).length > 1) context.addIssue({ code: 'custom', path: ['captions'], message: 'Choose at most one default caption track.' });
   }),
 });
 

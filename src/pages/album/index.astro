@@ -32,7 +32,7 @@ const statusLabel: Record<string, string> = {
         <Fragment>
           <div class="grid md:grid-cols-[320px_1fr] gap-8 items-start">
             <div class="border border-line rounded-xl overflow-hidden shadow-lg">
-              <MediaThumb src={album.data.artwork} alt={`${album.data.title} album artwork`} aspect="aspect-square" />
+              <MediaThumb src={album.data.artwork} alt={`${album.data.title} album artwork`} aspect={album.data.artwork ? "aspect-square" : "aspect-[3/1]"} fit="contain" sizes="(min-width: 768px) 320px, calc(100vw - 48px)" />
             </div>
             <div>
               <h2 class="font-display text-title text-ink">{album.data.title}</h2>
@@ -51,7 +51,7 @@ const statusLabel: Record<string, string> = {
             </div>
           </div>
 
-          <h3 class="font-display text-xl text-ink mt-14">Tracklist</h3>
+          <h3 class="font-display text-xl text-ink mt-10 md:mt-14">Tracklist</h3>
           {
             tracks.length > 0 ? (
               <div class="mt-4 card-marble border border-line rounded-xl overflow-hidden">

@@ -16,7 +16,11 @@
     "test:fixtures": "node scripts/verify-fixtures.mjs",
     "test:e2e": "playwright test",
     "test:lighthouse": "lhci autorun",
-    "verify": "npm run check && npm run test:unit && npm run test:fixtures && npm run build && npm run check:output && npm run test:e2e"
+    "verify": "npm run check && npm run test:unit && npm run test:fixtures && npm run build && npm run check:media && npm run check:output && npm run test:e2e",
+    "media:generate": "node scripts/generate-media.mjs",
+    "predev": "npm run media:generate",
+    "prebuild": "npm run media:generate",
+    "check:media": "node scripts/verify-media.mjs"
   },
   "dependencies": {
     "@astro-community/astro-embed-youtube": "0.5.10",
@@ -32,6 +36,7 @@
     "@astrojs/check": "0.9.9",
     "@lhci/cli": "0.15.1",
     "@playwright/test": "1.63.0",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "sharp": "0.34.5"
   }
 }

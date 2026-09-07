@@ -6,8 +6,8 @@ interface Props {
 const { eyebrow, title } = Astro.props;
 ---
 
-<header class="px-6 pt-16 pb-8 md:pt-20 max-w-4xl mx-auto">
+<header class="px-6 pt-10 pb-6 md:pt-16 md:pb-8 max-w-4xl mx-auto">
   {eyebrow && <p class="font-body text-eyebrow uppercase text-gold-ink">{eyebrow}</p>}
   <h1 class="font-display text-display text-ink mt-4">{title}</h1>
-  <hr class="mt-8 border-0 border-t brass-rule" />
+  <hr class="mt-6 md:mt-8 border-0 border-t brass-rule" />
 </header>

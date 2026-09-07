@@ -17,12 +17,13 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
 <header class="border-b brass-rule">
   <nav
     aria-label="Primary"
-    class="px-6 py-5 max-w-4xl mx-auto flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3"
+    class="primary-nav px-6 max-w-4xl mx-auto"
   >
-    <a href="/" class="font-display text-xl tracking-tight text-gold-ink metal-gold shrink-0">
+    <a href="/" class="nav-wordmark font-display text-xl tracking-tight text-gold-ink metal-gold">
       Booze&nbsp;on&nbsp;Hormuz<sup class="text-[0.5em] align-super">™</sup>
     </a>
-    <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-3 font-body text-sm">
+    <button hidden type="button" class="nav-toggle font-body text-sm text-gold-ink border border-line rounded-sm" aria-expanded="false" aria-controls="primary-links">Menu <span aria-hidden="true">☰</span></button>
+    <ul id="primary-links" class="nav-links font-body text-sm">
       {
         links.map((l) => (
           <li>
@@ -31,7 +32,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
               aria-current={isActive(l.href) ? 'page' : undefined}
               class:list={[
                 'hover:text-gold-ink transition-colors',
-                'py-1.5 inline-block',
+                'inline-flex items-center min-h-11',
                 l.primary ? 'text-gold-ink uppercase tracking-[0.1em]' : 'text-ink-soft',
                 isActive(l.href) && 'underline underline-offset-4 decoration-gold',
               ]}
@@ -44,3 +45,43 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     </ul>
   </nav>
 </header>
+
+<script is:inline>
+  (() => {
+    const nav = document.querySelector('.primary-nav');
+    const button = nav?.querySelector('.nav-toggle');
+    if (!nav || !button) return;
+    button.hidden = false;
+    nav.dataset.enhanced = 'true';
+    const close = () => button.setAttribute('aria-expanded', 'false');
+    button.addEventListener('click', () => button.setAttribute('aria-expanded', String(button.getAttribute('aria-expanded') !== 'true')));
+    nav.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        close();
+        button.focus();
+      }
+    });
+    document.addEventListener('click', (event) => { if (!nav.contains(event.target)) close(); });
+    matchMedia('(min-width: 768px)').addEventListener('change', close);
+  })();
+</script>
+
+<style>
+  .primary-nav { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; column-gap: 1rem; padding-block: .75rem; }
+  .nav-wordmark { min-width: 0; font-size: clamp(1rem, 4.9vw, 1.25rem); }
+  .nav-toggle { min-height: 44px; padding: .5rem .65rem; }
+  .nav-toggle[hidden] { display: none; }
+  .nav-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: .25rem 1rem; padding-top: .5rem; }
+  .nav-links a { width: 100%; }
+  @media (max-width: 767px) {
+    .primary-nav[data-enhanced] .nav-toggle[aria-expanded="false"] + .nav-links { display: none; }
+  }
+  @media (min-width: 768px) {
+    .primary-nav { padding-block: 1rem; }
+    .nav-toggle { display: none; }
+    .nav-links { display: flex; flex-wrap: wrap; column-gap: 1.25rem; padding-top: .5rem; }
+  }
+  @media (min-width: 1024px) {
+    .nav-links { width: auto; column-gap: 1rem; padding-top: 0; }
+  }
+</style>

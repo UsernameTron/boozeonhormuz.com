@@ -69,9 +69,10 @@ const CF_BEACON_TOKEN = '';
     }
   </head>
   <body class="min-h-screen flex flex-col">
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <Nav />
 
-    <main class="flex-1">
+    <main id="main-content" tabindex="-1" class="flex-1 min-w-0">
       <slot />
     </main>
 

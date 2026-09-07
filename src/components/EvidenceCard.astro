@@ -1,5 +1,6 @@
 ---
 import YouTubeEmbed from './YouTubeEmbed.astro';
+import MediaThumb from './MediaThumb.astro';
 
 // Polymorphic card — switches on the evidence `kind` discriminated union.
 // `data` is one entry's data object from getCollection('evidence').
@@ -27,7 +28,7 @@ const kindLabel: Record<string, string> = {
 
     {
       (data.kind === 'titlecard' || data.kind === 'gallery') && (
-        <img src={data.image} alt={data.title} class="w-full border border-line" loading="lazy" />
+        <MediaThumb src={data.image} alt={data.title} fit="natural" sizes="(min-width: 896px) 370px, calc(100vw - 88px)" />
       )
     }
 
