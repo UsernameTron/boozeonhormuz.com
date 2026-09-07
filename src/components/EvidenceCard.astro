@@ -6,8 +6,10 @@ import MediaThumb from './MediaThumb.astro';
 // `data` is one entry's data object from getCollection('evidence').
 interface Props {
   data: any;
+  artworkHref?: string;
+  artworkId?: string;
 }
-const { data } = Astro.props;
+const { data, artworkHref, artworkId } = Astro.props;
 const kindLabel: Record<string, string> = {
   clip: 'Clip',
   commercial: 'Commercial',
@@ -28,7 +30,7 @@ const kindLabel: Record<string, string> = {
 
     {
       (data.kind === 'titlecard' || data.kind === 'gallery') && (
-        <MediaThumb src={data.image} alt={data.title} fit="natural" sizes="(min-width: 896px) 370px, calc(100vw - 88px)" />
+        artworkHref ? <a href={artworkHref} data-art-id={artworkId} class="block"><MediaThumb src={data.image} alt={data.title} fit="natural" sizes="(min-width: 896px) 370px, calc(100vw - 88px)" /><span class="inline-flex items-center min-h-11 text-sm text-gold-ink mt-2">View artwork →</span></a> : <MediaThumb src={data.image} alt={data.title} fit="natural" sizes="(min-width: 896px) 370px, calc(100vw - 88px)" />
       )
     }
 

@@ -3,174 +3,53 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import MediaThumb from '../components/MediaThumb.astro';
-import {
-  playableTracks,
-  liveVideos,
-  liveImages,
-  videoTypeLabel,
-  imageTypeLabel,
-  videoAspect,
-  videoThumbnail,
-} from '../lib/media';
-
-// Everything, one filterable grid. Tracks, videos, and images come from the
-// media collections; the live Evidence Lounge exhibits are folded in so the
-// archive is never empty. Cards link to each asset's home page.
-const tracks = playableTracks(await getCollection('tracks'));
-const videos = liveVideos(await getCollection('videos'));
-const images = liveImages(await getCollection('images'));
-const evidenceArt = (await getCollection('evidence')).filter(
-  (e) => !e.data.draft && (e.data.kind === 'titlecard' || e.data.kind === 'gallery'),
-);
-const trackTitleById = new Map(tracks.map((t) => [t.id, t.data.title]));
-const trackSlugById = new Map(tracks.map((t) => [t.id, t.data.slug]));
-
-// Filter keys: track | music-video | performance | short | sketch | image | poster | bts
-type Card = {
-  href: string;
-  filter: string;
-  label: string;
-  title: string;
-  image?: string;
-  alt: string;
-  trackTitle?: string;
-  aspect: string;
-};
-
-const cards: Card[] = [
-  ...tracks.map((t) => ({
-    href: `/album/${t.data.slug}`,
-    filter: 'track',
-    label: 'Track',
-    title: t.data.title,
-    image: t.data.cover,
-    alt: `Cover art for ${t.data.title}`,
-    aspect: 'aspect-square',
-  })),
-  ...videos.map((v) => ({
-    href: `/watch/${v.data.slug}`,
-    filter: v.data.type,
-    label: videoTypeLabel[v.data.type],
-    title: v.data.title,
-    image: videoThumbnail(v.data),
-    alt: v.data.title,
-    trackTitle: v.data.track ? trackTitleById.get(v.data.track.id) : undefined,
-    aspect: videoAspect[v.data.orientation],
-  })),
-  ...images.map((i) => ({
-    href:
-      i.data.track && trackSlugById.has(i.data.track.id)
-        ? `/album/${trackSlugById.get(i.data.track.id)}`
-        : '/archive',
-    filter: i.data.type === 'poster' || i.data.type === 'fake-ad' ? 'poster' : i.data.type === 'bts' ? 'bts' : 'image',
-    label: imageTypeLabel[i.data.type],
-    title: i.data.title,
-    image: i.data.thumb ?? i.data.image,
-    alt: i.data.alt,
-    trackTitle: i.data.track ? trackTitleById.get(i.data.track.id) : undefined,
-    aspect: 'aspect-square',
-  })),
-  ...evidenceArt.map((e: any) => ({
-    href: '/evidence-lounge',
-    filter: 'image',
-    label: e.data.kind === 'titlecard' ? 'Title Card' : 'Exhibit',
-    title: e.data.title,
-    image: e.data.image,
-    alt: e.data.title,
-    aspect: 'aspect-square',
-  })),
-];
-
-const filters = [
-  { key: 'all', label: 'All' },
-  { key: 'track', label: 'Tracks' },
-  { key: 'music-video', label: 'Music Videos' },
-  { key: 'performance', label: 'Performances' },
-  { key: 'sketch', label: 'Sketches' },
-  { key: 'short', label: 'Shorts' },
-  { key: 'image', label: 'Images' },
-  { key: 'poster', label: 'Posters' },
-  { key: 'bts', label: 'Behind the Scenes' },
-];
+import ArtworkViewer from '../components/ArtworkViewer.astro';
+import { buildArchive, isArtwork } from '../lib/archive';
+import { videoAspect } from '../lib/media';
+const cards = buildArchive({
+  tracks: await getCollection('tracks'), videos: await getCollection('videos'),
+  images: await getCollection('images'), evidence: await getCollection('evidence'),
+});
+const categoryLabels: Record<string, string> = { track: 'Tracks', 'music-video': 'Music Videos', performance: 'Performances', sketch: 'Sketches', short: 'Shorts', image: 'Images', poster: 'Posters', bts: 'Behind the Scenes' };
+const filters = [{ key: 'all', label: 'All', count: cards.length }, ...Object.entries(categoryLabels).map(([key, label]) => ({ key, label, count: cards.filter((card) => card.category === key).length })).filter((filter) => filter.count)];
+const searchIndex = cards.map(({ id, category, title, description, caption, track }) => ({ id, category, title, description, caption, track }));
 ---
-
-<BaseLayout
-  title="Archive — Booze on Hormuz™"
-  description="The complete Booze on Hormuz archive — tracks, films, performances, stills, posters, and assorted very legal receipts, filterable."
->
+<BaseLayout title="Archive — Booze on Hormuz™" description="Explore the complete Booze on Hormuz archive — tracks, films, performances, artwork, and assorted very legal receipts.">
   <PageHeader eyebrow="Everything, admissible" title="Archive" />
-
-  <section class="px-6 pb-28 max-w-4xl mx-auto">
-    {
-      cards.length === 0 ? (
-        <p class="font-display text-title text-ink max-w-2xl">
-          The archive is being catalogued by people in white gloves. Exhibits arrive one at a
-          time, each with a number and an alibi.
-        </p>
-      ) : (
-        <Fragment>
-          <div class="archive-filter-list flex flex-wrap gap-2" role="group" aria-label="Filter the archive" id="archive-filters">
-            {filters.map((f, idx) => (
-              <button
-                type="button"
-                data-filter={f.key}
-                aria-pressed={idx === 0 ? 'true' : 'false'}
-                class:list={[
-                  'font-body text-sm uppercase tracking-[0.1em] px-4 py-2 rounded-sm border transition-colors',
-                  'aria-pressed:border-gold aria-pressed:text-gold-ink border-line/60 text-ink-soft hover:text-gold-ink',
-                ]}
-              >
-                {f.label} <span class="normal-case tracking-normal text-ink-soft">({f.key === 'all' ? cards.length : cards.filter((card) => card.filter === f.key).length})</span>
-              </button>
-            ))}
+  <section class="px-6 pb-20 md:pb-28 max-w-4xl mx-auto">
+    {cards.length === 0 ? (
+      <p class="font-display text-title text-ink max-w-2xl">The archive is being catalogued by people in white gloves. Exhibits arrive one at a time, each with a number and an alibi.</p>
+    ) : (
+      <Fragment>
+        <div id="archive-controls" aria-hidden="true" inert style="visibility: hidden">
+          <form id="archive-search" role="search" class="flex flex-wrap items-end gap-3">
+            <div class="flex-1 min-w-[min(100%,10rem)]"><label for="archive-query" class="block text-sm text-ink-soft mb-2">Search the archive</label><input id="archive-query" name="q" type="search" maxlength="200" placeholder="Search titles and captions" autocomplete="off" class="w-full min-h-11 rounded-sm border border-line bg-charcoal text-ink px-3 py-2" /></div>
+            <button type="button" id="archive-reset" class="min-h-11 border border-line rounded-sm text-gold-ink px-4 py-2">Reset</button>
+          </form>
+          <div class="archive-filter-list flex flex-wrap gap-2 mt-4" role="group" aria-label="Filter the archive" id="archive-filters">
+            {filters.map((filter) => <button type="button" data-filter={filter.key} aria-pressed={filter.key === 'all'} class="font-body text-sm px-4 py-2 min-h-11 rounded-sm border border-line/60 text-ink-soft aria-pressed:border-gold aria-pressed:text-gold-ink hover:text-gold-ink">{filter.label} <span>({filter.count})</span></button>)}
           </div>
-
-          <p id="archive-count" class="font-body text-sm text-ink-soft mt-4" role="status">{cards.length} items</p>
-          <div class="grid grid-cols-1 min-[360px]:grid-cols-2 sm:grid-cols-3 gap-4 mt-4 items-start" id="archive-grid">
-            {cards.map((c) => (
-              <div data-type={c.filter}>
-                <a href={c.href} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
-                  <MediaThumb src={c.image} alt={c.alt} aspect={c.aspect} fit={c.filter === 'track' || ['music-video', 'performance', 'sketch', 'short'].includes(c.filter) ? 'contain' : 'natural'} sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, (min-width: 360px) calc((100vw - 64px) / 2), calc(100vw - 48px)" />
-                  <div class="p-3">
-                    <p class="font-body text-eyebrow uppercase text-gold-ink">{c.label}</p>
-                    <h3 class="font-display text-lg text-ink mt-1 group-hover:text-gold-ink transition-colors">
-                      {c.title}
-                    </h3>
-                    {c.trackTitle && (
-                      <p class="font-body text-xs text-ink-soft/80 mt-1">From “{c.trackTitle}”</p>
-                    )}
-                  </div>
-                </a>
-              </div>
-            ))}
-          </div>
-
-          <p class="hidden font-display text-xl text-ink mt-10" id="archive-empty">
-            Nothing filed under this category yet. The white-glove people are aware.
-          </p>
-
-          <script>
-            const group = document.getElementById('archive-filters');
-            const grid = document.getElementById('archive-grid');
-            const empty = document.getElementById('archive-empty');
-            group?.addEventListener('click', (ev) => {
-              const btn = (ev.target as HTMLElement).closest('button[data-filter]');
-              if (!btn || !grid || !empty) return;
-              const filter = btn.getAttribute('data-filter');
-              group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-              let visible = 0;
-              grid.querySelectorAll<HTMLElement>('[data-type]').forEach((card) => {
-                const show = filter === 'all' || card.dataset.type === filter;
-                card.style.display = show ? '' : 'none';
-                if (show) visible++;
-              });
-              empty.classList.toggle('hidden', visible > 0);
-              const count = document.getElementById('archive-count');
-              if (count) count.textContent = `${visible} ${visible === 1 ? 'item' : 'items'}`;
-            });
-          </script>
-        </Fragment>
-      )
-    }
+        </div>
+        <noscript><style is:inline>#archive-controls { display: none; }</style></noscript>
+        <p id="archive-count" class="font-body text-sm text-ink-soft mt-4" role="status">{cards.length} items</p>
+        <div class="grid grid-cols-1 min-[360px]:grid-cols-2 sm:grid-cols-3 gap-4 mt-4 items-start" id="archive-grid">
+          {cards.map((card) => (
+            <div data-archive-item data-id={card.id} data-type={card.category}>
+              <a href={card.href} data-detail-href={card.href} data-art-id={card.kind === 'art' ? card.id : undefined} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
+                <MediaThumb src={card.thumbnail} alt={card.alt} aspect={card.kind === 'video' ? videoAspect[card.orientation ?? '16:9'] : 'aspect-square'} fit={card.kind === 'art' ? 'natural' : 'contain'} sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, (min-width: 360px) calc((100vw - 64px) / 2), calc(100vw - 48px)" />
+                <div class="p-3"><p class="font-body text-eyebrow uppercase text-gold-ink">{card.label}</p><h2 class="font-display text-lg text-ink mt-1 group-hover:text-gold-ink transition-colors">{card.title}</h2>{card.track && <p class="font-body text-xs text-ink-soft mt-1">From “{card.track.title}”</p>}</div>
+              </a>
+            </div>
+          ))}
+        </div>
+        <p hidden class="font-display text-xl text-ink mt-8" id="archive-empty">No matches. Try a different search or reset the filters.</p>
+        <script id="archive-search-data" type="application/json" set:html={JSON.stringify(searchIndex).replaceAll('<', '\\u003c')} />
+        <ArtworkViewer items={cards.filter(isArtwork)} />
+      </Fragment>
+    )}
   </section>
 </BaseLayout>
+<script>
+  import { initializeArchiveSearch } from '../lib/archive-search';
+  initializeArchiveSearch();
+</script>

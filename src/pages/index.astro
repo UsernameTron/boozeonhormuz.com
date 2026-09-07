@@ -6,6 +6,8 @@ import MediaThumb from '../components/MediaThumb.astro';
 import WatchCard from '../components/WatchCard.astro';
 import AudioTrack from '../components/AudioTrack.astro';
 import LocalVideo from '../components/LocalVideo.astro';
+import ArtworkViewer from '../components/ArtworkViewer.astro';
+import { buildArchive, isArtwork, artHref, qualifiedId } from '../lib/archive';
 import { responsiveImage } from '../lib/responsive-media';
 import {
   listedTracks,
@@ -44,7 +46,7 @@ const listenTracks = [
 const evidenceArt = (await getCollection('evidence')).filter(
   (e) => !e.data.draft && (e.data.kind === 'titlecard' || e.data.kind === 'gallery'),
 );
-const trackSlugById = new Map(playable.map((t) => [t.id, t.data.slug]));
+const visualArtwork = buildArchive({ tracks: playable, videos: [], images, evidence: evidenceArt }).filter(isArtwork);
 const visualGrid =
   images.length > 0
     ? images
@@ -52,16 +54,15 @@ const visualGrid =
         .concat(images.filter((i) => !i.data.featured))
         .slice(0, 12)
         .map((i) => ({
-          href:
-            i.data.track && trackSlugById.has(i.data.track.id)
-              ? `/album/${trackSlugById.get(i.data.track.id)}`
-              : '/archive',
+          href: artHref('images', i.id),
+          id: qualifiedId('images', i.id),
           image: i.data.thumb ?? i.data.image,
           alt: i.data.alt,
           title: i.data.title,
         }))
     : evidenceArt.slice(0, 12).map((e: any) => ({
-        href: '/evidence-lounge',
+        href: artHref('evidence', e.id),
+        id: qualifiedId('evidence', e.id),
         image: e.data.image,
         alt: e.data.title,
         title: e.data.title,
@@ -173,7 +174,7 @@ const visualGrid =
         <p class="font-body text-eyebrow uppercase text-gold-ink">Visual Evidence</p>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
           {visualGrid.map((g) => (
-            <a href={g.href} class="group block border border-line rounded-lg overflow-hidden hover:border-gold transition-colors">
+            <a href={g.href} data-art-id={g.id} class="group block border border-line rounded-lg overflow-hidden hover:border-gold transition-colors">
               <MediaThumb src={g.image} alt={g.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" />
             </a>
           ))}
@@ -357,4 +358,5 @@ const visualGrid =
       </a>
     </div>
   </section>
+  <ArtworkViewer items={visualArtwork} />
 </BaseLayout>

@@ -5,6 +5,8 @@ import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
 import SponsorRead from '../../components/SponsorRead.astro';
 import WatchCard from '../../components/WatchCard.astro';
 import MediaThumb from '../../components/MediaThumb.astro';
+import { artHref } from '../../lib/archive';
+import { mediaImageSource, responsiveImage } from '../../lib/responsive-media';
 import LocalVideo from '../../components/LocalVideo.astro';
 import {
   liveVideos,
@@ -76,7 +78,8 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
 
 // VideoObject structured data (video-SEO): unique name/description/thumbnail
 // per watch page, ISO-8601 duration, absolute URLs.
-const thumbnail = videoThumbnail(kind === 'video' ? video!.data : { youtubeId });
+const thumbnail = videoThumbnail({ thumbnail: kind === 'video' ? mediaImageSource(video!.data.thumbnail) : undefined, youtubeId });
+const socialDimensions = responsiveImage(thumbnail);
 const videoLd =
   youtubeId || (kind === 'video' && video!.data.src)
     ? JSON.stringify({
@@ -96,7 +99,7 @@ const videoLd =
     : null;
 ---
 
-<BaseLayout title={`${title} — Booze on Hormuz™`} description={description}>
+<BaseLayout title={`${title} — Booze on Hormuz™`} description={description} ogImage={thumbnail} ogImageWidth={socialDimensions.width} ogImageHeight={socialDimensions.height}>
   {videoLd && <script is:inline type="application/ld+json" set:html={videoLd} />}
 
   <article class="px-6 pt-10 md:pt-16 pb-20 md:pb-28 max-w-4xl mx-auto">
@@ -146,7 +149,7 @@ const videoLd =
           <h2 class="font-display text-title text-ink">Stills</h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-5">
             {stills.map((i) => (
-              <MediaThumb src={i.data.thumb ?? i.data.image} alt={i.data.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" />
+              <a href={artHref('images', i.id)} class="block"><MediaThumb src={i.data.thumb ?? i.data.image} alt={i.data.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" /></a>
             ))}
           </div>
         </section>

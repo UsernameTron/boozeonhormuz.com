@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
 import MediaThumb from '../../components/MediaThumb.astro';
+import { artHref } from '../../lib/archive';
+import { mediaImageSource, responsiveImage } from '../../lib/responsive-media';
 import WatchCard from '../../components/WatchCard.astro';
 import { playableTracks, liveVideos, liveImages, videoTypeLabel } from '../../lib/media';
 
@@ -34,9 +36,11 @@ const date = releaseDate?.toLocaleDateString('en-US', { year: 'numeric', month: 
 
 // Track body (the short creative note) renders below the player.
 const { Content } = await render(track);
+const socialImage = mediaImageSource(cover);
+const socialDimensions = responsiveImage(socialImage);
 ---
 
-<BaseLayout title={`${title} — Booze on Hormuz™`} description={description ?? `${title} — a track from the Booze on Hormuz album.`}>
+<BaseLayout title={`${title} — Booze on Hormuz™`} description={description ?? `${title} — a track from the Booze on Hormuz album.`} ogImage={socialImage} ogImageWidth={socialDimensions.width} ogImageHeight={socialDimensions.height}>
   <article class="px-6 pt-10 md:pt-16 pb-20 md:pb-28 max-w-4xl mx-auto">
     <p class="font-body text-eyebrow uppercase text-gold-ink">
       Track {String(trackNumber).padStart(2, '0')}
@@ -168,7 +172,7 @@ const { Content } = await render(track);
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-5">
             {gallery.map((i) => (
               <figure class="border border-line rounded-lg overflow-hidden">
-                <MediaThumb src={i.data.image} alt={i.data.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" />
+                <a href={artHref('images', i.id)} class="block"><MediaThumb src={i.data.image} alt={i.data.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" /></a>
                 {i.data.caption && (
                   <figcaption class="font-body text-xs text-ink-soft/70 p-2">{i.data.caption}</figcaption>
                 )}
