@@ -57,4 +57,13 @@ assert.match(premiere, /VideoObject/, 'Premiere structured data missing');
 const lighthouse = JSON.parse(readFileSync(resolve('lighthouserc.json'), 'utf8'));
 const measured = lighthouse.ci.collect.url.map((url) => new URL(url).pathname);
 for (const route of criticalRoutes) assert.ok(measured.includes(route), `Lighthouse misses ${route}`);
-console.log(`Output OK: ${files.filter((f) => f.endsWith('.html')).length} HTML files, ${references} local references, domain, canonical tags, sitemap and ${criticalRoutes.length} explicit audit routes.`);
+for (const url of lighthouse.ci.collect.url) {
+  const matches = (lighthouse.ci.assert.assertMatrix ?? []).filter((entry) => new RegExp(entry.matchingUrlPattern).test(url));
+  assert.equal(matches.length, 1, `Lighthouse must apply exactly one budget entry to ${url}`);
+  assert.equal(matches[0].aggregationMethod, 'median', `Lighthouse must use median budgets for ${url}`);
+  for (const [audit, rule] of Object.entries(matches[0].assertions ?? {})) {
+    const override = Array.isArray(rule) ? rule[1]?.aggregationMethod : undefined;
+    assert.ok(override === undefined || override === 'median', `Lighthouse ${audit} overrides median aggregation for ${url}`);
+  }
+}
+console.log(`Output OK: ${files.filter((f) => f.endsWith('.html')).length} HTML files, ${references} local references, domain, canonical tags, sitemap and ${criticalRoutes.length} explicit audit routes with unique median budgets.`);
