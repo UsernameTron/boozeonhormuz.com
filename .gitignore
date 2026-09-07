@@ -2,6 +2,11 @@
 dist/
 # generated types
 .astro/
+.astro-cache/
+.lighthouseci/
+playwright-report/
+test-results/
+output/playwright/
 
 # dependencies
 node_modules/

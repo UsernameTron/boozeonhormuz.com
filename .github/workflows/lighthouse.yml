@@ -1,9 +1,7 @@
 name: Lighthouse
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+  workflow_call:
 
 permissions:
   contents: read
@@ -21,11 +19,22 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v12
+      - name: Download the already validated site
+        uses: actions/download-artifact@v4
         with:
-          configPath: ./lighthouserc.json
-          uploadArtifacts: true
-          temporaryPublicStorage: true
+          name: validated-site
+          path: dist/
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Lighthouse CI
+        run: |
+          export CHROME_PATH="$(node --input-type=module -e 'import { chromium } from "@playwright/test"; console.log(chromium.executablePath())')"
+          npm run test:lighthouse
+      - name: Retain all Lighthouse runs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          include-hidden-files: true
+          retention-days: 30

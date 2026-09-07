@@ -2,29 +2,98 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "numberOfRuns": 1
+      "url": [
+        "http://localhost/",
+        "http://localhost/album/",
+        "http://localhost/watch/",
+        "http://localhost/watch/the-premiere/",
+        "http://localhost/listen/",
+        "http://localhost/archive/",
+        "http://localhost/play/",
+        "http://localhost/tools/broadcast-room/",
+        "http://localhost/tools/evidence-lounge-studio/",
+        "http://localhost/apps/broadcast-room.html",
+        "http://localhost/apps/evidence-lounge-studio.html",
+        "http://localhost/apps/exit-strategy.html"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "formFactor": "mobile",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 390,
+          "height": 844,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "chromeFlags": "--no-sandbox --disable-dev-shm-usage"
+      }
     },
     "assert": {
       "assertMatrix": [
         {
           "matchingUrlPattern": ".*/apps/.*",
           "assertions": {
-            "categories:performance": ["warn", { "minScore": 0.9 }],
-            "categories:accessibility": ["error", { "minScore": 0.9 }],
-            "categories:best-practices": ["warn", { "minScore": 0.9 }],
-            "categories:seo": ["warn", { "minScore": 0.9 }]
+            "categories:performance": [
+              "warn",
+              {
+                "minScore": 0.9
+              }
+            ],
+            "categories:accessibility": [
+              "error",
+              {
+                "minScore": 0.9
+              }
+            ],
+            "categories:best-practices": [
+              "warn",
+              {
+                "minScore": 0.9
+              }
+            ],
+            "categories:seo": [
+              "warn",
+              {
+                "minScore": 0.9
+              }
+            ]
           }
         },
         {
           "matchingUrlPattern": "^(?!.*/apps/).*$",
           "assertions": {
-            "categories:performance": ["warn", { "minScore": 0.9 }],
-            "categories:accessibility": ["error", { "minScore": 0.9 }],
-            "categories:best-practices": ["warn", { "minScore": 0.9 }],
-            "categories:seo": ["error", { "minScore": 0.9 }]
+            "categories:performance": [
+              "warn",
+              {
+                "minScore": 0.9
+              }
+            ],
+            "categories:accessibility": [
+              "error",
+              {
+                "minScore": 0.9
+              }
+            ],
+            "categories:best-practices": [
+              "warn",
+              {
+                "minScore": 0.9
+              }
+            ],
+            "categories:seo": [
+              "error",
+              {
+                "minScore": 0.9
+              }
+            ]
           }
         }
       ]
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci/reports"
     }
   }
 }

@@ -2,6 +2,8 @@
 
 Project governance for the Booze on Hormuz satire hub. Read before making changes.
 
+> September 2026 implementation note: release verification and artifact-gated workflows are prepared on a local feature branch. They are not confirmed active in production. Use [README.md](README.md) and [docs/DEVOPS-HANDOFF.md](docs/DEVOPS-HANDOFF.md) for current commands, release checks and approval boundaries. Historical deployment descriptions below predate that work; the checked-in workflows and package lockfile define the implementation.
+
 ## What this is
 
 A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. **Media-first since the makeover:** the site is the permanent home of the whole project — the album, music videos, performances, shorts, artwork — plus one quiet commercial door (`/studio`). The original timeshare-trope landing page is preserved intact at `/experience` as part of the world. The media collections (albums/tracks/videos/images) are the publishing system: dropping one track file populates `/album`, `/listen`, `/archive`, the homepage, and its own page — no album-completion dependency anywhere (see `docs/CONTENT-MODEL.md`). **Content rollout in progress** — the Evidence Lounge holds 7 live exhibits (4 `titlecard` + 3 `gallery`, all `draft: false`) which also seed the homepage Visual Evidence grid and `/archive`; `/products` and `/sponsor-reads` render inline image-driven grids (data arrays in the page frontmatter, not collections); `/watch` shows a featured YouTube premiere embed as its empty state. The albums collection holds the live album shell; tracks/videos/images/episodes/quotes fill as work is finished.

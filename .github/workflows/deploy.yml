@@ -1,32 +1,83 @@
 name: Deploy to GitHub Pages
 
 on:
+  pull_request:
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # Allow one concurrent deployment; don't cancel an in-progress production deploy.
 concurrency:
-  group: "pages"
+  group: ${{ github.event_name == 'pull_request' && format('verify-{0}', github.event.pull_request.number) || 'pages' }}
   cancel-in-progress: false
 
 jobs:
-  build:
+  validate:
+    name: Build and browser checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Build with Astro
-        uses: withastro/action@v6 # runs npm ci + astro build, uploads the Pages artifact
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Validate source, disposable catalog and production output
+        run: npm run verify
+      - name: Retain browser reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-reports
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+      - name: Retain exact validated site
+        uses: actions/upload-artifact@v4
+        with:
+          name: validated-site
+          path: dist/
+          include-hidden-files: true
+          retention-days: 30
+      - name: Package the validated Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/
+          retention-days: 30
+
+  lighthouse:
+    needs: validate
+    uses: ./.github/workflows/lighthouse.yml
+
+  release-check:
+    name: Release validation
+    if: always()
+    needs: [validate, lighthouse]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every validation job
+        env:
+          BUILD_RESULT: ${{ needs.validate.result }}
+          LIGHTHOUSE_RESULT: ${{ needs.lighthouse.result }}
+        run: test "$BUILD_RESULT" = success && test "$LIGHTHOUSE_RESULT" = success
 
   deploy:
-    needs: build
+    needs: [validate, lighthouse, release-check]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -1,5 +1,7 @@
 # RUNBOOK — boozeonhormuz.com Foundation
 
+> Historical foundation reference, not an executable deployment runbook. Its Astro 5, hosting alternatives, DNS, first-push and phase instructions are superseded by the Astro 6 repository and [docs/DEVOPS-HANDOFF.md](docs/DEVOPS-HANDOFF.md). September 2026 release improvements are local and awaiting owner publication approval; no live settings change is implied. Do not rerun the scaffold or historical deployment commands against the existing site.
+
 | Field | Value |
 |---|---|
 | **Goal** | Live, correctly-architected Astro 5 foundation on a custom domain, content-free, ready for content |
