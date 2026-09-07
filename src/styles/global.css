@@ -71,7 +71,7 @@ img, video { max-width: 100%; }
 .video-frame lite-youtube { position: relative; z-index: 1; display: block; width: 100%; height: 100%; max-width: none; background-image: none !important; background-color: transparent; }
 .video-frame lite-youtube::after { padding-bottom: 0; }
 .video-frame .video-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
-.video-frame lite-youtube.lyt-activated + .video-poster { display: none; }
+.video-frame lite-youtube.lyt-activated ~ .video-poster { display: none; }
 .watch-card-media { background: #080808; }
 .watch-card-media[data-orientation="9:16"] > .media-thumb { max-width: 240px; margin-inline: auto; }
 @media (max-width: 639px) {
