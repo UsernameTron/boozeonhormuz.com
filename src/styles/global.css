@@ -64,6 +64,7 @@ main:focus { outline: none; }
 button, summary, input, select, textarea { touch-action: manipulation; }
 button { cursor: pointer; }
 img, video { max-width: 100%; }
+h1, h2, h3, .text-eyebrow { overflow-wrap: anywhere; }
 .video-frame { position: relative; width: 100%; aspect-ratio: var(--video-ratio, 16 / 9); background: #080808; overflow: hidden; margin-inline: auto; }
 .video-frame[data-orientation="9:16"] { max-width: min(100%, 360px); }
 .video-frame[data-orientation="1:1"] { max-width: 640px; }
