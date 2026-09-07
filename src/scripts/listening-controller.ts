@@ -145,7 +145,13 @@ export function initializeListeningRoom(root: HTMLElement) {
     const position = pendingRestore.position;
     pendingRestore = null;
     if (position >= audio.duration) {
-      storageStatus.textContent = 'That position is beyond this track’s duration. Playback is ready from the start.';
+      try {
+        audio.currentTime = 0;
+        updateControls();
+        storageStatus.textContent = 'That position is beyond this track’s duration. Playback is ready from the start.';
+      } catch {
+        storageStatus.textContent = 'That saved position is invalid. Use the native controls to return to the start.';
+      }
       return;
     }
     try {

@@ -45,9 +45,9 @@ async function openFixture(page: Page) {
   await page.goto(`${fixtureURL}/listen/`);
   await expect(page.locator('[data-listening-room]')).toHaveAttribute('data-listening-ready', 'true');
 }
-async function chooseNative(page: Page, index: number) {
-  // A click provides a real user gesture, then the native media element starts.
-  await audio(page, index).click({ position: { x: 20, y: 20 } });
+async function chooseNative(page: Page, index: number, browserName: string) {
+  // WebKit puts a rewind control before Play; Chromium puts Play first.
+  await audio(page, index).click({ position: { x: browserName === 'webkit' ? 50 : 20, y: 20 } });
   await expect.poll(async () => audio(page, index).evaluate((element) => !(element as HTMLAudioElement).paused)).toBe(true);
 }
 
@@ -58,7 +58,7 @@ test('production stays honest when no audio exists', async ({ page }) => {
   await expect(page.locator('audio')).toHaveCount(0);
 });
 
-test('native fallback, queue order, exclusivity, real ended advancement, and boundaries', async ({ page }) => {
+test('native fallback, queue order, exclusivity, real ended advancement, and boundaries', async ({ page, browserName }) => {
   const errors: string[] = []; page.on('pageerror', (error) => errors.push(error.message));
   await openFixture(page);
   await expect(page.locator('[data-listening-room] audio')).toHaveCount(2);
@@ -70,13 +70,14 @@ test('native fallback, queue order, exclusivity, real ended advancement, and bou
   await page.locator('[data-play-all]').focus(); await page.keyboard.press('Enter');
   await expect.poll(() => paused(page)).toEqual([false, true]);
   await expect(page.locator('[data-now-link]')).toHaveText('Fixture First Track');
+  await expect.poll(() => audio(page, 0).evaluate((element) => Number.isFinite((element as HTMLAudioElement).duration) && (element as HTMLAudioElement).duration > 0)).toBe(true);
   await audio(page, 0).evaluate((element) => { const audio = element as HTMLAudioElement; audio.currentTime = audio.duration - .15; });
   await expect.poll(() => paused(page)).toEqual([true, false]);
   await expect(page.locator('[data-now-link]')).toHaveText('Fixture Second Track');
   await expect(page.locator('[data-next]')).toBeDisabled();
   await page.locator('[data-previous]').click();
   await expect.poll(() => paused(page)).toEqual([false, true]);
-  await chooseNative(page, 1);
+  await chooseNative(page, 1, browserName);
   await expect.poll(() => paused(page)).toEqual([true, false]);
   await page.locator('[data-toggle]').click();
   expect(await paused(page)).toEqual([true, true]);
@@ -153,6 +154,24 @@ test('resume is opt-in, throttled, source-bound, restored only on request, and c
   await page.locator('summary').filter({ hasText: 'Playback & device settings' }).click();
   await expect(page.locator('[data-restore]')).toBeHidden();
   await expect(page.locator('[data-storage-status]')).toContainText('no longer available');
+});
+
+test('out-of-range saved positions reset an already-used track to zero without playing', async ({ page }) => {
+  await openFixture(page);
+  await page.evaluate((key) => {
+    const track = JSON.parse(document.querySelector<HTMLElement>('[data-listening-room]')!.dataset.queue!)[0];
+    localStorage.setItem(key, JSON.stringify({ version: 1, enabled: true, trackId: track.id, source: track.source, sourceVersion: track.sourceVersion, position: 99, savedAt: Date.now() }));
+  }, key);
+  await page.reload();
+  await page.locator('summary').filter({ hasText: 'Playback & device settings' }).click();
+  await page.locator('[data-play-all]').click();
+  await expect.poll(() => audio(page, 0).evaluate((element) => (element as HTMLAudioElement).readyState >= 2)).toBe(true);
+  await audio(page, 0).evaluate((element) => { (element as HTMLAudioElement).currentTime = 3; });
+  await page.locator('[data-toggle]').click();
+  await page.locator('[data-restore]').click();
+  await expect(page.locator('[data-storage-status]')).toContainText('ready from the start');
+  expect(await audio(page, 0).evaluate((element) => (element as HTMLAudioElement).currentTime)).toBe(0);
+  expect(await paused(page)).toEqual([true, true]);
 });
 
 test('storage denial, unsupported Media Session, play rejection, and missing source are recoverable', async ({ page }) => {
