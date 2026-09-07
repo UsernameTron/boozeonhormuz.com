@@ -6,6 +6,7 @@
   <title>Booze on Hormuz™ | Don Biggly Evidence Lounge</title>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-latin-variable.woff2" crossorigin>
+  <link rel="stylesheet" href="/apps/project-kit.css">
   <style>
     /* Self-hosted variable fonts (vendored from Fontsource) — no third-party CDN. */
     @font-face { font-family: 'Archivo'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/archivo-latin-variable.woff2') format('woff2'); }
@@ -707,6 +708,19 @@
       .top-right { display: none; }
       .brand-sub { white-space: normal; }
     }
+    .modal-overlay { margin: auto; width: min(440px, calc(100% - 24px)); max-height: calc(100dvh - 24px); height: fit-content; border: 0; color: var(--cream); background: transparent; padding: 0; }
+    .modal-overlay[open] { display: block; } .modal-overlay::backdrop { background: rgba(4,3,2,.8); }
+    .sidebar { overflow-y: auto; } .sidebar > .project-tools { margin: 12px; flex-shrink: 0; }
+    .modal { max-width: none; } .studio-steps { display: none; }
+    @media (max-width: 980px) {
+      .studio-steps { position: sticky; top: 0; z-index: 20; display: flex; gap: 8px; padding: 8px 12px; background: #110b08; border-bottom: 1px solid var(--border); }
+      .studio-steps a { color: var(--gold-2); border: 1px solid var(--border); border-radius: 8px; padding: 9px; text-decoration: none; font-size: 12px; min-height: 44px; }
+      #templatesPanel, #panel1, #previewSection { scroll-margin-top: 64px; }
+      .hero-card { padding: 12px; } .hero-card h1 { font-size: 24px; } .hero-card p, .hero-card .signature { display: none; }
+      .templates-list { max-height: 220px; } .toolbar { position: sticky; top: 55px; z-index: 15; }
+      .preview-box { max-height: none; } .top-bar { height: auto; padding: 10px 14px; }
+      .brand-sub, .brand-seal { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -727,10 +741,10 @@
   <input type="file" id="importFile" class="file-input" accept=".json">
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <div class="modal-overlay" id="saveModal" role="dialog" aria-modal="true" aria-labelledby="saveModalTitle">
+  <dialog class="modal-overlay" id="saveModal" aria-labelledby="saveModalTitle">
     <div class="modal">
       <h2 id="saveModalTitle">Save Template</h2>
-      <p class="modal-note">Saved to this session only. Use <strong>Export</strong> to keep it across visits.</p>
+      <p class="modal-note">Save adds this template to your custom library. Export Project keeps the whole workspace; Export Library keeps templates only.</p>
       <label class="modal-label" for="saveName">Template name</label>
       <input type="text" id="saveName" placeholder="My Don Biggly hook builder" />
       <label class="modal-label" for="saveCat">Category</label>
@@ -749,10 +763,11 @@
         <button class="tb-btn primary" id="saveConfirmBtn">Save Template</button>
       </div>
     </div>
-  </div>
+  </dialog>
 
+  <nav class="studio-steps" aria-label="Workbench steps"><a href="#templatesPanel">1. Templates</a><a href="#panel1">2. Edit</a><a href="#previewSection">3. Preview</a></nav>
   <div class="workspace">
-    <aside class="sidebar">
+    <aside class="sidebar" id="templatesPanel">
       <div class="hero-card">
         <h1>Evidence with <span>me.</span></h1>
         <p>Create safe, fictional, over-the-top satire prompts for songs, images, videos, sponsor reads, and luxury-disaster site copy.</p>
@@ -778,15 +793,15 @@
       <div class="templates-list" id="templatesList"></div>
 
       <div class="sidebar-footer">
-        <button class="tb-btn" id="exportBtn">Export</button>
-        <button class="tb-btn" id="importBtn">Import</button>
-        <p class="footer-note">Your work isn't saved. Export to keep it — nothing is stored on a server.</p>
+        <button class="tb-btn" id="exportBtn">Export Library</button>
+        <button class="tb-btn" id="importBtn">Import / Merge</button>
+        <p class="footer-note">Session only by default. Export Project keeps your editor and variables; device saving is optional. Nothing is stored on a server.</p>
       </div>
     </aside>
 
     <main class="main-area">
       <div class="toolbar">
-        <select class="model-select" id="modelSelect" title="Target workflow">
+        <select class="model-select" id="modelSelect" aria-label="Target workflow" title="Target workflow">
           <option value="suno">Suno Lyrics</option>
           <option value="sora">Sora Video</option>
           <option value="veo">Veo 3.1</option>
@@ -795,7 +810,7 @@
           <option value="safety">Satire Safety</option>
         </select>
 
-        <select class="format-select" id="formatSelect" title="Output polish">
+        <select class="format-select" id="formatSelect" aria-label="Output polish" title="Output polish">
           <option value="visitor">Visitor-safe</option>
           <option value="max">Maximum Biggly</option>
           <option value="clean">Clean editorial</option>
@@ -815,7 +830,7 @@
             <span id="stats1">0 chars · ~0 tokens</span>
           </div>
           <div class="editor-wrap">
-            <textarea class="editor" id="editor1" placeholder="Pick a template from the Evidence Lounge. Variables like {{song_title}} become visitor-friendly fields on the right."></textarea>
+            <textarea class="editor" id="editor1" maxlength="20000" placeholder="Pick a template from the Evidence Lounge. Variables like {{song_title}} become visitor-friendly fields on the right."></textarea>
           </div>
         </section>
 
@@ -866,10 +881,11 @@
     </main>
   </div>
 
-<script>
+<script type="module">
+import { PROJECT_FORMAT, PROJECT_VERSION, GENERATOR_VERSION, sanitizeBrief, literalSubstitute, mergeTemplates, makeShorts, downloadJSON, mountProjectTools } from "./project-kit.js";
 /* ═════════════════════════════════════════════════════════════════════
    Booze on Hormuz™ — Don Biggly Evidence Lounge Prompt Generator
-   Visitor-facing, no backend, no localStorage. Export/import JSON only.
+   Visitor-facing, no backend. Portable JSON projects with optional device storage.
    ═════════════════════════════════════════════════════════════════════ */
 
 const BUILT_IN_TEMPLATES = [
@@ -1338,6 +1354,10 @@ const CHAOS_BANK = {
   must_use_phrase: ['The evidence is with me', 'Very legal, very loud', 'Premium consequence corridor', 'Quiet money, loud room', 'Discovery Deck Access']
 };
 
+let projectUI;
+let studioRevision = 0;
+let projectShots = [];
+
 document.addEventListener('DOMContentLoaded', () => {
   renderTemplates();
   setupListeners();
@@ -1345,6 +1365,7 @@ document.addEventListener('DOMContentLoaded', () => {
   tickPanic();
   setInterval(tickPanic, 3800);
   loadTemplate(101);
+  projectUI = mountProjectTools({ tool: 'studio', container: document.querySelector('.sidebar'), getProject: currentProject, applyImport: applyProjectImport, notify: toast });
 });
 
 function getAllTemplates() {
@@ -1408,8 +1429,8 @@ function detectVars() {
 
   container.innerHTML = unique.map(v => `
     <div class="var-group">
-      <label><span>{{${escapeHtml(v)}}}</span><span class="badge">${fieldHint(v)}</span></label>
-      <textarea data-var="${escapeHtml(v)}" placeholder="${placeholderFor(v)}">${escapeHtml(variables[v] || '')}</textarea>
+      <label for="variable-${escapeHtml(v)}"><span>{{${escapeHtml(v)}}}</span><span class="badge">${fieldHint(v)}</span></label>
+      <textarea id="variable-${escapeHtml(v)}" data-var="${escapeHtml(v)}" maxlength="4000" placeholder="${placeholderFor(v)}">${escapeHtml(variables[v] || '')}</textarea>
     </div>
   `).join('');
 
@@ -1425,11 +1446,7 @@ function detectVars() {
 }
 
 function updatePreview() {
-  let text = document.getElementById('editor1').value;
-  Object.keys(variables).forEach(v => {
-    const value = variables[v] || `{{${v}}}`;
-    text = text.replace(new RegExp(`\\{\\{${escapeRegExp(v)}\\}\\}`, 'g'), value);
-  });
+  const text = literalSubstitute(document.getElementById('editor1').value, variables);
 
   const polish = document.getElementById('formatSelect').value;
   const footer = polish === 'max'
@@ -1439,6 +1456,8 @@ function updatePreview() {
       : '\n\nVISITOR-SAFE NOTE: Fictional satire only; do not frame as real quotes, leaks, policy, legal advice, or endorsement.';
 
   document.getElementById('previewBox').textContent = text.trim() ? text + footer : 'No prompt rendered yet.';
+  studioRevision++;
+  projectUI?.changed();
 }
 
 function updateStats(editorId, statsId) {
@@ -1494,12 +1513,12 @@ function saveTemplate() {
   if (!document.getElementById('editor1').value.trim()) { toast('Editor is empty'); return; }
   document.getElementById('saveName').value = '';
   document.getElementById('saveCat').value = 'custom';
-  document.getElementById('saveModal').classList.add('show');
+  document.getElementById('saveModal').showModal();
   document.getElementById('saveName').focus();
 }
 
 function closeSaveModal() {
-  document.getElementById('saveModal').classList.remove('show');
+  document.getElementById('saveModal').close();
   document.getElementById('saveBtn').focus();
 }
 
@@ -1507,17 +1526,23 @@ function commitSaveTemplate() {
   const content = document.getElementById('editor1').value;
   const name = document.getElementById('saveName').value.trim();
   if (!name) { document.getElementById('saveName').focus(); return; }
+  if (customTemplates.length >= 300) { toast('The library has 300 templates. Export a backup before starting another library.'); return; }
+  if (getAllTemplates().some(t => t.name === name)) { toast('That template name is already in use. Choose a new name.'); return; }
+  if (name.length > 140 || content.length > 20000) { toast('Use a name under 141 characters and a template under 20,001 characters.'); return; }
+  const id = Date.now();
   customTemplates.push({
-    id: Date.now(),
+    id,
     name,
     category: document.getElementById('saveCat').value,
     heat: 'custom',
     builtIn: false,
     content
   });
+  activeTemplateId = id;
   closeSaveModal();
   renderTemplates(document.getElementById('searchInput').value);
-  toast('Template saved — use Export to keep it');
+  projectUI?.changed();
+  toast('Template saved — use Export Project to keep the whole session');
 }
 
 function exportTemplates() {
@@ -1543,64 +1568,40 @@ function importTemplates() {
   document.getElementById('importFile').click();
 }
 
-// Import limits — defensive caps on an untrusted user-supplied file.
-const IMPORT_MAX_BYTES = 2_000_000;   // 2 MB
-const IMPORT_MAX_TEMPLATES = 300;
-const IMPORT_MAX_NAME = 140;
-const IMPORT_MAX_HEAT = 24;
-const IMPORT_MAX_CONTENT = 20_000;
-const VALID_CATEGORIES = ['lyrics', 'video', 'image', 'site', 'sponsor', 'product', 'safety', 'custom'];
-
-// Coerce an arbitrary imported array into clean, bounded custom templates.
-// Built-ins are NEVER replaced from a file — they stay the project's own set.
-function sanitizeImportedTemplates(arr) {
-  return arr.slice(0, IMPORT_MAX_TEMPLATES).map((t, i) => {
-    const src = (t && typeof t === 'object') ? t : {};
-    const cat = String(src.category ?? 'custom').toLowerCase().trim();
-    return {
-      id: Date.now() + i,
-      name: (String(src.name ?? '').trim().slice(0, IMPORT_MAX_NAME)) || `Imported ${i + 1}`,
-      category: VALID_CATEGORIES.includes(cat) ? cat : 'custom',
-      heat: (String(src.heat ?? 'imported').trim().slice(0, IMPORT_MAX_HEAT)) || 'imported',
-      builtIn: false,
-      content: String(src.content ?? '').slice(0, IMPORT_MAX_CONTENT)
-    };
-  }).filter(t => t.content.trim());
+function handleImport(e) {
+  projectUI.previewFile(e.target.files[0]);
+  e.target.value = '';
 }
 
-function handleImport(e) {
-  const file = e.target.files[0];
-  e.target.value = '';
-  if (!file) return;
-  if (file.size > IMPORT_MAX_BYTES) { toast('File too large (max 2 MB)'); return; }
-
-  const reader = new FileReader();
-  reader.onerror = () => toast('Could not read file');
-  reader.onload = function (evt) {
-    let data;
-    try {
-      data = JSON.parse(evt.target.result);
-    } catch (err) {
-      toast('Failed to parse file');
-      return;
-    }
-
-    // Accept either a versioned export ({custom:[...]}) or a bare array of templates.
-    // data.builtIn is intentionally ignored — importing never overwrites the built-ins.
-    let incoming;
-    if (data && Array.isArray(data.custom)) incoming = data.custom;
-    else if (Array.isArray(data)) incoming = data;
-    else if (data && data.version) incoming = [];
-    else { toast('Unrecognized file format'); return; }
-
-    const clean = sanitizeImportedTemplates(incoming);
-    if (!clean.length) { toast('No valid templates in file'); return; }
-
-    customTemplates = clean;   // replace the custom set; built-ins untouched
-    renderTemplates(document.getElementById('searchInput').value);
-    toast(`Imported ${clean.length} template${clean.length === 1 ? '' : 's'}`);
-  };
-  reader.readAsText(file);
+function currentProject() {
+  const selected = getAllTemplates().find(t => t.id === activeTemplateId);
+  return { format: PROJECT_FORMAT, version: PROJECT_VERSION, generatorVersion: GENERATOR_VERSION, tool: 'studio',
+    title: selected?.name ?? 'Evidence Lounge project', updatedAt: new Date().toISOString(), shots: projectShots,
+    generation: { revision: studioRevision, generatedRevision: studioRevision },
+    studio: { editor: document.getElementById('editor1').value, variables: { ...variables }, selectedTemplate: selected?.name ?? null, selectedTemplateSource: selected ? (selected.builtIn ? 'builtin' : 'custom') : null,
+      model: currentModel, polish: document.getElementById('formatSelect').value, customTemplates } };
+}
+function applyProjectImport(incoming, mode) {
+  const merged = mergeTemplates(customTemplates, incoming.templates, mode === 'replace');
+  // Compute the bounded merge before any session mutation.
+  if (incoming.kind === 'project') {
+    const state = incoming.project.studio;
+    document.getElementById('editor1').value = state.editor;
+    variables = { ...state.variables };
+    currentModel = state.model;
+    document.getElementById('modelSelect').value = currentModel;
+    document.getElementById('formatSelect').value = state.polish;
+    projectShots = incoming.project.shots;
+    studioRevision = incoming.project.generation.revision;
+    if (state.selectedTemplateSource === 'custom') {
+      const original = state.customTemplates.find(t => t.name === state.selectedTemplate);
+      activeTemplateId = original ? merged.find(t => t.content === original.content && (t.name === original.name || t.name.startsWith(`${original.name.slice(0, 120)} (imported `)))?.id ?? null : null;
+    } else activeTemplateId = templates.find(t => t.name === state.selectedTemplate)?.id ?? null;
+  }
+  customTemplates = merged;
+  renderTemplates(document.getElementById('searchInput').value);
+  updateStats('editor1', 'stats1'); detectVars(); renderTips(); updatePanicMeter();
+  if (incoming.kind === 'project') studioRevision = incoming.project.generation.revision;
 }
 
 function buildPackage() {
@@ -1686,6 +1687,7 @@ function setupListeners() {
   document.getElementById('modelSelect').addEventListener('change', e => {
     currentModel = e.target.value;
     renderTips();
+    projectUI?.changed();
   });
 
   document.getElementById('formatSelect').addEventListener('change', updatePreview);
@@ -1703,8 +1705,14 @@ function setupListeners() {
   document.getElementById('saveCancelBtn').addEventListener('click', closeSaveModal);
   document.getElementById('saveModal').addEventListener('click', e => { if (e.target.id === 'saveModal') closeSaveModal(); });
   document.getElementById('saveName').addEventListener('keydown', e => { if (e.key === 'Enter') commitSaveTemplate(); });
+  document.getElementById('saveModal').addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const first = document.getElementById('saveName'), last = document.getElementById('saveConfirmBtn');
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && document.getElementById('saveModal').classList.contains('show')) closeSaveModal();
+    if (e.key === 'Escape' && document.getElementById('saveModal').open) { e.preventDefault(); closeSaveModal(); }
   });
   document.getElementById('exportBtn').addEventListener('click', exportTemplates);
   document.getElementById('importBtn').addEventListener('click', importTemplates);

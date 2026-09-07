@@ -71,6 +71,7 @@ test('broadcast brief generates and survives a JSON export/import round trip', a
   expect(exported).toContain('Fixture café');
   await page.reload();
   await page.locator('#importFile').setInputFiles({ name: 'brief.json', mimeType: 'application/json', buffer: Buffer.from(exported) });
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
   await expect(page.locator('#title')).toHaveValue(title);
   await expect(page.locator('#out-master')).toContainText(title);
   await expect(page.locator('#out-master img')).toHaveCount(0);
@@ -100,6 +101,7 @@ test('evidence templates render safely and survive a JSON export/import round tr
   const exported = await readFile(path!, 'utf8');
   await page.reload();
   await page.locator('#importFile').setInputFiles({ name: 'templates.json', mimeType: 'application/json', buffer: Buffer.from(exported) });
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
   await page.locator('#searchInput').fill('Fixture café template');
   await page.locator('#templatesList button').filter({ hasText: 'Fixture café template' }).click();
   await expect(page.locator('#editor1')).toHaveValue(content);

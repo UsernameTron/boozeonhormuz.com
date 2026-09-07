@@ -53,7 +53,9 @@ The media routes are `/album`, `/album/<slug>`, `/listen`, `/watch`, `/watch/<sl
 
 ## Creative Tools
 
-`/tools` hosts two browser-only prompt generators for the *Don Biggly* satire — the **Biggly Broadcast Pack Generator** (one brief → a full content kit) and the **Evidence Lounge Prompt Generator** (a 20-template workbench). They produce copy-ready prompts for Suno / Sora / Veo / Gemini / ChatGPT / Claude — no login, no API key, no backend, nothing stored on a server. Both score 1.0 on Lighthouse accessibility.
+`/tools` hosts two browser-only prompt generators for the *Don Biggly* satire — the **Biggly Broadcast Pack Generator** (one brief → a full content kit) and the **Evidence Lounge Prompt Generator** (a 20-template workbench). They produce copy-ready prompts for Suno / Sora / Veo / Gemini / ChatGPT / Claude — no login, no API key, no backend, nothing stored on a server.
+
+The prepared upgrade adds reviewed portable-project imports, merge/undo for custom templates, explicit opt-in device saving, a Broadcast-to-Studio file handoff, and a real 30-second vertical Shorts/Reels preset with a five-shot manifest. See [creative project files](docs/CREATIVE-PROJECTS.md) for compatibility, storage and output contracts. Publication status remains as described above.
 
 ## Verification and deploy
 

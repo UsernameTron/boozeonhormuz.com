@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "project": "Booze on Hormuz Evidence Lounge",
+  "exported": "2026-06-03T12:00:00.000Z",
+  "builtIn": [{ "id": 101, "name": "Ignored built-in override", "content": "Never imported" }],
+  "custom": [{ "id": 1780488000000, "name": "Legacy receipt", "category": "lyrics", "heat": "custom", "content": "A fictional {{song_title}} with $& and <safe> receipts.", "builtIn": false }]
+}

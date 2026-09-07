@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "app": "Biggly Broadcast Pack Generator",
+  "title": "Legacy café brief",
+  "concept": "A fictional cruise with a very expensive receipt.",
+  "setting": "",
+  "intensity": "9",
+  "format": "Music video pack",
+  "motifs": ["quiet money", "gold receipts"],
+  "includeLyrics": true,
+  "includeVideo": false,
+  "includeImage": true,
+  "includeSocial": false,
+  "generated": "2026-06-03T12:00:00.000Z"
+}
