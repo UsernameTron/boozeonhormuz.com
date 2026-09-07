@@ -17,6 +17,14 @@ export const BRIEF_OPTIONS = {
 export const BRIEF_FIELDS = ['title', 'concept', 'setting', 'prop', 'phrase', ...Object.keys(BRIEF_OPTIONS), 'motifs', 'includeLyrics', 'includeVideo', 'includeImage', 'includeSocial'];
 const enumValue = (value, allowed, name) => allowed.includes(value) ? value : fail(`Unrecognized ${name}.`);
 
+// Export, validation and device storage use the same UTF-8 byte budget, including
+// formatting. A file we create must also pass the reader's input-size check.
+export function serializeCreativeFile(value) {
+  const text = JSON.stringify(value, null, 2);
+  if (new TextEncoder().encode(text).length > MAX_FILE_BYTES) fail('Project or library too large. Maximum 2 MB including formatting. Reduce templates or output before saving or exporting.');
+  return text;
+}
+
 export function sanitizeBrief(value) {
   if (!object(value)) fail('The brief must be an object.');
   const result = {};
@@ -123,12 +131,15 @@ function cleanStudio(value) {
     if (!/^[a-zA-Z0-9_]{1,100}$/.test(key) || ['__proto__', 'constructor', 'prototype'].includes(key)) fail('Invalid variable name.');
     variables[key] = string(val, 4000, 'Variable');
   }
+  const rendered = value.rendered;
+  if (rendered != null && (!object(rendered) || rendered.version !== 1)) fail('Unsupported Studio output snapshot version.');
   return { editor: string(value.editor, 20_000, 'Editor'), variables,
     selectedTemplate: value.selectedTemplate == null ? null : string(value.selectedTemplate, 140, 'Selected template'),
     selectedTemplateSource: value.selectedTemplate == null ? null : enumValue(value.selectedTemplateSource ?? ((value.customTemplates ?? []).some((t) => t.name === value.selectedTemplate) ? 'custom' : 'builtin'), ['builtin', 'custom'], 'template source'),
     model: enumValue(value.model, ['suno', 'sora', 'veo', 'banana', 'copy', 'safety'], 'workflow'),
     polish: enumValue(value.polish, ['visitor', 'max', 'clean'], 'polish'),
     customTemplates: sanitizeTemplates(value.customTemplates ?? []),
+    ...(rendered == null ? {} : { rendered: { version: 1, mode: enumValue(rendered.mode, ['prompt', 'kit'], 'rendered mode'), text: string(rendered.text, 100_000, 'Studio output') } }),
   };
 }
 
@@ -152,6 +163,7 @@ export function validateProject(value) {
       result.generation.snapshot = { brief: sanitizeBrief(generation.snapshot.brief), pieces, generated: string(generation.snapshot.generated ?? '', 100, 'Generation date') };
     }
   } else result.studio = cleanStudio(value.studio);
+  serializeCreativeFile(result);
   return result;
 }
 
@@ -183,7 +195,7 @@ export function studioHandoff(project) {
 }
 
 export function downloadJSON(value, filename) {
-  const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }));
+  const url = URL.createObjectURL(new Blob([serializeCreativeFile(value)], { type: 'application/json' }));
   const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
@@ -207,7 +219,10 @@ export function mountProjectTools({ tool, container, getProject, applyImport, no
   const reportError = (error) => { notify(error.message); status.textContent = error.message; };
   const save = () => {
     if (!saving) return;
-    try { localStorage.setItem(storageKey, JSON.stringify(validateProject(getProject()))); status.textContent = 'Saved on this device. Export a Project for a portable backup.'; }
+    let payload;
+    try { payload = serializeCreativeFile(validateProject(getProject())); }
+    catch (error) { saving = false; checkbox.checked = false; status.textContent = `${error.message} Automatic saving is off; the previous device save is unchanged.`; return; }
+    try { localStorage.setItem(storageKey, payload); status.textContent = 'Saved on this device. Export a Project for a portable backup.'; }
     catch { saving = false; checkbox.checked = false; status.textContent = 'Device storage unavailable or full. Your work is still here; use Export Project.'; }
   };
   const preview = (parsed) => {
@@ -231,7 +246,7 @@ export function mountProjectTools({ tool, container, getProject, applyImport, no
     try { if (file.size > MAX_FILE_BYTES) fail('File too large. Maximum 2 MB.'); preview(parseCreativeFile(await file.text(), tool)); } catch (error) { reportError(error); }
   };
   input.addEventListener('change', () => { previewFile(input.files[0]); input.value = ''; });
-  dialog.querySelector('[data-backup]').addEventListener('click', exportCurrent);
+  dialog.querySelector('[data-backup]').addEventListener('click', () => { try { exportCurrent(); } catch (error) { reportError(error); } });
   dialog.querySelector('[data-cancel]').addEventListener('click', () => dialog.close());
   dialog.querySelector('[data-apply]').addEventListener('click', () => {
     try {

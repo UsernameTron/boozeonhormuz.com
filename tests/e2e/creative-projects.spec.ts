@@ -89,6 +89,86 @@ test('Studio portable session restores literal variables and custom work; merge 
   await expect(page.locator('#editor1')).toHaveValue('Current session must remain until confirmation');
 });
 
+test('Studio production kits survive project import, Undo and opted-in device restore', async ({ page }) => {
+  await page.goto('/apps/evidence-lounge-studio.html');
+  await page.locator('#editor1').fill('Kit {{price}}');
+  await page.locator('#variable-price').fill('Café $&');
+  const prompt = await exportProject(page);
+  const panel = await projectControls(page);
+  await panel.getByLabel('Save on this device').check();
+  await page.locator('#packageBtn').click();
+  const kitText = await page.locator('#previewBox').textContent();
+  expect(kitText).toContain('QUICK PRODUCTION KIT');
+  const kit = await exportProject(page);
+  expect(kit.studio.rendered).toEqual({ version: 1, mode: 'kit', text: kitText });
+  expect(JSON.parse((await page.evaluate(() => localStorage.getItem('boh-project-studio-v1')))!).studio.rendered).toEqual(kit.studio.rendered);
+  await page.locator('#packageBtn').click();
+  await expect(page.locator('#previewBox')).toHaveText(kitText!);
+  await panel.getByLabel('Save on this device').uncheck();
+  await previewImport(page, prompt);
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
+  await expect(page.locator('#previewBox')).not.toContainText('QUICK PRODUCTION KIT');
+  await page.getByRole('button', { name: 'Undo import', exact: true }).click();
+  await expect(page.locator('#previewBox')).toHaveText(kitText!);
+  await page.reload();
+  await previewImport(page, kit);
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
+  expect((await exportProject(page)).studio.rendered).toEqual(kit.studio.rendered);
+  await page.locator('#variable-price').fill('Updated value');
+  await expect(page.locator('#previewBox')).not.toContainText('QUICK PRODUCTION KIT');
+  expect((await exportProject(page)).studio.rendered.mode).toBe('prompt');
+  await page.reload();
+  await (await projectControls(page)).getByRole('button', { name: 'Restore device save' }).click();
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
+  await expect(page.locator('#previewBox')).toHaveText(kitText!);
+  await page.locator('#formatSelect').selectOption('clean');
+  await expect(page.locator('#previewBox')).not.toContainText('QUICK PRODUCTION KIT');
+  await expect(page.locator('#previewBox')).toContainText('EDITORIAL NOTE');
+});
+
+test('oversized multibyte merges and new templates fail before mutation; autosave keeps its last valid copy', async ({ page }) => {
+  await page.goto('/apps/evidence-lounge-studio.html');
+  const library = (count: number, prefix: string, content: string) => ({ version: 2, custom: Array.from({ length: count }, (_, id) => ({ id: Date.now() + id, name: `${prefix} ${id}`, category: 'custom', heat: 'custom', content, builtIn: false })) });
+  await previewImport(page, library(40, 'Existing', '漢'.repeat(10_000)));
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
+  const before = await exportProject(page);
+  await previewImport(page, library(30, 'Incoming', '漢'.repeat(10_000)));
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
+  await expect(page.locator('#toast')).toContainText('too large');
+  await expect(page.getByRole('dialog', { name: 'Review import' })).toBeVisible();
+  await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+  expect((await exportProject(page)).studio).toEqual(before.studio);
+
+  const nearLimit = before;
+  nearLimit.studio.customTemplates = library(97, 'Bounded', 'x'.repeat(20_000)).custom;
+  const excess = Buffer.byteLength(JSON.stringify(nearLimit, null, 2)) - 1_945_000;
+  expect(excess).toBeGreaterThan(0); expect(excess).toBeLessThan(20_000);
+  nearLimit.studio.customTemplates.at(-1)!.content = 'x'.repeat(20_000 - excess);
+  await previewImport(page, nearLimit);
+  await page.locator('[data-merge]').selectOption('replace');
+  await page.getByRole('button', { name: 'Apply import', exact: true }).click();
+  await page.locator('#editor1').fill('x'.repeat(20_000));
+  const valid = await exportProject(page);
+  expect(Buffer.byteLength(JSON.stringify(valid, null, 2))).toBeLessThan(2_000_000);
+  await page.locator('#saveBtn').click();
+  await page.locator('#saveName').fill('One template too many');
+  await page.locator('#saveConfirmBtn').click();
+  await expect(page.locator('#toast')).toContainText('too large');
+  await expect(page.locator('#saveModal')).toBeVisible();
+  await page.keyboard.press('Escape');
+  expect((await exportProject(page)).studio.customTemplates).toEqual(valid.studio.customTemplates);
+  const panel = await projectControls(page);
+  await panel.getByLabel('Save on this device').check();
+  await expect(panel.locator('.storage-status')).toContainText('Saved on this device');
+  const deviceCopy = await page.evaluate(() => localStorage.getItem('boh-project-studio-v1'));
+  await page.locator('#editor1').fill('é'.repeat(20_000));
+  await expect(panel.locator('.storage-status')).toContainText('too large');
+  await expect(panel.locator('.storage-status')).not.toContainText('Saved on this device');
+  await expect(panel.getByLabel('Save on this device')).not.toBeChecked();
+  expect(await page.evaluate(() => localStorage.getItem('boh-project-studio-v1'))).toBe(deviceCopy);
+  expect(Buffer.byteLength(deviceCopy!)).toBeLessThan(2_000_000);
+});
+
 test('bad files leave both tools unchanged; Studio native save dialog contains keyboard focus', async ({ page }) => {
   for (const app of ['broadcast-room', 'evidence-lounge-studio']) {
     await page.goto(`/apps/${app}.html`);

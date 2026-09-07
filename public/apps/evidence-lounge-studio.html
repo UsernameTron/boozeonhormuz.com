@@ -882,7 +882,7 @@
   </div>
 
 <script type="module">
-import { PROJECT_FORMAT, PROJECT_VERSION, GENERATOR_VERSION, sanitizeBrief, literalSubstitute, mergeTemplates, makeShorts, downloadJSON, mountProjectTools } from "./project-kit.js";
+import { PROJECT_FORMAT, PROJECT_VERSION, GENERATOR_VERSION, sanitizeBrief, literalSubstitute, mergeTemplates, makeShorts, validateProject, downloadJSON, mountProjectTools } from "./project-kit.js";
 /* ═════════════════════════════════════════════════════════════════════
    Booze on Hormuz™ — Don Biggly Evidence Lounge Prompt Generator
    Visitor-facing, no backend. Portable JSON projects with optional device storage.
@@ -1357,6 +1357,8 @@ const CHAOS_BANK = {
 let projectUI;
 let studioRevision = 0;
 let projectShots = [];
+let renderedMode = 'prompt';
+let restoringProject = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   renderTemplates();
@@ -1445,19 +1447,22 @@ function detectVars() {
   updatePreview();
 }
 
-function updatePreview() {
-  const text = literalSubstitute(document.getElementById('editor1').value, variables);
-
-  const polish = document.getElementById('formatSelect').value;
+function promptPreview(editor = document.getElementById('editor1').value, values = variables, polish = document.getElementById('formatSelect').value) {
+  const text = literalSubstitute(editor, values);
   const footer = polish === 'max'
     ? '\n\nBIGGLY INTENSITY NOTE: Make it feel like a gold-plated confession accidentally entered into evidence.'
     : polish === 'clean'
       ? '\n\nEDITORIAL NOTE: Keep the satire clear, controlled, and unmistakably fictional.'
       : '\n\nVISITOR-SAFE NOTE: Fictional satire only; do not frame as real quotes, leaks, policy, legal advice, or endorsement.';
 
-  document.getElementById('previewBox').textContent = text.trim() ? text + footer : 'No prompt rendered yet.';
+  return text.trim() ? text + footer : 'No prompt rendered yet.';
+}
+
+function updatePreview() {
+  document.getElementById('previewBox').textContent = promptPreview();
+  renderedMode = 'prompt';
   studioRevision++;
-  projectUI?.changed();
+  if (!restoringProject) projectUI?.changed();
 }
 
 function updateStats(editorId, statsId) {
@@ -1530,14 +1535,19 @@ function commitSaveTemplate() {
   if (getAllTemplates().some(t => t.name === name)) { toast('That template name is already in use. Choose a new name.'); return; }
   if (name.length > 140 || content.length > 20000) { toast('Use a name under 141 characters and a template under 20,001 characters.'); return; }
   const id = Date.now();
-  customTemplates.push({
+  const template = {
     id,
     name,
     category: document.getElementById('saveCat').value,
     heat: 'custom',
     builtIn: false,
     content
-  });
+  };
+  const candidate = currentProject();
+  candidate.title = name;
+  candidate.studio = { ...candidate.studio, selectedTemplate: name, selectedTemplateSource: 'custom', customTemplates: [...customTemplates, template] };
+  try { validateProject(candidate); } catch (error) { toast(error.message); return; }
+  customTemplates.push(template);
   activeTemplateId = id;
   closeSaveModal();
   renderTemplates(document.getElementById('searchInput').value);
@@ -1554,14 +1564,8 @@ function exportTemplates() {
     builtIn: templates,
     custom: customTemplates
   };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `booze-on-hormuz-prompt-templates-${new Date().toISOString().slice(0, 10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  toast('Templates exported');
+  try { downloadJSON(payload, `booze-on-hormuz-prompt-templates-${new Date().toISOString().slice(0, 10)}.json`); toast('Templates exported'); }
+  catch (error) { toast(error.message); }
 }
 
 function importTemplates() {
@@ -1579,13 +1583,29 @@ function currentProject() {
     title: selected?.name ?? 'Evidence Lounge project', updatedAt: new Date().toISOString(), shots: projectShots,
     generation: { revision: studioRevision, generatedRevision: studioRevision },
     studio: { editor: document.getElementById('editor1').value, variables: { ...variables }, selectedTemplate: selected?.name ?? null, selectedTemplateSource: selected ? (selected.builtIn ? 'builtin' : 'custom') : null,
-      model: currentModel, polish: document.getElementById('formatSelect').value, customTemplates } };
+      model: currentModel, polish: document.getElementById('formatSelect').value, customTemplates,
+      rendered: { version: 1, mode: renderedMode, text: document.getElementById('previewBox').textContent } } };
 }
 function applyProjectImport(incoming, mode) {
   const merged = mergeTemplates(customTemplates, incoming.templates, mode === 'replace');
-  // Compute the bounded merge before any session mutation.
+  let selectedId = activeTemplateId;
   if (incoming.kind === 'project') {
     const state = incoming.project.studio;
+    if (state.selectedTemplateSource === 'custom') {
+      const original = state.customTemplates.find(t => t.name === state.selectedTemplate);
+      selectedId = original ? merged.find(t => t.content === original.content && (t.name === original.name || t.name.startsWith(`${original.name.slice(0, 120)} (imported `)))?.id ?? null : null;
+    } else selectedId = templates.find(t => t.name === state.selectedTemplate)?.id ?? null;
+  }
+  const selected = [...templates, ...merged].find(t => t.id === selectedId);
+  const source = incoming.kind === 'project' ? incoming.project : currentProject();
+  // Validate the complete prospective session, including renamed merged work,
+  // before changing either the visible editor or the in-memory library.
+  const candidate = validateProject({ ...source, title: selected?.name ?? 'Evidence Lounge project',
+    studio: { ...source.studio, customTemplates: merged, selectedTemplate: selected?.name ?? null, selectedTemplateSource: selected ? (selected.builtIn ? 'builtin' : 'custom') : null,
+      rendered: source.studio.rendered ?? { version: 1, mode: 'prompt', text: promptPreview(source.studio.editor, source.studio.variables, source.studio.polish) } } });
+  if (incoming.kind === 'project') {
+    const state = candidate.studio;
+    restoringProject = true;
     document.getElementById('editor1').value = state.editor;
     variables = { ...state.variables };
     currentModel = state.model;
@@ -1593,19 +1613,23 @@ function applyProjectImport(incoming, mode) {
     document.getElementById('formatSelect').value = state.polish;
     projectShots = incoming.project.shots;
     studioRevision = incoming.project.generation.revision;
-    if (state.selectedTemplateSource === 'custom') {
-      const original = state.customTemplates.find(t => t.name === state.selectedTemplate);
-      activeTemplateId = original ? merged.find(t => t.content === original.content && (t.name === original.name || t.name.startsWith(`${original.name.slice(0, 120)} (imported `)))?.id ?? null : null;
-    } else activeTemplateId = templates.find(t => t.name === state.selectedTemplate)?.id ?? null;
   }
+  activeTemplateId = selectedId;
   customTemplates = merged;
   renderTemplates(document.getElementById('searchInput').value);
-  updateStats('editor1', 'stats1'); detectVars(); renderTips(); updatePanicMeter();
-  if (incoming.kind === 'project') studioRevision = incoming.project.generation.revision;
+  if (incoming.kind === 'project') {
+    updateStats('editor1', 'stats1'); detectVars(); renderTips(); updatePanicMeter();
+    if (candidate.studio.rendered) {
+      renderedMode = candidate.studio.rendered.mode;
+      document.getElementById('previewBox').textContent = candidate.studio.rendered.text;
+    }
+    studioRevision = incoming.project.generation.revision;
+    restoringProject = false;
+  }
 }
 
 function buildPackage() {
-  const base = document.getElementById('previewBox').textContent;
+  const base = promptPreview();
   const kit = `${base}
 
 ────────────────────────────────────────
@@ -1627,7 +1651,13 @@ Cut to the beat. Make every return to the hook visually worse for Don Biggly.
 5. SAFETY LINE
 Fictional satire only. Not real quotes, leaks, policy, travel advice, legal advice, or endorsement.`;
 
+  const candidate = currentProject();
+  candidate.studio.rendered = { version: 1, mode: 'kit', text: kit };
+  try { validateProject(candidate); } catch (error) { toast(error.message); return; }
   document.getElementById('previewBox').textContent = kit;
+  renderedMode = 'kit';
+  studioRevision++;
+  projectUI?.changed();
   toast('Production kit added');
 }
 

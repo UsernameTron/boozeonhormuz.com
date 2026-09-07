@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { BRIEF_OPTIONS, PROJECT_FORMAT, parseCreativeFile, validateProject, literalSubstitute, mergeTemplates, mapBriefToVariables, makeShorts, snapshotIsCurrent, studioHandoff } from '../../public/apps/project-kit.js';
+import { BRIEF_OPTIONS, PROJECT_FORMAT, MAX_FILE_BYTES, serializeCreativeFile, parseCreativeFile, validateProject, literalSubstitute, mergeTemplates, mapBriefToVariables, makeShorts, snapshotIsCurrent, studioHandoff } from '../../public/apps/project-kit.js';
 
 const brief = { title: 'Café $&', concept: 'A fictional ship', setting: '', prop: 'Gold receipts', motifs: ['Quiet money'], format: 'Shorts/Reels pack', intensity: '9', includeLyrics: false, includeVideo: true, includeImage: true, includeSocial: true, phrase: '', reaction: BRIEF_OPTIONS.reaction[0], music: BRIEF_OPTIONS.music[0], visual: BRIEF_OPTIONS.visual[0] };
 const broadcast = () => ({ format: PROJECT_FORMAT, version: 1, generatorVersion: 2, tool: 'broadcast', title: brief.title, updatedAt: '2026-09-06', brief: { ...brief, motifs: [...brief.motifs] }, shots: makeShorts(brief), generation: { revision: 4, generatedRevision: 3 } });
@@ -61,4 +61,36 @@ test('imported output freshness requires both matching briefs and generator sema
 test('complete project briefs reject missing fields instead of inheriting another session', () => {
   const project = broadcast(); delete project.brief.setting;
   assert.throws(() => validateProject(project), /every brief field/);
+});
+
+test('project export and import share an exact UTF-8 formatted-byte boundary', () => {
+  const project = studioHandoff(broadcast());
+  project.studio.rendered = { version: 1, mode: 'kit', text: '' };
+  project.studio.customTemplates = Array.from({ length: 100 }, (_, id) => ({ id, name: `Template ${id}`, content: 'x'.repeat(19_000), category: 'custom', heat: 'custom', builtIn: false }));
+  const bounded = validateProject(project);
+  bounded.studio.rendered.text = 'x'.repeat(MAX_FILE_BYTES - Buffer.byteLength(serializeCreativeFile(bounded)));
+  const exported = serializeCreativeFile(validateProject(bounded));
+  assert.equal(Buffer.byteLength(exported), MAX_FILE_BYTES);
+  assert.deepEqual(parseCreativeFile(exported, 'studio').project, bounded);
+  bounded.studio.rendered.text += 'x';
+  assert.throws(() => validateProject(bounded), /too large/);
+  assert.throws(() => serializeCreativeFile(bounded), /too large/);
+
+  project.studio.customTemplates.forEach((template) => { template.content = 'x'.repeat(20_000); });
+  assert.throws(() => validateProject(project), /too large/);
+  project.studio.customTemplates = project.studio.customTemplates.slice(0, 36);
+  project.studio.customTemplates.forEach((template) => { template.content = '漢'.repeat(20_000); });
+  assert.ok(JSON.stringify(project).length < MAX_FILE_BYTES);
+  assert.throws(() => validateProject(project), /too large/);
+  project.studio.customTemplates = project.studio.customTemplates.slice(0, 32);
+  const multibyte = validateProject(project);
+  assert.deepEqual(parseCreativeFile(serializeCreativeFile(multibyte), 'studio').project, multibyte);
+});
+
+test('Studio rendered output has a bounded, versioned mode and survives serialization', () => {
+  const project = studioHandoff(broadcast());
+  project.studio.rendered = { version: 1, mode: 'kit', text: 'QUICK PRODUCTION KIT\nCafé $&' };
+  assert.deepEqual(parseCreativeFile(serializeCreativeFile(project), 'studio').project.studio.rendered, project.studio.rendered);
+  assert.throws(() => validateProject({ ...project, studio: { ...project.studio, rendered: { ...project.studio.rendered, version: 99 } } }), /snapshot version/);
+  assert.throws(() => validateProject({ ...project, studio: { ...project.studio, rendered: { ...project.studio.rendered, text: 'x'.repeat(100_001) } } }), /Studio output/);
 });
