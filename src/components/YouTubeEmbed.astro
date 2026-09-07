@@ -3,7 +3,7 @@
 // loads the heavy iframe only on interaction.
 import { YouTube } from '@astro-community/astro-embed-youtube';
 import { type VideoOrientation, videoThumbnail } from '../lib/media';
-import { responsiveImage } from '../lib/responsive-media';
+import { responsiveImage, mediaImageSource } from '../lib/responsive-media';
 
 interface Props {
   id: string;
@@ -12,7 +12,7 @@ interface Props {
   orientation?: VideoOrientation;
 }
 const { id, title, poster, orientation = '16:9' } = Astro.props;
-const thumbnail = videoThumbnail({ thumbnail: poster, youtubeId: id });
+const thumbnail = videoThumbnail({ thumbnail: mediaImageSource(poster), youtubeId: id });
 const responsive = responsiveImage(thumbnail);
 ---
 
