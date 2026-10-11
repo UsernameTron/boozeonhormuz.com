@@ -71,8 +71,8 @@ const quotes = defineCollection({
   loader: file('./src/data/quotes.yaml'),
   schema: z.object({
     id: z.string(),
-    text: z.string().max(120),
-    episode: z.string().optional(),
+    text: z.string().max(700),
+    context: z.string(),
   }),
 });
 
