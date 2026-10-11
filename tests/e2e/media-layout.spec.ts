@@ -23,7 +23,7 @@ test('portrait and product art load without broken requests, and failed image re
   await expect(page.locator('main .media-fallback:visible')).toHaveCount(0);
   await page.goto('/products/');
   const productImages = page.locator('main img[src^="/products/"]');
-  await expect(productImages).toHaveCount(4);
+  await expect(productImages).toHaveCount(5);
   for (const image of await productImages.all()) {
     await image.scrollIntoViewIfNeeded();
     await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
