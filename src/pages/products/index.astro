@@ -4,13 +4,9 @@ import PageHeader from '../../components/PageHeader.astro';
 
 import MediaThumb from '../../components/MediaThumb.astro';
 
-// Inline, image-driven product list. To add a real image: drop an optimized
-// WebP into `public/products/` and point `image` at `/products/<file>.webp`.
-// `image` is optional — an absent OR failed image renders a neutral placeholder
-// box at the same 4:5 ratio, so the layout never breaks. `price`/`note` optional.
 interface Product {
   name: string;
-  image?: string;
+  image: string;
   alt: string;
   price?: string;
   note?: string;
@@ -20,27 +16,27 @@ const products: Product[] = [
   {
     name: 'The Hormuz Decanter',
     image: '/products/hormuz-decanter.webp',
-    alt: 'A heavy crystal decanter on a marble plinth.',
+    alt: 'Crystal ship-shaped Hormuz Decanter with a resort on one shore and ruins on the other.',
     price: '$14,000',
     note: 'Holds exactly one regret. Not for sale, obviously.',
   },
   {
     name: 'Discovery-Proof Briefcase',
     image: '/products/discovery-proof-briefcase.webp',
-    alt: 'A brushed-metal briefcase with an oversized brass lock.',
+    alt: 'Black leather Discovery-Proof Briefcase stamped Exhibit A, with a subpoena sticking out.',
     price: 'Inquire discreetly',
     note: 'Lock not included. Neither is the alibi.',
   },
   {
     name: 'Premium Panic Cufflinks',
     image: '/products/premium-panic-cufflinks.webp',
-    alt: 'A pair of gold cufflinks on dark velvet.',
+    alt: 'Gold Premium Panic Cufflinks holding miniature lifeboats in an open presentation case.',
     note: 'As seen sweating on every lawyer in the room.',
   },
   {
     name: 'Legal Disclaimer Cologne',
     image: '/products/legal-disclaimer-cologne.webp',
-    alt: 'A faceted cologne bottle with a legal-stamp label.',
+    alt: 'Black and gold Legal Disclaimer Cologne bottle spraying a cloud of redacted text.',
     price: 'Priceless (allegedly)',
     note: 'Top notes of subpoena. Dries down to plausible deniability.',
   },
@@ -59,7 +55,7 @@ const products: Product[] = [
       {
         products.map((p) => (
           <article class="card-marble border border-line rounded-xl overflow-hidden shadow-lg">
-            <MediaThumb src={p.image} alt={p.alt} aspect="aspect-[4/5]" fit="contain" />
+            <MediaThumb src={p.image} alt={p.alt} aspect="aspect-square" fit="contain" />
 
             <div class="p-4">
               <h3 class="font-display text-title text-ink">{p.name}</h3>

@@ -13,13 +13,19 @@ test('phone navigation is compact, keyboard accessible and reflows with enlarged
   }
 });
 
-test('missing local art never issues a broken request, and failed image responses preserve a readable fallback', async ({ page }) => {
+test('product art loads without broken requests, and failed image responses preserve a readable fallback', async ({ page }) => {
   const missing: string[] = [];
   page.on('response', (response) => { if (response.status() === 404) missing.push(response.url()); });
-  for (const route of ['/about/', '/products/']) {
-    await page.goto(route);
-    await expect(page.locator('.media-fallback:visible').first()).toBeVisible();
+  await page.goto('/about/');
+  await expect(page.locator('.media-fallback:visible').first()).toBeVisible();
+  await page.goto('/products/');
+  const productImages = page.locator('main img[src^="/products/"]');
+  await expect(productImages).toHaveCount(4);
+  for (const image of await productImages.all()) {
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   }
+  await expect(page.locator('main .media-fallback:visible')).toHaveCount(0);
   await page.goto('/sponsor-reads/');
   await expect(page.locator('.mctr video')).toHaveCount(5);
   await expect(page.locator('.mc-host img')).toBeVisible();
