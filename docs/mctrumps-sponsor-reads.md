@@ -2,6 +2,8 @@
 
 Five native, user-controlled videos anchor the page. The navy, cream and gold treatment follows Experience, with an unobstructed red clown portrait. Video frames follow each clip’s aspect ratio, capped at 620 pixels high without side bars added by the player. Episode navigation, scene drawers and the three customer-relations exchanges work without JavaScript. JavaScript pauses an earlier video when another starts and reveals recovery guidance if playback fails.
 
+The same five videos are indexed under Sponsor Reads in Watch and Archive. Each has a dedicated watch page with its native video proportions and a link back to the corresponding scene on this page. The portrait poster uses a compact crop in catalog cards; the playable frame remains uncropped.
+
 ## Episode order and imported media
 
 | Episode | Source file | Website copy | Runtime |

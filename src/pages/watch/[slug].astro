@@ -74,7 +74,7 @@ const title = kind === 'video' ? video!.data.title : entry!.data.title;
 const description = kind === 'video' ? video!.data.description : entry!.data.summary;
 const publishDate = kind === 'video' ? video!.data.publishDate : entry!.data.publishDate;
 const youtubeId = kind === 'video' ? video!.data.youtubeId : entry!.data.youtubeId;
-const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 
 // VideoObject structured data (video-SEO): unique name/description/thumbnail
 // per watch page, ISO-8601 duration, absolute URLs.
@@ -115,11 +115,21 @@ const videoLd =
     {youtubeId && <div class="mt-8"><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} /></div>}
     {
       kind === 'video' && !youtubeId && video!.data.src && (
-        <div class="mt-8"><LocalVideo src={video!.data.src} title={title} poster={video!.data.thumbnail} orientation={video!.data.orientation} captions={video!.data.captions} /></div>
+        <div class="mt-8"><LocalVideo src={video!.data.src} title={title} poster={video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>
       )
     }
 
     <p class="font-body text-lg text-ink-soft mt-8 max-w-prose">{description}</p>
+
+    {kind === 'video' && video!.data.type === 'sponsor-read' && (
+      <p class="font-body text-sm text-ink-soft mt-4">Fictional political satire — not a real statement, quote, recording, or event report.</p>
+    )}
+
+    {kind === 'video' && video!.data.collection && (
+      <p class="font-body text-sm text-ink-soft mt-4">
+        Part of <a href={video!.data.collection.href} class="text-gold-ink hover:opacity-80">{video!.data.collection.label}</a>.
+      </p>
+    )}
 
     {
       kind === 'video' && track && (
@@ -182,6 +192,7 @@ const videoLd =
                 typeLabel={videoTypeLabel[v.data.type]}
                 thumbnail={videoThumbnail(v.data)}
                 orientation={v.data.orientation}
+                nativeAspect={Boolean(v.data.videoWidth && v.data.videoHeight)}
                 duration={v.data.duration}
               />
             ))}

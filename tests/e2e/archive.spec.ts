@@ -14,12 +14,12 @@ test('archive search, populated filters, reset and browser history preserve disc
   await page.goForward();
   await expect(page.locator('#archive-empty')).toBeVisible();
   await page.getByRole('button', { name: 'Reset', exact: true }).click();
-  await expect(page.locator(visibleCards)).toHaveCount(8);
+  await expect(page.locator(visibleCards)).toHaveCount(13);
   await page.locator('#archive-query').fill('<script> & "');
   await expect(page.locator(visibleCards)).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get('q')).toBe('<script> & "');
   await page.goto('/archive/?type=unknown');
-  await expect(page.locator(visibleCards)).toHaveCount(8);
+  await expect(page.locator(visibleCards)).toHaveCount(13);
 });
 
 test('art viewer contains focus, navigates filtered art, closes and restores its invoking card', async ({ page }) => {

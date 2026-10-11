@@ -10,7 +10,7 @@ const cards = buildArchive({
   tracks: await getCollection('tracks'), videos: await getCollection('videos'),
   images: await getCollection('images'), evidence: await getCollection('evidence'),
 });
-const categoryLabels: Record<string, string> = { track: 'Tracks', 'music-video': 'Music Videos', performance: 'Performances', sketch: 'Sketches', short: 'Shorts', image: 'Images', poster: 'Posters', bts: 'Behind the Scenes' };
+const categoryLabels: Record<string, string> = { track: 'Tracks', 'music-video': 'Music Videos', performance: 'Performances', sketch: 'Sketches', short: 'Shorts', 'sponsor-read': 'Sponsor Reads', image: 'Images', poster: 'Posters', bts: 'Behind the Scenes' };
 const filters = [{ key: 'all', label: 'All', count: cards.length }, ...Object.entries(categoryLabels).map(([key, label]) => ({ key, label, count: cards.filter((card) => card.category === key).length })).filter((filter) => filter.count)];
 const searchIndex = cards.map(({ id, category, title, description, caption, track }) => ({ id, category, title, description, caption, track }));
 ---
@@ -36,7 +36,7 @@ const searchIndex = cards.map(({ id, category, title, description, caption, trac
           {cards.map((card) => (
             <div data-archive-item data-id={card.id} data-type={card.category}>
               <a href={card.href} data-detail-href={card.href} data-art-id={card.kind === 'art' ? card.id : undefined} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
-                <MediaThumb src={card.thumbnail} alt={card.alt} aspect={card.kind === 'video' ? videoAspect[card.orientation ?? '16:9'] : 'aspect-square'} fit={card.kind === 'art' ? 'natural' : 'contain'} sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, (min-width: 360px) calc((100vw - 64px) / 2), calc(100vw - 48px)" />
+                <MediaThumb src={card.thumbnail} alt={card.alt} aspect={card.kind === 'video' ? card.nativeAspect && card.orientation === '9:16' ? 'aspect-[4/5]' : videoAspect[card.orientation ?? '16:9'] : 'aspect-square'} fit={card.kind === 'video' && card.nativeAspect && card.orientation === '9:16' ? 'cover' : card.kind === 'art' || card.nativeAspect ? 'natural' : 'contain'} position={card.kind === 'video' && card.nativeAspect && card.orientation === '9:16' ? 'center 72%' : undefined} sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, (min-width: 360px) calc((100vw - 64px) / 2), calc(100vw - 48px)" />
                 <div class="p-3"><p class="font-body text-eyebrow uppercase text-gold-ink">{card.label}</p><h2 class="font-display text-lg text-ink mt-1 group-hover:text-gold-ink transition-colors">{card.title}</h2>{card.track && <p class="font-body text-xs text-ink-soft mt-1">From “{card.track.title}”</p>}</div>
               </a>
             </div>

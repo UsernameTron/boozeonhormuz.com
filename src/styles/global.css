@@ -75,6 +75,7 @@ h1, h2, h3, .text-eyebrow { overflow-wrap: anywhere; }
 .video-frame lite-youtube.lyt-activated ~ .video-poster { display: none; }
 .watch-card-media { background: #080808; }
 .watch-card-media[data-orientation="9:16"] > .media-thumb { max-width: 240px; margin-inline: auto; }
+.watch-card-media[data-orientation="9:16"][data-native-aspect] > .media-thumb { max-width: none; }
 @media (max-width: 639px) {
   .archive-filter-list { flex-wrap: nowrap; overflow-x: auto; padding: 4px 4px 10px; margin-inline: -4px; }
   .archive-filter-list button { flex: none; min-height: 44px; }

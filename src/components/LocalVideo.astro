@@ -6,11 +6,15 @@ interface Props {
   title: string;
   poster?: string;
   orientation?: VideoOrientation;
+  videoWidth?: number;
+  videoHeight?: number;
   captions?: { src: string; label: string; srclang: string; default?: boolean }[];
 }
-const { src, title, poster, orientation = '16:9', captions = [] } = Astro.props;
+const { src, title, poster, orientation = '16:9', videoWidth, videoHeight, captions = [] } = Astro.props;
+const nativeFrame = videoWidth && videoHeight ? `${videoWidth} / ${videoHeight}` : orientation.replace(':', ' / ');
+const nativeWidth = videoWidth && videoHeight ? `min(100%, ${Math.round(620 * videoWidth / videoHeight)}px)` : undefined;
 ---
-<div class="video-frame" data-orientation={orientation} style={`--video-ratio: ${orientation.replace(':', ' / ')}`}>
+<div class="video-frame" data-orientation={orientation} style={`--video-ratio: ${nativeFrame};${nativeWidth ? ` max-width: ${nativeWidth};` : ''}`}>
   <video controls playsinline preload="metadata" src={src} poster={mediaImageSource(poster)} aria-label={title}>
     {captions.map((caption) => <track kind="captions" {...caption} />)}
     Your browser does not support video playback. <a href={src}>Open the video</a>.
