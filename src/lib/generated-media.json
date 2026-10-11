@@ -2,32 +2,32 @@
   "/don-biggly-portrait.webp": {
     "width": 1122,
     "height": 1402,
-    "bytes": 218658,
-    "sha256": "7f967ddcc5ad5c7964d9866608a92273f5f57789352bfa07cad4c823c8a929d4",
+    "bytes": 296706,
+    "sha256": "46a7d4fd15efacd46868b0602d020b53105474fc92dfe9d1876e65df7d14bcb0",
     "candidates": [
       {
-        "src": "/_media/9c2747b7e30a0a72-320.webp",
+        "src": "/_media/bb4ad12d6f06abff-320.webp",
         "width": 320,
         "height": 400,
-        "bytes": 23154
+        "bytes": 33110
       },
       {
-        "src": "/_media/9c2747b7e30a0a72-640.webp",
+        "src": "/_media/bb4ad12d6f06abff-640.webp",
         "width": 640,
         "height": 800,
-        "bytes": 70254
+        "bytes": 96938
       },
       {
-        "src": "/_media/9c2747b7e30a0a72-960.webp",
+        "src": "/_media/bb4ad12d6f06abff-960.webp",
         "width": 960,
         "height": 1200,
-        "bytes": 122910
+        "bytes": 167136
       },
       {
-        "src": "/_media/9c2747b7e30a0a72-1122.webp",
+        "src": "/_media/bb4ad12d6f06abff-1122.webp",
         "width": 1122,
         "height": 1402,
-        "bytes": 168772
+        "bytes": 232236
       }
     ]
   },
