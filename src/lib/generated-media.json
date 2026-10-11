@@ -1,33 +1,33 @@
 {
-  "/covers/don-biggly-and-the-indictments.webp": {
+  "/covers/don-biggly-and-the-indictments-gadzooks.webp": {
     "width": 1254,
     "height": 1254,
-    "bytes": 339730,
-    "sha256": "ba25c1598323acbe8e3371d69f9c68201277d492a9c7be6ca3fa75803e48e870",
+    "bytes": 393682,
+    "sha256": "dbf0f05237f36ff672bdf65508b921bef88b1c8ca4456b05608f1ebf724e80e8",
     "candidates": [
       {
-        "src": "/_media/8a16a621f778ecb8-320.webp",
+        "src": "/_media/70874e9dce275f95-320.webp",
         "width": 320,
         "height": 320,
-        "bytes": 27262
+        "bytes": 37388
       },
       {
-        "src": "/_media/8a16a621f778ecb8-640.webp",
+        "src": "/_media/70874e9dce275f95-640.webp",
         "width": 640,
         "height": 640,
-        "bytes": 83510
+        "bytes": 115392
       },
       {
-        "src": "/_media/8a16a621f778ecb8-960.webp",
+        "src": "/_media/70874e9dce275f95-960.webp",
         "width": 960,
         "height": 960,
-        "bytes": 154270
+        "bytes": 207868
       },
       {
-        "src": "/_media/8a16a621f778ecb8-1254.webp",
+        "src": "/_media/70874e9dce275f95-1254.webp",
         "width": 1254,
         "height": 1254,
-        "bytes": 264402
+        "bytes": 348384
       }
     ]
   },
