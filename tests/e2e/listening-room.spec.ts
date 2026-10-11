@@ -54,7 +54,8 @@ async function chooseNative(page: Page, index: number, browserName: string) {
 test('production stays honest when no audio exists', async ({ page }) => {
   await page.goto('/listen/');
   await expect(page.locator('[data-mini-player]')).toHaveCount(0);
-  await expect(page.locator('main')).toContainText('mastering suite');
+  await expect(page.locator('main')).toContainText('videos with lyrics on screen');
+  await expect(page.getByRole('link', { name: 'Explore the album and its filmed setlist' })).toHaveAttribute('href', '/album');
   await expect(page.locator('audio')).toHaveCount(0);
 });
 
@@ -62,7 +63,7 @@ test('native fallback, queue order, exclusivity, real ended advancement, and bou
   const errors: string[] = []; page.on('pageerror', (error) => errors.push(error.message));
   await openFixture(page);
   await expect(page.locator('[data-listening-room] audio')).toHaveCount(2);
-  await expect(page.locator('[data-listening-room]')).toContainText('Fixture Preview Without Audio');
+  await expect(page.locator('[data-listening-room]')).not.toContainText('Fixture Preview Without Audio');
   await expect(page.locator('[data-listening-room]')).not.toContainText('Fixture Hidden Audio');
   expect(await paused(page)).toEqual([true, true]);
   expect(await page.evaluate(() => localStorage.length)).toBe(0);

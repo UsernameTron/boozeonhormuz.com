@@ -78,10 +78,9 @@ const quotes = defineCollection({
 
 // ── Media library (the makeover's center of gravity) ─────────────────────────
 // Four collections model the whole catalog: albums ← tracks ← videos/images.
-// Nothing is hard-coded into pages: adding one track file (plus its optional
-// videos/images) makes it appear on /album, /listen, /archive, the homepage,
-// and its own /album/<slug> page. Web-delivery assets ship under `public/`
-// (audio/, video/, covers/, stills/); production masters NEVER enter the repo.
+// A track and its performance video appear across the album and Watch. Only
+// tracks with separate audio sources appear on Listen. Web-delivery assets ship
+// under `public/`; production masters never enter the repo.
 
 // Track lifecycle — the album is expected to be UNFINISHED while live:
 //   unreleased → listed on the tracklist as a locked row (no page, no audio)
@@ -95,6 +94,7 @@ const albums = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string(),
+    artist: z.string().optional(),
     artwork: z.string().optional(), // absent ⇒ square placeholder, layout never breaks
     tagline: z.string(), // the one-sentence premise
     status: z.enum(['in-progress', 'preview', 'released']).default('in-progress'),
@@ -115,7 +115,7 @@ const tracks = defineCollection({
     featured: z.boolean().default(false), // surfaces on homepage + /listen top slots
     description: z.string().optional(),
     cover: z.string().optional(), // /covers/<file>.webp — absent ⇒ placeholder
-    audio: z.string().optional(), // /audio/<file>.mp3 — web delivery, never the master
+    audio: z.string().optional(), // optional separate web audio; the live album uses video
     duration: z.string().regex(/^\d+:\d{2}$/).optional(), // m:ss
     releaseDate: z.coerce.date().optional(),
     credits: z.array(z.string()).default([]),

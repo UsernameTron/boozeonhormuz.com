@@ -1,12 +1,13 @@
 ---
 title: "Booze on Hormuz"
 slug: "booze-on-hormuz"
-tagline: "A musical satire about a man selling luxury ownership of an international crisis, one tremendous track at a time."
+artist: "Don Biggly & The Indictments"
+artwork: "/covers/don-biggly-and-the-indictments.webp"
+tagline: "A live tour told through filmed songs with lyrics on screen."
 status: "in-progress"
 credits: []
 draft: false
 ---
 
-The album is being assembled in public. Tracks appear here the moment they are
-finished — no waiting for the full sequence, the final cover, or anyone's
-permission.
+The cover is here. The live set is on its way. Each song will appear as a video
+performance with lyrics on screen. Separate audio files are not required.

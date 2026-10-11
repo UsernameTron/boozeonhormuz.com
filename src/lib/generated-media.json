@@ -1,4 +1,36 @@
 {
+  "/covers/don-biggly-and-the-indictments.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 339730,
+    "sha256": "ba25c1598323acbe8e3371d69f9c68201277d492a9c7be6ca3fa75803e48e870",
+    "candidates": [
+      {
+        "src": "/_media/8a16a621f778ecb8-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 27262
+      },
+      {
+        "src": "/_media/8a16a621f778ecb8-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 83510
+      },
+      {
+        "src": "/_media/8a16a621f778ecb8-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 154270
+      },
+      {
+        "src": "/_media/8a16a621f778ecb8-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 264402
+      }
+    ]
+  },
   "/don-biggly-portrait.webp": {
     "width": 1122,
     "height": 1402,

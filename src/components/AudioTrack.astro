@@ -26,7 +26,7 @@ const { id, title, slug, cover, audio, duration } = Astro.props;
         Your browser does not support audio playback. <a href={audio}>Open the audio file</a>.
       </audio>
     ) : (
-      <p class="font-body text-sm text-ink-soft italic">Audio arriving shortly. The mastering suite has excellent catering.</p>
+      <a href={`/album/${slug}`} class="font-body text-sm text-gold-ink hover:opacity-80">Open the song page</a>
     )}
   </div>
 </article>

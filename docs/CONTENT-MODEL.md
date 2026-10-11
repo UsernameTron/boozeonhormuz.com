@@ -4,36 +4,34 @@ This document describes the current repository revision. Confirm the deployed SH
 
 The site is a publishing system, not a brochure. Four collections model the
 catalog (`src/content.config.ts`): **albums ← tracks ← videos / images**.
-Adding one track file (plus its optional videos and images) makes it appear on
-`/album`, `/listen`, `/archive`, the homepage, and its own `/album/<slug>` page.
-No page edits, no redesign, no album-completion dependency anywhere.
+The Booze on Hormuz album is the filmed live tour by Don Biggly & The
+Indictments. Each song has a video with lyrics on screen. A song and its
+performance video appear on `/album`, `/watch`, `/archive`, the homepage, and
+their own detail pages. `/listen` lists only songs that also have separate
+audio files. No standalone audio is required for the album.
 
 ## The three layers (never mix them)
 
-1. **Master library** — WAV masters, 4K/1080 video masters, high-res artwork.
-   Lives OUTSIDE this repo (external drive / cloud). Never compressed, never
-   committed.
+1. **Original uploads** — keep the original album cover in
+   `/Users/cpconnor/Desktop/Don Biggly/02 Ready for Website/02 Album/Cover/`
+   and one filmed song per file in
+   `/Users/cpconnor/Desktop/Don Biggly/02 Ready for Website/02 Album/Song Videos with Lyrics/`.
+   Separate produced music videos belong in
+   `/Users/cpconnor/Desktop/Don Biggly/02 Ready for Website/04 Watch/Music Videos/`.
+   Preserve these files outside the repo.
 2. **Web delivery assets** — optimized versions only, committed under `public/`:
-   - `public/audio/` — web audio (`.mp3`, ~192kbps)
-   - `public/video/` — only if self-hosting; prefer YouTube (`youtubeId`)
-   - `public/covers/` — track/album art (`.webp`, ≤3000px source → ~1600px web)
+   - `public/video/` — playable filmed songs (or use a YouTube ID)
+   - `public/covers/` — album art (`.webp`)
+   - `public/audio/` — optional separate audio only when supplied
    - `public/stills/` — stills, posters, fake ads, BTS (`.webp`)
    - `public/thumbs/` — video thumbnails (`.webp`, 16:9, unique per video)
 3. **This repo (the CMS)** — metadata + references to those assets.
 
 `npm run media:generate` runs automatically before `dev` and `build`. It reads local WebP/JPEG/PNG delivery images, preserves their original bytes and URLs, and writes additive WebP derivatives under ignored `public/_media/` at 320, 640, 960 and 1280 pixels, capped at the original width. Animated files, app/font folders and favicon/OG files are excluded. EXIF rotation is normalized in derivatives. `src/lib/generated-media.json` records dimensions, source SHA-256 hashes and candidate URLs; regenerate and review that manifest when source assets change instead of editing it by hand. `npm run check:media` verifies original hashes, derivative dimensions and no upscaling. Artwork uses contain sizing so the complete image remains visible. Missing optional artwork renders a placeholder without issuing a known-broken local image request.
 
-Suggested master-library layout (outside git):
-
-```
-BOH_MEDIA/
-  ALBUM/TRACK_01/{AUDIO,VIDEO,PERFORMANCE,SHORTS,IMAGES,ARTWORK}/
-  INTERSTITIALS/  PERFORMANCE/  POSTERS/  PRESS/  BRAND/  SITE/
-```
-
-Predictable filenames: `T01_AUDIO_MASTER.wav`, `T01_AUDIO_WEB.mp3`,
-`T01_MV_WEB_1080.mp4`, `T01_COVER_3000.jpg`, `T01_THUMB_MV.jpg`.
-No `final-final-REAL-final2.mp4`.
+Use ordered filenames such as `01 Song Title.mp4`, `02 Song Title.mp4` in the
+album video folder. The number gives the setlist order; no audio extraction is
+needed. Keep produced music videos separate from the filmed set.
 
 Keep a **content manifest** spreadsheet (Asset ID · Track · Type · File ·
 Orientation · Runtime · Master ready · Web ready · Thumbnail · Captions ·
@@ -52,17 +50,18 @@ is unfinished.
 | `released` | linked | yes | optional; plays when a source is supplied |
 | `hidden` | nowhere | no | no |
 
-`featured: true` promotes a track into the homepage Listen slots (same flag on
+`featured: true` promotes a track with separate audio into the homepage Listen slots (same flag on
 videos → homepage Featured Film / Performance slots; on images → Visual
 Evidence grid). `draft: true` (the default) keeps any entry out of every build.
 
-Page eligibility and queue eligibility are separate. Public `preview` and `released` tracks retain their pages and rows without audio. The Listen queue only includes those with a nonempty `audio` source; draft, hidden and unreleased tracks never enter it. Featured tracks come first, then track number and a stable ID tie-breaker. The native players remain usable without JavaScript. Play All progresses sequentially with one active player, and Previous/Next stop at queue boundaries. A catalog without audio keeps its honest empty/arriving state.
+Page eligibility and queue eligibility are separate. Public `preview` and `released` tracks retain their pages and rows without audio. The Listen page and queue only include those with a nonempty `audio` source; draft, hidden and unreleased tracks never enter it. Featured audio comes first, then track number and a stable ID tie-breaker. The native players remain usable without JavaScript. Play All progresses sequentially with one active player, and Previous/Next stop at queue boundaries. A catalog without separate audio directs visitors to the filmed album.
 
 Listening-position storage is optional and browser-local. Remembering stores one track/source/version/position; a return visit offers an explicit paused restore rather than autoplay. Clearing the saved position also turns remembering off. Replacing a local audio file changes its SHA-256 source version and invalidates its previous saved position. Remote sources use the full URL as their version, so publish revised audio at a new URL or an explicit version query such as `song.mp3?v=2`. A missing, hidden, changed or invalid saved source is not resumed. Playback stays on the Listen page; this is not a cross-page audio system.
 
-## Add a track (the whole procedure)
+## Add a filmed album song
 
-1. Drop web assets: `public/audio/t01-song.mp3`, `public/covers/t01-song.webp`.
+1. Keep the source video in `02 Album/Song Videos with Lyrics/`. Prepare a
+   playable web version under `public/video/` without changing the original.
 2. Create `src/content/tracks/t01-song-name.md`:
 
 ```yaml
@@ -74,46 +73,50 @@ album: booze-on-hormuz
 status: "released"        # or preview / unreleased / hidden
 featured: true
 description: "One sentence about the song."
-cover: "/covers/t01-song.webp"
-audio: "/audio/t01-song.mp3"
+cover: "/covers/don-biggly-and-the-indictments.webp"
 duration: "3:14"
-releaseDate: 2026-09-01
-credits: ["Written and performed by …"]
-streamingLinks: []        # [{ label: "Spotify", url: "https://…" }] once live
+credits: []
 draft: false
 ---
 A short creative note. Renders on the track page.
 ```
 
-3. Run `npm run verify` and review the local preview, artwork and playback. After explicit owner publication approval, use a branch + PR and the gated Pages workflow. Once that release succeeds, the track appears on eligible album, Listen, archive and track-page surfaces. Do not bypass failing content or release checks.
+3. Create the connected video record below with `type: "performance"` and
+   `track: song-name`. This places a player first on the song page and puts the
+   same video under Performances in Watch. An optional plain-text lyric
+   transcript improves accessibility and search; on-screen lyrics are already
+   part of the video.
+4. Run `npm run verify` and review the local preview, artwork and playback.
+   Publish only when the album content milestone is approved. The song appears
+   on Listen only if a separate audio file is provided later.
 
 ## Add a video
 
-`src/content/videos/t01-mv.md` — `type` is one of `music-video`,
-`performance`, `sketch`, `short`:
+For a filmed album song, use `src/content/videos/t01-live.md` with
+`type: "performance"`. Separate produced music videos use `type:
+"music-video"` and can reference the same song:
 
 ```yaml
 ---
-title: "Song Name — Official Video"
-slug: "song-name-video"
-type: "music-video"
+title: "Song Name | Live"
+slug: "song-name-live"
+type: "performance"
 track: song-name            # the track's SLUG (see Reference rules below)
-youtubeId: "XXXXXXXXXXX"    # preferred; or src: "/video/t01-mv-1080.mp4"
-thumbnail: "/thumbs/t01-mv.webp"   # unique per video (video-SEO); falls back to YouTube's
+src: "/video/t01-live.mp4"  # or youtubeId: "XXXXXXXXXXX"
+thumbnail: "/thumbs/t01-live.webp"
 duration: "3:14"
-description: "Unique one-paragraph description (video-SEO)."
-transcript: ""              # paste captions text when available
+description: "One sentence describing this live song."
 orientation: "16:9"         # also "9:16" or "1:1"; used by cards and players
-captions: []                # local-video WebVTT tracks; see example below
+captions: []                # optional WebVTT captions, if supplied
 featured: true
-hero: false                 # `hero: true` on exactly ONE video = the homepage hero player
-publishDate: 2026-09-01
+hero: false
+publishDate: 2026-10-11
 draft: false
 ---
 ```
 
 The video appears on `/watch` (filterable), gets its own `/watch/<slug>` page
-with `VideoObject` structured data, and auto-attaches to its track's page.
+with `VideoObject` structured data, and plays on its track's album page.
 
 An older featured performance precedes newer unfeatured performances; otherwise video recency stays newest-first. Choose `orientation` to match the delivered media, rather than stretching a portrait source into a landscape frame. Local video uses native controls, inline playback and metadata-only preload. YouTube keeps its click-to-load facade and privacy-enhanced embed; its poster disappears after activation.
 

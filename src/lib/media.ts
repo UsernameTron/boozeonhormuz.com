@@ -11,7 +11,7 @@ export const listedTracks = (tracks: Track[]) =>
     .filter((t) => !t.data.draft && t.data.status !== 'hidden')
     .sort((a, b) => a.data.trackNumber - b.data.trackNumber);
 
-// Tracks that get their own /album/<slug> page (and audio surfaces).
+// Tracks that get their own /album/<slug> page. Audio surfaces require a source.
 export const playableTracks = (tracks: Track[]) =>
   listedTracks(tracks).filter((t) => t.data.status === 'preview' || t.data.status === 'released');
 
