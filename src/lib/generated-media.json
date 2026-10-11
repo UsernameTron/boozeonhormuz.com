@@ -306,5 +306,135 @@
         "bytes": 260546
       }
     ]
+  },
+  "/mctrumps/appreciation.webp": {
+    "width": 960,
+    "height": 840,
+    "bytes": 71078,
+    "sha256": "c4db236a80e31f506d88e1442bc0c144a0af488b60ada5531f730483bce94a4d",
+    "candidates": [
+      {
+        "src": "/_media/94400dd25be4122a-320.webp",
+        "width": 320,
+        "height": 280,
+        "bytes": 16964
+      },
+      {
+        "src": "/_media/94400dd25be4122a-640.webp",
+        "width": 640,
+        "height": 560,
+        "bytes": 38414
+      },
+      {
+        "src": "/_media/94400dd25be4122a-960.webp",
+        "width": 960,
+        "height": 840,
+        "bytes": 65722
+      }
+    ]
+  },
+  "/mctrumps/birthday.webp": {
+    "width": 960,
+    "height": 960,
+    "bytes": 67950,
+    "sha256": "1715cc211f07954b7b12a9724515e685c61397109f5f0ba6f5f49f37b0a189df",
+    "candidates": [
+      {
+        "src": "/_media/b1b5a74155f7f2b4-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 16720
+      },
+      {
+        "src": "/_media/b1b5a74155f7f2b4-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 36882
+      },
+      {
+        "src": "/_media/b1b5a74155f7f2b4-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 60018
+      }
+    ]
+  },
+  "/mctrumps/supervision.webp": {
+    "width": 960,
+    "height": 734,
+    "bytes": 106260,
+    "sha256": "18cd9f3682403975da70e995b329e5ca65285a7c8c7c3c28717e30037bd8e402",
+    "candidates": [
+      {
+        "src": "/_media/82b77741d60dae84-320.webp",
+        "width": 320,
+        "height": 245,
+        "bytes": 19804
+      },
+      {
+        "src": "/_media/82b77741d60dae84-640.webp",
+        "width": 640,
+        "height": 489,
+        "bytes": 52142
+      },
+      {
+        "src": "/_media/82b77741d60dae84-960.webp",
+        "width": 960,
+        "height": 734,
+        "bytes": 99280
+      }
+    ]
+  },
+  "/mctrumps/tehran.webp": {
+    "width": 960,
+    "height": 734,
+    "bytes": 129258,
+    "sha256": "cda25ec0823e8f4f2734c974b6cfaa5c47c9037c985163fb165cab4e5fc502ab",
+    "candidates": [
+      {
+        "src": "/_media/d5d169f2e3079827-320.webp",
+        "width": 320,
+        "height": 245,
+        "bytes": 20574
+      },
+      {
+        "src": "/_media/d5d169f2e3079827-640.webp",
+        "width": 640,
+        "height": 489,
+        "bytes": 59496
+      },
+      {
+        "src": "/_media/d5d169f2e3079827-960.webp",
+        "width": 960,
+        "height": 734,
+        "bytes": 121042
+      }
+    ]
+  },
+  "/mctrumps/welcome.webp": {
+    "width": 720,
+    "height": 1280,
+    "bytes": 33248,
+    "sha256": "546e76e839987569ea447e771f6e0762905a0254bb7c2403858f6ef2c532cf3b",
+    "candidates": [
+      {
+        "src": "/_media/3d5df7512f473e47-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11824
+      },
+      {
+        "src": "/_media/3d5df7512f473e47-640.webp",
+        "width": 640,
+        "height": 1138,
+        "bytes": 25534
+      },
+      {
+        "src": "/_media/3d5df7512f473e47-720.webp",
+        "width": 720,
+        "height": 1280,
+        "bytes": 30080
+      }
+    ]
   }
 }
