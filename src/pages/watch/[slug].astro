@@ -115,7 +115,7 @@ const videoLd =
     {youtubeId && <div class="mt-8"><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} /></div>}
     {
       kind === 'video' && !youtubeId && video!.data.src && (
-        <div class="mt-8"><LocalVideo src={video!.data.src} title={title} poster={video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>
+        <div class="mt-8"><LocalVideo src={video!.data.src} title={title} poster={video!.data.poster ?? video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>
       )
     }
 

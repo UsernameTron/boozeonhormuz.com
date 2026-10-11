@@ -104,7 +104,7 @@ const visualGrid =
               <YouTubeEmbed id={heroVideo.data.youtubeId} title={heroVideo.data.title} poster={heroVideo.data.thumbnail} orientation={heroVideo.data.orientation} />
             ) : (
               heroVideo.data.src && (
-                <LocalVideo src={heroVideo.data.src} title={heroVideo.data.title} poster={heroVideo.data.thumbnail} orientation={heroVideo.data.orientation} captions={heroVideo.data.captions} />
+                <LocalVideo src={heroVideo.data.src} title={heroVideo.data.title} poster={heroVideo.data.poster ?? heroVideo.data.thumbnail} orientation={heroVideo.data.orientation} captions={heroVideo.data.captions} />
               )
             )}
           </div>

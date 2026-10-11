@@ -501,6 +501,84 @@
       }
     ]
   },
+  "/posters/ball-in-dons-court.webp": {
+    "width": 720,
+    "height": 1280,
+    "bytes": 88076,
+    "sha256": "f0ff6d6da96b59d4281b4a33ae594657a33a5ba55d1b0a71cdf8bc73be7c4982",
+    "candidates": [
+      {
+        "src": "/_media/7ceed4f89e8e52d8-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 31010
+      },
+      {
+        "src": "/_media/7ceed4f89e8e52d8-640.webp",
+        "width": 640,
+        "height": 1138,
+        "bytes": 66660
+      },
+      {
+        "src": "/_media/7ceed4f89e8e52d8-720.webp",
+        "width": 720,
+        "height": 1280,
+        "bytes": 80956
+      }
+    ]
+  },
+  "/posters/hush-money-is-philanthropy.webp": {
+    "width": 720,
+    "height": 1280,
+    "bytes": 90932,
+    "sha256": "e8551a422b33ad2f9d67972ae0221e43d1ae6dcde1698d79c8aa5a5143e16419",
+    "candidates": [
+      {
+        "src": "/_media/dafaf20ae73ea5f0-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 26740
+      },
+      {
+        "src": "/_media/dafaf20ae73ea5f0-640.webp",
+        "width": 640,
+        "height": 1138,
+        "bytes": 61874
+      },
+      {
+        "src": "/_media/dafaf20ae73ea5f0-720.webp",
+        "width": 720,
+        "height": 1280,
+        "bytes": 82072
+      }
+    ]
+  },
+  "/posters/i-think-i-shit-my-pants.webp": {
+    "width": 720,
+    "height": 1280,
+    "bytes": 42362,
+    "sha256": "27f30ffafeba29cbd577776b7df10abcf96ce09f02a88626eaa82ce543352745",
+    "candidates": [
+      {
+        "src": "/_media/5ec32a8fc4ad9ce1-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 14274
+      },
+      {
+        "src": "/_media/5ec32a8fc4ad9ce1-640.webp",
+        "width": 640,
+        "height": 1138,
+        "bytes": 30854
+      },
+      {
+        "src": "/_media/5ec32a8fc4ad9ce1-720.webp",
+        "width": 720,
+        "height": 1280,
+        "bytes": 37024
+      }
+    ]
+  },
   "/press/don-biggly-broadcast.webp": {
     "width": 480,
     "height": 720,
@@ -678,6 +756,148 @@
         "width": 1254,
         "height": 1254,
         "bytes": 164910
+      }
+    ]
+  },
+  "/thumbs/ball-in-dons-court.webp": {
+    "width": 720,
+    "height": 900,
+    "bytes": 70970,
+    "sha256": "8c8f9d5adba51f354bc0f39924f457e3279605b828d5c70d04b21ee97559d7e2",
+    "candidates": [
+      {
+        "src": "/_media/75175267105be5f7-320.webp",
+        "width": 320,
+        "height": 400,
+        "bytes": 23648
+      },
+      {
+        "src": "/_media/75175267105be5f7-640.webp",
+        "width": 640,
+        "height": 800,
+        "bytes": 50752
+      },
+      {
+        "src": "/_media/75175267105be5f7-720.webp",
+        "width": 720,
+        "height": 900,
+        "bytes": 63020
+      }
+    ]
+  },
+  "/thumbs/bomb-iran-tremendous-remix.webp": {
+    "width": 1280,
+    "height": 720,
+    "bytes": 67372,
+    "sha256": "b695ac9d6d9f7f7edc493d749514a062fa5d99ad0fd253651b71639d1a319b87",
+    "candidates": [
+      {
+        "src": "/_media/8fddc6f91ac066d4-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 10216
+      },
+      {
+        "src": "/_media/8fddc6f91ac066d4-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 25652
+      },
+      {
+        "src": "/_media/8fddc6f91ac066d4-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 39566
+      },
+      {
+        "src": "/_media/8fddc6f91ac066d4-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 60082
+      }
+    ]
+  },
+  "/thumbs/hush-money-is-philanthropy.webp": {
+    "width": 720,
+    "height": 900,
+    "bytes": 77586,
+    "sha256": "1724a95520ba3334c8079f9cdee0317b31f03f532407d2d17edf355e18a21de7",
+    "candidates": [
+      {
+        "src": "/_media/2a96a7a786a4e735-320.webp",
+        "width": 320,
+        "height": 400,
+        "bytes": 21916
+      },
+      {
+        "src": "/_media/2a96a7a786a4e735-640.webp",
+        "width": 640,
+        "height": 800,
+        "bytes": 51274
+      },
+      {
+        "src": "/_media/2a96a7a786a4e735-720.webp",
+        "width": 720,
+        "height": 900,
+        "bytes": 68336
+      }
+    ]
+  },
+  "/thumbs/i-invented-cheap-meat.webp": {
+    "width": 1280,
+    "height": 720,
+    "bytes": 63922,
+    "sha256": "be15897441729f6e6ad0ec724b188070ac59911ffb890bfb3e3384b0d2cea7cf",
+    "candidates": [
+      {
+        "src": "/_media/fefd0eda1c69a610-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 9672
+      },
+      {
+        "src": "/_media/fefd0eda1c69a610-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 24804
+      },
+      {
+        "src": "/_media/fefd0eda1c69a610-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 37666
+      },
+      {
+        "src": "/_media/fefd0eda1c69a610-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 57670
+      }
+    ]
+  },
+  "/thumbs/i-think-i-shit-my-pants.webp": {
+    "width": 720,
+    "height": 900,
+    "bytes": 28914,
+    "sha256": "2c92e08d3cdb6c352c9e24ff4c61465d13bd6a9c186acc79b76029fe27d873e0",
+    "candidates": [
+      {
+        "src": "/_media/8f4370bec969f5c3-320.webp",
+        "width": 320,
+        "height": 400,
+        "bytes": 9278
+      },
+      {
+        "src": "/_media/8f4370bec969f5c3-640.webp",
+        "width": 640,
+        "height": 800,
+        "bytes": 20006
+      },
+      {
+        "src": "/_media/8f4370bec969f5c3-720.webp",
+        "width": 720,
+        "height": 900,
+        "bytes": 24630
       }
     ]
   }

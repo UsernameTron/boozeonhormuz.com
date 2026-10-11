@@ -58,9 +58,9 @@ const socialDimensions = responsiveImage(socialImage);
     {primaryVideo && (
       <div class="mt-8">
         {primaryVideo.data.youtubeId ? (
-          <YouTubeEmbed id={primaryVideo.data.youtubeId} title={primaryVideo.data.title} poster={primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} />
+          <YouTubeEmbed id={primaryVideo.data.youtubeId} title={primaryVideo.data.title} poster={primaryVideo.data.poster ?? primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} />
         ) : (
-          primaryVideo.data.src && <LocalVideo src={primaryVideo.data.src} title={primaryVideo.data.title} poster={primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} videoWidth={primaryVideo.data.videoWidth} videoHeight={primaryVideo.data.videoHeight} captions={primaryVideo.data.captions} />
+          primaryVideo.data.src && <LocalVideo src={primaryVideo.data.src} title={primaryVideo.data.title} poster={primaryVideo.data.poster ?? primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} videoWidth={primaryVideo.data.videoWidth} videoHeight={primaryVideo.data.videoHeight} captions={primaryVideo.data.captions} />
         )}
         {primaryVideo.data.transcript && (
           <details class="mt-5 max-w-prose">

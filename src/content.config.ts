@@ -134,10 +134,12 @@ const videos = defineCollection({
     youtubeId: z.string().optional(), // preferred delivery
     src: z.string().optional(), // self-hosted fallback (/video/<file>.mp4)
     thumbnail: z.string().optional(), // unique per video (video-SEO) — absent ⇒ placeholder
+    poster: z.string().optional(), // full-frame image for the native video player
     videoWidth: z.number().int().positive().optional(), // native frame, when the source differs from its broad orientation
     videoHeight: z.number().int().positive().optional(),
     collection: z.object({ label: z.string(), href: z.string().regex(/^\/(?!\/)/) }).optional(),
     collectionOrder: z.number().int().positive().optional(),
+    displayOrder: z.number().int().positive().optional(), // order within a same-day video category
     duration: z.string().regex(/^\d+:\d{2}$/).optional(), // m:ss
     description: z.string(), // unique per video (video-SEO)
     transcript: z.string().optional(),

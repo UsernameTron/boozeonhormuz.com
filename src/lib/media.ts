@@ -20,7 +20,9 @@ export const liveVideos = (videos: Video[]) =>
     .filter((v) => !v.data.draft)
     .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
       || (a.data.collection?.label && a.data.collection.label === b.data.collection?.label
-        ? (a.data.collectionOrder ?? Infinity) - (b.data.collectionOrder ?? Infinity) : 0));
+        ? (a.data.collectionOrder ?? Infinity) - (b.data.collectionOrder ?? Infinity) : 0)
+      || (a.data.type === b.data.type && a.data.displayOrder && b.data.displayOrder
+        ? a.data.displayOrder - b.data.displayOrder : 0));
 
 export const featuredFirst = <T extends { data: { featured: boolean } }>(entries: T[]) =>
   [...entries].sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
