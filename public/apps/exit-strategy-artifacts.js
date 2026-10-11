@@ -1,4 +1,5 @@
 /* Completed-voyage artifacts. No network, ongoing-game persistence, or game rules. */
+import { ROUTE_LEVELS, routeVerdict } from './exit-strategy-story.js';
 export const MAX_DECISIONS = 240;
 export const REPORT_KEY = 'boh.exit-strategy.completed.v1';
 export const SCORECARD_SIZE = Object.freeze({ width: 1200, height: 1600 });
@@ -43,6 +44,39 @@ export function buildScoreRows(c, completedAt, stars = 3) {
   ];
 }
 
+export function buildActualRows(c, completedAt, choices) {
+  const mins = Math.max(0, Math.round((completedAt - c.startedAt - c.pausedMs) / 60000));
+  return [
+    ['Passengers and crew', 'SAFE ASHORE'],
+    ['Don’s evacuation', 'REFUSED'],
+    ['Actual distance from exit', '3 FEET'],
+    ['Lawyers still aboard', '0'],
+    ['Extra charges attempted', String(c.feesAttempted)],
+    ['Gift shops opened', String(c.giftShops)],
+    ['Pitches accepted', String(c.rebrands)],
+    ['Free exits refused', String(c.leftDoorClicks)],
+    ['Gold stars spent', c.goldStarsUsed + ' / 3'],
+    ['Voyage duration', mins + ' min'],
+    ['Staircase incident', c.l6Result === 'bailed' ? 'RESOLVED BY FLATTERY' : 'REBRANDED ON MERIT'],
+    ['Memorial charge assigned to', choices.l5 === 'status' ? 'DON BIGGLY' : 'PASSENGERS'],
+  ];
+}
+
+export function buildClaims(c, choices) {
+  const revenue = Object.values(choices).filter(value => value === 'revenue').length;
+  return [
+    ['“Total victory.”', 'Everyone else is safe. Don has refused the exit.'],
+    [revenue >= 4 ? '“An extraordinary new revenue stream.”' : '“An unprecedented mandate to lead.”',
+      revenue + ' revenue pitches; ' + (ROUTE_LEVELS.length - revenue) + ' status pitches. No authority conferred.'],
+    ['“A memorial worthy of my name.”', choices.l5 === 'status'
+      ? 'All passengers survived. The surcharge is on Don’s own tab.'
+      : 'All passengers survived. The attempted surcharge is disputed.'],
+    ['“All liability resolved.”', choices.l9 === 'revenue'
+      ? 'The claims opt-out has no legal effect. The last lawyer left.'
+      : 'His honorary appointment changes no rights. The last lawyer left.'],
+  ];
+}
+
 function freezeReport(report) {
   Object.values(report).forEach((value) => {
     if (value && typeof value === 'object') freezeReport(value);
@@ -50,13 +84,14 @@ function freezeReport(report) {
   return Object.freeze(report);
 }
 
-export function completeVoyage(counters, recap, calmSeas, completedAt) {
+export function completeVoyage(counters, recap, calmSeas, completedAt, choices = null) {
   return freezeReport({
-    version: 1,
+    version: choices ? 2 : 1,
     completedAt,
-    mode: calmSeas ? 'Calm Seas' : 'Timed',
+    mode: typeof calmSeas === 'string' ? calmSeas : calmSeas ? 'Calm Seas' : 'Timed',
     counters: { ...counters },
-    rows: buildScoreRows(counters, completedAt),
+    rows: choices ? buildActualRows(counters, completedAt, choices) : buildScoreRows(counters, completedAt),
+    ...(choices ? { choices: { ...choices }, claims: buildClaims(counters, choices), verdict: routeVerdict(choices) } : {}),
     recap: { total: recap.total, omitted: recap.omitted, decisions: recap.decisions.map((d) => ({ ...d })) },
   });
 }
@@ -75,14 +110,19 @@ export function replayMilestones(report) {
     `${stars.length} Gold Stars chosen by you. Automatic staircase rescues appear in the score above.`,
   ];
   if (stairs) items.push(`Your staircase: ${stairs.label}. Try another name next voyage.`);
+  if (report.version === 2) {
+    const revenue = Object.values(report.choices).filter(value => value === 'revenue').length;
+    items.unshift(`${revenue} revenue pitches and ${ROUTE_LEVELS.length - revenue} status pitches. Change who pays in The Route to discover the other finale.`);
+  }
   if (report.recap.omitted) items.unshift(`Milestones use the latest ${decisions.length} decisions; ${report.recap.omitted} earlier decisions are omitted.`);
   return items;
 }
 
 export function scoreText(report) {
-  return 'DON BIGGLY’S TREMENDOUS EXIT STRATEGY — FINAL SCORE\nSOLD OUT — ZERO DISSENT\n\n'
+  return 'DON BIGGLY’S TREMENDOUS EXIT STRATEGY — FINAL SCORE\n' + (report.verdict || 'SOLD OUT — ZERO DISSENT') + '\n\n'
+    + (report.claims ? report.claims.map(([claim, actual]) => 'DON’S CLAIM: ' + claim + '\nCREW RECORD: ' + actual).join('\n\n') + '\n\nYOUR ACTUAL VOYAGE\n' : '')
     + report.rows.map(([key, value]) => key.toUpperCase() + ': ' + value).join('\n')
-    + '\n\nTOTAL VICTORY\nFictional satire. No maritime safety value.\nPlay it: https://boozeonhormuz.com/play';
+    + '\n\nTOTAL VICTORY' + (report.version === 2 ? ' — ACCORDING TO DON' : '') + '\nFictional satire. No maritime safety value.\nPlay it: https://boozeonhormuz.com/play';
 }
 
 export function recapText(report) {
@@ -99,18 +139,22 @@ export function readSavedReport(storage) {
     if (raw === null) return { report: null, error: null };
     if (raw.length > 250000) throw new Error('Report too large');
     const report = JSON.parse(raw);
-    if (report?.version !== 1 || !Number.isFinite(report.completedAt) || !['Calm Seas', 'Timed'].includes(report.mode)) throw new Error('Invalid report');
+    if (![1, 2].includes(report?.version) || !Number.isFinite(report.completedAt) || !['Calm Seas', 'Timed', ...(report.version === 2 ? ['Mixed'] : [])].includes(report.mode)) throw new Error('Invalid report');
     const c = report.counters;
     const names = ['wrongPicks', 'rebrands', 'waiversRenamed', 'giftShops', 'emergenciesMonetized', 'goldStarsUsed', 'leftDoorClicks', 'startedAt'];
     if (!c || names.some((key) => !Number.isSafeInteger(c[key]) || c[key] < 0) || !['clean', 'bailed'].includes(c.l6Result)) throw new Error('Invalid counters');
     if (report.completedAt < c.startedAt || c.goldStarsUsed > 3) throw new Error('Invalid completion');
+    if (report.version === 2) {
+      if (!Number.isSafeInteger(c.feesAttempted) || c.feesAttempted < 0 || !Number.isSafeInteger(c.pausedMs) || c.pausedMs < 0 || c.pausedMs > report.completedAt - c.startedAt) throw new Error('Invalid voyage counters');
+      if (!report.choices || Object.keys(report.choices).length !== ROUTE_LEVELS.length || ROUTE_LEVELS.some(id => !['revenue', 'status'].includes(report.choices[id]))) throw new Error('Invalid route');
+    }
     const recap = report.recap;
     if (!recap || !Array.isArray(recap.decisions) || recap.decisions.length > MAX_DECISIONS || !Number.isSafeInteger(recap.total) || !Number.isSafeInteger(recap.omitted) || recap.omitted < 0 || recap.total !== recap.omitted + recap.decisions.length) throw new Error('Invalid recap');
     recap.decisions.forEach((d, index) => {
       if (!d || d.sequence !== recap.omitted + index + 1 || !Number.isInteger(d.level) || d.level < 1 || d.level > 10 || ['title', 'kind', 'label', 'outcome'].some((key) => typeof d[key] !== 'string' || d[key].length > 1000)) throw new Error('Invalid decision');
     });
     // Recompute derived rows instead of trusting saved presentation data.
-    return { report: completeVoyage(c, recap, report.mode === 'Calm Seas', report.completedAt), error: null };
+    return { report: completeVoyage(c, recap, report.mode, report.completedAt, report.version === 2 ? report.choices : null), error: null };
   } catch {
     return { report: null, error: 'Saved reports are unavailable or unreadable. Play and downloads still work. You can clear the saved report below.' };
   }
@@ -153,7 +197,11 @@ export function renderScorecard(canvas, report) {
   ctx.fillText('TREMENDOUS EXIT STRATEGY', 88, 255);
   ctx.fillStyle = '#ff6b6b';
   ctx.font = '800 30px Archivo, sans-serif';
-  ctx.fillText('SOLD OUT — ZERO DISSENT', 88, 320);
+  ctx.fillText(report.verdict || 'SOLD OUT — ZERO DISSENT', 88, 320, 1024);
+  if (report.version === 2) {
+    ctx.fillStyle = '#b9c2d0'; ctx.font = '600 22px Inter, sans-serif';
+    ctx.fillText('THE CREW’S RECORD · ALL PASSENGERS SAFE · DON REFUSES TO LEAVE', 88, 362, 1024);
+  }
   ctx.textBaseline = 'middle';
   report.rows.forEach(([key, value], index) => {
     const y = 393 + index * 65;
@@ -173,6 +221,10 @@ export function renderScorecard(canvas, report) {
   ctx.fillStyle = '#f7ce73';
   ctx.font = '900 46px Archivo, sans-serif';
   ctx.fillText('TOTAL VICTORY', 88, 1360);
+  if (report.version === 2) {
+    ctx.font = '600 22px Inter, sans-serif';
+    ctx.fillText('— ACCORDING TO DON', 650, 1360);
+  }
   ctx.fillStyle = '#b9c2d0';
   ctx.font = '500 23px Inter, sans-serif';
   ctx.fillText('Fictional satire. No maritime safety value.', 88, 1433);
