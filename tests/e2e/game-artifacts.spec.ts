@@ -2,7 +2,7 @@ import { test, expect, type Page, type Frame } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
 type Surface = Page | Frame;
-async function playVoyage(game: Surface, options: { stopAt?: number; refuseFree?: boolean; rejectedPitch?: boolean } = {}) {
+async function playVoyage(game: Surface, options: { stopAt?: number; refuseFree?: boolean; rejectedPitch?: boolean; route?: 'revenue' | 'status' } = {}) {
   const levels = new Set<number>();
   let refused = false;
   let rejected = false;
@@ -21,8 +21,8 @@ async function playVoyage(game: Surface, options: { stopAt?: number; refuseFree?
       await game.getByRole('button', { name: 'Pitch It To Him' }).click();
     } else if (await game.locator('.options').isVisible()) {
       if (options.rejectedPitch && !rejected) {
-        await game.locator('.option').nth(1).click(); rejected = true;
-      } else await game.locator('.option').first().click();
+        await game.locator('.option[data-route="fail"]').click(); rejected = true;
+      } else await game.locator(`.option[data-route="${options.route || 'revenue'}"]`).click();
     } else if (await game.locator('#controls button').count()) {
       await game.locator('#controls button').first().click();
     } else throw new Error(`No playable action on level ${number}`);
@@ -59,12 +59,16 @@ test('ten-level voyage exports actual choices and a frozen PNG, text, and JSON r
   expect(report.counters.wrongPicks).toBe(1);
   expect(report.counters.leftDoorClicks).toBe(1);
   expect(report.recap.decisions.filter((decision: { kind: string }) => decision.kind === 'free-exit')).toHaveLength(1);
-  expect(report.recap.decisions.some((decision: { label: string; outcome: string }) => decision.label === 'A VERY SAFE RESCUE BOAT' && decision.outcome.includes('Rescue is a poverty word'))).toBe(true);
+  expect(report.version).toBe(2);
+  expect(report.recap.decisions.some((decision: { label: string; outcome: string }) => decision.label === 'Call it a very safe rescue boat.' && decision.outcome.includes('original product tried to kill you'))).toBe(true);
   expect(report.recap.decisions.some((decision: { kind: string; label: string }) => decision.kind === 'pitch-accepted' && decision.label === 'THE EXECUTIVE VERTICAL DEPARTURE EXPERIENCE')).toBe(true);
   const text = await downloadContents(page, () => page.locator('#btnText').click());
   expect(text.buffer.toString()).toContain('VOYAGE DURATION: 0 min');
   const recap = await downloadContents(page, () => page.locator('#btnRecapText').click());
-  expect(recap.buffer.toString()).toContain('Selected: A VERY SAFE RESCUE BOAT');
+  expect(recap.buffer.toString()).toContain('Selected: Call it a very safe rescue boat.');
+  expect(text.buffer.toString()).toContain('CREW RECORD:');
+  expect(report.choices.l5).toBe('revenue');
+  expect(report.claims[2][1]).toContain('disputed');
   const png = await downloadContents(page, () => page.locator('#btnPNG').click());
   expect(png.buffer.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
   expect(png.buffer.readUInt32BE(16)).toBe(1200);
@@ -81,10 +85,13 @@ test('ten-level voyage exports actual choices and a frozen PNG, text, and JSON r
   await expect(page.locator('#recapRows li')).toHaveCount(0);
   await expect(page.locator('#scoreRows .row')).toHaveCount(0);
   const savedBefore = await page.evaluate(() => localStorage.getItem('boh.exit-strategy.completed.v1'));
-  await playVoyage(page);
+  await playVoyage(page, { route: 'status' });
   const replay = await downloadContents(page, () => page.locator('#btnRecapJSON').click());
   expect(JSON.parse(replay.buffer.toString()).counters.leftDoorClicks).toBe(0);
   expect(JSON.parse(replay.buffer.toString()).counters.wrongPicks).toBe(0);
+  expect(JSON.parse(replay.buffer.toString()).choices.l5).toBe('status');
+  expect(JSON.parse(replay.buffer.toString()).claims[2][1]).toContain('Don’s own tab');
+  expect(JSON.parse(replay.buffer.toString()).verdict).not.toBe(report.verdict);
   expect(await page.evaluate(() => localStorage.getItem('boh.exit-strategy.completed.v1'))).toBe(savedBefore);
   await page.reload();
   await expect(page.locator('#btnStart')).toBeVisible();
@@ -96,6 +103,79 @@ test('ten-level voyage exports actual choices and a frozen PNG, text, and JSON r
   await expect(page.locator('#btnStart')).toBeFocused();
   expect(await page.evaluate(() => localStorage.length)).toBe(0);
   expect(errors).toEqual([]); expect(external).toEqual([]);
+});
+
+test('choice order survives retries, and feedback keeps earlier dialogue available', async ({ page }) => {
+  await page.goto('/apps/exit-strategy.html');
+  await page.locator('#calmSeas').check();
+  await page.locator('#btnStart').click();
+  await page.locator('.doors button.right').click();
+  await page.locator('#controls button').click();
+  await page.locator('#controls button').click();
+  const order = () => page.locator('.option').evaluateAll(buttons => buttons.map(button => (button as HTMLElement).dataset.choice));
+  const before = await order();
+  await page.locator('.option[data-route="flatter"]').click();
+  expect(await order()).toEqual(before);
+  await page.locator('.option[data-route="fail"]').click();
+  expect(await order()).toEqual(before);
+  await expect(page.locator('.option[data-route="fail"]')).toBeDisabled();
+  await expect(page.locator('#transcript')).toContainText('original product tried to kill you');
+  await expect(page.locator('#transcript .line')).toHaveCount(1);
+  await expect(page.locator('#historyPanel')).not.toHaveAttribute('open');
+  await page.locator('#historyPanel summary').click();
+  await expect(page.locator('#historyRows')).toContainText('group survival');
+  await expect(page.locator('#effectNote')).toContainText('Ego -8');
+});
+
+test('pause stops the clock, switching modes preserves puzzle selections, and restart can be cancelled', async ({ page }) => {
+  await page.clock.install();
+  await page.goto('/apps/exit-strategy.html');
+  await page.locator('#calmSeas').uncheck();
+  await page.locator('#btnStart').click();
+  await playVoyage(page, { stopAt: 6, route: 'status' });
+  await page.locator('#controls button').click();
+  await page.getByRole('button', { name: 'PRESIDENTIAL', exact: true }).click();
+  await page.locator('#btnPause').click();
+  const ego = await page.locator('#egoVal').textContent();
+  await page.clock.runFor(65000);
+  await expect(page.locator('#egoVal')).toHaveText(ego!);
+  await page.locator('#btnRestart').click();
+  await page.locator('#btnCancelRestart').click();
+  await page.locator('#calmDuringPlay').check();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#pauseDialog')).not.toBeVisible();
+  await expect(page.getByRole('button', { name: 'PRESIDENTIAL', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#spTimer')).toHaveText('TURN-BASED');
+  await page.clock.runFor(65000);
+  await expect(page.locator('#egoVal')).toHaveText(ego!);
+  await page.locator('#btnPause').click();
+  await page.locator('#btnRestart').click();
+  await page.locator('#btnConfirmRestart').click();
+  await expect(page.locator('#levelKicker')).toHaveText('Level 1 of 10');
+  await expect(page.locator('#historyRows')).toBeEmpty();
+  await expect(page.locator('#starCount')).toHaveText('★★★');
+});
+
+test('a voyage can finish after all Gold Stars are exhausted', async ({ page }) => {
+  test.setTimeout(90000);
+  await page.goto('/apps/exit-strategy.html');
+  await page.locator('#calmSeas').check();
+  await page.locator('#btnStart').click();
+  for (let star = 0; star < 3; star++) {
+    while (!(await page.locator('#starBtn').isEnabled())) await page.locator('.doors button.left').click();
+    await page.locator('#starBtn').click();
+  }
+  await expect(page.locator('#starCount')).toHaveText('☆☆☆');
+  for (let click = 0; click < 3; click++) await page.locator('.doors button.left').click();
+  await page.locator('.doors button.right').click();
+  await page.locator('#controls button').click();
+  await page.locator('#controls button').click();
+  await page.locator('.option[data-route="fail"]').click();
+  await page.locator('.option[data-route="status"]').click();
+  await expect(page.locator('#announcer')).toContainText('His ego is too low to accept instructions');
+  await page.locator('.option[data-route="flatter"]').click();
+  await playVoyage(page, { route: 'status' });
+  await expect(page.locator('#scoreRows')).toContainText('3 / 3');
 });
 
 test('blocked storage and failed PNG leave the voyage and text fallback usable', async ({ page }) => {

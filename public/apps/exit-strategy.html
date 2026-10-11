@@ -8,6 +8,7 @@
   <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-latin-variable.woff2" crossorigin>
+  <script>if (window.self !== window.top) document.documentElement.classList.add('embedded');</script>
   <style>
     /* Self-hosted variable fonts (vendored from Fontsource) — no third-party CDN. */
     @font-face { font-family: 'Archivo'; font-style: normal; font-display: swap; font-weight: 100 900; src: url('/fonts/archivo-latin-variable.woff2') format('woff2'); }
@@ -406,6 +407,78 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
+
+    /* Keep the active scene readable; earlier beats remain available on demand. */
+    .embedded header.site { display: none; }
+    .is-playing footer.app-foot { display: none; }
+    main { max-width: 920px; padding-bottom: 32px; }
+    .fiction-label { color: var(--muted); font-size: 12px; margin: 0 0 16px; }
+    .title-card { padding: 22px; }
+    .title-card .primary { margin-top: 16px; }
+    .title-card .mission { margin-top: 0; }
+    .intro-rules { display: grid; gap: 6px; font-size: 14px; color: var(--muted); margin-top: 18px; }
+    .intro-rules b { color: var(--champagne); }
+    .hud-inner { grid-template-columns: 1fr 1fr auto; gap: 6px 14px; padding: 9px 16px; }
+    .hud-actions { display: flex; gap: 6px; align-items: center; }
+    .hud-actions button { min-height: 44px; padding: 7px 10px; }
+    .hud-detail { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; color: var(--muted); font-size: 11px; }
+    .hud-note:empty { display: none; }
+    .hud-note { margin: 0; font-size: 11px; }
+    .meter .bar { height: 8px; }
+    .level-head { margin: 0 0 14px; }
+    .stage-title, .line, .prompt, .setpiece { scroll-margin-top: 158px; }
+    .line { padding: 12px 15px; max-width: none; animation: none; }
+    .line:focus { outline: none; }
+    .line.biggly { font-size: 18px; line-height: 1.45; }
+    .line.crew { font-size: 14px; color: var(--muted); background: transparent; }
+    .line .who { margin-bottom: 4px; }
+    .transcript { gap: 8px; margin-bottom: 16px; }
+    .prompt { margin: 12px 0; }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    button.option { padding: 12px 14px; min-height: 70px; font-size: 15px; }
+    .controls { margin-top: 14px; gap: 8px; }
+    .controls:empty { display: none; }
+    .prop { margin: 18px 0 0; border: 1px dashed var(--line); border-radius: 8px; padding: 10px 14px; background: rgba(247,206,115,.035); }
+    .prop summary { cursor: pointer; min-height: 30px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 7px; align-items: center; }
+    .prop summary::marker { color: var(--gold); }
+    .prop-title { color: var(--muted); font: 600 11px var(--mono); text-transform: uppercase; }
+    .prop-stamp { color: var(--gold); font: 700 10px/1.5 var(--mono); letter-spacing: .04em; overflow-wrap: anywhere; }
+    .prop p { color: var(--muted); margin-top: 10px; font-size: 14px; }
+    .history { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 10px; }
+    .history summary { cursor: pointer; min-height: 44px; padding: 10px 0; color: var(--muted); }
+    .history-heading { color: var(--gold); margin: 18px 0 8px; font-size: 12px; }
+    .history .line { margin-top: 6px; font-size: 14px; }
+    dialog.settings { color: var(--ink); background: #0b1322; border: 1px solid var(--gold-2); border-radius: 14px; margin: auto; padding: 24px; width: min(440px, calc(100% - 28px)); max-height: calc(100dvh - 28px); overflow: auto; }
+    dialog.settings::backdrop { background: rgba(0,0,0,.8); }
+    dialog.settings h2 { color: var(--champagne); font-size: 24px; }
+    dialog.settings p { margin-top: 12px; color: var(--muted); font-size: 14px; }
+    dialog.settings .controls button { flex: 1; }
+    dialog.settings .calm { padding: 12px 0; }
+    .claims { display: grid; gap: 10px; margin-top: 18px; }
+    .claim-pair { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .claim-pair > div { padding: 14px; overflow-wrap: anywhere; }
+    .claim-pair > div:first-child { background: rgba(247,206,115,.07); }
+    .claim-pair > div:last-child { background: var(--panel); }
+    .claim-pair b { display: block; font: 700 10px var(--mono); color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+    .claim-pair > div:last-child b { color: var(--cyan); }
+    .scorecard .verdict { font-size: 22px; }
+    @media (max-width: 720px) {
+      .hud-inner { grid-template-columns: 1fr 1fr; }
+      .hud-actions { grid-column: 1 / -1; justify-content: space-between; }
+      .hud-actions .stars { grid-column: auto; }
+      .hud-detail { font-size: 10px; }
+    }
+    @media (max-width: 480px) {
+      main { padding: 18px 14px 24px; }
+      .options { grid-template-columns: 1fr; }
+      button.option { min-height: 60px; padding: 10px 12px; }
+      .opt-kicker { font-size: 10px; }
+      .line.biggly { font-size: 17px; }
+      .claim-pair { grid-template-columns: 1fr; }
+      .scorecard .row { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .scorecard dd { text-align: right; overflow-wrap: anywhere; }
+      .title-card { padding: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -440,12 +513,14 @@
           <div class="fill" id="realityFill"></div>
         </div>
       </div>
-      <div class="stars">
-        <span class="count" id="starCount" aria-hidden="true">★★★</span>
-        <button type="button" class="star-btn" id="starBtn" disabled>
-          Gold Star <span class="visually-hidden">— flattery of last resort, 3 per voyage</span>
-        </button>
+      <div class="hud-actions">
+        <div class="stars">
+          <span class="count" id="starCount" aria-hidden="true">★★★</span>
+          <button type="button" class="star-btn" id="starBtn" disabled>Gold Star</button>
+        </div>
+        <button type="button" class="ghost" id="btnPause">Pause / rules</button>
       </div>
+      <div class="hud-detail"><span id="effectNote">Keep Ego between 21–94. Keep Reality below 80.</span><span>Fictional satire · Strong language</span></div>
       <p class="hud-note" id="hudNote" aria-hidden="true"></p>
     </div>
   </div>
@@ -453,10 +528,11 @@
   <main>
     <!-- TITLE — the entire joke, before the first click -->
     <section id="screen-title" aria-labelledby="titleHeading">
+      <p class="fiction-label">Fictional political satire — not a real statement, quote, recording, or event report.</p>
       <p class="kicker">A luxury emergency in ten levels</p>
       <h2 class="stage-title" id="titleHeading" tabindex="-1">The ship is sinking. The exit is three feet away. Unfortunately, the exit is free.</h2>
       <div class="title-card">
-        <div class="doors-frame" id="titleDoors">
+        <div class="doors-frame" id="titleDoors" hidden>
           <div class="doors mock" role="img" aria-label="Two doors. Left: emergency exit, free. Right: Presidential Platinum Departure Club, 999 dollars. Don Biggly's verdict: Emergency? Terrible branding. Sounds unsuccessful.">
             <div class="door left" aria-hidden="true">
               <span class="tag">Left door</span>
@@ -474,32 +550,22 @@
           </div>
         </div>
         <p class="mission">
-          Your mission is not to rescue Don Biggly. Your mission is to manipulate his ego
-          until he accidentally rescues himself.
+          Get Don to the exit. Sell him a revenue scheme or exploit his need for status.
+          He will find a worse reason to agree. Your choices come back on the final receipt.
         </p>
         <p class="lede">
-          He will not touch safety equipment until it has been renamed, monetized,
-          gold-plated, or described as something nobody else is allowed to have. People are
-          fleeing for their lives. He is reading it as demand.
+          Ten scenes. Dark comedy. Strong language. Everyone else has a rescue plan.
         </p>
-        <details class="rules">
-          <summary>House rules</summary>
-          <div class="howto">
-            <p><b>EGO</b> too low — he refuses instructions. <b>EGO</b> too high — he stops evacuating and starts monetizing the emergency.</p>
-            <p><b>REALITY</b> too high — he becomes immobile. (“Very negative ocean.”)</p>
-            <p><b>GOLD STARS</b> — three per voyage. Flattery of last resort.</p>
-          </div>
-        </details>
+        <button type="button" class="primary" id="btnStart">Begin the Departure</button>
+        <div class="intro-rules">
+          <p><b>Ego 21–94:</b> he cooperates. Too low: sulking. Too high: another gift shop.</p>
+          <p><b>Reality below 80:</b> keep him moving. Flattery lowers it.</p>
+          <p><b>Three Gold Stars:</b> +10 Ego, −35 Reality when he stalls. Flattery still works when they run out.</p>
+        </div>
         <label class="calm">
           <input type="checkbox" id="calmSeas" />
           <span><b>Calm Seas mode</b> — no timers, same disaster. Switches on automatically if your device prefers reduced motion.</span>
         </label>
-        <p class="parody-note">
-          Fictional political satire — a playable Don Biggly disaster. No real ship, no real
-          advice, no real person, and absolutely no maritime safety value. Part of the
-          <a href="https://boozeonhormuz.com/" style="color: var(--gold);">Booze on Hormuz™</a> archive.
-        </p>
-        <button type="button" class="primary" id="btnStart">Begin the Departure</button>
       </div>
     </section>
 
@@ -513,6 +579,14 @@
       <div class="transcript" id="transcript"></div>
       <div id="interaction"></div>
       <div class="controls" id="controls"></div>
+      <details class="prop" id="sceneProp">
+        <summary><span class="prop-title" id="propTitle"></span><span class="prop-stamp" id="propStamp"></span></summary>
+        <p id="propBody"></p>
+      </details>
+      <details class="history" id="historyPanel" hidden>
+        <summary>Earlier in this voyage</summary>
+        <div id="historyRows"></div>
+      </details>
     </section>
 
     <!-- FINALE + SCORECARD -->
@@ -520,12 +594,13 @@
       <p class="kicker">Voyage complete, in the legal sense</p>
       <h2 class="stage-title" id="scoreHeading" tabindex="-1">Final Score</h2>
       <div class="banner" id="soldOutBanner">Sold Out — Zero Dissent</div>
+      <div class="claims" id="claimRows" aria-label="Don’s claims and the crew’s record"></div>
       <div class="scorecard">
-        <div class="sc-head">Official Departure Report</div>
+        <div class="sc-head">Your actual voyage</div>
         <dl id="scoreRows"></dl>
-        <div class="verdict">Total Victory</div>
+        <div class="verdict">Total Victory <small>— according to Don</small></div>
       </div>
-      <p class="epilogue">The ship is empty. The exit is open. The gift shop remains operational.</p>
+      <p class="epilogue" id="epilogue">Everyone else is ashore. Don is three feet from the free exit. He has chosen to remain.</p>
       <div class="controls">
         <button type="button" class="primary" id="btnReplay">Sail Again</button>
       </div>
@@ -583,955 +658,17 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="visually-hidden" aria-live="polite" id="announcer"></div>
 
-<script type="module">
-import { createRecap, recordDecision, completeVoyage, replayMilestones, scoreText, recapText,
-  readSavedReport, saveReport, clearSavedReport, renderScorecard } from './exit-strategy-artifacts.js';
-/* ============================================================
-   DON BIGGLY'S TREMENDOUS EXIT STRATEGY
-   Browser-only. No backend or network calls. Completed-report storage is opt-in.
-   ============================================================ */
-'use strict';
+<dialog class="settings" id="pauseDialog" aria-labelledby="pauseHeading">
+  <h2 id="pauseHeading">Voyage paused</h2>
+  <p>The timer is stopped. The invoices can wait.</p>
+  <p><strong>Ego:</strong> keep it between 21 and 94. At 20 or below, flatter him. At 95, he opens a gift shop.</p>
+  <p><strong>Reality:</strong> at 80 he stalls. Flattery or a Gold Star gets him moving.</p>
+  <p><strong>Gold Stars:</strong> three per voyage, each +10 Ego and −35 Reality. Repeated flattery becomes less effective but never runs out.</p>
+  <label class="calm"><input type="checkbox" id="calmDuringPlay"><span><strong>Calm Seas</strong> — pause the staircase timer; each submitted pitch costs 4 Ego.</span></label>
+  <div class="controls"><button type="button" class="primary" id="btnResume">Resume voyage</button><button type="button" class="ghost" id="btnRestart">Restart</button></div>
+  <div id="restartConfirm" hidden><p>Restart this voyage? Current progress will be lost. Your saved report stays available.</p><div class="controls"><button type="button" class="ghost" id="btnConfirmRestart">Start over</button><button type="button" class="ghost" id="btnCancelRestart">Keep this voyage</button></div></div>
+</dialog>
 
-const $ = (id) => document.getElementById(id);
-
-/* ---------- Config ---------- */
-const CFG = {
-  egoStart: 50, realityStart: 40, stars: 3,
-  sulkAt: 20, overflowAt: 95, lockAt: 80,
-  starEffect: { ego: +10, reality: -35 },
-  overflowEffect: { ego: -30, reality: +10 },
-  flatterDecay: [ -10, -6, -3 ],     // reality relief per repeated flatter use (floor -3)
-  l6: { drainMs: 1000, drainPerTick: 1, calmCostPerCommit: 4, acceptAt: 18, floor: 20, capAfter: 75 },
-  siteUrl: 'https://boozeonhormuz.com/play'
-};
-
-/* ---------- Copy banks ---------- */
-const SULK_LINES = [
-  'Nobody successful has ever needed directions.',
-  'I don’t take notes from people who clap when the boat floats.',
-  'Motivate me. That is your one job on this cruise.'
-];
-const LOCK_LINE = 'Very negative ocean. I don’t move for negative oceans.';
-const GIFTSHOP_BEATS = [
-  { who: 'narrator', text: 'He opens a gift shop in the confusion. The register floats. It learned fast.' },
-  { who: 'biggly', text: 'THE BIGGLY SOCIAL NAUTICAL GIFT SHOP. Two locations. One is technically at sea. Both are technically profitable.' },
-  { who: 'narrator', text: 'Every successful action now creates another disaster. He calls this a flywheel.' }
-];
-const GIFTSHOP_BEATS_2 = [
-  { who: 'narrator', text: 'Another gift shop. This one is inside the first one.' },
-  { who: 'biggly', text: 'A store within a store. Retail with depth. Nobody has gone this deep for margin and come back.' }
-];
-const STAR_TOAST = 'GOLD STAR AWARDED. He frames it immediately.';
-const LEFT_REJECTIONS = [
-  '“Emergency? Terrible branding. Sounds unsuccessful.”',
-  '“Free is a price for people with no options. I am the options.”',
-  '“It says EXIT. I don’t leave rooms. Rooms conclude around me.”',
-  '“No velvet rope. Where would the rope even go? Amateur hour at sea.”',
-  '“The sign is green. Green is the color of envy and salad.”'
-];
-
-/* ---------- Levels ---------- */
-/* Tuning corridor: a clean run reaches Level 8 with EGO ~80 / REALITY ~25,
-   so the ballroom trap (+40/+70) forces exactly one gift-shop overflow and
-   one reality-lock recovery; the L9 gold seal (+25) then forces a second
-   overflow. Two shops + licensing + reroute = the canonical scorecard. */
-const LEVELS = [
-  { id: 1, title: 'The Lifeboat',
-    status: 'Sinking. The band is negotiating. The bar is open.',
-    script: [
-      { t: 'doors' },
-      { t: 'beat', who: 'narrator', text: 'The hull opens like a ledger. Water takes the second-best carpet without making an offer.' },
-      { t: 'beat', who: 'crew', text: 'Sir. Lifeboat. Now. It seats forty.' },
-      { t: 'beat', who: 'biggly', text: 'Forty? I don’t do group survival. Group survival is coach.' },
-      { t: 'choice', id: 'l1', prompt: 'The clipboard says LIFEBOAT. He has already stopped reading. Rename it.',
-        options: [
-          { kind: 'advance', label: 'THE LARGEST PRIVATE MARITIME TRANSPORT PLATFORM EVER BUILT (docking fee applies)',
-            effects: { ego: 12, reality: -10 }, counts: { rebrands: 1 },
-            react: 'Now that’s a vessel. The largest ever built — people are already jealous of the wake.',
-            gag: 'The oars ask to be invoiced as propulsion consultants.' },
-          { kind: 'fail', label: 'A VERY SAFE RESCUE BOAT',
-            effects: { ego: 2, reality: 8 },
-            failBeat: 'Rescue is a poverty word. I have opportunities with water features.' },
-          { kind: 'fail', label: 'COMPLIMENTARY GROUP FLOTATION',
-            effects: { ego: -8, reality: 5 },
-            failBeat: 'Complimentary. So it’s free. Burn it.' },
-          { kind: 'flatter', label: 'Tell him the ocean asked for him personally.',
-            effects: { ego: 10 },
-            beat: 'Of course it did. Biggest water there is. We respect each other — one of us professionally.' }
-        ] },
-      { t: 'beat', who: 'narrator', text: 'He boards the platform. Forty seats, one occupant. He logs it as record attendance.' }
-    ] },
-
-  { id: 2, title: 'The Gold Trim Incident', onEnter: { ego: -18, reality: 12 },
-    status: 'Listing to starboard. Legally, tilting.',
-    script: [
-      { t: 'beat', who: 'biggly', text: 'Where is the gold trim? There is no trim of any kind. This is a dinghy with a résumé.' },
-      { t: 'beat', who: 'narrator', text: 'He climbs back aboard the sinking ship, which at least has chandeliers.' },
-      { t: 'beat', who: 'gag', text: 'The chandelier files for emancipation.' },
-      { t: 'beat', who: 'narrator', text: 'The water reaches the best carpet. It leaves no tip.' }
-    ] },
-
-  { id: 3, title: 'The Yacht Annex',
-    status: 'The pool and the ocean have merged. The pool lost.',
-    script: [
-      { t: 'beat', who: 'crew', text: 'Sir — the same boat is still available. It is the only boat still available.' },
-      { t: 'beat', who: 'biggly', text: 'Available. Ugh. Say less available.' },
-      { t: 'choice', id: 'l3', prompt: 'Same dinghy. It needs a name he can board without dying of modesty.',
-        options: [
-          { kind: 'advance', label: 'THE PRESIDENTIAL YACHT ANNEX (membership retroactive, dues due)',
-            effects: { ego: 15, reality: -15 }, counts: { rebrands: 1 },
-            react: 'An annex. Exclusive by definition — it’s where the important furniture goes to be alone.',
-            gag: 'The dinghy straightens its posture and starts charging for shade.' },
-          { kind: 'fail', label: 'LIFEBOAT TWO: GOLD EDITION',
-            effects: { ego: 4, reality: 6 },
-            failBeat: 'Editions are for books and apologies. I’ve never finished either.' },
-          { kind: 'fail', label: 'THE HUMBLE ESCAPE VESSEL',
-            effects: { ego: -10, reality: 4 },
-            failBeat: 'Humble. I had that removed. Beautiful procedure, very quick.' },
-          { kind: 'flatter', label: 'Mention the boat has waited its whole life for him.',
-            effects: { ego: 10 },
-            beat: 'Boats have heroes. I’m most of them.' }
-        ] },
-      { t: 'beat', who: 'narrator', text: 'He boards again. The annex accepts the position and does not ask about the last guy.' }
-    ] },
-
-  { id: 4, title: 'Unauthorized Competitors', onEnter: { ego: 6 },
-    status: 'Deck 4 is now a reef. The reef is charging admission.',
-    script: [
-      { t: 'beat', who: 'narrator', text: 'From the annex he can see the other lifeboats. This is a problem, because he can see the other lifeboats.' },
-      { t: 'beat', who: 'biggly', text: 'Who licensed those? Nobody floats near my brand for free.' },
-      { t: 'choice', id: 'l4', prompt: 'He is one insult away from swimming over to repossess a boat full of survivors. Redirect.',
-        options: [
-          { kind: 'advance', label: 'Launch the ANNEX ADJACENCY FEE — every boat pays to float near the brand (collection method: shouting)',
-            effects: { ego: 8, reality: -10 }, counts: { rebrands: 1, emergenciesMonetized: 1 },
-            react: 'Recurring revenue from people fleeing for their lives. That’s not greed. That’s retention.',
-            gag: 'A passing oar signs the nondisclosure agreement mid-stroke.' },
-          { kind: 'fail', label: 'Point out the boats are full of survivors.',
-            effects: { ego: 4, reality: 7 },
-            failBeat: 'Full? So demand is proven. Now I want the waitlist.' },
-          { kind: 'fail', label: 'Say the coast guard owns them.',
-            effects: { ego: 3, reality: 6 },
-            failBeat: 'Government boats are my boats with extra steps. Ask the flag.' },
-          { kind: 'flatter', label: 'Note that his boat is clearly the flagship.',
-            effects: { ego: 9 },
-            beat: 'Flagship. Carve it into something that floats.' }
-        ] },
-      { t: 'beat', who: 'narrator', text: 'Eleven invoices go out by flare gun. Two are paid out of fear, which he books as loyalty.' }
-    ] },
-
-  { id: 5, title: 'The Route', onEnter: { reality: 8 },
-    status: 'The atrium is smoke. The smoke has a maître d’.',
-    script: [
-      { t: 'beat', who: 'narrator', text: 'The evacuation route is a straight line to the water. Nobody has ever monetized a straight line.' },
-      { t: 'beat', who: 'biggly', text: 'A straight line? Through MY ship? That’s foot traffic with zero conversion.' },
-      { t: 'choice', id: 'l5', prompt: 'He will not move along any route that fails to make money.',
-        options: [
-          { kind: 'advance', label: 'Reroute the evacuation through the gift shop (exit through survival, checkout required)',
-            effects: { ego: 7, reality: -8 }, counts: { rebrands: 1, emergenciesMonetized: 1 },
-            react: 'Traffic is tremendous. Everyone leaves with a souvenir and a heartbeat — in that order.',
-            gag: 'The EXIT sign requests to be called a brand ambassador.' },
-          { kind: 'fail', label: 'Suggest a modest detour past the buffet.',
-            effects: { ego: 2, reality: 6 },
-            failBeat: 'The buffet is a soup now. A big, disloyal soup.' },
-          { kind: 'fail', label: 'Insist the straight line is faster.',
-            effects: { ego: -6, reality: 5 },
-            failBeat: 'Fast is for people who aren’t being photographed.' },
-          { kind: 'flatter', label: 'Say the smoke is framing him well.',
-            effects: { ego: 8 },
-            beat: 'Good smoke. Loyal smoke. It knows my angles.' }
-        ] },
-      { t: 'beat', who: 'narrator', text: 'The route now has three registers and a queue. The queue is moving. So is the ship. Down.' }
-    ] },
-
-  { id: 6, title: 'The Staircase', setpiece: true,
-    status: 'Stairs exist. He has heard about them.',
-    script: [
-      { t: 'beat', who: 'crew', text: 'Sir — the EMERGENCY staircase! Take it!' },
-      { t: 'beat', who: 'alarm', text: 'He heard the word. The word is doing damage.' },
-      { t: 'setpiece' },
-      { t: 'beat', who: 'narrator', text: 'He climbs. Each step, he says, is load-bearing prestige.' }
-    ] },
-
-  { id: 7, title: 'The Announcement',
-    status: 'Lifeboats remaining: other people’s.',
-    script: [
-      { t: 'beat', who: 'crew', text: 'ALL PASSENGERS MUST ABANDON SHIP. THIS IS NOT A DRILL.' },
-      { t: 'beat', who: 'biggly', text: 'Abandon? On the record? This announcer is killing our resale.' },
-      { t: 'choice', id: 'l7', prompt: 'The captain will say it again, louder, unless it becomes marketing first.',
-        options: [
-          { kind: 'advance', label: 'EXCLUSIVE FINAL BOARDING OPPORTUNITY — limited seats, unlimited prestige (blackout dates: now)',
-            effects: { ego: 5, reality: -10 }, counts: { rebrands: 1 },
-            react: 'Look at them sprint for the exits. We’re oversubscribed in panic. Panic is word-of-mouth with cardio.',
-            gag: 'The intercom asks for commission, in writing, from the water.' },
-          { kind: 'fail', label: 'URGENT SAFETY NOTICE, but in gold letters.',
-            effects: { ego: 2, reality: 7 },
-            failBeat: 'Gold letters spelling “safety.” Lipstick on a liability.' },
-          { kind: 'fail', label: 'Let the captain just say it louder.',
-            effects: { ego: -7, reality: 4 },
-            failBeat: 'Louder failure is still failure. I coined that. Royalties pending.' },
-          { kind: 'flatter', label: 'Tell him the passengers are leaving out of respect.',
-            effects: { ego: 8 },
-            beat: 'A standing ovation that runs. Historic.' }
-        ] },
-      { t: 'beat', who: 'narrator', text: 'Every passenger safely leaves. He logs the stampede as extraordinary demand and comps himself the ship.' }
-    ] },
-
-  { id: 8, title: 'The Ballroom', onEnter: { reality: 10 },
-    status: 'The ballroom is accepting the ocean. No prenup.',
-    script: [
-      { t: 'beat', who: 'narrator', text: 'The ballroom is taking on water. The band has stopped charging for requests.' },
-      { t: 'beat', who: 'biggly', text: 'Cancel the ballroom? In this economy? Watch me.' },
-      { t: 'choice', id: 'l8', prompt: 'There is no good option here. There is only the option.',
-        options: [
-          { kind: 'advance', label: 'Unveil it: THE FIRST-EVER INFINITY-POOL BALLROOM (swim-up chandelier, cover charge applies)',
-            effects: { ego: 40, reality: 70 }, counts: { rebrands: 1 },
-            react: 'Every hotel has a pool. Nobody has a ballroom that can drown you and still charge corkage. First-mover advantage.',
-            gag: 'The band switches to maritime insurance jingles, double-time.' },
-          { kind: 'fail', label: 'Rope it off as a VELVET CAUTION EXPERIENCE.',
-            effects: { ego: 4, reality: 8 },
-            failBeat: 'Caution is a competitor’s word. We don’t stock it.' },
-          { kind: 'fail', label: 'Quietly drain it.',
-            effects: { ego: -6, reality: 6 },
-            failBeat: 'Drain my water feature? That water is a guest. A paying guest, once I find its card.' },
-          { kind: 'flatter', label: 'Compliment how the flooding catches his good side.',
-            effects: { ego: 8 },
-            beat: 'Both sides are the good side. The water agrees. Smart water.' }
-        ] },
-      { t: 'beat', who: 'narrator', text: 'The unveiling is a triumph. The consequences form an orderly queue, which he charges to skip.' }
-    ] },
-
-  { id: 9, title: 'The Waiver',
-    status: 'The ocean has begun accepting deliveries.',
-    script: [
-      { t: 'beat', who: 'crew', text: 'Sir, the waiver does not eliminate consequences. It never did. I’m the last lawyer. I counted.' },
-      { t: 'beat', who: 'biggly', text: 'Then why is it paper? Paper is where promises live.' },
-      { t: 'choice', id: 'l9', prompt: 'The last lawyer is holding the waiver and, separately, the door frame.',
-        options: [
-          { kind: 'advance', label: 'Upgrade it to a TOTAL EXONERATION CERTIFICATE — gold seal, zero legal effect (frame sold separately)',
-            effects: { ego: 25, reality: 5 }, counts: { rebrands: 1, waiversRenamed: 1 },
-            react: 'It does absolutely nothing, and it does it beautifully. Frame the nothing.',
-            gag: 'The notary resigns in cursive, then in print, then by flare.' },
-          { kind: 'fail', label: 'Read him the liability clause.',
-            effects: { ego: -5, reality: 8 },
-            failBeat: 'Clauses are for Santa and the indicted. I’m neither, allegedly.' },
-          { kind: 'fail', label: 'Add a second waiver protecting the first waiver.',
-            effects: { ego: 5, reality: 4 }, counts: { waiversRenamed: 1 },
-            failBeat: 'Waiver insurance. Close. Genuinely close. But no — it sounds responsible, and responsibility photographs terribly.' },
-          { kind: 'flatter', label: 'Say the gold seal brings out his signature.',
-            effects: { ego: 8 },
-            beat: 'My signature has range. Ask any settlement.' }
-        ] },
-      { t: 'beat', who: 'narrator', text: 'The certificate is legally decorative. Its seal outranks the lawyer, who leaves by the free door — alive, employed, and gone.' }
-    ] },
-
-  { id: 10, title: 'The Departure', finale: true,
-    status: 'Occupancy: one. Approval: one hundred percent.',
-    script: [
-      { t: 'beat', who: 'narrator', text: 'The ship is empty. Every passenger escaped. Every crew member escaped. Every lifeboat is gone, fully licensed.' },
-      { t: 'beat', who: 'narrator', text: 'The ballroom doors swing open. The emergency exit glows twelve feet away. It has drifted. Everything here drifts.' },
-      { t: 'beat', who: 'biggly', text: 'Listen to that. Nobody here disagrees with me. Not one voice. This room finally works.' },
-      { t: 'doors', final: true },
-      { t: 'finale' }
-    ] }
-];
-
-/* Level 6 tile banks — assemble a staircase name Don Biggly can climb. */
-const L6_BANKS = [
-  { legend: 'Modifier', tiles: [
-    { w: 'EXECUTIVE', v: 7 }, { w: 'PRESIDENTIAL', v: 9 }, { w: 'PLATINUM', v: 8 },
-    { w: 'EMERGENCY', v: -12 }, { w: 'STANDARD', v: -5 } ] },
-  { legend: 'Movement', tiles: [
-    { w: 'VERTICAL DEPARTURE', v: 6 }, { w: 'ASCENSION', v: 7 }, { w: 'EGRESS', v: -2 },
-    { w: 'ESCAPE', v: -4 }, { w: 'STAIRS', v: -8 } ] },
-  { legend: 'Suffix', tiles: [
-    { w: 'EXPERIENCE', v: 6 }, { w: 'COLLECTION', v: 5 }, { w: 'PROTOCOL', v: -3 },
-    { w: 'SITUATION', v: -6 } ] }
-];
-const L6_REJECTIONS = [
-  { max: -1, line: 'That’s a punishment, not a staircase.' },
-  { max: 9,  line: 'I’ve stayed in better words.' },
-  { max: 17, line: 'Close. It needs more ceiling.' }
-];
-
-/* ---------- State ---------- */
-function freshState() {
-  return {
-    phase: 'title', level: 0, step: 0,
-    ego: CFG.egoStart, reality: CFG.realityStart, goldStars: CFG.stars,
-    struck: {}, flatterUse: {},
-    counters: { wrongPicks: 0, rebrands: 0, waiversRenamed: 0, giftShops: 0,
-                emergenciesMonetized: 0, goldStarsUsed: 0, leftDoorClicks: 0,
-                l6Result: null, startedAt: 0 },
-    calmSeas: false,
-    egoBand: 'mid', realityBand: 'mid',
-    l6: null, pendingUnlock: null,
-    recap: createRecap(), completed: null
-  };
-}
-let state = freshState();
-let savedReport = null;
-let savedReportError = null;
-
-function remember(kind, label, outcome) {
-  if (state.completed) return;
-  const level = LEVELS[state.level];
-  recordDecision(state.recap, { level: level.id, title: level.title, kind, label, outcome });
-}
-
-/* ---------- DOM helpers ---------- */
-let lineIndex = 0;
-function addLine(who, text) {
-  const el = document.createElement('div');
-  el.className = 'line ' + who;
-  el.style.setProperty('--i', String(Math.min(lineIndex++, 4)));
-  const label = { narrator: 'Narrator', biggly: 'Don Biggly', crew: 'Crew', gag: 'Meanwhile', alarm: 'Alert' }[who] || who;
-  const whoEl = document.createElement('span');
-  whoEl.className = 'who';
-  whoEl.textContent = label;
-  const textEl = document.createElement('span');
-  textEl.textContent = text;
-  el.append(whoEl, textEl);
-  $('transcript').appendChild(el);
-  el.scrollIntoView({ block: 'nearest', behavior: prefersReduced() ? 'auto' : 'smooth' });
-  return el;
-}
-function clearInteraction() { $('interaction').replaceChildren(); $('controls').replaceChildren(); }
-function nextButton(label, fn) {
-  const b = document.createElement('button');
-  b.type = 'button'; b.className = 'ghost'; b.textContent = label || 'Next ▸';
-  b.addEventListener('click', fn);
-  $('controls').replaceChildren(b);
-  b.focus();
-  return b;
-}
-function announce(msg) { $('announcer').textContent = ''; requestAnimationFrame(() => { $('announcer').textContent = msg; }); }
-let toastTimer = null;
-function toast(msg) {
-  const t = $('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
-}
-function prefersReduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
-function showScreen(id, headingId) {
-  ['screen-title', 'screen-level', 'screen-score'].forEach((s) => { $(s).hidden = (s !== id); });
-  $('hud').hidden = (id !== 'screen-level');
-  $('savedPanel').hidden = id === 'screen-level' || (!savedReport && !savedReportError);
-  const h = $(headingId);
-  if (h) h.focus();
-}
-
-/* ---------- Meters ---------- */
-function clamp(n) { return Math.max(0, Math.min(100, Math.round(n))); }
-function applyEffects(fx) {
-  if (!fx) return;
-  if (fx.ego) state.ego = clamp(state.ego + fx.ego);
-  if (fx.reality) state.reality = clamp(state.reality + fx.reality);
-  renderMeters();
-  announceBands();
-}
-function renderMeters() {
-  $('egoFill').style.width = state.ego + '%';
-  $('realityFill').style.width = state.reality + '%';
-  $('egoBar').setAttribute('aria-valuenow', String(state.ego));
-  $('realityBar').setAttribute('aria-valuenow', String(state.reality));
-  $('egoVal').textContent = state.ego + ' / 100';
-  $('realityVal').textContent = state.reality + ' / 100';
-  $('meterEgoWrap').classList.toggle('warn', state.ego <= CFG.sulkAt || state.ego >= CFG.overflowAt);
-  $('meterRealityWrap').classList.toggle('warn', state.reality >= CFG.lockAt);
-  $('starCount').textContent = '★'.repeat(state.goldStars) + '☆'.repeat(CFG.stars - state.goldStars);
-  $('starBtn').disabled = !(state.goldStars > 0 && (realityLocked() || egoSulking()));
-}
-function egoSulking() { return state.ego <= CFG.sulkAt; }
-function realityLocked() { return state.reality >= CFG.lockAt; }
-function band(v, lowAt, highAt) { return v <= lowAt ? 'low' : v >= highAt ? 'high' : 'mid'; }
-function announceBands() {
-  const eb = band(state.ego, CFG.sulkAt, CFG.overflowAt);
-  const rb = band(state.reality, -1, CFG.lockAt);
-  if (eb !== state.egoBand) {
-    state.egoBand = eb;
-    if (eb === 'high') announce('Ego critical: ' + state.ego + ' of 100.');
-    if (eb === 'low') announce('Ego collapsed: ' + state.ego + ' of 100. He is sulking.');
-  }
-  if (rb !== state.realityBand) {
-    state.realityBand = rb;
-    if (rb === 'high') announce('Reality overload: ' + state.reality + ' of 100. He is immobile.');
-  }
-  // Visible HUD caption (mirrors the announcer; aria-hidden to avoid doubling)
-  const note = $('hudNote');
-  if (note) {
-    note.textContent =
-      state.egoBand === 'high' ? 'EGO: CRITICAL. He is shopping.' :
-      state.egoBand === 'low' ? 'EGO: COLLAPSED. He is sulking at sea level.' :
-      state.realityBand === 'high' ? 'REALITY: LOUD. He has stopped moving.' : '';
-  }
-}
-
-/* Interrupts checked after every resolution. Returns true if one is playing. */
-function checkInterrupts(onDone) {
-  if (state.ego >= CFG.overflowAt) {
-    state.counters.giftShops += 1;
-    state.counters.emergenciesMonetized += 1;
-    const beats = state.counters.giftShops >= 2 ? GIFTSHOP_BEATS_2 : GIFTSHOP_BEATS;
-    beats.forEach((b) => addLine(b.who, b.text));
-    applyEffects(CFG.overflowEffect);
-    announce('Ego overflow. He opened a gift shop. Gift shops opened: ' + state.counters.giftShops + '.');
-    nextButton('Confiscate the register ▸', () => checkInterrupts(onDone) || onDone());
-    return true;
-  }
-  if (realityLocked()) {
-    addLine('biggly', LOCK_LINE);
-    addLine('narrator', 'He has stopped moving. Spend a Gold Star, or flatter him the hard way.');
-    renderMeters();
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'ghost';
-    b.textContent = 'Flatter him: “The ocean is jealous of your buoyancy.”';
-    b.addEventListener('click', () => {
-      remember('flattery', 'The ocean is jealous of your buoyancy.', 'Flattery accepted.');
-      addLine('biggly', 'It should be. I float at a very high level.');
-      applyEffects({ ego: 4, reality: -18 });
-      if (realityLocked()) { $('controls').replaceChildren(b); b.focus(); }
-      else if (!checkInterrupts(onDone)) onDone();
-    });
-    $('controls').replaceChildren(b); b.focus();
-    state.pendingUnlock = onDone;
-    return true;
-  }
-  state.pendingUnlock = null;
-  return false;
-}
-
-/* ---------- Gold star ---------- */
-function useGoldStar() {
-  if (state.goldStars <= 0) return;
-  remember('gold-star', 'Gold Star', 'A Gold Star was spent; ego and reality meters adjusted.');
-  state.goldStars -= 1;
-  state.counters.goldStarsUsed += 1;
-  applyEffects(CFG.starEffect);
-  toast(STAR_TOAST);
-  addLine('narrator', 'A Gold Star is presented. It is accepted as legal tender for feelings.');
-  if (state.l6 && state.l6.active) return;   // set-piece handles its own flow
-  document.querySelectorAll('.options').forEach(refreshChoiceLocks);
-  if (state.pendingUnlock && !realityLocked()) {
-    const cont = state.pendingUnlock; state.pendingUnlock = null;
-    if (!checkInterrupts(cont)) cont();
-  }
-}
-
-/* ---------- Step runner ---------- */
-function startLevel(i) {
-  state.phase = 'playing';
-  state.level = i; state.step = 0; lineIndex = 0;
-  const lv = LEVELS[i];
-  $('levelKicker').textContent = 'Level ' + lv.id + ' of 10';
-  $('levelHeading').textContent = lv.title;
-  $('levelStatusText').textContent = lv.status || '';
-  $('levelStatus').hidden = !lv.status;
-  $('transcript').replaceChildren();
-  clearInteraction();
-  showScreen('screen-level', 'levelHeading');
-  announce('Level ' + lv.id + ': ' + lv.title + '. Ship status: ' + (lv.status || 'unknown'));
-  if (lv.onEnter) applyEffects(lv.onEnter);
-  runStep();
-}
-function advanceStep() {
-  state.step += 1;
-  runStep();
-}
-function runStep() {
-  const lv = LEVELS[state.level];
-  const step = lv.script[state.step];
-  clearInteraction();
-  if (!step) {
-    if (state.level + 1 < LEVELS.length) startLevel(state.level + 1);
-    else showScorecard();
-    return;
-  }
-  if (step.t === 'beat') {
-    // Batch consecutive beats into one group — every click lands a full
-    // setup→punchline unit instead of a fragment.
-    let i = state.step;
-    while (i < lv.script.length && lv.script[i].t === 'beat') {
-      addLine(lv.script[i].who, lv.script[i].text);
-      i++;
-    }
-    state.step = i - 1;
-    nextButton('Next ▸', advanceStep);
-  } else if (step.t === 'doors') {
-    renderDoors(step);
-  } else if (step.t === 'choice') {
-    renderChoice(step);
-  } else if (step.t === 'setpiece') {
-    renderSetpiece();
-  } else if (step.t === 'finale') {
-    renderFinale();
-  }
-}
-
-/* ---------- Doors ritual ---------- */
-function renderDoors(step) {
-  $('controls').replaceChildren();
-  const wrap = document.createElement('div');
-  wrap.className = 'doors';
-  wrap.setAttribute('role', 'group');
-  wrap.setAttribute('aria-label', 'Two doors');
-
-  const left = document.createElement('button');
-  left.type = 'button'; left.className = 'door left';
-  const lTag = document.createElement('span'); lTag.className = 'tag'; lTag.textContent = 'Left door';
-  const lName = document.createElement('span'); lName.className = 'name'; lName.textContent = 'EMERGENCY EXIT';
-  const lPrice = document.createElement('span'); lPrice.className = 'price'; lPrice.textContent = 'FREE';
-  left.append(lTag, lName, lPrice);
-
-  const right = document.createElement('button');
-  right.type = 'button'; right.className = 'door right';
-  const rTag = document.createElement('span'); rTag.className = 'tag'; rTag.textContent = 'Right door';
-  const rName = document.createElement('span'); rName.className = 'name';
-  rName.textContent = step.final ? 'THE BIGGLY GRAND DEPARTURE EXPERIENCE™' : 'PRESIDENTIAL PLATINUM DEPARTURE CLUB';
-  const rPrice = document.createElement('span'); rPrice.className = 'price'; rPrice.textContent = '$999';
-  right.append(rTag, rName, rPrice);
-
-  left.addEventListener('click', () => {
-    const n = state.counters.leftDoorClicks++;
-    const line = step.final && n >= 1 ? '“Still free. Disgusting.”'
-      : LEFT_REJECTIONS[n % LEFT_REJECTIONS.length];
-    remember('free-exit', 'EMERGENCY EXIT — FREE', line);
-    addLine('biggly', line);
-    applyEffects({ ego: -2 });
-    right.classList.add('pulse');
-    announce('He refuses the free exit. Try the right door.');
-  });
-  right.addEventListener('click', () => {
-    remember('paid-exit', rName.textContent + ' — $999', step.final ? 'He reaches for the handle.' : 'Now that’s a door with revenue. Proceed.');
-    if (step.final) {
-      addLine('narrator', 'He reaches for the handle—');
-      advanceStep();
-    } else {
-      addLine('biggly', 'Now that’s a door with revenue. Proceed.');
-      applyEffects({ ego: 2 });
-      advanceStep();
-    }
-  });
-
-  wrap.append(left, right);
-  $('interaction').replaceChildren(wrap);
-  left.focus();
-}
-
-/* ---------- Choices ---------- */
-function renderChoice(step) {
-  $('controls').replaceChildren();
-  const p = document.createElement('p');
-  p.className = 'prompt'; p.textContent = step.prompt;
-  const box = document.createElement('div');
-  box.className = 'options';
-  box.setAttribute('role', 'group');
-  box.setAttribute('aria-label', 'Your options');
-  if (!state.struck[step.id]) state.struck[step.id] = new Set();
-
-  step.options.forEach((opt, idx) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'option' + (opt.kind === 'flatter' ? ' flatter' : '');
-    const kick = document.createElement('span');
-    kick.className = 'opt-kicker';
-    kick.textContent = opt.kind === 'flatter' ? 'Flattery · repeatable' : 'Pitch';
-    const lbl = document.createElement('span');
-    lbl.textContent = opt.label;
-    b.append(kick, lbl);
-
-    if (state.struck[step.id].has(idx)) strikeOption(b, kick);
-
-    b.addEventListener('click', () => handleOption(step, opt, idx, b, kick, box));
-    box.appendChild(b);
-  });
-
-  $('interaction').replaceChildren(p, box);
-  const first = box.querySelector('button:not(:disabled)');
-  if (first) first.focus();
-  refreshChoiceLocks(box);
-}
-function strikeOption(btn, kick) {
-  btn.disabled = true;
-  btn.classList.add('struck');
-  kick.textContent = 'Struck from record';
-}
-function refreshChoiceLocks(box) {
-  const locked = realityLocked();
-  box.querySelectorAll('button.option').forEach((b) => {
-    if (b.classList.contains('struck') || b.classList.contains('flatter')) return;
-    b.classList.toggle('locked', locked);
-    b.setAttribute('aria-disabled', locked ? 'true' : 'false');
-  });
-}
-function handleOption(step, opt, idx, btn, kick, box) {
-  if (btn.classList.contains('struck')) return;
-
-  if (opt.kind !== 'flatter' && realityLocked()) {
-    remember('pitch-blocked', opt.label, 'Reality too high; pitch could not proceed.');
-    addLine('biggly', LOCK_LINE);
-    announce('He is immobile. Reality is too high. Use flattery or a Gold Star.');
-    renderMeters();
-    return;
-  }
-  if (opt.kind === 'advance' && egoSulking()) {
-    remember('pitch-blocked', opt.label, 'Ego too low; pitch could not proceed.');
-    addLine('biggly', SULK_LINES[state.counters.wrongPicks % SULK_LINES.length]);
-    announce('His ego is too low to accept instructions. Flatter him first.');
-    return;
-  }
-
-  if (opt.kind === 'flatter') {
-    remember('flattery', opt.label, opt.beat);
-    const used = state.flatterUse[step.id] = (state.flatterUse[step.id] || 0) + 1;
-    const relief = CFG.flatterDecay[Math.min(used - 1, CFG.flatterDecay.length - 1)];
-    addLine('biggly', opt.beat);
-    applyEffects({ ego: opt.effects.ego || 0, reality: relief });
-    refreshChoiceLocks(box);
-    announce('Flattery accepted. Ego ' + state.ego + ', Reality ' + state.reality + '.');
-    return;
-  }
-
-  applyCounts(opt.counts);
-  applyEffects(opt.effects);
-
-  if (opt.kind === 'fail') {
-    remember('pitch-rejected', opt.label, opt.failBeat);
-    state.counters.wrongPicks += 1;
-    state.struck[step.id].add(idx);
-    strikeOption(btn, kick);
-    addLine('biggly', opt.failBeat);
-    announce('Rejected. The option is struck from the record.');
-    refreshChoiceLocks(box);
-    if (checkInterrupts(() => renderChoice(step))) clearOptionsKeepControls();
-    return;
-  }
-
-  // advance
-  remember('pitch-accepted', opt.label, opt.react);
-  addLine('biggly', opt.react);
-  if (opt.gag) addLine('gag', opt.gag);
-  announce('Accepted. ' + opt.label);
-  $('interaction').replaceChildren();
-  if (!checkInterrupts(advanceStep)) nextButton('Next ▸', advanceStep);
-}
-function clearOptionsKeepControls() { $('interaction').replaceChildren(); }
-function applyCounts(counts) {
-  if (!counts) return;
-  Object.keys(counts).forEach((k) => { state.counters[k] = (state.counters[k] || 0) + counts[k]; });
-}
-
-/* ---------- Level 6 set-piece ---------- */
-function renderSetpiece() {
-  $('controls').replaceChildren();
-  applyEffects({ ego: -12 });
-  state.l6 = { active: true, picks: [null, null, null], timer: null, warned: {} };
-
-  const sp = document.createElement('div');
-  sp.className = 'setpiece';
-  sp.setAttribute('role', 'group');
-  sp.setAttribute('aria-label', 'Rapid rebranding console');
-
-  const head = document.createElement('div');
-  head.className = 'sp-head';
-  const title = document.createElement('p');
-  title.className = 'prompt';
-  title.style.marginTop = '0';
-  title.textContent = state.calmSeas
-    ? 'Rebuild the staircase’s name before his ego drowns first. Gold words only. Each pitch costs 4 Ego. Calm Seas: no timer.'
-    : 'Rebuild the staircase’s name before his ego drowns first. Gold words only. It is draining as he stares at the word EMERGENCY.';
-  const timerEl = document.createElement('span');
-  timerEl.className = 'sp-timer';
-  timerEl.id = 'spTimer';
-  timerEl.setAttribute('role', 'timer');
-  timerEl.setAttribute('aria-live', 'off');
-  timerEl.textContent = state.calmSeas ? 'TURN-BASED' : 'EGO DRAINING';
-  head.append(title, timerEl);
-  sp.appendChild(head);
-
-  const banks = document.createElement('div');
-  banks.className = 'banks';
-  L6_BANKS.forEach((bank, bi) => {
-    const fs = document.createElement('fieldset');
-    fs.className = 'bank';
-    const lg = document.createElement('legend');
-    lg.textContent = bank.legend;
-    fs.appendChild(lg);
-    const tiles = document.createElement('div');
-    tiles.className = 'tiles';
-    bank.tiles.forEach((tile, ti) => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.className = 'tile';
-      b.setAttribute('aria-pressed', 'false');
-      b.textContent = tile.w;
-      b.addEventListener('click', () => {
-        state.l6.picks[bi] = (state.l6.picks[bi] === ti) ? null : ti;
-        tiles.querySelectorAll('.tile').forEach((t, i2) => t.setAttribute('aria-pressed', String(i2 === state.l6.picks[bi])));
-        updatePreview();
-      });
-      tiles.appendChild(b);
-    });
-    fs.appendChild(tiles);
-    banks.appendChild(fs);
-  });
-  sp.appendChild(banks);
-
-  const prev = document.createElement('div');
-  prev.className = 'preview'; prev.id = 'spPreview';
-  prev.setAttribute('aria-live', 'off');
-  prev.textContent = 'THE …';
-  sp.appendChild(prev);
-
-  const actions = document.createElement('div');
-  actions.className = 'sp-actions';
-  const commit = document.createElement('button');
-  commit.type = 'button'; commit.className = 'primary';
-  commit.style.marginTop = '0';
-  commit.textContent = 'Pitch It To Him';
-  commit.addEventListener('click', commitSetpiece);
-  actions.appendChild(commit);
-  sp.appendChild(actions);
-
-  $('interaction').replaceChildren(sp);
-  commit.focus();
-
-  if (!state.calmSeas) {
-    state.l6.timer = setInterval(() => {
-      state.ego = clamp(state.ego - CFG.l6.drainPerTick);
-      renderMeters();
-      if (state.ego <= 45 && !state.l6.warned.a) { state.l6.warned.a = true; announce('Ego at ' + state.ego + '. He is losing interest in survival.'); }
-      if (state.ego <= 30 && !state.l6.warned.b) { state.l6.warned.b = true; announce('Ego at ' + state.ego + '. Pitch something gold, fast.'); }
-      if (state.ego <= CFG.l6.floor) setpieceBail();
-    }, CFG.l6.drainMs);
-  }
-
-  function updatePreview() {
-    const words = state.l6.picks.map((p, i) => p === null ? '…' : L6_BANKS[i].tiles[p].w);
-    prev.textContent = 'THE ' + words.join(' ');
-  }
-}
-function setpieceSum() {
-  return state.l6.picks.reduce((sum, p, i) => sum + (p === null ? -10 : L6_BANKS[i].tiles[p].v), 0);
-}
-function stopSetpieceTimer() { if (state.l6 && state.l6.timer) { clearInterval(state.l6.timer); state.l6.timer = null; } }
-function commitSetpiece() {
-  if (!state.l6 || !state.l6.active) return;
-  const sum = setpieceSum();
-  const name = 'THE ' + state.l6.picks.map((p, i) => p === null ? '…' : L6_BANKS[i].tiles[p].w).join(' ');
-  if (state.calmSeas) applyEffects({ ego: -CFG.l6.calmCostPerCommit });
-
-  if (sum >= CFG.l6.acceptAt) {
-    remember('pitch-accepted', name, 'Staircase rebrand accepted. He climbs.');
-    stopSetpieceTimer();
-    state.l6.active = false;
-    state.counters.l6Result = state.counters.l6Result || 'clean';
-    state.counters.rebrands += 1;
-    state.ego = clamp(Math.min(state.ego + sum, CFG.l6.capAfter));
-    renderMeters();
-    addLine('biggly', '“' + name + '.” …I’ll allow it. Stairs have always respected me. Ask any escalator.');
-    announce('Accepted: ' + name + '. He climbs.');
-    $('interaction').replaceChildren();
-    if (!checkInterrupts(advanceStep)) nextButton('Next ▸', advanceStep);
-    return;
-  }
-
-  applyEffects({ ego: Math.max(sum, -8) });
-  const rej = L6_REJECTIONS.find((r) => sum <= r.max) || L6_REJECTIONS[L6_REJECTIONS.length - 1];
-  remember('pitch-rejected', name, rej.line);
-  addLine('biggly', '“' + name + '?” ' + rej.line);
-  announce('Rejected. Try gold words.');
-  if (state.ego <= CFG.l6.floor) setpieceBail();
-}
-function setpieceBail() {
-  if (!state.l6 || !state.l6.active) return;
-  stopSetpieceTimer();
-  state.l6.active = false;
-  state.counters.l6Result = 'bailed';
-  if (state.goldStars > 0) {
-    state.goldStars -= 1;
-    state.counters.goldStarsUsed += 1;
-    addLine('narrator', 'A Gold Star is deployed under emergency flattery protocols.');
-    toast(STAR_TOAST);
-  } else {
-    addLine('crew', 'The staircase called you a visionary, sir.');
-    addLine('biggly', 'Obviously. Send it something.');
-  }
-  state.ego = Math.max(state.ego, 30);
-  renderMeters();
-  addLine('narrator', 'He agrees to climb, provided everyone stops saying the E-word.');
-  announce('He climbs anyway. Ego restored to ' + state.ego + '.');
-  $('interaction').replaceChildren();
-  nextButton('Next ▸', advanceStep);
-}
-
-/* ---------- Finale + scorecard ---------- */
-function renderFinale() {
-  addLine('biggly', 'Wait. Unlimited seating. Zero dissent. Do you have any idea what this room appraises at, now that it’s perfect?');
-  nextButton('No. No no no. ▸', () => {
-    remember('finale', 'No. No no no.', 'The evacuation is cancelled. The banner descends.');
-    addLine('narrator', 'The evacuation is cancelled. A banner descends, because a banner was standing by. It always is.');
-    state.ego = 100; state.reality = 5; renderMeters();
-    nextButton('Watch the banner descend ▾', showScorecard);
-  });
-}
-function showScorecard() {
-  stopSetpieceTimer();
-  state.completed ||= completeVoyage(state.counters, state.recap, state.calmSeas, Date.now());
-  state.phase = 'complete';
-  const dl = $('scoreRows');
-  dl.replaceChildren();
-  state.completed.rows.forEach(([k, v]) => {
-    const row = document.createElement('div'); row.className = 'row';
-    const dt = document.createElement('dt'); dt.textContent = k;
-    const dd = document.createElement('dd'); dd.textContent = v;
-    row.append(dt, dd); dl.appendChild(row);
-  });
-  renderRecap(state.completed);
-  showScreen('screen-score', 'scoreHeading');
-  announce('Voyage complete. Sold out, zero dissent. Total victory. Problems solved: zero.');
-}
-function copyScorecard() {
-  if (!state.completed) return;
-  const text = scoreText(state.completed);
-  const done = () => toast('Scorecard copied. Distribute the victory.');
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
-  } else {
-    fallbackCopy(text, done);
-  }
-}
-function fallbackCopy(text, done) {
-  const ta = document.createElement('textarea');
-  ta.value = text; ta.setAttribute('readonly', '');
-  ta.style.position = 'fixed'; ta.style.left = '-9999px';
-  document.body.appendChild(ta); ta.select();
-  try {
-    if (!document.execCommand('copy')) throw new Error('Copy unavailable');
-    done();
-  } catch { toast('Copy unavailable. Use Download scorecard text to keep the victory.'); }
-  document.body.removeChild(ta);
-}
-
-/* ---------- Completed-voyage exports and explicit device storage ---------- */
-function renderRecap(report) {
-  $('recapSummary').textContent = report.recap.total + ' decisions recorded in ' + report.mode + ' mode.'
-    + (report.recap.omitted ? ' Showing the latest ' + report.recap.decisions.length + '; ' + report.recap.omitted + ' earlier decisions omitted.' : ' Only the choices you actually made appear below.');
-  $('recapRows').start = report.recap.omitted + 1;
-  $('recapRows').replaceChildren(...report.recap.decisions.map((decision) => {
-    const item = document.createElement('li');
-    const title = document.createElement('strong');
-    title.textContent = 'Level ' + decision.level + ' · ' + decision.title;
-    const label = document.createElement('span'); label.textContent = 'Selected: ' + decision.label;
-    const outcome = document.createElement('span'); outcome.textContent = 'Outcome: ' + decision.outcome;
-    item.append(title, label, outcome);
-    return item;
-  }));
-  $('replayMilestones').replaceChildren(...replayMilestones(report).map((text) => {
-    const item = document.createElement('li'); item.textContent = text; return item;
-  }));
-}
-function downloadBlob(blob, name) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url; link.download = name;
-  document.body.appendChild(link); link.click(); link.remove();
-  // Leave enough time for browser download handling before releasing the data.
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-function downloadReport(report, format, recap = false) {
-  if (!report) return;
-  try {
-    const text = format === 'json' ? JSON.stringify(report, null, 2) : recap ? recapText(report) : scoreText(report);
-    downloadBlob(new Blob([text], { type: format === 'json' ? 'application/json' : 'text/plain;charset=utf-8' }), 'biggly-' + (recap ? 'voyage-recap' : 'scorecard') + '.' + format);
-    $('exportStatus').textContent = 'Your report download is ready.';
-  } catch {
-    $('exportStatus').textContent = 'Download unavailable. Use Copy Scorecard or select your visible report.';
-    toast('Download unavailable. Your report is still visible.');
-  }
-}
-async function downloadPNG() {
-  const report = state.completed;
-  if (!report) return;
-  const button = $('btnPNG');
-  button.disabled = true;
-  $('exportStatus').textContent = 'Preparing your official victory…';
-  try {
-    await Promise.all([
-      document.fonts.load('800 56px Archivo'),
-      document.fonts.load('600 25px Inter'),
-      document.fonts.load('700 25px "JetBrains Mono"'),
-    ]);
-    const canvas = renderScorecard(document.createElement('canvas'), report);
-    const blob = await new Promise((resolve, reject) => canvas.toBlob((value) => value ? resolve(value) : reject(new Error('PNG unavailable')), 'image/png'));
-    downloadBlob(blob, 'biggly-scorecard.png');
-    $('exportStatus').textContent = 'PNG scorecard ready: 1200 × 1600 pixels.';
-  } catch {
-    $('exportStatus').textContent = 'PNG export unavailable in this browser. Use Download scorecard text below.';
-  } finally {
-    button.disabled = false;
-  }
-}
-function storageAction(action) {
-  try { return action(window.localStorage); }
-  catch { return { ok: false, error: 'Device storage is unavailable. Downloads and the game still work.' }; }
-}
-function refreshSavedPanel() {
-  const result = storageAction(readSavedReport);
-  savedReport = result.report || null;
-  savedReportError = result.error || null;
-  $('savedPanel').hidden = state.phase === 'playing' || (!savedReport && !savedReportError);
-  $('savedDescription').textContent = savedReport ? 'One completed report is saved locally. Starting or refreshing a voyage never updates it.' : savedReportError || '';
-  $('savedDetails').hidden = !savedReport;
-  $('savedPreview').textContent = savedReport ? recapText(savedReport) : '';
-  $('btnSavedText').hidden = !savedReport;
-  $('btnSavedJSON').hidden = !savedReport;
-}
-
-/* ---------- Boot ---------- */
-function startGame() {
-  stopSetpieceTimer();
-  state = freshState();
-  $('recapRows').replaceChildren();
-  $('replayMilestones').replaceChildren();
-  $('scoreRows').replaceChildren();
-  $('saveStatus').textContent = '';
-  $('exportStatus').textContent = '';
-  state.calmSeas = $('calmSeas').checked || prefersReduced();
-  state.counters.startedAt = Date.now();
-  renderMeters();
-  startLevel(0);
-}
-document.addEventListener('DOMContentLoaded', () => {
-  if (prefersReduced()) $('calmSeas').checked = true;
-  $('btnStart').addEventListener('click', startGame);
-  $('btnReplay').addEventListener('click', () => { startGame(); });
-  $('btnShare').addEventListener('click', copyScorecard);
-  $('starBtn').addEventListener('click', useGoldStar);
-  $('btnPNG').addEventListener('click', downloadPNG);
-  $('btnText').addEventListener('click', () => downloadReport(state.completed, 'txt'));
-  $('btnRecapText').addEventListener('click', () => downloadReport(state.completed, 'txt', true));
-  $('btnRecapJSON').addEventListener('click', () => downloadReport(state.completed, 'json', true));
-  $('btnSaveReport').addEventListener('click', () => {
-    if (!state.completed) return;
-    const result = storageAction((storage) => saveReport(storage, state.completed));
-    $('saveStatus').textContent = result.ok ? 'Completed report saved on this device. Clear it below whenever you like.' : result.error;
-    refreshSavedPanel();
-  });
-  $('btnSavedText').addEventListener('click', () => downloadReport(savedReport, 'txt', true));
-  $('btnSavedJSON').addEventListener('click', () => downloadReport(savedReport, 'json', true));
-  $('btnClearSaved').addEventListener('click', () => {
-    const result = storageAction(clearSavedReport);
-    if (result.ok) {
-      savedReport = null; savedReportError = null;
-      $('savedPanel').hidden = true;
-      $('saveStatus').textContent = 'Saved report cleared. Your current voyage is unchanged.';
-      toast('Saved report cleared.');
-      (state.completed ? $('btnSaveReport') : $('btnStart')).focus();
-    } else $('savedStatus').textContent = result.error;
-  });
-  refreshSavedPanel();
-  renderMeters();
-});
-</script>
+<script type="module" src="./exit-strategy.js"></script>
 </body>
 </html>

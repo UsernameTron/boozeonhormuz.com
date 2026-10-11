@@ -11,7 +11,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <header class="play-intro font-body">
     <p class="text-eyebrow uppercase text-gold-ink">A playable disaster</p>
     <h1 class="font-display text-ink">Don Biggly's Tremendous Exit Strategy</h1>
-    <p class="text-ink-soft">Ten levels. Two meters. One very expensive refusal to leave.</p>
+    <p class="text-ink-soft">Ten scenes. Two ways to feed his ego. One receipt you helped write.</p>
   </header>
 
   <div class="play-wrap">
@@ -26,11 +26,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         title="Don Biggly's Tremendous Exit Strategy"
         loading="eager"
       ></iframe>
-      <p class="play-disclaimer text-ink-soft">
-        Runs in your browser. No accounts or tracking. A completed report stays on this device only
-        when you choose Save. Fictional satire with zero maritime safety value.
-        <a href="/legal" class="text-gold-ink">Very Legal Disclaimer</a>.
-      </p>
     </dialog>
   </div>
 </BaseLayout>
@@ -41,15 +36,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .play-intro > p:last-child { margin-top: .75rem; font-size: .95rem; }
   .play-wrap { max-width: 72rem; margin: 0 auto; padding: 0 1rem 3rem; }
   .play-stage { position: static; width: 100%; max-width: none; max-height: none; padding: 0; margin: 0; border: 1px solid var(--color-line); border-radius: .75rem; background: var(--color-charcoal); color: var(--color-ink); overflow: hidden; }
-  .play-stage[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+  .play-stage[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
   .play-toolbar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .6rem .75rem; }
   .play-toolbar p { font-size: .85rem; }
   .play-toggle { flex-shrink: 0; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--color-gold-ink); border-radius: .4rem; color: var(--color-gold-ink); font-size: .85rem; cursor: pointer; }
   .play-toggle:hover { background: color-mix(in srgb, var(--color-gold-ink) 12%, transparent); }
-  .play-toggle:focus-visible, .play-disclaimer a:focus-visible { outline: 3px solid var(--color-gold-ink); outline-offset: 3px; }
+  .play-toggle:focus-visible { outline: 3px solid var(--color-gold-ink); outline-offset: 3px; }
   iframe { display: block; width: 100%; height: 82vh; height: 82dvh; min-height: 580px; border: 0; background: #040810; }
-  .play-disclaimer { margin: 0; padding: .75rem; border-top: 1px solid var(--color-line); font-size: .75rem; line-height: 1.5; }
-  .play-disclaimer a { text-decoration: underline; text-underline-offset: 3px; }
   .play-stage.expanded { position: fixed; inset: 0; margin: 0; width: 100%; height: 100vh; height: 100dvh; max-width: 100vw; max-height: 100dvh; border-radius: 0; }
   .play-stage.expanded iframe { height: 100%; min-height: 0; }
   .play-stage::backdrop { background: #040810; }
@@ -94,7 +87,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     });
     // Keyboard events inside the frame do not bubble into the wrapper.
     const onFrameKeydown = (event: KeyboardEvent) => {
-      if (expanded && event.key === 'Escape') {
+      if (expanded && event.key === 'Escape' && !frame.contentDocument?.querySelector('dialog[open]')) {
         event.preventDefault();
         setExpanded(false);
       }
