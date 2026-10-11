@@ -49,7 +49,7 @@ tests/                 media lifecycle unit tests + browser regression suite
 .planning/              project planning (GSD)
 ```
 
-The media routes are `/album`, `/album/<slug>`, `/listen`, `/watch`, `/watch/<slug>` and `/archive`. `/play` embeds the standalone game. The original standalone landing page remains at `/experience`.
+The media routes are `/album`, `/album/<slug>`, `/listen`, `/watch`, `/watch/<slug>` and `/archive`. `/play` embeds the standalone game. `/experience` is the fictional resort presentation, with connected qualification, membership, amenity and financing choices, plus an exportable ownership record. Its complete dialogue is in `docs/experience-script.md`.
 
 ## Creative Tools
 
