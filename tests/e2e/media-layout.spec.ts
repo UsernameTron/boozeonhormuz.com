@@ -13,11 +13,14 @@ test('phone navigation is compact, keyboard accessible and reflows with enlarged
   }
 });
 
-test('product art loads without broken requests, and failed image responses preserve a readable fallback', async ({ page }) => {
+test('portrait and product art load without broken requests, and failed image responses preserve a readable fallback', async ({ page }) => {
   const missing: string[] = [];
   page.on('response', (response) => { if (response.status() === 404) missing.push(response.url()); });
   await page.goto('/about/');
-  await expect(page.locator('.media-fallback:visible').first()).toBeVisible();
+  const portrait = page.locator('main img[src="/don-biggly-portrait.webp"]');
+  await expect(portrait).toHaveCount(1);
+  await expect.poll(() => portrait.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  await expect(page.locator('main .media-fallback:visible')).toHaveCount(0);
   await page.goto('/products/');
   const productImages = page.locator('main img[src^="/products/"]');
   await expect(productImages).toHaveCount(4);
