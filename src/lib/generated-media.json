@@ -469,6 +469,26 @@
       }
     ]
   },
+  "/press/don-biggly-broadcast.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 28994,
+    "sha256": "41d11bc30fe12c14513b4f4f49e6983f479135c47ab0b8532e894f5e5e87167a",
+    "candidates": [
+      {
+        "src": "/_media/228fd9232ab2bede-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 13510
+      },
+      {
+        "src": "/_media/228fd9232ab2bede-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 22192
+      }
+    ]
+  },
   "/products/captain-crunk-cereal.webp": {
     "width": 1122,
     "height": 1402,

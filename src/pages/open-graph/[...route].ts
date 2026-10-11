@@ -8,7 +8,7 @@ const pages = {
   archive: { title: 'The Archive', description: 'Tracks, films, performances, stills, posters — everything, admissible.' },
   studio: { title: 'The Studio', description: 'Original musical comedy turned into finished media.' },
   play: { title: 'The Exit Strategy', description: 'The ship is sinking. The exit is free. That’s the problem. A playable Don Biggly disaster.' },
-  press: { title: 'Press', description: 'What Booze on Hormuz is, in plain language.' },
+  press: { title: 'Press', description: 'Don Biggly at the news desk.' },
   'evidence-lounge': { title: 'The Evidence Lounge', description: 'Clips, commercials, songs, and assorted very legal receipts.' },
   watch: { title: 'Watch', description: 'Music videos, performances, sketches, and shorts.' },
   products: { title: 'Products', description: 'Premium amenities for the discerning crisis.' },
