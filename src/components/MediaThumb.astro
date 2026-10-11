@@ -7,6 +7,7 @@ interface Props {
   alt: string;
   aspect?: string;
   fit?: 'cover' | 'contain' | 'natural';
+  position?: string;
   srcset?: string;
   sizes?: string;
   width?: number;
@@ -39,6 +40,7 @@ const naturalRatio = fit === 'natural' && width && height ? `${width} / ${height
         fetchpriority={priority ? 'high' : undefined}
         decoding="async"
         class:list={['w-full h-full', fit === 'cover' ? 'object-cover' : 'object-contain']}
+        style={Astro.props.position ? `object-position: ${Astro.props.position}` : undefined}
         onerror="this.hidden=true;this.nextElementSibling.hidden=false"
       />
     ) : null

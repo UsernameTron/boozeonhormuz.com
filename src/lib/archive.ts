@@ -14,6 +14,7 @@ export interface ArchiveItem {
   alt: string;
   caption?: string;
   orientation?: VideoOrientation;
+  nativeAspect?: boolean;
   track?: { title: string; href: string };
 }
 export type Artwork = ArchiveItem & { kind: 'art'; full: string };
@@ -47,7 +48,7 @@ export function buildArchive(catalog: Catalog): ArchiveItem[] {
     ...liveVideos(catalog.videos).map((video): ArchiveItem => ({
       id: qualifiedId('videos', video.id), kind: 'video', category: video.data.type, label: videoTypeLabel[video.data.type], title: video.data.title,
       description: video.data.description, href: `/watch/${video.data.slug}`, thumbnail: videoThumbnail(video.data), alt: video.data.title,
-      orientation: video.data.orientation, track: relatedTrack(video.data.track?.id),
+      orientation: video.data.orientation, nativeAspect: Boolean(video.data.videoWidth && video.data.videoHeight), track: relatedTrack(video.data.track?.id),
     })),
     ...liveImages(catalog.images).map((image): Artwork => ({
       id: qualifiedId('images', image.id), kind: 'art', category: image.data.type === 'poster' || image.data.type === 'fake-ad' ? 'poster' : image.data.type === 'bts' ? 'bts' : 'image',

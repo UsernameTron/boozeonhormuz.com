@@ -129,11 +129,15 @@ const videos = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string(),
-    type: z.enum(['music-video', 'performance', 'sketch', 'short']),
+    type: z.enum(['music-video', 'performance', 'sketch', 'short', 'sponsor-read']),
     track: reference('tracks').optional(), // a video knows its song
     youtubeId: z.string().optional(), // preferred delivery
     src: z.string().optional(), // self-hosted fallback (/video/<file>.mp4)
     thumbnail: z.string().optional(), // unique per video (video-SEO) — absent ⇒ placeholder
+    videoWidth: z.number().int().positive().optional(), // native frame, when the source differs from its broad orientation
+    videoHeight: z.number().int().positive().optional(),
+    collection: z.object({ label: z.string(), href: z.string().regex(/^\/(?!\/)/) }).optional(),
+    collectionOrder: z.number().int().positive().optional(),
     duration: z.string().regex(/^\d+:\d{2}$/).optional(), // m:ss
     description: z.string(), // unique per video (video-SEO)
     transcript: z.string().optional(),
@@ -150,6 +154,8 @@ const videos = defineCollection({
     draft: z.boolean().default(true),
   }).superRefine((video, context) => {
     if (video.draft) return;
+    if (Boolean(video.videoWidth) !== Boolean(video.videoHeight)) context.addIssue({ code: 'custom', path: ['videoWidth'], message: 'Provide both native video dimensions.' });
+    if (video.collectionOrder && !video.collection) context.addIssue({ code: 'custom', path: ['collectionOrder'], message: 'A collection order needs a collection link.' });
     if (!video.youtubeId && !video.src) context.addIssue({ code: 'custom', path: ['src'], message: 'A public video needs a YouTube ID or playable source.' });
     if (video.youtubeId && !/^[A-Za-z0-9_-]{11}$/.test(video.youtubeId)) context.addIssue({ code: 'custom', path: ['youtubeId'], message: 'Use the 11-character YouTube video ID.' });
     if (video.src && !publicAssetExists(video.src)) context.addIssue({ code: 'custom', path: ['src'], message: 'Video source must be an existing public file or HTTPS URL.' });

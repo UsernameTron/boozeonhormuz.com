@@ -18,7 +18,9 @@ export const playableTracks = (tracks: Track[]) =>
 export const liveVideos = (videos: Video[]) =>
   videos
     .filter((v) => !v.data.draft)
-    .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+    .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+      || (a.data.collection?.label && a.data.collection.label === b.data.collection?.label
+        ? (a.data.collectionOrder ?? Infinity) - (b.data.collectionOrder ?? Infinity) : 0));
 
 export const featuredFirst = <T extends { data: { featured: boolean } }>(entries: T[]) =>
   [...entries].sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
@@ -46,6 +48,7 @@ export const videoTypeLabel: Record<Video['data']['type'], string> = {
   performance: 'Performance',
   sketch: 'Sketch',
   short: 'Short',
+  'sponsor-read': 'Sponsor Read',
 };
 
 export const imageTypeLabel: Record<MediaImage['data']['type'], string> = {

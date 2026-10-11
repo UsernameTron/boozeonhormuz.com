@@ -13,7 +13,7 @@ const attempts = args.includes('--attempts') ? Number(args[args.indexOf('--attem
 if (!Number.isInteger(attempts) || attempts < 1 || attempts > 3) throw new Error('Use one to three attempts.');
 const domain = readFileSync(new URL('../public/CNAME', import.meta.url), 'utf8').trim();
 if (domain !== 'boozeonhormuz.com') throw new Error('Unexpected repository CNAME. Review the domain before releasing.');
-const routes = ['/', '/album/', '/watch/', '/watch/the-premiere/', '/listen/', '/archive/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html', '/CNAME'];
+const routes = ['/', '/album/', '/watch/', '/watch/the-premiere/', '/watch/mctrumps-welcome/', '/sponsor-reads/', '/listen/', '/archive/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html', '/CNAME'];
 
 async function inspect(route) {
   const response = await fetch(new URL(route, origin), { signal: AbortSignal.timeout(10_000), cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } });
@@ -27,6 +27,13 @@ async function inspect(route) {
     if (!links.some((link) => link.rel === 'canonical' && link.href === `https://${domain}/`)) throw new Error('Homepage canonical does not match the apex domain.');
   }
   if (route === '/watch/the-premiere/' && (!body.includes('Za2XII66eHQ') || !body.includes('VideoObject'))) throw new Error('Premiere source or VideoObject is absent from the deployed page.');
+  if (route === '/sponsor-reads/' && (!body.includes('Leave with an indictment') || !body.includes('/mctrumps/welcome.mp4'))) throw new Error('McTrumps Sponsor Reads is absent from the deployed page.');
+  if (route === '/watch/mctrumps-welcome/' && (!body.includes('/mctrumps/welcome.mp4') || !body.includes('VideoObject'))) throw new Error('McTrumps watch page or playable source is absent.');
+  if (route === '/watch/' || route === '/archive/') {
+    for (const slug of ['welcome', 'birthday', 'supervision', 'appreciation', 'tehran']) {
+      if (!body.includes(`/watch/mctrumps-${slug}`)) throw new Error(`${route}: McTrumps ${slug} is absent from the catalog.`);
+    }
+  }
   return `${route}: HTTP ${response.status}`;
 }
 

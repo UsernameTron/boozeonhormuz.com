@@ -24,6 +24,7 @@ const cards = [
     typeLabel: videoTypeLabel[v.data.type],
     thumbnail: videoThumbnail(v.data),
     orientation: v.data.orientation,
+    nativeAspect: Boolean(v.data.videoWidth && v.data.videoHeight),
     duration: v.data.duration,
     trackTitle: v.data.track ? trackTitleById.get(v.data.track.id) : undefined,
     date: v.data.publishDate,
@@ -35,6 +36,7 @@ const cards = [
     typeLabel: 'Episode',
     thumbnail: videoThumbnail(e.data),
     orientation: '16:9' as const,
+    nativeAspect: false,
     duration: undefined,
     trackTitle: undefined,
     date: e.data.publishDate,
@@ -47,12 +49,13 @@ const filters = [
   { key: 'performance', label: 'Performances' },
   { key: 'sketch', label: 'Sketches' },
   { key: 'short', label: 'Shorts' },
+  { key: 'sponsor-read', label: 'Sponsor Reads' },
 ];
 ---
 
 <BaseLayout
   title="Watch — Booze on Hormuz™"
-  description="Full music videos, performances, sketches, and shorts from Booze on Hormuz and Who the Hell Is Don Biggly?"
+  description="Music videos, performances, sketches, shorts, and fictional sponsor reads from Booze on Hormuz and Don Biggly."
 >
   <PageHeader eyebrow="Now screening" title="Watch" />
 
@@ -94,6 +97,7 @@ const filters = [
                   typeLabel={c.typeLabel}
                   thumbnail={c.thumbnail}
                   orientation={c.orientation}
+                  nativeAspect={c.nativeAspect}
                   duration={c.duration}
                   trackTitle={c.trackTitle}
                 />
