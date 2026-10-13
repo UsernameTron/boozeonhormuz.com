@@ -1508,68 +1508,6 @@ button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,t
   padding:33px 0;
   border-top:1px solid var(--line);
 }
-.subsection-heading {
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:20px;
-  margin-bottom:24px;
-}
-.subsection-heading h3 {
-  font-size:28px;
-}
-.subsection-heading>span {
-  font-size:10px;
-  color:var(--muted);
-}
-.scenes {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-.scenes details {
-  border:1px solid var(--line);
-  padding:0 20px;
-  align-self:start;
-  background:#142532;
-}
-.scenes summary {
-  cursor:pointer;
-  font-family:var(--display);
-  font-size:23px;
-  line-height:1.35;
-  padding:21px 0;
-  min-height:90px;
-  align-content:center;
-}
-.scenes summary>span,.scenes summary small {
-  font-family:var(--body);
-  font-size:9px;
-  letter-spacing:.09em;
-  color:var(--gold);
-  display:block;
-  margin-bottom:6px;
-}
-.scenes details>p,.scene-line {
-  font-size:13px;
-  color:#c8d0d1;
-  line-height:1.8;
-  margin:0 0 18px;
-}
-.scene-line b,.scene-line strong {
-  font-size:10px;
-  color:var(--gold);
-  letter-spacing:.04em;
-  display:block;
-  margin-bottom:4px;
-}
-.scene-line:last-child {
-  font-weight:500;
-  color:var(--cream);
-}
-.scenes details>div {
-  padding-bottom:10px;
-}
 .quote-section {
   display:grid;
   grid-template-columns:.55fr 1.3fr;
@@ -2604,35 +2542,8 @@ dialog p:not(.eyebrow) {
   .premiere-fallback {
     font-size:9px;
   }
-  .subsection-heading {
-    display:block;
-    margin-bottom:20px;
-  }
-  .subsection-heading h3 {
-    font-size:28px;
-  }
-  .subsection-heading>span {
-    font-size:9px;
-    display:block;
-    margin-top:10px;
-  }
   .evidence-block {
     padding-block:28px;
-  }
-  .scenes {
-    display:block;
-  }
-  .scenes details {
-    padding-inline:17px;
-    margin-bottom:9px;
-  }
-  .scenes summary {
-    font-size:23px;
-    padding:18px 0;
-    min-height:0;
-  }
-  .scenes summary>span,.scenes summary small {
-    font-size:8px;
   }
   .quote-section {
     display:block;
@@ -2885,20 +2796,6 @@ dialog p:not(.eyebrow) {
   font-family:var(--body);
   font-size:10px;
   color:inherit;
-}
-.scenes summary .scene-title {
-  font-family:var(--display);
-  font-size:23px;
-  font-weight:400;
-  letter-spacing:-.025em;
-  color:var(--cream);
-  margin:0;
-  line-height:1.35;
-}
-.scenes details>.fiction-label {
-  font-family:var(--body);
-  font-size:9px;
-  color:var(--muted);
 }
 .testimonial {
   margin:0;

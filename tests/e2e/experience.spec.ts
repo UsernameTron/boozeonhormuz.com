@@ -127,11 +127,9 @@ test('unavailable storage, clipboard and canvas retain usable selections and rea
   await expect(page.locator('#export-fallback')).toHaveValue(new RegExp(FICTION_LABEL));
 });
 
-test('written scenes are labeled honestly and the premiere loads only on request', async ({ page }) => {
-  await expect(page.locator('#scenes details')).toHaveCount(4);
-  await page.locator('#scenes summary').first().click();
-  await expect(page.locator('#scenes details').first()).toContainText('Written scene');
-  await expect(page.locator('#scenes details').first()).toContainText(FICTION_LABEL);
+test('Experience has no episode teasers and the premiere loads only on request', async ({ page }) => {
+  await expect(page.locator('#scenes')).toHaveCount(0);
+  await expect(page.getByText('Scenes from the presentation')).toHaveCount(0);
   await expect(page.locator('#premiere-player iframe')).toHaveCount(0);
   await page.locator('#premiere-play').click();
   await expect(page.locator('#premiere-player iframe')).toHaveAttribute('src', /Za2XII66eHQ/);

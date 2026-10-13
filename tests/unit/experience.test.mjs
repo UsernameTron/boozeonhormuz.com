@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { QUESTIONS, TIERS, AMENITIES, QUOTES, TESTIMONIALS, SCENES, CONCIERGE, financeDialogue, FICTION_LABEL } from '../../public/apps/experience-story.js';
+import { QUESTIONS, TIERS, AMENITIES, QUOTES, TESTIMONIALS, CONCIERGE, financeDialogue, FICTION_LABEL } from '../../public/apps/experience-story.js';
 import { createState, normalizeState, routeFor, chooseAnswer, chooseTier, calculateFinance, buildRecord, recordText, FEES } from '../../public/apps/experience-model.js';
 
 test('all 243 complete presentations resolve by the recorded choices, with deterministic ties', () => {
@@ -99,7 +99,7 @@ test('invalid saved state cannot inject content, invalid selections, hidden fees
 test('the full content inventory is present and term-specific speech does not retain the 99-year anecdote', () => {
   assert.equal(TIERS.length, 3); assert.equal(AMENITIES.length, 8);
   assert.equal(QUOTES.length, 8); assert.equal(TESTIMONIALS.length, 4);
-  assert.equal(SCENES.length, 4); assert.equal(CONCIERGE.length, 3);
+  assert.equal(CONCIERGE.length, 3);
   assert.match(financeDialogue(99).don, /ninety-nine|99/i);
   for (const term of [10, 40, 98]) {
     assert.doesNotMatch(financeDialogue(term).don, /ninety-nine|99|I'm seventy/i);
@@ -108,5 +108,4 @@ test('the full content inventory is present and term-specific speech does not re
   for (const question of QUESTIONS) for (const option of question.options) {
     assert.ok(option.don && option.note && option.record, `${question.id}/${option.id} has a reaction and a record.`);
   }
-  for (const scene of SCENES) assert.ok(scene.lines.length >= 3);
 });

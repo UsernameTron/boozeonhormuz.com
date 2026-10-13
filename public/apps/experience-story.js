@@ -103,49 +103,6 @@ export const TESTIMONIALS = [
   { quote: 'Five stars. There were five printed on the form. I circled “Please stop calling.”', credit: 'Fictional former prospect', note: 'Published by the founder as an unqualified endorsement.' },
 ];
 
-export const SCENES = [
-  {
-    id: 'landing-page', title: 'The Crime Has a Landing Page',
-    lines: [
-      { speaker: 'Accountant', text: 'The ownership field says zero.' },
-      { speaker: 'Don', text: "Zero. Clean number. Beautiful shape. They had all these fractions. Ugly little numbers, dividing things. I said make it simple. Now everybody gets the same ownership. Nobody can say I favored anybody." },
-      { speaker: 'Accountant', text: 'You are listed separately.' },
-      { speaker: 'Don', text: "Of course. I brought everybody together. You don't put the host in with the people who arrived." },
-      { speaker: 'Accountant', text: 'Same property. Different column.' },
-    ],
-  },
-  {
-    id: 'revenue-stream', title: 'Sir, That Is Not A Revenue Stream',
-    lines: [
-      { speaker: 'Accountant', text: 'The guest has asked about the bereavement policy.' },
-      { speaker: 'Don', text: "Give them time. These are families. Three days, four days. Don't call during the service. Have some class. Send flowers. Big arrangement. Put the account number on the ribbon so we know who we're thinking of." },
-      { speaker: 'Accountant', text: 'The flowers would be our expense.' },
-      { speaker: 'Don', text: "Our expense? They're having the funeral. Why the hell are we buying the flowers?" },
-      { speaker: 'Accountant', text: 'Bereavement policy: bring your own.' },
-    ],
-  },
-  {
-    id: 'shrimp-deposition', title: 'The Shrimp Tower Deposition',
-    lines: [
-      { speaker: 'Accountant', text: 'These guests only came for the complimentary lunch.' },
-      { speaker: 'Don', text: "And they stayed. Ninety minutes. Two hours, some of them. The shrimp were gone in eleven minutes. So what kept them? Me. I kept them. They were looking at the door, hoping more people would come hear it." },
-      { speaker: 'Accountant', text: 'They were waiting for their coats.' },
-      { speaker: 'Don', text: "Which we looked after. Not one coat left without an owner. That's the kind of care you don't get anymore." },
-      { speaker: 'Accountant', text: 'Coat check was inside the sales office.' },
-    ],
-  },
-  {
-    id: 'complimentary-valet', title: 'Discovery With Complimentary Valet',
-    lines: [
-      { speaker: 'Accountant', text: 'They have requested all the records.' },
-      { speaker: 'Don', text: "All of them. See? Interest. They used to ask for a brochure. Now it's every invoice, every note. Years of my work. You can't buy that kind of attention. Put them in the gold folders." },
-      { speaker: 'Accountant', text: 'There are forty-seven boxes.' },
-      { speaker: 'Don', text: "Then get forty-seven valet tickets. We're not leaving them in the driveway. This is a luxury property." },
-      { speaker: 'Accountant', text: 'Evidence collected. Parking validated.' },
-    ],
-  },
-];
-
 export const CONCIERGE = [
   { id: 'ownership', question: 'Does the folder make me an owner?', don: "It makes you a person with an ownership folder. Says it on the front. Big letters. People walk past a deed and don't even look. They look at this.", note: 'A folder is not a deed.' },
   { id: 'leave', question: 'Can I leave the presentation?', don: "Of course you can leave. Nobody said you couldn't leave. I will still be talking. That's freedom. You have your freedom and I have the microphone.", note: 'No purchase. No penalty. Use the real exit.' },
