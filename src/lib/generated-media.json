@@ -779,6 +779,708 @@
       }
     ]
   },
+  "/thumbs/album-01-booze-on-hormuz-feat-the-5th-naval-fleet.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 56238,
+    "sha256": "a4252bf049dedde73ad314a62e5ff8422d609fb1c63b04993872fafae1027e9f",
+    "candidates": [
+      {
+        "src": "/_media/0c33fed81b7ff753-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12628
+      },
+      {
+        "src": "/_media/0c33fed81b7ff753-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 34416
+      },
+      {
+        "src": "/_media/0c33fed81b7ff753-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 54122
+      }
+    ]
+  },
+  "/thumbs/album-02-bad-ass-gold-boy-beautiful-doom.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 50538,
+    "sha256": "9a355cfc18f6574f023bb51d1d8a720b5c07e713b349b9c0dd2dd8f04ad22313",
+    "candidates": [
+      {
+        "src": "/_media/ff912bb6779961a0-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12180
+      },
+      {
+        "src": "/_media/ff912bb6779961a0-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31810
+      },
+      {
+        "src": "/_media/ff912bb6779961a0-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 48962
+      }
+    ]
+  },
+  "/thumbs/album-03-country-club-capone.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 48028,
+    "sha256": "b70b92d8c28bcd9d16fdbec29b978715f874bb798ad9be8dbb9da291e04fcc2c",
+    "candidates": [
+      {
+        "src": "/_media/c1604c1caf4589b3-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11668
+      },
+      {
+        "src": "/_media/c1604c1caf4589b3-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 30212
+      },
+      {
+        "src": "/_media/c1604c1caf4589b3-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 46992
+      }
+    ]
+  },
+  "/thumbs/album-04-gold-plated-filth.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 51150,
+    "sha256": "f55a1f29eecc4f1f15b4a0de473070e59f5c494e085af7edac4c403cd7a0fe24",
+    "candidates": [
+      {
+        "src": "/_media/1a6d1d95d60af3db-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11640
+      },
+      {
+        "src": "/_media/1a6d1d95d60af3db-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31710
+      },
+      {
+        "src": "/_media/1a6d1d95d60af3db-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 49536
+      }
+    ]
+  },
+  "/thumbs/album-05-luxury-compliance.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 59330,
+    "sha256": "c5414b74efea41f55a72d282a1c5040f76dc2c76fb43805e0b9102d7d2d02c7e",
+    "candidates": [
+      {
+        "src": "/_media/eb144ab00cbd9667-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 13740
+      },
+      {
+        "src": "/_media/eb144ab00cbd9667-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 36886
+      },
+      {
+        "src": "/_media/eb144ab00cbd9667-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 57612
+      }
+    ]
+  },
+  "/thumbs/album-06-pre-demolition-deposit.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 52886,
+    "sha256": "a39adb38ebd5e833fc9cce703c052910c63ad22ab2f623dbf7189e0a1d2deb78",
+    "candidates": [
+      {
+        "src": "/_media/cdff05c0f9a807de-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12742
+      },
+      {
+        "src": "/_media/cdff05c0f9a807de-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 33718
+      },
+      {
+        "src": "/_media/cdff05c0f9a807de-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 51406
+      }
+    ]
+  },
+  "/thumbs/album-07-valet-cartel.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 46490,
+    "sha256": "755f606be4c65655f33b02db3a1a1605d5c9fc032e6990d228e8638e99325b11",
+    "candidates": [
+      {
+        "src": "/_media/9b76a3454b103d37-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11340
+      },
+      {
+        "src": "/_media/9b76a3454b103d37-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 29568
+      },
+      {
+        "src": "/_media/9b76a3454b103d37-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 45204
+      }
+    ]
+  },
+  "/thumbs/album-08-the-bribe-has-valet-parking.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 50634,
+    "sha256": "bbb3d4b9329599ee685f038392c6fa6df45201a44403b74047209fb9772147d8",
+    "candidates": [
+      {
+        "src": "/_media/22fb9fbc6c4a900b-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12846
+      },
+      {
+        "src": "/_media/22fb9fbc6c4a900b-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 32494
+      },
+      {
+        "src": "/_media/22fb9fbc6c4a900b-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 48844
+      }
+    ]
+  },
+  "/thumbs/album-09-charges-you-can-write-off.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 60320,
+    "sha256": "4f6b35dfad86068cd94e732f5839bcbd4e71db2a27d68a578b0aba5ecd1b7294",
+    "candidates": [
+      {
+        "src": "/_media/0d2f4ecf2706f69b-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 13406
+      },
+      {
+        "src": "/_media/0d2f4ecf2706f69b-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 37008
+      },
+      {
+        "src": "/_media/0d2f4ecf2706f69b-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 58340
+      }
+    ]
+  },
+  "/thumbs/album-10-felonies-with-benefits.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 49424,
+    "sha256": "cc1d1dc03f8e56721ab64b654b902ac800608329f857fe6cfe0bb51154232514",
+    "candidates": [
+      {
+        "src": "/_media/483b6bc049c99045-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11764
+      },
+      {
+        "src": "/_media/483b6bc049c99045-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 30974
+      },
+      {
+        "src": "/_media/483b6bc049c99045-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 47862
+      }
+    ]
+  },
+  "/thumbs/album-11-strippers-you-can-payoff.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 49030,
+    "sha256": "8d0cc0c8b9390f25e6cff227c918f568c1184998c7fa34f2892ca8d4197fe084",
+    "candidates": [
+      {
+        "src": "/_media/b8b05e463fcc9a10-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12086
+      },
+      {
+        "src": "/_media/b8b05e463fcc9a10-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31206
+      },
+      {
+        "src": "/_media/b8b05e463fcc9a10-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 47260
+      }
+    ]
+  },
+  "/thumbs/album-12-morally-binding.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 46454,
+    "sha256": "221e07a4630cc821fbc50e51d447b413a7face645cd74e8ddb1652936c10cf76",
+    "candidates": [
+      {
+        "src": "/_media/6cb068b4ee429f73-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11406
+      },
+      {
+        "src": "/_media/6cb068b4ee429f73-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 29326
+      },
+      {
+        "src": "/_media/6cb068b4ee429f73-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 45552
+      }
+    ]
+  },
+  "/thumbs/album-13-jared-and-ivanka-ethics-fire.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 50610,
+    "sha256": "5225d46bae6fc951ac4f0a5bb3934835cc4854f7813e060b1f0bdfb1b12757ae",
+    "candidates": [
+      {
+        "src": "/_media/50ae8125a458281c-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12048
+      },
+      {
+        "src": "/_media/50ae8125a458281c-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31788
+      },
+      {
+        "src": "/_media/50ae8125a458281c-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 49140
+      }
+    ]
+  },
+  "/thumbs/album-14-criminals-in-the-white-house.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 55960,
+    "sha256": "c680fcf9cd907962ea727aa7ab784fb5c6d81b6120eaba66b178b1a843bc827d",
+    "candidates": [
+      {
+        "src": "/_media/27dfd68f9ee83d75-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 13242
+      },
+      {
+        "src": "/_media/27dfd68f9ee83d75-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 35208
+      },
+      {
+        "src": "/_media/27dfd68f9ee83d75-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 54182
+      }
+    ]
+  },
+  "/thumbs/album-15-quiet-money-parade.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 54730,
+    "sha256": "33aa6ff9dc0a26b8e2697b7d7455f45f9c14197f8250411138c90bfdbc283bff",
+    "candidates": [
+      {
+        "src": "/_media/497d43fb8bb49eb5-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12946
+      },
+      {
+        "src": "/_media/497d43fb8bb49eb5-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 34142
+      },
+      {
+        "src": "/_media/497d43fb8bb49eb5-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 53552
+      }
+    ]
+  },
+  "/thumbs/album-16-quiet-money-loud-receipts.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 51468,
+    "sha256": "9bc6c06e7a85b9763a4ed26d44ded4888d998eb43e1326d3da1fbb2528998062",
+    "candidates": [
+      {
+        "src": "/_media/0e5e68467bc1dc2b-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12760
+      },
+      {
+        "src": "/_media/0e5e68467bc1dc2b-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 32620
+      },
+      {
+        "src": "/_media/0e5e68467bc1dc2b-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 49908
+      }
+    ]
+  },
+  "/thumbs/album-17-the-ledger-has-the-key.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 50088,
+    "sha256": "19c2384649b2f997b230b114bcf74b1498fdf244e22b0a61544f4c6ec8b66f83",
+    "candidates": [
+      {
+        "src": "/_media/fe71603df558f17f-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12018
+      },
+      {
+        "src": "/_media/fe71603df558f17f-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31656
+      },
+      {
+        "src": "/_media/fe71603df558f17f-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 48702
+      }
+    ]
+  },
+  "/thumbs/album-18-discovery-is-coming.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 51332,
+    "sha256": "ab547791e6ed3aed70fe780fef8f81dadca5f123198a91760184f163586930c2",
+    "candidates": [
+      {
+        "src": "/_media/c96e448a8a3b5333-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11942
+      },
+      {
+        "src": "/_media/c96e448a8a3b5333-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31442
+      },
+      {
+        "src": "/_media/c96e448a8a3b5333-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 49650
+      }
+    ]
+  },
+  "/thumbs/album-19-in-the-first-degree.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 49780,
+    "sha256": "d4b7995bc77ede840b8019d92e1d8f0587a1bca50aa06a12ee68dfdfb5085bb8",
+    "candidates": [
+      {
+        "src": "/_media/0c469c9cbe8d55c9-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11840
+      },
+      {
+        "src": "/_media/0c469c9cbe8d55c9-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31354
+      },
+      {
+        "src": "/_media/0c469c9cbe8d55c9-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 48192
+      }
+    ]
+  },
+  "/thumbs/album-20-aviators-in-the-basement.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 42550,
+    "sha256": "07e6a6133fd0083e86a383297d08d0addf5aafc6d3796856828ed822dc7faea2",
+    "candidates": [
+      {
+        "src": "/_media/418f2f0ce6a164c8-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11802
+      },
+      {
+        "src": "/_media/418f2f0ce6a164c8-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 28580
+      },
+      {
+        "src": "/_media/418f2f0ce6a164c8-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 40986
+      }
+    ]
+  },
+  "/thumbs/album-21-eclipse-the-sun.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 52942,
+    "sha256": "e0d1943b6b0c5e3c18c950032d9267bb25997f0597053dcc7bd721ca713c1c12",
+    "candidates": [
+      {
+        "src": "/_media/874d6f6151c38e09-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11882
+      },
+      {
+        "src": "/_media/874d6f6151c38e09-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31954
+      },
+      {
+        "src": "/_media/874d6f6151c38e09-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 50792
+      }
+    ]
+  },
+  "/thumbs/album-22-if-they-rise-they-rise.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 58172,
+    "sha256": "e2debed2fc5105f1ff07d83c1807f764cb34120a316400d5581528e764005a11",
+    "candidates": [
+      {
+        "src": "/_media/fce04cd9dfe590f9-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 13040
+      },
+      {
+        "src": "/_media/fce04cd9dfe590f9-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 35352
+      },
+      {
+        "src": "/_media/fce04cd9dfe590f9-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 56294
+      }
+    ]
+  },
+  "/thumbs/album-23-me-me-me-till-the-last-dog-dies.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 54052,
+    "sha256": "004d913c83575fc7e415cc8eb49bcc7e9ddd16d7c00e53f36d020fe8f8825265",
+    "candidates": [
+      {
+        "src": "/_media/0e8891f24b741680-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12414
+      },
+      {
+        "src": "/_media/0e8891f24b741680-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 33096
+      },
+      {
+        "src": "/_media/0e8891f24b741680-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 51646
+      }
+    ]
+  },
+  "/thumbs/album-24-totally-cavalier-remastered.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 52626,
+    "sha256": "4826ae4ceef40099bbfc0df92f528f9f4c8a20f5ca06e47f7fdd93c9ece07304",
+    "candidates": [
+      {
+        "src": "/_media/a3c4d6cd574683e2-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12120
+      },
+      {
+        "src": "/_media/a3c4d6cd574683e2-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 32230
+      },
+      {
+        "src": "/_media/a3c4d6cd574683e2-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 51034
+      }
+    ]
+  },
+  "/thumbs/album-25-the-evidence-is-with-me-allegation-mix.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 51428,
+    "sha256": "6463fe80025f0093a6deb4ebefd055ad8d6c24e72666f5e720ac9b579c2ef2a0",
+    "candidates": [
+      {
+        "src": "/_media/e273ab41a9128a71-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12564
+      },
+      {
+        "src": "/_media/e273ab41a9128a71-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 32518
+      },
+      {
+        "src": "/_media/e273ab41a9128a71-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 49798
+      }
+    ]
+  },
+  "/thumbs/album-26-booze-on-hormuz-hit-it-harder.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 52676,
+    "sha256": "a00a4bfc449f6f1c83b40c954e291edc3ef38b8ad816816b841f4a89a0d47f7c",
+    "candidates": [
+      {
+        "src": "/_media/c0a8461261aadd34-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 11894
+      },
+      {
+        "src": "/_media/c0a8461261aadd34-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 31980
+      },
+      {
+        "src": "/_media/c0a8461261aadd34-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 50502
+      }
+    ]
+  },
+  "/thumbs/album-27-zero-votes-flipped-instrumental.webp": {
+    "width": 824,
+    "height": 1464,
+    "bytes": 53450,
+    "sha256": "a6034832cc074aeb318fd6a4324b7f7747b63e8be6c39de91bacdb1d4589fec6",
+    "candidates": [
+      {
+        "src": "/_media/865a4040e056cbc5-320.webp",
+        "width": 320,
+        "height": 569,
+        "bytes": 12408
+      },
+      {
+        "src": "/_media/865a4040e056cbc5-640.webp",
+        "width": 640,
+        "height": 1137,
+        "bytes": 33104
+      },
+      {
+        "src": "/_media/865a4040e056cbc5-824.webp",
+        "width": 824,
+        "height": 1464,
+        "bytes": 51818
+      }
+    ]
+  },
   "/thumbs/ball-in-dons-court-basketball.webp": {
     "width": 1024,
     "height": 1536,

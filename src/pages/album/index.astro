@@ -6,7 +6,7 @@ import MediaThumb from '../../components/MediaThumb.astro';
 import TrackRow from '../../components/TrackRow.astro';
 import { listedTracks } from '../../lib/media';
 
-// The album stays visible while the filmed setlist fills in.
+// The album stays visible while the video setlist fills in.
 const album = (await getCollection('albums')).find((a) => !a.data.draft);
 const tracks = listedTracks(await getCollection('tracks'));
 const filmedTrackIds = new Set((await getCollection('videos'))
@@ -23,7 +23,7 @@ const statusLabel: Record<string, string> = {
 
 <BaseLayout
   title="The Album | Booze on Hormuz™"
-  description="Booze on Hormuz is a live video album by Don Biggly & The Indictments. Songs arrive as filmed performances with lyrics on screen."
+  description="Booze on Hormuz is a live video album by Don Biggly & The Indictments. Songs play as videos with lyrics on screen."
 >
   <PageHeader eyebrow="The main body of work" title="The Album" />
 
@@ -70,7 +70,7 @@ const statusLabel: Record<string, string> = {
             ) : (
               <p class="font-display text-xl text-ink mt-4 max-w-2xl">
                 The stage is booked. Don has approved the lighting, the applause, and his own
-                entrance. The first filmed song will take its place here when the set begins.
+                entrance. The first song video will take its place here when the set begins.
               </p>
             )
           }

@@ -9,7 +9,7 @@ import { mediaImageSource, responsiveImage } from '../../lib/responsive-media';
 import WatchCard from '../../components/WatchCard.astro';
 import { playableTracks, liveVideos, liveImages, videoTypeLabel } from '../../lib/media';
 
-// A song page leads with its filmed performance, then adds any separate audio,
+// A song page leads with its lyric video, then adds any separate audio,
 // music video, gallery, and credits that actually exist.
 export async function getStaticPaths() {
   const tracks = playableTracks(await getCollection('tracks'));
@@ -46,7 +46,7 @@ const socialImage = mediaImageSource(songArtwork);
 const socialDimensions = responsiveImage(socialImage);
 ---
 
-<BaseLayout title={`${title} | Booze on Hormuz™`} description={description ?? `${title}, a filmed song from the Booze on Hormuz live album.`} ogImage={socialImage} ogImageWidth={socialDimensions.width} ogImageHeight={socialDimensions.height}>
+<BaseLayout title={`${title} | Booze on Hormuz™`} description={description ?? `${title}, a song video from the Booze on Hormuz live-tour album.`} ogImage={socialImage} ogImageWidth={socialDimensions.width} ogImageHeight={socialDimensions.height}>
   <article class="px-6 pt-10 md:pt-16 pb-20 md:pb-28 max-w-4xl mx-auto">
     <p class="font-body text-eyebrow uppercase text-gold-ink">
       Track {String(trackNumber).padStart(2, '0')}
