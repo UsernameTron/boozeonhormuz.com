@@ -73,7 +73,7 @@ album: booze-on-hormuz
 status: "released"        # or preview / unreleased / hidden
 featured: true
 description: "One sentence about the song."
-cover: "/covers/don-biggly-and-the-indictments-gadzooks.webp"
+cover: "/covers/don-biggly-and-the-indictments-neon-mall.webp"
 duration: "3:14"
 credits: []
 draft: false

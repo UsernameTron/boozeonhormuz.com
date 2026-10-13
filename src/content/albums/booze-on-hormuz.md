@@ -2,7 +2,7 @@
 title: "Booze on Hormuz"
 slug: "booze-on-hormuz"
 artist: "Don Biggly & The Indictments"
-artwork: "/covers/don-biggly-and-the-indictments-gadzooks.webp"
+artwork: "/covers/don-biggly-and-the-indictments-neon-mall.webp"
 tagline: "A live tour told through filmed songs with lyrics on screen."
 status: "in-progress"
 credits: []

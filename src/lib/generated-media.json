@@ -1,33 +1,33 @@
 {
-  "/covers/don-biggly-and-the-indictments-gadzooks.webp": {
+  "/covers/don-biggly-and-the-indictments-neon-mall.webp": {
     "width": 1254,
     "height": 1254,
-    "bytes": 393682,
-    "sha256": "dbf0f05237f36ff672bdf65508b921bef88b1c8ca4456b05608f1ebf724e80e8",
+    "bytes": 366030,
+    "sha256": "04615b0798b578001711f90bc28381351de9126cd27477e7f8c698e7ea72fb20",
     "candidates": [
       {
-        "src": "/_media/70874e9dce275f95-320.webp",
+        "src": "/_media/7fba81334bc3e484-320.webp",
         "width": 320,
         "height": 320,
-        "bytes": 37388
+        "bytes": 37030
       },
       {
-        "src": "/_media/70874e9dce275f95-640.webp",
+        "src": "/_media/7fba81334bc3e484-640.webp",
         "width": 640,
         "height": 640,
-        "bytes": 115392
+        "bytes": 110686
       },
       {
-        "src": "/_media/70874e9dce275f95-960.webp",
+        "src": "/_media/7fba81334bc3e484-960.webp",
         "width": 960,
         "height": 960,
-        "bytes": 207868
+        "bytes": 195720
       },
       {
-        "src": "/_media/70874e9dce275f95-1254.webp",
+        "src": "/_media/7fba81334bc3e484-1254.webp",
         "width": 1254,
         "height": 1254,
-        "bytes": 348384
+        "bytes": 319092
       }
     ]
   },
