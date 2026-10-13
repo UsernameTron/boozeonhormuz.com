@@ -3,7 +3,7 @@ title: "Ball in Don's Court"
 slug: "ball-in-dons-court"
 type: "music-video"
 src: "/video/ball-in-dons-court.mp4"
-thumbnail: "/thumbs/ball-in-dons-court.webp"
+thumbnail: "/thumbs/ball-in-dons-court-basketball.webp"
 poster: "/posters/ball-in-dons-court.webp"
 videoWidth: 720
 videoHeight: 1280
