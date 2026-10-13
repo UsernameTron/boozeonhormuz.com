@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import MediaThumb from '../components/MediaThumb.astro';
+import ArtworkViewer from '../components/ArtworkViewer.astro';
+import { buildArchive, isArtwork } from '../lib/archive';
+const images = buildArchive({ tracks: [], videos: [], images: await getCollection('images'), evidence: [] }).filter(isArtwork);
+---
+<BaseLayout title="Gallery | Booze on Hormuz" description="The Don Biggly image collection. Browse thumbnails, enlarge each image, and move through the gallery.">
+  <PageHeader eyebrow="The camera was unfortunately working" title="Gallery" />
+  <section class="px-6 pb-28 max-w-5xl mx-auto">
+    <p class="font-display text-xl text-ink max-w-2xl">Every picture tells a story. Counsel would prefer a different story.</p>
+    <p class="font-body text-sm text-ink-soft mt-3">{images.length} images. Select one to enlarge it.</p>
+    <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
+      {images.map((image) => <a href={image.href} data-art-id={image.id} class="group block card-marble border border-line rounded-xl overflow-hidden hover:border-gold transition-colors">
+        <MediaThumb src={image.thumbnail} alt={image.alt} aspect="aspect-square" fit="contain" sizes="(min-width: 1024px) 228px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" />
+        <h2 class="font-display text-base text-ink p-3 group-hover:text-gold-ink">{image.title}</h2>
+      </a>)}
+    </div>
+    <a href="/evidence-lounge/" class="inline-flex min-h-11 items-center text-sm text-gold-ink mt-8">Visit the Evidence Lounge →</a>
+    <ArtworkViewer items={images} />
+  </section>
+</BaseLayout>

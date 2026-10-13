@@ -4,6 +4,8 @@ import { OGImageRoute } from 'astro-og-canvas';
 // hero photo (/og-home.jpg, set in BaseLayout); these cover the static routes.
 const pages = {
   album: { title: 'The Album', description: 'The filmed live tour by Don Biggly & The Indictments. Lyrics appear on screen.' },
+  gallery: { title: 'Gallery', description: 'Every picture tells a story. Counsel would prefer a different story.' },
+  'deep-cuts': { title: 'Deep Cuts Live', description: 'Don Biggly & The Indictments. The songs counsel left off the album.' },
   listen: { title: 'Listen', description: 'Standalone audio, when available. Watch the filmed songs on the album page.' },
   archive: { title: 'The Archive', description: 'Tracks, films, performances, stills, posters — everything, admissible.' },
   studio: { title: 'The Studio', description: 'Original musical comedy turned into finished media.' },

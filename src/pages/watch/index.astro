@@ -20,8 +20,8 @@ const cards = [
   ...videos.map((v) => ({
     href: `/watch/${v.data.slug}`,
     title: v.data.title,
-    type: v.data.type,
-    typeLabel: videoTypeLabel[v.data.type],
+    type: v.data.collection?.href === '/deep-cuts/' ? 'deep-cuts' : v.data.type,
+    typeLabel: v.data.collection?.href === '/deep-cuts/' ? 'Deep Cuts Live' : videoTypeLabel[v.data.type],
     thumbnail: videoThumbnail(v.data),
     orientation: v.data.orientation,
     nativeAspect: Boolean(v.data.videoWidth && v.data.videoHeight),
@@ -46,6 +46,7 @@ const cards = [
 const filters = [
   { key: 'music-video', label: 'Music Videos' },
   { key: 'performance', label: 'Performances' },
+  { key: 'deep-cuts', label: 'Deep Cuts Live' },
   { key: 'sketch', label: 'Sketches' },
   { key: 'short', label: 'Shorts' },
   { key: 'sponsor-read', label: 'Sponsor Reads' },
@@ -87,6 +88,8 @@ const filters = [
               </button>
             ))}
           </div>
+
+          <a href="/deep-cuts/" class="inline-flex min-h-11 items-center font-body text-sm text-gold-ink mt-4">Explore the Deep Cuts Live collection →</a>
 
           <p class="font-body text-ink-soft mt-8" id="watch-choice" role="status">Choose a media type to see the videos.</p>
 

@@ -1,13 +1,25 @@
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join, resolve, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 // A disposable site exercises real compiled components without publishing sample music.
 const source = resolve('.');
 const fixture = mkdtempSync(join(tmpdir(), 'boh-listening-'));
+// Audio behavior needs only its own tracks and shared artwork. Keeping the
+// growing production video/gallery catalog out avoids copying and optimizing
+// nearly a gigabyte of unrelated media on every listening test run.
+const omitted = [
+  'src/content/tracks', 'src/content/videos', 'src/content/images',
+  'public/video', 'public/_media', 'public/mctrumps', 'public/stills',
+  'public/thumbs', 'public/press', 'public/products', 'public/covers', 'public/sponsors',
+];
+const fixtureFile = (file) => {
+  const name = relative(source, file).replaceAll('\\', '/');
+  return !omitted.some((folder) => name === folder || name.startsWith(folder + '/'));
+};
 for (const item of ['src', 'public', 'astro.config.mjs', 'tsconfig.json', 'package.json', 'package-lock.json', 'scripts']) {
-  if (existsSync(join(source, item))) cpSync(join(source, item), join(fixture, item), { recursive: true });
+  if (existsSync(join(source, item))) cpSync(join(source, item), join(fixture, item), { recursive: true, filter: fixtureFile });
 }
 const configPath = join(fixture, 'astro.config.mjs');
 writeFileSync(configPath, readFileSync(configPath, 'utf8').replace('defineConfig({', "defineConfig({\n  cacheDir: './.astro-cache/',"));

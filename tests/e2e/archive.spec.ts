@@ -90,11 +90,11 @@ for (const width of [320, 390, 1440]) {
   });
 }
 
-test('ordinary artwork links and all seven detail pages work without JavaScript', async ({ browser, baseURL }) => {
+test('ordinary artwork links and all original exhibit detail pages work without JavaScript', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
   const page = await context.newPage();
   await page.goto('/archive/');
-  const links = await page.locator('a[data-art-id]').evaluateAll((anchors) => anchors.map((anchor) => (anchor as HTMLAnchorElement).href));
+  const links = await page.locator('a[data-art-id^="evidence--"]').evaluateAll((anchors) => anchors.map((anchor) => (anchor as HTMLAnchorElement).href));
   expect(links).toHaveLength(7);
   for (const href of links) {
     expect((await page.goto(href))?.status()).toBe(200);

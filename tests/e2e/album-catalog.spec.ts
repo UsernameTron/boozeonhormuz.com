@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('the complete video album connects its setlist, performance player, and Watch category', async ({ page, request }) => {
   await page.goto('/album/');
-  await expect(page.getByRole('heading', { name: 'The Setlist' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'The Setlist', exact: true })).toBeVisible();
   await expect(page.getByText('27 of 27 song videos live.')).toBeVisible();
   const songLinks = await page.locator('a[href^="/album/"]').evaluateAll((links) =>
     links.map((link) => link.getAttribute('href')).filter((href) => href && href !== '/album/'),

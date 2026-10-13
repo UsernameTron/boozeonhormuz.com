@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import WatchCard from '../components/WatchCard.astro';
+import { liveVideos } from '../lib/media';
+const videos = liveVideos(await getCollection('videos'))
+  .filter((video) => video.data.collection?.href === '/deep-cuts/');
+---
+<BaseLayout title="Deep Cuts Live | Booze on Hormuz" description="Special live versions and deep cuts by Don Biggly & The Indictments. Explore the collection and watch every performance.">
+  <PageHeader eyebrow="Don Biggly & The Indictments" title="Deep Cuts Live" />
+  <section class="px-6 pb-28 max-w-5xl mx-auto">
+    <p class="font-display text-xl text-ink max-w-2xl">The songs counsel left off the album.</p>
+    <p class="font-body text-ink-soft mt-3 max-w-prose">{videos.length} live performances. Every encore counts as a separate offense.</p>
+    <div class="flex flex-wrap gap-5 mt-5 text-sm text-gold-ink"><a href="/album/" class="inline-flex min-h-11 items-center">The album →</a><a href="/watch/" class="inline-flex min-h-11 items-center">More to watch →</a></div>
+    <div id="deep-cuts-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      {videos.map((video) => <WatchCard href={`/watch/${video.data.slug}`} title={video.data.title} typeLabel="Deep Cuts Live" thumbnail={video.data.thumbnail} orientation={video.data.orientation} nativeAspect={Boolean(video.data.videoWidth && video.data.videoHeight)} duration={video.data.duration} />)}
+    </div>
+  </section>
+</BaseLayout>

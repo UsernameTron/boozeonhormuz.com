@@ -57,7 +57,9 @@ export async function getStaticPaths() {
           .filter(
             (v) =>
               v.id !== video.id &&
-              (v.data.type === video.data.type || (track && v.data.track?.id === track.id)),
+              (video.data.collection
+                ? v.data.collection?.label === video.data.collection.label
+                : v.data.type === video.data.type || (track && v.data.track?.id === track.id)),
           )
           .slice(0, 3),
       },
