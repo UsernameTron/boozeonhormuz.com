@@ -1,12 +1,12 @@
 ---
 interface Props {
   text: string;
-  episode?: string;
+  context: string;
 }
-const { text, episode } = Astro.props;
+const { text, context } = Astro.props;
 ---
 
-<figure class="border border-line card-marble p-6">
-  <blockquote class="font-display text-title text-ink">&ldquo;{text}&rdquo;</blockquote>
-  {episode && <figcaption class="font-body text-eyebrow uppercase text-gold-ink mt-4">{episode}</figcaption>}
+<figure class="border border-line card-marble p-6 sm:p-8">
+  <figcaption class="font-body text-sm text-gold-ink mb-4">{context}</figcaption>
+  <blockquote class="font-display text-xl sm:text-2xl leading-relaxed text-ink">&ldquo;{text}&rdquo;</blockquote>
 </figure>

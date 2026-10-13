@@ -394,66 +394,6 @@ Show only after an explicit “Request a fictional refund” action. The $250 fi
 
 **Record:** Published by the founder as an unqualified endorsement.
 
-## Written vignettes
-
-These are written scenes, not unavailable videos. Their original episode titles are retained. Display the fiction label with every standalone scene.
-
-### The Crime Has a Landing Page
-
-Fictional political satire — not a real statement, quote, recording, or event report.
-
-**Accountant:** The ownership field says zero.
-
-**Don:** Zero. Clean number. Beautiful shape. They had all these fractions. Ugly little numbers, dividing things. I said make it simple. Now everybody gets the same ownership. Nobody can say I favored anybody.
-
-**Accountant:** You are listed separately.
-
-**Don:** Of course. I brought everybody together. You don't put the host in with the people who arrived.
-
-**Accountant:** Same property. Different column.
-
-### Sir, That Is Not A Revenue Stream
-
-Fictional political satire — not a real statement, quote, recording, or event report.
-
-**Accountant:** The guest has asked about the bereavement policy.
-
-**Don:** Give them time. These are families. Three days, four days. Don't call during the service. Have some class. Send flowers. Big arrangement. Put the account number on the ribbon so we know who we're thinking of.
-
-**Accountant:** The flowers would be our expense.
-
-**Don:** Our expense? They're having the funeral. Why the hell are we buying the flowers?
-
-**Accountant:** Bereavement policy: bring your own.
-
-### The Shrimp Tower Deposition
-
-Fictional political satire — not a real statement, quote, recording, or event report.
-
-**Accountant:** These guests only came for the complimentary lunch.
-
-**Don:** And they stayed. Ninety minutes. Two hours, some of them. The shrimp were gone in eleven minutes. So what kept them? Me. I kept them. They were looking at the door, hoping more people would come hear it.
-
-**Accountant:** They were waiting for their coats.
-
-**Don:** Which we looked after. Not one coat left without an owner. That's the kind of care you don't get anymore.
-
-**Accountant:** Coat check was inside the sales office.
-
-### Discovery With Complimentary Valet
-
-Fictional political satire — not a real statement, quote, recording, or event report.
-
-**Accountant:** They have requested all the records.
-
-**Don:** All of them. See? Interest. They used to ask for a brochure. Now it's every invoice, every note. Years of my work. You can't buy that kind of attention. Put them in the gold folders.
-
-**Accountant:** There are forty-seven boxes.
-
-**Don:** Then get forty-seven valet tickets. We're not leaving them in the driveway. This is a luxury property.
-
-**Accountant:** Evidence collected. Parking validated.
-
 ## Inline concierge
 
 Scripted answers only. No AI, contact capture or live-agent claim.
@@ -478,4 +418,4 @@ Scripted answers only. No AI, contact capture or live-agent claim.
 
 ## Editorial check
 
-The concrete motifs are the folder, hospitality and family ownership. Later paperwork changes their meaning. The 99-year anecdote occurs once in the main flow. Short accountant corrections stop on the contradiction. The longer written scenes are optional. Don remains the butt of every boast; guests, staff and advisers supply evidence rather than becoming targets. No real event, allegation or endorsement is asserted.
+The concrete motifs are the folder, hospitality and family ownership. Later paperwork changes their meaning. The 99-year anecdote occurs once in the main flow. Short accountant corrections stop on the contradiction. Don remains the butt of every boast; guests, staff and advisers supply evidence rather than becoming targets. No real event, allegation or endorsement is asserted.

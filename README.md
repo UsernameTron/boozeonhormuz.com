@@ -6,7 +6,7 @@ A static Astro 6 site at [boozeonhormuz.com](https://boozeonhormuz.com) — a sa
 
 ## Status
 
-The Astro site is live. Its catalog currently contains the premiere video, album shell and seven Evidence Lounge exhibits; the intentionally unfinished music catalog supports incremental releases. These documents describe this revision. Confirm the deployed commit and successful Actions run before treating any change as live. Publishing changes requires explicit owner approval.
+The approved content branch contains a 27-song video album by Don Biggly & The Indictments, 32 additional Deep Cuts Live performances, 47 Gallery images, five produced music videos, sketches and shorts, five McTrumps commercials, twelve quotes, five illustrated products, a portrait biography, and a news broadcast. Watch requires a media type selection. The seven original Evidence Lounge exhibits remain available. These documents describe this revision; verify the deployed commit and successful Actions run to establish live status. Publishing changes requires explicit owner approval.
 
 ## Stack
 
@@ -49,7 +49,7 @@ tests/                 media lifecycle unit tests + browser regression suite
 .planning/              project planning (GSD)
 ```
 
-The media routes are `/album`, `/album/<slug>`, `/listen`, `/watch`, `/watch/<slug>` and `/archive`. `/play` embeds the standalone game. `/experience` is the fictional resort presentation, with connected qualification, membership, amenity and financing choices, plus an exportable ownership record. Its complete dialogue is in `docs/experience-script.md`.
+The media routes are `/album`, `/album/<slug>`, `/deep-cuts`, `/gallery`, `/art/<id>`, `/listen`, `/watch`, `/watch/<slug>` and `/archive`. The album and Deep Cuts are video collections; separate audio is optional. Gallery images support enlargement, previous/next navigation, downloads, and ordinary detail links without JavaScript. `/play` embeds the standalone game. `/experience` is the fictional resort presentation, with connected qualification, membership, amenity and financing choices, plus an exportable ownership record. Episode teasers were removed at the owner's request. Its dialogue is in `docs/experience-script.md`.
 
 ## Creative Tools
 

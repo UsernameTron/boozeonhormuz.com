@@ -16,6 +16,14 @@ test('videos exclude drafts and sort newest first; images exclude drafts', () =>
   assert.deepEqual(liveVideos([video('old', '2026-01-01'), video('draft', '2026-09-01', true), video('new', '2026-06-01')]).map((v) => v.id), ['new', 'old']);
   assert.deepEqual(liveImages([{ id: 'public', data: { draft: false } }, { id: 'draft', data: { draft: true } }]).map((i) => i.id), ['public']);
 });
+test('same-day music videos keep the supplied viewing order', () => {
+  const item = (id, displayOrder, publishDate = '2026-10-11') => ({
+    id, data: { type: 'music-video', displayOrder, publishDate: new Date(publishDate), draft: false },
+  });
+  const catalog = [item('fifth', 5), item('older', 1, '2026-06-03'), item('third', 3), item('first', 1)];
+  assert.deepEqual(liveVideos(catalog).map((video) => video.id), ['first', 'third', 'fifth', 'older']);
+  assert.deepEqual(catalog.map((video) => video.id), ['fifth', 'older', 'third', 'first']);
+});
 test('duration conversion supports missing and valid metadata', () => {
   assert.equal(toISODuration(), undefined);
   assert.equal(toISODuration('invalid'), undefined);

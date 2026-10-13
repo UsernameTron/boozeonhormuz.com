@@ -6,20 +6,24 @@ const visibleArt = 'a[data-art-id]:visible';
 test('archive search, populated filters, reset and browser history preserve discovery state', async ({ page }) => {
   await page.goto('/archive/?q=money&type=image');
   await expect(page.locator('#archive-query')).toHaveValue('money');
-  await expect(page.locator(visibleCards)).toHaveCount(3);
+  const totalCount = await page.locator('[data-archive-item]').count();
+  const imageCount = await page.locator(visibleCards).count();
+  expect(imageCount).toBeGreaterThan(0);
+  expect(await page.locator(visibleCards).evaluateAll((cards) => cards.every((card) => (card as HTMLElement).dataset.type === 'image'))).toBe(true);
   await page.locator('button[data-filter="music-video"]').click();
-  await expect(page.locator('#archive-empty')).toBeVisible();
+  await expect(page.locator('[data-type="music-video"]:visible').filter({ hasText: 'Hush Money Is Philanthropy' })).toBeVisible();
+  const musicCount = await page.locator(visibleCards).count();
   await page.goBack();
-  await expect(page.locator(visibleCards)).toHaveCount(3);
+  await expect(page.locator(visibleCards)).toHaveCount(imageCount);
   await page.goForward();
-  await expect(page.locator('#archive-empty')).toBeVisible();
+  await expect(page.locator(visibleCards)).toHaveCount(musicCount);
   await page.getByRole('button', { name: 'Reset', exact: true }).click();
-  await expect(page.locator(visibleCards)).toHaveCount(13);
+  await expect(page.locator(visibleCards)).toHaveCount(totalCount);
   await page.locator('#archive-query').fill('<script> & "');
   await expect(page.locator(visibleCards)).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get('q')).toBe('<script> & "');
   await page.goto('/archive/?type=unknown');
-  await expect(page.locator(visibleCards)).toHaveCount(13);
+  await expect(page.locator(visibleCards)).toHaveCount(totalCount);
 });
 
 test('art viewer contains focus, navigates filtered art, closes and restores its invoking card', async ({ page }) => {
@@ -86,11 +90,11 @@ for (const width of [320, 390, 1440]) {
   });
 }
 
-test('ordinary artwork links and all seven detail pages work without JavaScript', async ({ browser, baseURL }) => {
+test('ordinary artwork links and all original exhibit detail pages work without JavaScript', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
   const page = await context.newPage();
   await page.goto('/archive/');
-  const links = await page.locator('a[data-art-id]').evaluateAll((anchors) => anchors.map((anchor) => (anchor as HTMLAnchorElement).href));
+  const links = await page.locator('a[data-art-id^="evidence--"]').evaluateAll((anchors) => anchors.map((anchor) => (anchor as HTMLAnchorElement).href));
   expect(links).toHaveLength(7);
   for (const href of links) {
     expect((await page.goto(href))?.status()).toBe(200);

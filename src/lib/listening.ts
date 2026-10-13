@@ -26,7 +26,7 @@ export function orderedListeningTracks(tracks: Track[]) {
     || a.data.trackNumber - b.data.trackNumber || a.id.localeCompare(b.id));
 }
 
-// Page eligibility deliberately remains broader: previews may have no audio yet.
+// Only tracks with an audio source belong in the standalone listening queue.
 export function listeningQueue(tracks: Track[]): QueueTrack[] {
   return orderedListeningTracks(tracks)
     .filter((track) => typeof track.data.audio === 'string' && track.data.audio.trim().length > 0)

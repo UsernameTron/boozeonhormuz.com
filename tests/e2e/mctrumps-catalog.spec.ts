@@ -21,7 +21,9 @@ test('all five McTrumps commercials are discoverable from Watch and Archive', as
   await expect(page.locator('#archive-grid [data-type="sponsor-read"] a').first()).toHaveAttribute('data-detail-href', '/watch/mctrumps-welcome');
   await page.getByRole('button', { name: 'Reset', exact: true }).click();
   await page.getByLabel('Search the archive').fill('McTrumps');
-  await expect(page.locator('#archive-grid [data-archive-item]:visible')).toHaveCount(5);
+  await expect(page.locator('#archive-grid [data-type="sponsor-read"]:visible')).toHaveCount(5);
+  await expect(page.locator('#archive-grid [data-type="image"]:visible')).toHaveCount(2);
+  await expect(page.locator('#archive-grid [data-archive-item]:visible')).toHaveCount(7);
 });
 
 test('each McTrumps watch page uses its catalogued source and native frame and links to the full series', async ({ page }) => {

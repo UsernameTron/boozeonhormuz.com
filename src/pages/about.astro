@@ -2,54 +2,71 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import MediaThumb from '../components/MediaThumb.astro';
-// Character page: portrait + full in-character bio. The portrait asset
-// (public/don-biggly-portrait.webp) is owner-supplied; a missing/failed file
-// degrades to a neutral placeholder (same pattern as the products grid).
 ---
 
 <BaseLayout
-  title="Who the Hell Is Don Biggly? — Booze on Hormuz™"
-  description="An introduction to Don Biggly, reluctantly provided by his legal team."
+  title="Who the Hell Is Don Biggly? | Booze on Hormuz™"
+  description="Don Biggly introduces himself, his honorary rank, and the resort his lawyers keep reviewing."
 >
   <PageHeader eyebrow="An introduction" title="Who the Hell Is Don Biggly?" />
 
   <section class="px-6 pb-28 max-w-2xl mx-auto">
     <figure class="card-marble border border-line rounded-xl overflow-hidden shadow-lg max-w-[280px] mx-auto mb-10">
-      <MediaThumb src="/don-biggly-portrait.webp" alt="Don Biggly, photographed from behind. He approved it without turning around." aspect="aspect-[4/5]" fit="contain" fallback="Portrait pending counsel" sizes="280px" />
+      <MediaThumb src="/don-biggly-portrait.webp" alt="Don Biggly faces the camera in a feathered naval hat and an ornate blue uniform crowded with gold trim and self-awarded medals." aspect="aspect-[4/5]" fit="contain" fallback="Portrait unavailable" sizes="280px" />
       <figcaption class="font-body text-xs text-ink-soft/70 text-center p-2 italic">
-        Official portrait. Likeness withheld on advice of counsel.
+        Official portrait. Every medal was awarded by the man wearing it.
       </figcaption>
     </figure>
 
     <div class="font-body text-lg text-ink-soft space-y-5">
       <p>
-        By every metric his own team was willing to sign, Don Biggly is the most decorated
-        hospitality visionary ever to operate within nautical miles of an active geopolitical
-        incident. Many people say this. The people who say it are paid, but they say it.
+        I’m Don Biggly. The most decorated hospitality visionary anywhere near an active
+        geopolitical incident. Decorated? We ran out of jacket. Had to put medals on the lining.
+        My people checked every metric they were willing to sign. The others were dismissed.
+        Very unreliable numbers.
       </p>
       <p>
-        He holds honorary credentials from institutions that have asked not to be named, and
-        several awards he commissioned, presented to himself, and accepted with visible emotion.
-        The &ldquo;Admiral&rdquo; is honorary. He conferred it. The uniform is real, which his
-        tailor describes as &ldquo;the only verifiable part.&rdquo;
+        I have honorary degrees from very important institutions. They’ve requested privacy.
+        Some have requested their seals back. You don’t give somebody a degree and then ask what
+        he graduated from. I graduated from success. The ceremony was at my hotel. Everybody paid.
       </p>
       <p>
-        The empire began, as all great empires do, with a waterfront nobody else wanted and a
-        disclaimer nobody else would read. Today Booze on Hormuz spans an Exclusion Zone of
-        unrivaled amenities &mdash; a shrimp tower visible from two countries, financing available
-        against the news cycle, and a concierge desk that doubles, when required, as a legal
-        department.
+        They said the hat makes me a captain. I said, &ldquo;Admiral.&rdquo; I awarded myself the
+        promotion. Who knows my qualifications better than me? Nobody. The tailor said the
+        uniform was the only verifiable part. Beautiful endorsement. We put it on the brochure.
       </p>
       <p>
-        He has never been charged with anything that stuck, a record his counsel characterizes
-        as &ldquo;basically an acquittal.&rdquo; His philosophy is simple, gold-bound, and printed
-        on a card he will hand you whether or not you ask: be together, be inspired, be briefed by
-        counsel.
+        Booze on Hormuz started with a coastline. Wonderful coastline. Everybody else saw danger.
+        I saw waterfront without competing bids. They said, &ldquo;Don, that’s an exclusion
+        zone.&rdquo; I said, &ldquo;Exactly. Finally, somebody understands luxury.&rdquo;
       </p>
       <p>
-        A fuller biography is being prepared by people who are not under oath. It will be
-        tremendous. It will also be reviewed, redacted, and &mdash; where legally advisable
-        &mdash; denied.
+        Now look what we’ve built. A shrimp tower visible from two countries. One country
+        complained. We added another level. They’re still looking at it. That’s market penetration.
+      </p>
+      <p>
+        The financing is very sophisticated. You borrow against tomorrow’s headlines. If the news
+        gets worse, your view gets better. Our concierge handles luggage, dinner reservations, and
+        any question beginning with &ldquo;Can they legally.&rdquo; Same desk. Different jacket.
+      </p>
+      <p>
+        My counsel handles the record. I handle the gold folder. He says I shouldn’t summarize his
+        advice. Very jealous of my ability to summarize. I told him we should put
+        &ldquo;LEGALLY REVIEWED&rdquo; on everything. He said, &ldquo;Reviewed doesn’t mean approved.&rdquo;
+        I said, &ldquo;Then make REVIEWED bigger.&rdquo;
+      </p>
+      <p>
+        My philosophy is simple. Be together. Be inspired. Be briefed by counsel. Beautiful card.
+        Thick card. You can’t fit it in a wallet, so you have to carry it around. People see my
+        name. I thought of that.
+      </p>
+      <p>
+        A fuller biography is coming. I’ve selected a very independent writer. He reports directly
+        to me. Every chapter will be checked, improved, and, where necessary, replaced with photographs.
+      </p>
+      <p>
+        We’re doing the cover first. Huge portrait. No room for the charges. Shipping charges.
+        My lawyer made me add that.
       </p>
     </div>
   </section>

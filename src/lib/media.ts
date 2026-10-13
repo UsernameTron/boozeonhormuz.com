@@ -11,7 +11,7 @@ export const listedTracks = (tracks: Track[]) =>
     .filter((t) => !t.data.draft && t.data.status !== 'hidden')
     .sort((a, b) => a.data.trackNumber - b.data.trackNumber);
 
-// Tracks that get their own /album/<slug> page (and audio surfaces).
+// Tracks that get their own /album/<slug> page. Audio surfaces require a source.
 export const playableTracks = (tracks: Track[]) =>
   listedTracks(tracks).filter((t) => t.data.status === 'preview' || t.data.status === 'released');
 
@@ -20,7 +20,9 @@ export const liveVideos = (videos: Video[]) =>
     .filter((v) => !v.data.draft)
     .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
       || (a.data.collection?.label && a.data.collection.label === b.data.collection?.label
-        ? (a.data.collectionOrder ?? Infinity) - (b.data.collectionOrder ?? Infinity) : 0));
+        ? (a.data.collectionOrder ?? Infinity) - (b.data.collectionOrder ?? Infinity) : 0)
+      || (a.data.type === b.data.type && a.data.displayOrder && b.data.displayOrder
+        ? a.data.displayOrder - b.data.displayOrder : 0));
 
 export const featuredFirst = <T extends { data: { featured: boolean } }>(entries: T[]) =>
   [...entries].sort((a, b) => Number(b.data.featured) - Number(a.data.featured));

@@ -1,4 +1,4 @@
-import { INTRO, QUESTIONS, TIERS, AMENITIES, QUOTES, TESTIMONIALS, SCENES, CONCIERGE, REFUND, financeDialogue, FICTION_LABEL } from './experience-story.js';
+import { INTRO, QUESTIONS, TIERS, AMENITIES, QUOTES, TESTIMONIALS, CONCIERGE, REFUND, financeDialogue, FICTION_LABEL } from './experience-story.js';
 import { STORAGE_KEY, createState, normalizeState, selectedAnswers, chooseAnswer, chooseTier, calculateFinance, buildRecord, recordText, dollars } from './experience-model.js';
 
 const $ = id => document.getElementById(id);
@@ -74,18 +74,6 @@ function buildStaticContent() {
     const card = node('figure', undefined, 'testimonial');
     card.append(node('blockquote', item.quote), node('figcaption', item.credit), node('p', item.note, 'paper-note'));
     return card;
-  }));
-  $('scenes').replaceChildren(...SCENES.map((scene, index) => {
-    const details = node('details', undefined, 'written-scene');
-    const summary = node('summary');
-    summary.append(node('span', `Written scene ${String(index + 1).padStart(2, '0')}`, 'eyebrow'), node('span', scene.title, 'scene-title'));
-    details.append(summary, node('p', FICTION_LABEL, 'fiction-label'));
-    scene.lines.forEach(line => {
-      const paragraph = node('p', undefined, 'scene-line');
-      paragraph.append(node('strong', line.speaker + ': '), document.createTextNode(line.text));
-      details.append(paragraph);
-    });
-    return details;
   }));
   $('concierge').replaceChildren(...CONCIERGE.map(item => {
     const details = node('details', undefined, 'concierge-item');

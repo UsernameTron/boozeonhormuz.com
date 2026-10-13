@@ -2,7 +2,7 @@
 
 ## Project summary
 
-Static Astro 6.4.2 site deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. The site has a public premiere, album shell, seven exhibits, two creative apps and a game. There is no server-side application runtime or database.
+Static Astro 6.4.2 site targeting GitHub Pages on `boozeonhormuz.com`. The approved content branch adds a 27-song video album, 32 Deep Cuts performances, 47 Gallery images, populated Watch categories, Products, Quotes, biography and Press content. Seven original exhibits, two creative apps and the game remain available. There is no server-side application runtime or database. Confirm the deployed SHA before treating branch content as live.
 
 **Revision and release status:** this document describes the current repository revision; confirm the deployed SHA and Actions run for live status. Push/publication requires explicit owner approval. These source changes do not themselves alter DNS, Pages environment or branch-protection settings. The pre-change reference is `b906b87b0a18e0102d8a0afdc7c2190666e8474a`, which builds successfully locally; record the actual deployed SHA and Actions artifact IDs at release time.
 

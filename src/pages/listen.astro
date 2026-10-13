@@ -7,27 +7,26 @@ import ListeningController from '../components/ListeningController.astro';
 import { listeningQueue, orderedListeningTracks } from '../lib/listening';
 
 const tracks = await getCollection('tracks');
-const ordered = orderedListeningTracks(tracks);
+const ordered = orderedListeningTracks(tracks).filter((track) => Boolean(track.data.audio));
 const queue = listeningQueue(tracks);
 ---
 
 <BaseLayout
-  title="Listen — Booze on Hormuz™"
-  description="Tracks and audio from the Booze on Hormuz album — musical satire, streaming as it's finished."
+  title="Listen | Booze on Hormuz™"
+  description="Standalone audio, when available, from Booze on Hormuz. The live album's songs are filmed performances with lyrics on screen."
 >
-  <PageHeader eyebrow="The audio record" title="Listen" />
+  <PageHeader eyebrow="Standalone audio" title="Listen" />
 
   <section class="px-6 pb-28 max-w-4xl mx-auto">
     {
       ordered.length === 0 ? (
         <Fragment>
           <p class="font-display text-title text-ink max-w-2xl">
-            The first tracks are in the mastering suite behind a very gold door. When they clear
-            the console, they stream here first — no launch event, no waiting for the album to be
-            finished, no permission asked.
+            This album is a live show by Don Biggly &amp; The Indictments. Its songs are videos
+            with lyrics on screen. There are no standalone audio tracks here yet.
           </p>
           <p class="font-body text-ink-soft mt-6">
-            Meanwhile, the <a href="/watch" class="text-gold-ink hover:opacity-80">screening room</a> is open.
+            <a href="/album" class="text-gold-ink hover:opacity-80">Explore the album and its video setlist</a>.
           </p>
         </Fragment>
       ) : (
