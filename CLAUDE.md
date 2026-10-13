@@ -6,7 +6,7 @@ Project governance for the Booze on Hormuz satire hub. Read before making change
 
 ## What this is
 
-A static Astro 6 site, deployed to GitHub Pages on the apex domain `boozeonhormuz.com`. **Media-first since the makeover:** the site is the permanent home of the whole project — the album, music videos, performances, shorts, artwork — plus one quiet commercial door (`/studio`). The original timeshare-trope landing page is preserved intact at `/experience` as part of the world. The media collections (albums/tracks/videos/images) are the publishing system: dropping one track file populates `/album`, `/listen`, `/archive`, the homepage, and its own page — no album-completion dependency anywhere (see `docs/CONTENT-MODEL.md`). **Content rollout in progress** — the Evidence Lounge holds 7 live exhibits (4 `titlecard` + 3 `gallery`, all `draft: false`) which also seed the homepage Visual Evidence grid and `/archive`; `/products` and `/sponsor-reads` render inline image-driven grids (data arrays in the page frontmatter, not collections); `/watch` shows a featured YouTube premiere embed as its empty state. The albums collection holds the live album shell; tracks/videos/images/episodes/quotes fill as work is finished.
+A static Astro 6 site targeting GitHub Pages on `boozeonhormuz.com`. The approved content branch includes a 27-song video album, 32 Deep Cuts Live performances, 47 Gallery images, five produced music videos, sketches and shorts, five McTrumps commercials, twelve quotes, five illustrated products, a portrait biography, and a news broadcast. The media collections (albums/tracks/videos/images) drive the catalogue; `/listen` includes only tracks with separate audio. `/watch` requires a category selection, including Deep Cuts Live. `/gallery` reuses the archive artwork viewer and detail pages. Seven Evidence Lounge exhibits remain available. Products and the McTrumps presentation use inline typed arrays; the five commercials also have video records. Experience episode teasers were removed by owner request. Verify the deployed SHA before calling this branch's content live; the Studio reel remains deferred.
 
 ## Deployment — Astro pipeline ONLY (critical)
 
@@ -119,7 +119,7 @@ npm run test:lighthouse # audit the frozen verified production output
 
 ## Conventions
 
-- **Content rollout in progress** (owner-paced). Evidence Lounge has 7 live exhibits (titlecard + gallery); add collection content by dropping entries (set `draft: false`); add products/sponsors via the inline arrays in their pages. Source images live outside git (gitignored `design-sources/`); ship optimized WebP under `public/`.
+- **Content rollout is owner-paced.** Add collection content through entries with `draft: false`; products/sponsors use the inline arrays in their pages. Source masters remain outside Git. Ship optimized WebP and playback copies under `public/`; regenerate `src/lib/generated-media.json` when image assets change.
 - **Parody disclaimer** renders globally from `BaseLayout`, never per-page.
 - New evidence artifact type = a new branch in the `evidence` discriminated union, not a new collection.
 - Exact-pin every dependency; commit the lockfile; CI uses `npm ci`.

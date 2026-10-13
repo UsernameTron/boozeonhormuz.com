@@ -18,6 +18,8 @@ audio files. No standalone audio is required for the album.
    `/Users/cpconnor/Desktop/Don Biggly/02 Ready for Website/02 Album/Song Videos with Lyrics/`.
    Separate produced music videos belong in
    `/Users/cpconnor/Desktop/Don Biggly/02 Ready for Website/04 Watch/Music Videos/`.
+   Additional live performances belong in `04 Watch/Deep Cuts Live/`; still
+   images belong in `21 Gallery/` within the same Ready for Website directory.
    Preserve these files outside the repo.
 2. **Web delivery assets** — optimized versions only, committed under `public/`:
    - `public/video/` — playable filmed songs (or use a YouTube ID)
@@ -32,6 +34,25 @@ audio files. No standalone audio is required for the album.
 Use ordered filenames such as `01 Song Title.mp4`, `02 Song Title.mp4` in the
 album video folder. The number gives the setlist order; no audio extraction is
 needed. Keep produced music videos separate from the filmed set.
+
+## Deep Cuts Live and Gallery
+
+Deep Cuts are standalone `videos` records with `type: performance` and
+`collection: { label: "Deep Cuts Live", href: "/deep-cuts/" }`. Use a distinct
+slug and `collectionOrder`; omit an album track reference to keep the approved
+27-song setlist intact. `/watch` maps this collection to its own category and
+requires a selection before rendering any videos. `/deep-cuts` provides the
+ordered collection, reached from Watch, Album, and the footer.
+
+Gallery entries use the `images` collection with `type: artwork`, a full WebP
+under `public/stills/`, a thumbnail under `public/thumbs/`, descriptive title
+and alt text, and `draft: false`. `/gallery` renders these images in a thumbnail
+grid. Its shared artwork viewer supports previous/next navigation, keyboard
+controls, downloads, and image details; ordinary `/art/<id>` links work without
+JavaScript. The existing seven Evidence Lounge exhibits retain their own page.
+
+The GitHub repository backs up website delivery files. It does not contain the
+original masters in the Desktop upload library.
 
 Keep a **content manifest** spreadsheet (Asset ID · Track · Type · File ·
 Orientation · Runtime · Master ready · Web ready · Thumbnail · Captions ·

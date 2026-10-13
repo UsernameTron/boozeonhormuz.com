@@ -1,80 +1,68 @@
-# STATE — boozeonhormuz.com
+# Project State
 
-**Last updated:** 2026-06-19
+## Project Reference
 
-## Current state
+See: `.planning/PROJECT.md` (updated 2026-10-13).
 
-- **Project state:** M01 SHIPPED — site live, all phases (01–04) merged
-- **Classification:** MULTI-MILESTONE
-- **Active milestone:** M01 complete; M02 (pipeline) not started
-- **Active phase:** phase-04 (Creative Tools) → SHIPPED (PRs #12, #13 merged to `main`)
-- **Phase state:** site live at https://boozeonhormuz.com over HTTPS; deploy single-commit via `withastro/action@v6`; Lighthouse CI gate enforced and green. `/tools` hub + two prompt generators live; both tools at 1.0 Lighthouse accessibility.
+**Core value:** Publish the completed Don Biggly creative catalogue with reliable browsing and playback.
+**Current focus:** Confidence verification and finalization of the approved content batch.
+**Historical milestone:** M01 Launch Satire Hub shipped; its archive is `.planning/milestones/M01-launch-satire-hub/`.
+**Future milestone:** M02 Generalize the Website Pipeline remains unstarted.
 
-## Active session handoff — 2026-06-19 (post-launch: mobile nav + /about)
+## Current Position
 
-**Branch:** `feat/homepage-mobile-nav-and-about` (commit `bf5c5e2`) — NOT pushed, NO PR yet.
-**Plan file:** `~/.claude/plans/reviewed-the-below-feedback-cheerful-floyd.md` (full context + the validation table).
-**Trigger:** a 2026-06-18 full-site review. Most of its "misses" were validated as **empty-by-design** (working infra awaiting owner content), NOT defects — read the plan's validation table before re-chasing any of them.
+Phase: None (maintenance content batch; no active phase directory).
+Plan: None (owner-directed content work completed and approved).
+Status: Verification blocked; content implementation and remote backup are complete.
+Last activity: 2026-10-13 | Fresh confidence sweep passed functional and performance checks, then identified dependency and file-size policy blockers.
 
-### Done + verified (committed on the branch)
-- **Homepage mobile nav (`src/pages/index.html`)** — the one genuine bug. Hamburger + slide-in drawer (≤920px) exposing in-page anchors AND real site routes; added Watch + Evidence Lounge to the desktop bar; full a11y (aria-expanded, Esc/backdrop/link close, focus trap, scroll-lock, reduced-motion) + a `.nav-drawer[hidden]` override so the closed drawer is truly `display:none` (not off-screen-tabbable).
-- **`/about` (`src/pages/about.astro`)** — replaced the placeholder with a full in-character bio + a portrait `<figure>` using the products-grid `onerror` graceful-degrade pattern.
-- **Verification:** `npx astro check` 0 errors · `npm run build` 12 pages · headless Playwright 18/18 assertions, 0 console errors (open/close/Esc/navigate @390px + desktop breakpoint).
+Branch: `codex/content-products`.
+Remote: `origin/codex/content-products`.
+Approved application/media commit: `31476602b3dc34f028b1eab6373f2853c9b69192`.
+Remote verification before audit: all 684 tracked files matched GitHub, including 305 website media files.
+Current audit documentation is local until the confidence gate is resolved.
 
-### Open items (resume here)
-1. **Owner assets — zero code, drop-in** (pages degrade gracefully until present):
-   - `public/products/` (4:5, ~1200×1500, ≤200KB): `hormuz-decanter.webp`, `discovery-proof-briefcase.webp`, `premium-panic-cufflinks.webp`, `legal-disclaimer-cologne.webp`
-   - `public/sponsors/` (16:9, ~1600×900, ≤200KB): `hormuz-yacht-fuel.webp`, `discovery-shredding.webp`, `panic-room-realty.webp`, `legal-ish-insurance.webp`
-   - `public/don-biggly-portrait.webp` (4:5, ~1000×1250, implied-Don / no identifiable face)
-   - Per-image subjects live in the `alt`/`note`/`blurb` fields of `products/index.astro` + `sponsor-reads.astro`; art direction in the plan file.
-2. **Decision pending (owner):** keep the 2 added desktop-nav links (Watch, Evidence Lounge) or drop them for a cleaner desktop bar? Mobile drawer + footer already cover routes.
-3. **Ship:** push branch + open PR (`/commit-push-pr` or `/gsd:ship`) when ready. CI runs Lighthouse on the PR.
+## Performance Metrics
 
-### Notes
-- Stray generated `Booze-on-Hormuz-Technical-Spec.docx` is locally ignored via `.git/info/exclude` (uncommitted); the permanent tracked-gitignore lives on the separate `chore/ignore-spec-docx` branch.
-- Separate `docs/claude-md-init-header` branch holds unrelated CLAUDE.md edits (init header + EvidenceCard pointer) — also unpushed.
-- **Out-of-scope per validation, do NOT re-chase:** video "buried" (refuted — it's mid-page), chat widget "orange clash" (refuted — it's brand-red `--flare`), populating episodes/quotes (intentional empty states).
+- Type check: zero errors and warnings.
+- Unit tests: 45 passed.
+- Browser checks: 80 passed in a fresh complete run.
+- Performance audit: 36 runs across 12 URLs, all configured median budgets passed.
+- Build: 196 generated pages and 199 total HTML files; 208 responsive-media source hashes checked.
+- Confidence score: no phase architecture scores exist in the legacy archive, so no weighted percentage is claimed.
+- Usage/cost: unavailable; no estimated model pricing was substituted.
 
-## Milestone ledger
+## Accumulated Context
 
-| Milestone | Title | State |
-|---|---|---|
-| M01 | Launch Satire Hub | ✅ SHIPPED — phases 01–04 merged; content drops owner-paced |
-| M02 | Generalize the Website Pipeline | STUB · UNBLOCKED (start via `/gsd:new-milestone`) |
+### Decisions
 
-## Phase ledger (M01)
+- Album contains 27 video songs with lyrics on screen; separate audio is optional.
+- Deep Cuts Live holds 32 additional live versions in a separate collection and Watch category.
+- Gallery holds 47 uploaded images with thumbnails, enlargement, previous/next controls, and downloads.
+- Watch requires a media-type selection and has no All category.
+- Biography, portrait, five product images, McTrumps videos, twelve quotes, Press broadcast, and Legal contact were approved.
+- Experience episode teasers were removed by owner request.
+- Studio reel and broader studio commercialization remain deferred.
+- Website delivery assets are committed; original Desktop masters are a separate backup responsibility.
+- GitHub Pages and the approved design remain unchanged by this audit.
 
-| Phase | Title | State | Shipped |
-|---|---|---|---|
-| phase-01 | Foundation Setup | ✅ DONE | PR #1 |
-| phase-02 | Page Shells | ✅ DONE | full 8-route IA |
-| phase-03 | Production Polish | ✅ DONE | PR #10 |
-| phase-04 | Creative Tools (Phase 1 + Phase 2) | ✅ DONE | PR #12, PR #13 |
+### Pending Todos
 
-## Infrastructure baseline (pre-existing, owner-confirmed)
+- Resolve critical dependency findings through a reviewed compatibility upgrade and rerun the audit.
+- Decide how to handle the confidence workflow's generic 5 MB file threshold for 72 intended video assets.
+- After a ship-ready confidence result, finalize the approved batch through the release gates and verify public delivery.
 
-- ✅ Domain registered (Namecheap, active through 2027-05-30)
-- ✅ DNS: 4 A records at apex → GitHub Pages IPs; `www` CNAME → `usernametron.github.io`
-- ✅ Repo `UsernameTron/boozeonhormuz.com` exists, public
-- ✅ GitHub Pages enabled; root `CNAME` file present
-- ✅ Host decision locked: **GitHub Pages** (no Cloudflare migration in M01)
+### Blockers/Concerns
 
-## Reconciliation note (2026-05-31)
+- `.planning/dependencies/DEPENDENCIES-REPORT.md`: 2 critical package entries, with additional high/moderate/low toolchain advisories. The public host serves static files; no deployed Node-server exploit path was demonstrated.
+- The confidence workflow makes tracked files over 5 MB a FAIL. All 72 are MP4 delivery assets, largest 48.6 MiB. Removing or rewriting their history has not been authorized or performed.
+- Prepared output is 1,000,366,880 bytes; it contains intentional self-hosted media. Adding more media needs a storage/delivery review.
+- No new merge, tag, milestone archive, or deployment occurred in this sweep.
 
-Superseded files (`PROJECT.md`, `STATE.md`, `todo.md`, `phase-0{1,2,3}-{CONTEXT,PLAN}.md` at repo root) are slated to move to `.planning/_archive/2026-05-31-pre-reconcile/` on owner approval. `RUNBOOK.md` + `PROJECT-CONTEXT.md` retained at root as reference. Stack corrected to Astro 6.4.2 + `withastro/action@v6` (were 5 / v3).
+## Session Continuity
 
-## Next action
+Last session: 2026-10-13.
+Stopped at: Confidence sweep complete; report gate blocks finalization.
+Resume file: `.planning/CONFIDENCE.md`.
 
-M01 is shipped. Open threads, owner's choice of priority:
-
-1. **Content drops (owner-paced):** generate songs/images/copy via the content factory; set `draft: false` per collection entry. Each drop is one `git push`.
-2. **Creative Tools — one remaining future-phase item:** shared CSS/JS extraction across the two tools (sizable refactor — best as its own scoped phase). _Done:_ top-bar polish (#14), First Lady rename (#15), self-hosted fonts (#15), JSON-import hardening (#17), shareable prompt URLs (#18).
-3. **M02 — Generalize the Website Pipeline:** start via `/gsd:new-milestone` when ready.
-4. **Repo hardening (owner):** branch protection on `main` (GitHub settings).
-
-## History
-
-- **phase-01** (PR #1): foundation + deploy pipe; HTTPS enforcement enabled early. Codex review: MEDIUM, 7 findings all fixed; Tailwind/Vite pin corrected (`@tailwindcss/vite` 4.3.0→4.2.0).
-- **phase-02 / Checkpoint B**: dark "grift" theme + full page-shell IA (PRs #7, #8).
-- **phase-03** (PR #10): OG/sitemap/robots/analytics, `/legal` + LICENSE, Lighthouse CI.
-- **phase-04** (PRs #12, #13): `/tools` hub + two iframe-embedded prompt generators; Phase 2 polish took both tools to 1.0 Lighthouse accessibility.
+The earlier June state and session history remain recoverable in Git. M01's original finalization remains untouched in its existing milestone directory; M02 was not marked complete.
