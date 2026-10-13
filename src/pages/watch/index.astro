@@ -44,7 +44,6 @@ const cards = [
 ].sort((a, b) => b.date.valueOf() - a.date.valueOf());
 
 const filters = [
-  { key: 'all', label: 'All' },
   { key: 'music-video', label: 'Music Videos' },
   { key: 'performance', label: 'Performances' },
   { key: 'sketch', label: 'Sketches' },
@@ -73,11 +72,12 @@ const filters = [
       ) : (
         <Fragment>
           <div class="archive-filter-list flex flex-wrap gap-2" role="group" aria-label="Filter videos" id="watch-filters">
-            {filters.map((f, idx) => (
+            {filters.map((f) => (
               <button
                 type="button"
                 data-filter={f.key}
-                aria-pressed={idx === 0 ? 'true' : 'false'}
+                aria-pressed="false"
+                aria-controls="watch-grid"
                 class:list={[
                   'font-body text-sm uppercase tracking-[0.1em] px-4 py-2 rounded-sm border transition-colors',
                   'aria-pressed:border-gold aria-pressed:text-gold-ink border-line/60 text-ink-soft hover:text-gold-ink',
@@ -88,9 +88,11 @@ const filters = [
             ))}
           </div>
 
-          <div class="grid sm:grid-cols-2 gap-6 mt-8" id="watch-grid">
+          <p class="font-body text-ink-soft mt-8" id="watch-choice" role="status">Choose a media type to see the videos.</p>
+
+          <div class="grid sm:grid-cols-2 gap-6 mt-8" id="watch-grid" style="display: none">
             {cards.map((c) => (
-              <div data-type={c.type}>
+              <div data-type={c.type} style="display: none">
                 <WatchCard
                   href={c.href}
                   title={c.title}
@@ -105,7 +107,7 @@ const filters = [
             ))}
           </div>
 
-          <p class="hidden font-display text-xl text-ink mt-10" id="watch-empty">
+          <p class="hidden font-display text-xl text-ink mt-10" id="watch-empty" role="status">
             Nothing in this category yet. The lawyers are reviewing the footage.
           </p>
 
@@ -114,6 +116,7 @@ const filters = [
             const group = document.getElementById('watch-filters');
             const grid = document.getElementById('watch-grid');
             const empty = document.getElementById('watch-empty');
+            const choice = document.getElementById('watch-choice');
             group?.addEventListener('click', (ev) => {
               const btn = (ev.target as HTMLElement).closest('button[data-filter]');
               if (!btn || !grid || !empty) return;
@@ -121,10 +124,12 @@ const filters = [
               group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
               let visible = 0;
               grid.querySelectorAll<HTMLElement>('[data-type]').forEach((card) => {
-                const show = filter === 'all' || card.dataset.type === filter;
+                const show = card.dataset.type === filter;
                 card.style.display = show ? '' : 'none';
                 if (show) visible++;
               });
+              choice?.classList.add('hidden');
+              grid.style.display = visible > 0 ? '' : 'none';
               empty.classList.toggle('hidden', visible > 0);
             });
           </script>
