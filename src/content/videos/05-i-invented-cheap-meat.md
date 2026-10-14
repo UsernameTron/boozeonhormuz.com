@@ -10,7 +10,7 @@ orientation: "16:9"
 duration: "3:12"
 displayOrder: 5
 description: "Don walks into the grocery store dressed like the ad budget and takes credit for cheap meat."
-featured: true
+featured: false
 publishDate: 2026-10-11
 draft: false
 ---
