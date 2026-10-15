@@ -13,7 +13,7 @@ const attempts = args.includes('--attempts') ? Number(args[args.indexOf('--attem
 if (!Number.isInteger(attempts) || attempts < 1 || attempts > 3) throw new Error('Use one to three attempts.');
 const domain = readFileSync(new URL('../public/CNAME', import.meta.url), 'utf8').trim();
 if (domain !== 'boozeonhormuz.com') throw new Error('Unexpected repository CNAME. Review the domain before releasing.');
-const routes = ['/', '/album/', '/watch/', '/watch/the-premiere/', '/watch/mctrumps-welcome/', '/sponsor-reads/', '/listen/', '/archive/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html', '/CNAME'];
+const routes = ['/', '/album/', '/watch/', '/watch/the-premiere/', '/watch/mctrumps-welcome/', '/sponsor-reads/', '/listen/', '/archive/', '/gallery/', '/explore/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html', '/CNAME'];
 
 async function inspect(route) {
   const response = await fetch(new URL(route, origin), { signal: AbortSignal.timeout(10_000), cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } });
@@ -29,7 +29,10 @@ async function inspect(route) {
   if (route === '/watch/the-premiere/' && (!body.includes('Za2XII66eHQ') || !body.includes('VideoObject'))) throw new Error('Premiere source or VideoObject is absent from the deployed page.');
   if (route === '/sponsor-reads/' && (!body.includes('Leave with an indictment') || !body.includes('/mctrumps/welcome.mp4'))) throw new Error('McTrumps Sponsor Reads is absent from the deployed page.');
   if (route === '/watch/mctrumps-welcome/' && (!body.includes('/mctrumps/welcome.mp4') || !body.includes('VideoObject'))) throw new Error('McTrumps watch page or playable source is absent.');
-  if (route === '/watch/' || route === '/archive/') {
+  if (route === '/watch/' && (!body.includes('/sponsor-reads/') || !body.includes('/deep-cuts/') || !body.includes('/album/'))) throw new Error('/watch/: collection destinations are absent.');
+  if (route === '/gallery/' && !body.includes('gallery-grid')) throw new Error('/gallery/: artwork collection is absent.');
+  if (route === '/explore/' && (!body.includes('/products/') || !body.includes('/play/'))) throw new Error('/explore/: world destinations are absent.');
+  if (route === '/archive/') {
     for (const slug of ['welcome', 'birthday', 'supervision', 'appreciation', 'tehran']) {
       if (!body.includes(`/watch/mctrumps-${slug}`)) throw new Error(`${route}: McTrumps ${slug} is absent from the catalog.`);
     }
