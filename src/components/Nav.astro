@@ -81,7 +81,8 @@ const isActive = (href: string) => (sections[href] ?? [href]).some((route) => pa
   .nav-links a { width: 100%; }
   .nav-utility { border-top: 1px solid var(--color-line); }
   @media (max-width: 767px) {
-    .primary-nav[data-enhanced] .nav-toggle[aria-expanded="false"] + .nav-links { display: none; }
+    :global(html[data-js]) .nav-toggle { display: block; }
+    :global(html[data-js]) .nav-toggle[aria-expanded="false"] + .nav-links { display: none; }
   }
   @media (min-width: 768px) {
     .primary-nav { padding-block: 1rem; }
