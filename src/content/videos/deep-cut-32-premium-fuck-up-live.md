@@ -12,7 +12,7 @@ duration: "4:10"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 32
 displayOrder: 32
-description: "Don Biggly & The Indictments perform Premium Fuck Up (Live) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Premium mistake? I put my name on it."
 featured: false
 hero: false
 publishDate: "2026-10-13"

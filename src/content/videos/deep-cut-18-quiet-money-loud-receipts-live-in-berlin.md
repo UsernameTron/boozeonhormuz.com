@@ -12,7 +12,7 @@ duration: "3:29"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 18
 displayOrder: 18
-description: "Don Biggly & The Indictments perform Quiet Money, Loud Receipts (Live in Berlin) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Quiet money. Loud receipts. I prefer the first part."
 featured: false
 hero: false
 publishDate: "2026-10-13"

@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 12
 displayOrder: 12
-description: "Don Biggly & The Indictments present Morally Binding as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Morally binding? Fine. I want an exit clause."
 featured: false
 hero: false
 publishDate: 2026-10-12

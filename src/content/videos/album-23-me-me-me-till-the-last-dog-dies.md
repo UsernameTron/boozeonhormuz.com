@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 23
 displayOrder: 23
-description: "Don Biggly & The Indictments present Me, Me, Me, Till the Last Dog Dies as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Me, me, me. I think the chorus works."
 featured: false
 hero: false
 publishDate: 2026-10-12

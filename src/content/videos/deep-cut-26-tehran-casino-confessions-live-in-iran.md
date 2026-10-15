@@ -12,7 +12,7 @@ duration: "4:09"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 26
 displayOrder: 26
-description: "Don Biggly & The Indictments perform Tehran Casino Confessions (Live in Iran) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Casino confessions? I asked for better odds."
 featured: false
 hero: false
 publishDate: "2026-10-13"

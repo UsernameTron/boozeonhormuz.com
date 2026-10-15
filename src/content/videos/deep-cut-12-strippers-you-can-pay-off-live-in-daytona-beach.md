@@ -12,7 +12,7 @@ duration: "4:52"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 12
 displayOrder: 12
-description: "Don Biggly & The Indictments perform Strippers You Can Pay Off (Live in Daytona Beach) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Payoff? I call it an advance. No questions."
 featured: false
 hero: false
 publishDate: "2026-10-13"

@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 17
 displayOrder: 17
-description: "Don Biggly & The Indictments present The Ledger Has the Key as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. I kept two sets of books. Both bestsellers."
 featured: false
 hero: false
 publishDate: 2026-10-12

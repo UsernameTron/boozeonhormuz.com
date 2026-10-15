@@ -12,7 +12,7 @@ duration: "4:10"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 23
 displayOrder: 23
-description: "Don Biggly & The Indictments perform Premium Transparency (Live from a Deposition) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Transparency? I asked for a tinted window."
 featured: false
 hero: false
 publishDate: "2026-10-13"

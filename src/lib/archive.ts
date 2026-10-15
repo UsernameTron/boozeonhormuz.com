@@ -40,18 +40,22 @@ export function buildArchive(catalog: Catalog): ArchiveItem[] {
     const track = tracks.find((candidate) => candidate.id === id);
     return track ? { title: track.data.title, href: `/album/${track.data.slug}` } : undefined;
   };
+  const videos = liveVideos(catalog.videos);
+  const albumPerformances = videos.filter((video) => video.data.type === 'performance' && video.data.collection?.href === '/album/' && video.data.track && tracks.some((track) => track.id === video.data.track?.id));
+  const albumPerformanceIds = new Set(albumPerformances.map((video) => video.id));
+  const performanceThumbnail = new Map(albumPerformances.map((video) => [video.data.track!.id, videoThumbnail(video.data)]));
   return [
     ...tracks.map((track): ArchiveItem => ({
-      id: qualifiedId('tracks', track.id), kind: 'track', category: 'track', label: 'Track', title: track.data.title,
-      description: track.data.description ?? '', href: `/album/${track.data.slug}`, thumbnail: track.data.cover, alt: `Cover art for ${track.data.title}`,
+      id: qualifiedId('tracks', track.id), kind: 'track', category: 'album-song', label: 'Album Song', title: track.data.title,
+      description: track.data.description ?? '', href: `/album/${track.data.slug}`, thumbnail: performanceThumbnail.get(track.id) ?? track.data.cover, alt: `Artwork for ${track.data.title}`,
     })),
-    ...liveVideos(catalog.videos).map((video): ArchiveItem => ({
-      id: qualifiedId('videos', video.id), kind: 'video', category: video.data.type, label: videoTypeLabel[video.data.type], title: video.data.title,
+    ...videos.filter((video) => !albumPerformanceIds.has(video.id)).map((video): ArchiveItem => ({
+      id: qualifiedId('videos', video.id), kind: 'video', category: video.data.collection?.href === '/deep-cuts/' ? 'deep-cuts' : video.data.type === 'sponsor-read' ? 'mctrumps' : video.data.type, label: video.data.collection?.href === '/deep-cuts/' ? 'Deep Cuts Live' : video.data.type === 'sponsor-read' ? 'McTrumps' : videoTypeLabel[video.data.type], title: video.data.title,
       description: video.data.description, href: `/watch/${video.data.slug}`, thumbnail: videoThumbnail(video.data), alt: video.data.title,
       orientation: video.data.orientation, nativeAspect: Boolean(video.data.videoWidth && video.data.videoHeight), track: relatedTrack(video.data.track?.id),
     })),
     ...liveImages(catalog.images).map((image): Artwork => ({
-      id: qualifiedId('images', image.id), kind: 'art', category: image.data.type === 'poster' || image.data.type === 'fake-ad' ? 'poster' : image.data.type === 'bts' ? 'bts' : 'image',
+      id: qualifiedId('images', image.id), kind: 'art', category: 'image',
       label: imageTypeLabel[image.data.type], title: image.data.title, description: image.data.caption ?? '', href: artHref('images', image.id),
       thumbnail: image.data.thumb ?? image.data.image, full: image.data.image, alt: image.data.alt, caption: image.data.caption, track: relatedTrack(image.data.track?.id),
     })),

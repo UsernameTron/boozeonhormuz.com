@@ -12,7 +12,7 @@ duration: "4:33"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 2
 displayOrder: 2
-description: "Don Biggly & The Indictments perform Premium Impeachment (Live in Las Vegas) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Impeachment package? I made it VIP. Very popular."
 featured: false
 hero: false
 publishDate: "2026-10-13"

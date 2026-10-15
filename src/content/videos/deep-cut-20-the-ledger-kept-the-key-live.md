@@ -12,7 +12,7 @@ duration: "3:18"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 20
 displayOrder: 20
-description: "Don Biggly & The Indictments perform The Ledger Kept the Key (Live) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I kept the books. Counsel wanted them kept shut."
 featured: false
 hero: false
 publishDate: "2026-10-13"

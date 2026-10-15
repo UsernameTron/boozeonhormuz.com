@@ -12,7 +12,7 @@ duration: "5:10"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 28
 displayOrder: 28
-description: "Don Biggly & The Indictments perform More Evidence is With Me (Live from Beijing) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. More evidence? Good. I want a loyalty card."
 featured: false
 hero: false
 publishDate: "2026-10-13"

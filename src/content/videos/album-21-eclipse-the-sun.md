@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 21
 displayOrder: 21
-description: "Don Biggly & The Indictments present Eclipse the Sun as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. An eclipse? Fine. Put my name on the program."
 featured: false
 hero: false
 publishDate: 2026-10-12

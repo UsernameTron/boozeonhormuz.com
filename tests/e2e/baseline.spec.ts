@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
-const routes = ['/', '/album/', '/watch/', '/watch/the-premiere/', '/listen/', '/archive/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html'];
+const routes = ['/', '/explore/', '/gallery/', '/deep-cuts/', '/album/', '/watch/', '/watch/the-premiere/', '/listen/', '/archive/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html'];
 
 test.beforeEach(async ({ context }) => {
   // Exercise the facade and resulting iframe without depending on Google availability.
@@ -38,15 +38,16 @@ test('primary navigation reaches album and exposes the active route', async ({ p
 
 test('archive populated filters and empty searches restore the catalog', async ({ page }) => {
   await page.goto('/archive/');
-  const group = page.getByRole('group', { name: 'Filter the archive' });
+  const group = page.getByRole('group', { name: 'Filter search results' });
   await group.locator('[data-filter="image"]').click();
   await expect(group.locator('[data-filter="image"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#archive-grid [data-type="image"]:visible')).not.toHaveCount(0);
-  await page.getByLabel('Search the archive').fill('No matching fixture query 90210');
+  await page.getByLabel('Search songs, videos, and images').fill('No matching fixture query 90210');
   await expect(page.locator('#archive-empty')).toBeVisible();
   await page.getByRole('button', { name: 'Reset', exact: true }).click();
   await expect(page.locator('#archive-empty')).toBeHidden();
-  await expect(page.locator('#archive-grid [data-type]:visible')).not.toHaveCount(0);
+  await expect(page.locator('#archive-grid [data-type]:visible')).toHaveCount(0);
+  await expect(page.locator('#archive-count')).toContainText('choose a type');
 });
 
 test('premiere only creates a provider iframe after activation', async ({ page }) => {

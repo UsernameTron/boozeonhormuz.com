@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 14
 displayOrder: 14
-description: "Don Biggly & The Indictments present Criminals in the White House as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. I checked their references. Same prosecutor. Very connected people."
 featured: false
 hero: false
 publishDate: 2026-10-12

@@ -25,11 +25,25 @@ export function initializeArtworkViewer() {
   let savedScroll = { x: 0, y: 0 };
   let pushed = false;
 
-  const visibleIds = () => [...new Set([...document.querySelectorAll<HTMLAnchorElement>('a[data-art-id]')].filter((link) => link.getClientRects().length && catalog.has(link.dataset.artId!)).map((link) => link.dataset.artId!))];
+  const visibleIds = () => {
+    const galleryData = document.querySelector('#gallery-selection-data');
+    if (galleryData) {
+      try { return (JSON.parse(galleryData.textContent ?? '[]') as string[]).filter((id) => catalog.has(id)); } catch { /* Fall through to visible links. */ }
+    }
+    return [...new Set([...document.querySelectorAll<HTMLAnchorElement>('a[data-art-id]')].filter((link) => link.getClientRects().length && catalog.has(link.dataset.artId!)).map((link) => link.dataset.artId!))];
+  };
   const withContext = (href: string) => {
     const url = new URL(href, location.origin);
     const context = new URLSearchParams(location.search);
-    for (const key of ['q', 'type']) if (context.get(key)) url.searchParams.set(key, context.get(key)!);
+    for (const key of ['q', 'type', 'page']) if (context.get(key)) url.searchParams.set(key, context.get(key)!);
+    const from = location.pathname.startsWith('/archive') ? 'search' : location.pathname.startsWith('/gallery') ? 'gallery' : location.pathname.startsWith('/evidence-lounge') ? 'evidence' : '';
+    if (from) url.searchParams.set('from', from);
+    if (from === 'gallery') {
+      const pageSize = Number(document.querySelector('#gallery-selection-data')?.getAttribute('data-page-size')) || 24;
+      const position = selection.indexOf(current);
+      const page = Math.floor(Math.max(0, position) / pageSize) + 1;
+      if (page > 1) url.searchParams.set('page', String(page)); else url.searchParams.delete('page');
+    }
     return url.pathname + url.search;
   };
   const render = (id: string) => {

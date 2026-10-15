@@ -5,11 +5,11 @@ trackNumber: 2
 album: booze-on-hormuz
 status: released
 featured: false
-description: "Don Biggly & The Indictments present Bad Ass Gold Boy (Beautiful Doom) as a lyric video from the Booze on Hormuz live-tour album."
+description: "From the Booze on Hormuz video album. Beautiful doom. I called it a premium view."
 cover: "/covers/don-biggly-and-the-indictments-neon-mall.webp"
 duration: "3:10"
 credits: []
 draft: false
 ---
 
-A song from the Booze on Hormuz video set. Its lyrics appear on screen in the song video.
+Watch the lyric video in the 27-song set.

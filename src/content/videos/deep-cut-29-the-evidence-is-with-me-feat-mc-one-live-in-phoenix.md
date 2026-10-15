@@ -12,7 +12,7 @@ duration: "5:01"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 29
 displayOrder: 29
-description: "Don Biggly & The Indictments perform The Evidence Is With Me (feat MC One Live in Phoenix) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I invited another voice. I kept the final word."
 featured: false
 hero: false
 publishDate: "2026-10-13"

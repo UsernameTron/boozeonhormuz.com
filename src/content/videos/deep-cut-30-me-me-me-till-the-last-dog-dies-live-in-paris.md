@@ -12,7 +12,7 @@ duration: "4:59"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 30
 displayOrder: 30
-description: "Don Biggly & The Indictments perform Me, Me, Me, Till the Last Dog Dies (Live in Paris) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I don't need new lyrics. My name still works."
 featured: false
 hero: false
 publishDate: "2026-10-13"

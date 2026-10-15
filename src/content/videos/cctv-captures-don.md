@@ -10,7 +10,7 @@ videoHeight: 1024
 orientation: "9:16"
 duration: "0:56"
 displayOrder: 1
-description: "A convenience-store camera catches Don comparing a half-empty chip bag to his negotiating style, then trying to settle a crisis beside the microwave burritos."
+description: "At the microwave, Don offers a half-empty chip bag as proof of negotiating genius. The camera keeps the evidence."
 publishDate: 2026-10-12
 draft: false
 ---

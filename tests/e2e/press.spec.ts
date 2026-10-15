@@ -4,7 +4,8 @@ test('Press shows only the broadcast and plays it in its native frame', async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/press/');
 
-  await expect(page.locator('main h1')).toHaveText('Press');
+  await expect(page.locator('main h1')).toHaveText('Don’s Newsroom');
+  await expect(page.getByRole('link', { name: 'More sketches' })).toHaveAttribute('href', '/watch/?collection=sketch');
   const video = page.locator('main video');
   await expect(video).toHaveCount(1);
   await expect(video).toHaveAttribute('src', '/press/don-biggly-broadcast.mp4');

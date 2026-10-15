@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 11
 displayOrder: 11
-description: "Don Biggly & The Indictments present Strippers You Can Payoff as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. I call every payoff a membership fee. Great program."
 featured: false
 hero: false
 publishDate: 2026-10-12

@@ -99,7 +99,7 @@ export const QUOTES = [
 export const TESTIMONIALS = [
   { quote: 'We asked for separate rooms. He gave us two folders.', credit: 'Fictional preview guests', note: 'Accommodation request remains open.' },
   { quote: 'He said he knew every guest by name. Mine was “Balance Forward.”', credit: 'Fictional Bronze member', note: 'Personal service supplied by Accounts.' },
-  { quote: 'I mentioned my hearing aid. He brought a larger photograph.', credit: 'Fictional presentation attendee', note: 'Accessibility request was redirected to Branding.' },
+  { quote: 'I asked for quiet. He brought a larger photograph.', credit: 'Fictional presentation attendee', note: 'Quiet room. Larger portrait.' },
   { quote: 'Five stars. There were five printed on the form. I circled “Please stop calling.”', credit: 'Fictional former prospect', note: 'Published by the founder as an unqualified endorsement.' },
 ];
 

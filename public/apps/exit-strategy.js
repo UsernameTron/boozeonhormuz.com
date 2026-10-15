@@ -454,8 +454,8 @@ function renderSetpiece() {
   title.id = 'spInstruction';
   title.style.marginTop = '0';
   title.textContent = state.calmSeas
-    ? 'Rebuild the staircase’s name before his ego drowns first. Gold words only. Each pitch costs 4 Ego. Calm Seas: no timer.'
-    : 'Rebuild the staircase’s name before his ego drowns first. Gold words only. It is draining as he stares at the word EMERGENCY.';
+    ? 'Rename the staircase before his Ego runs out. Gold words only. Each pitch costs 4 Ego. Calm Seas: no timer.'
+    : 'Rename the staircase before his Ego runs out. Gold words only. It is draining as he stares at the word EMERGENCY.';
   const timerEl = document.createElement('span');
   timerEl.className = 'sp-timer';
   timerEl.id = 'spTimer';

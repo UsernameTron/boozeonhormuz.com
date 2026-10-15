@@ -12,7 +12,7 @@ duration: "3:20"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 16
 displayOrder: 16
-description: "Don Biggly & The Indictments perform Hot Mic, Big Mouth (Live Hot Mic) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. The mic was hot. I kept talking."
 featured: false
 hero: false
 publishDate: "2026-10-13"

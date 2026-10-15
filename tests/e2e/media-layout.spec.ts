@@ -34,7 +34,7 @@ test('portrait and product art load without broken requests, and failed image re
   await expect(page.locator('.mc-host img')).toBeVisible();
   expect(missing).toEqual([]);
   await page.route('**/_media/**', (route) => route.abort());
-  await page.goto('/archive/');
+  await page.goto('/archive/?type=image');
   await expect(page.locator('.media-fallback:visible').first()).toBeVisible();
   expect(await page.locator('.media-fallback:visible').first().evaluate((element) => getComputedStyle(element).color)).toBe('rgb(205, 191, 158)');
 });

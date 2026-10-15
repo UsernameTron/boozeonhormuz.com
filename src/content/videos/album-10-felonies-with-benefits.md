@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 10
 displayOrder: 10
-description: "Don Biggly & The Indictments present Felonies With Benefits as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Benefits are important. I asked about mine first."
 featured: false
 hero: false
 publishDate: 2026-10-12

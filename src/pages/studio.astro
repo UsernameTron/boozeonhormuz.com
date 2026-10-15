@@ -27,26 +27,26 @@ const capabilities = [
 
 const examples = [
   {
-    href: '/watch',
+    href: '/watch/?collection=music-video',
     title: 'The films',
-    note: 'Full musical-comedy production — writing, performance, and video as one finished package.',
+    note: 'Songs, performance, and video. One production, from first joke to final cut.',
   },
   {
-    href: '/evidence-lounge',
-    title: 'The Evidence Lounge',
-    note: 'A complete visual world: title cards, fake ads, and gallery artwork with one readable joke per frame.',
+    href: '/gallery/',
+    title: 'The Gallery',
+    note: 'Title cards, ads, and artwork. One world. Plenty of incriminating angles.',
   },
   {
     href: '/experience',
     title: 'The Experience',
-    note: 'An entire satirical sales funnel — qualification quiz, financing calculator, live chat — built end to end.',
+    note: 'A complete resort sales parody: quiz, financing calculator, and a concierge with terrible answers.',
   },
 ];
 ---
 
 <BaseLayout
-  title="Studio — Booze on Hormuz™"
-  description="Original musical comedy turned into finished media — concept, songs, performance, video, and campaign creative, built for your audience."
+  title="Studio | Booze on Hormuz™"
+  description="Original musical comedy, from concept and songs to performance, video, and artwork for your audience."
 >
   <PageHeader eyebrow="The serious door" title="Studio" />
 
@@ -55,9 +55,8 @@ const examples = [
       Original musical comedy, turned into finished media.
     </p>
     <p class="font-body text-ink-soft mt-4 max-w-prose">
-      Everything on this site — the songs, the films, the artwork, the entire resort — was
-      written, performed, and produced as one package. If you want that kind of thing built for
-      your audience, this is the door.
+      Songs, films, artwork, an entire resort. One creative world, built from concept to finished media.
+      Bring your brief. We’ll build something your audience remembers.
     </p>
 
     <div class="mt-10">
@@ -65,7 +64,7 @@ const examples = [
         REEL_YOUTUBE_ID ? (
           <YouTubeEmbed id={REEL_YOUTUBE_ID} title="Booze on Hormuz studio reel" />
         ) : (
-          <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — the work, in ninety seconds or so" />
+          <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz: a sample of the work" />
         )
       }
     </div>
@@ -93,10 +92,15 @@ const examples = [
       }
     </ul>
 
+    <aside class="mt-10 border border-line/60 rounded-lg p-5">
+      <h2 class="font-display text-xl text-ink">Try the creative tools</h2>
+      <p class="text-sm text-ink-soft mt-2">Build a brief, storyboard, or prompt package with the tools behind this world.</p>
+      <a href="/tools/" class="inline-flex items-center min-h-11 text-gold-ink mt-2">Open the Creative Arsenal <span aria-hidden="true" class="ml-2">→</span></a>
+    </aside>
+
     <h2 class="font-display text-xl text-ink mt-14">Start a conversation</h2>
     <p class="font-body text-sm text-ink-soft mt-2 max-w-prose">
-      This form is real. It opens a pre-filled email in your own mail app — nothing is stored on
-      this site. Or write directly: <a href={`mailto:${STUDIO_EMAIL}`} class="text-gold-ink hover:opacity-80">{STUDIO_EMAIL}</a>
+      This form opens a pre-filled email in your mail app. Nothing is stored here. Or write directly: <a href={`mailto:${STUDIO_EMAIL}`} class="text-gold-ink hover:opacity-80">{STUDIO_EMAIL}</a>
     </p>
 
     <form id="studio-form" class="mt-6 grid gap-4 max-w-xl" data-email={STUDIO_EMAIL}>
@@ -149,15 +153,15 @@ const examples = [
         const get = (k: string) => String(data.get(k) ?? '').trim();
         const body = [
           `Name: ${get('name')}`,
-          `Company/project: ${get('company') || '—'}`,
+          `Company/project: ${get('company') || 'Not provided'}`,
           `Reply-to: ${get('email')}`,
-          `Budget range: ${get('budget') || '—'}`,
-          `Target date: ${get('date') || '—'}`,
+          `Budget range: ${get('budget') || 'Not provided'}`,
+          `Target date: ${get('date') || 'Not provided'}`,
           '',
           'What we are trying to make:',
           get('brief'),
         ].join('\n');
-        const subject = `Studio inquiry — ${get('name')}${get('company') ? ` (${get('company')})` : ''}`;
+        const subject = `Studio inquiry: ${get('name')}${get('company') ? ` (${get('company')})` : ''}`;
         const to = form.dataset.email;
         window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       });

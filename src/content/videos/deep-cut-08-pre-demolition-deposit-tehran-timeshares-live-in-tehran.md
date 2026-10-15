@@ -12,7 +12,7 @@ duration: "4:58"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 8
 displayOrder: 8
-description: "Don Biggly & The Indictments perform Pre-Demolition Deposit: Tehran Timeshares (Live in Tehran) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I don't need a building to collect a deposit."
 featured: false
 hero: false
 publishDate: "2026-10-13"

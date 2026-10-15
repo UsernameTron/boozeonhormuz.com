@@ -12,7 +12,7 @@ duration: "5:29"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 27
 displayOrder: 27
-description: "Don Biggly & The Indictments perform Swipe the Strait (Live in Tehran) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Swipe the Strait. Who owns the machine?"
 featured: false
 hero: false
 publishDate: "2026-10-13"

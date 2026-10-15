@@ -12,7 +12,7 @@ duration: "3:39"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 22
 displayOrder: 22
-description: "Don Biggly & The Indictments perform Aviators in the Basement (Live in Scranton) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Sunglasses indoors. Nobody sees me avoiding eye contact."
 featured: false
 hero: false
 publishDate: "2026-10-13"

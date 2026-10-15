@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 16
 displayOrder: 16
-description: "Don Biggly & The Indictments present Quiet Money, Loud Receipts as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Quiet money, loud receipts. I prefer the money."
 featured: true
 hero: false
 publishDate: 2026-10-12

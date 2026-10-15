@@ -13,11 +13,13 @@ test('public archive adapts each type and excludes draft/hidden/non-art evidence
   const input = catalog(); const before = structuredClone(input); const output = buildArchive(input);
   assert.deepEqual(input, before);
   assert.deepEqual(output.map((item) => item.kind), ['track', 'video', 'art', 'art', 'art']);
-  assert.equal(output[2].track.href, '/album/public-track');
-  assert.equal(output[3].track, undefined);
+  const shared = output.find((item) => item.id === 'images--shared');
+  const standalone = output.find((item) => item.id === 'images--private-parent');
+  assert.equal(shared.track.href, '/album/public-track');
+  assert.equal(standalone.track, undefined);
   assert.ok(!JSON.stringify(output).includes('Never public'));
-  assert.equal(output[2].title, '<script> & "art"'); // Renderers escape data; adapters preserve the actual title.
-  assert.equal(output[2].href, '/art/images--shared');
+  assert.equal(shared.title, '<script> & "art"'); // Renderers escape data; adapters preserve the actual title.
+  assert.equal(shared.href, '/art/images--shared');
   assert.equal(output[4].href, '/art/evidence--shared');
 });
 test('qualified art IDs cannot collide across collections or encoded path characters', () => {
@@ -33,4 +35,22 @@ test('search combines caption/title/description and category, with safe unknown 
   assert.equal(filterArchive(items, 'no match', 'all').length, 0);
   assert.equal(filterArchive(items, '', 'unknown').length, items.length);
   assert.equal(filterArchive(items, '<script> &', 'poster')[0].id, 'images--shared');
+});
+
+test('album song videos collapse into canonical track results while Deep Cuts stay separate', () => {
+  const input = catalog();
+  input.videos.push(
+    entry('album-performance', { title: 'Public track lyric video', slug: 'public-track-live', type: 'performance', track: { id: 'released' }, collection: { href: '/album/' }, thumbnail: '/track-performance.webp', publishDate: new Date('2026-01-02'), description: 'Album duplicate' }),
+    entry('deep-cut', { title: 'Other performance', slug: 'other-live', type: 'performance', collection: { href: '/deep-cuts/' }, publishDate: new Date('2026-01-03'), description: 'A deep cut' }),
+    entry('mctrumps', { title: 'McTrumps', slug: 'mctrumps', type: 'sponsor-read', publishDate: new Date('2026-01-04'), description: 'Fictional ad' }),
+  );
+  const output = buildArchive(input);
+  assert.equal(output.length, 7);
+  assert.equal(output.filter((item) => item.category === 'album-song').length, 1);
+  assert.equal(output.find((item) => item.category === 'album-song').href, '/album/public-track');
+  assert.equal(output.find((item) => item.category === 'album-song').thumbnail, '/track-performance.webp');
+  assert.equal(output.some((item) => item.href === '/watch/public-track-live'), false);
+  assert.equal(output.find((item) => item.category === 'deep-cuts').href, '/watch/other-live');
+  assert.equal(output.find((item) => item.category === 'mctrumps').href, '/watch/mctrumps');
+  assert.equal(filterArchive(output, '', 'image').length, 3);
 });

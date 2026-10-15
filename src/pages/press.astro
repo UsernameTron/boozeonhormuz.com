@@ -4,8 +4,8 @@ import PageHeader from '../components/PageHeader.astro';
 import LocalVideo from '../components/LocalVideo.astro';
 ---
 
-<BaseLayout title="Press | Booze on Hormuz™" description="Don Biggly at the news desk.">
-  <PageHeader title="Press" />
+<BaseLayout title="Don’s Newsroom | Booze on Hormuz™" description="Don Biggly delivers the news and awards himself the best camera angle.">
+  <PageHeader eyebrow="A sketch from Don’s world" title="Don’s Newsroom" />
 
   <section class="px-6 pb-28 max-w-4xl mx-auto">
     <LocalVideo
@@ -16,5 +16,6 @@ import LocalVideo from '../components/LocalVideo.astro';
       videoWidth={480}
       videoHeight={720}
     />
+    <a href="/watch/?collection=sketch" class="inline-flex min-h-11 items-center text-gold-ink mt-6">More sketches →</a>
   </section>
 </BaseLayout>

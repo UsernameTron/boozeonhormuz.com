@@ -12,7 +12,7 @@ duration: "3:41"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 13
 displayOrder: 13
-description: "Don Biggly & The Indictments perform Felonies With Benefits (Live in Riker's Island) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Benefits? I asked where to collect mine."
 featured: false
 hero: false
 publishDate: "2026-10-13"

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Don Biggly's Tremendous Exit Strategy | Booze on Hormuz™</title>
-  <meta name="description" content="A playable Don Biggly disaster. The ship is sinking, the exit is free, and that is the problem. Fictional satire — no real ship, no real advice, no real person." />
+  <meta name="description" content="A playable Don Biggly disaster. The ship is sinking, the exit is free, and that is the problem. Fictional satire: no real ship, no real advice, no real person." />
   <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-latin-variable.woff2" crossorigin>
@@ -416,6 +416,7 @@
     .title-card { padding: 22px; }
     .title-card .primary { margin-top: 16px; }
     .title-card .mission { margin-top: 0; }
+    .game-cover { display: block; width: 100%; max-width: 100%; height: auto; max-height: 300px; object-fit: contain; border-radius: 8px; margin: 0 auto 20px; }
     .intro-rules { display: grid; gap: 6px; font-size: 14px; color: var(--muted); margin-top: 18px; }
     .intro-rules b { color: var(--champagne); }
     .hud-inner { grid-template-columns: 1fr 1fr auto; gap: 6px 14px; padding: 9px 16px; }
@@ -528,10 +529,11 @@
   <main>
     <!-- TITLE — the entire joke, before the first click -->
     <section id="screen-title" aria-labelledby="titleHeading">
-      <p class="fiction-label">Fictional political satire — not a real statement, quote, recording, or event report.</p>
+      <p class="fiction-label">Fictional political satire: not a real statement, quote, recording, or event report.</p>
       <p class="kicker">A luxury emergency in ten levels</p>
       <h2 class="stage-title" id="titleHeading" tabindex="-1">The ship is sinking. The exit is three feet away. Unfortunately, the exit is free.</h2>
       <div class="title-card">
+        <img class="game-cover" src="/game/tremendous-exit-strategy-cover-640.webp" srcset="/game/tremendous-exit-strategy-cover-320.webp 320w, /game/tremendous-exit-strategy-cover-640.webp 640w, /game/tremendous-exit-strategy-cover.webp 1440w" sizes="(max-width: 600px) calc(100vw - 76px), 534px" width="1672" height="941" alt="Don Biggly sells VIP exit upgrades aboard a sinking luxury yacht, with a lifeboat waiting and a long final receipt." fetchpriority="high" />
         <div class="doors-frame" id="titleDoors" hidden>
           <div class="doors mock" role="img" aria-label="Two doors. Left: emergency exit, free. Right: Presidential Platinum Departure Club, 999 dollars. Don Biggly's verdict: Emergency? Terrible branding. Sounds unsuccessful.">
             <div class="door left" aria-hidden="true">
@@ -546,7 +548,7 @@
             </div>
           </div>
           <div class="verdict-stamp" aria-hidden="true">
-            <span>“Emergency? Terrible branding. Sounds unsuccessful.”<b>— Don Biggly, refusing to be saved</b></span>
+            <span>“Emergency? Terrible branding. Sounds unsuccessful.”<b>Don Biggly, refusing to be saved</b></span>
           </div>
         </div>
         <p class="mission">
@@ -564,7 +566,7 @@
         </div>
         <label class="calm">
           <input type="checkbox" id="calmSeas" />
-          <span><b>Calm Seas mode</b> — no timers, same disaster. Switches on automatically if your device prefers reduced motion.</span>
+          <span><b>Calm Seas mode</b>: no timers, same disaster. Switches on automatically if your device prefers reduced motion.</span>
         </label>
       </div>
     </section>
@@ -593,12 +595,12 @@
     <section id="screen-score" hidden aria-labelledby="scoreHeading">
       <p class="kicker">Voyage complete, in the legal sense</p>
       <h2 class="stage-title" id="scoreHeading" tabindex="-1">Final Score</h2>
-      <div class="banner" id="soldOutBanner">Sold Out — Zero Dissent</div>
+      <div class="banner" id="soldOutBanner">Sold Out: Zero Dissent</div>
       <div class="claims" id="claimRows" aria-label="Don’s claims and the crew’s record"></div>
       <div class="scorecard">
         <div class="sc-head">Your actual voyage</div>
         <dl id="scoreRows"></dl>
-        <div class="verdict">Total Victory <small>— according to Don</small></div>
+        <div class="verdict">Total Victory <small>according to Don</small></div>
       </div>
       <p class="epilogue" id="epilogue">Everyone else is ashore. Don is three feet from the free exit. He has chosen to remain.</p>
       <div class="controls">
@@ -664,7 +666,7 @@
   <p><strong>Ego:</strong> keep it between 21 and 94. At 20 or below, flatter him. At 95, he opens a gift shop.</p>
   <p><strong>Reality:</strong> at 80 he stalls. Flattery or a Gold Star gets him moving.</p>
   <p><strong>Gold Stars:</strong> three per voyage, each +10 Ego and −35 Reality. Repeated flattery becomes less effective but never runs out.</p>
-  <label class="calm"><input type="checkbox" id="calmDuringPlay"><span><strong>Calm Seas</strong> — pause the staircase timer; each submitted pitch costs 4 Ego.</span></label>
+  <label class="calm"><input type="checkbox" id="calmDuringPlay"><span><strong>Calm Seas</strong>: pause the staircase timer; each submitted pitch costs 4 Ego.</span></label>
   <div class="controls"><button type="button" class="primary" id="btnResume">Resume voyage</button><button type="button" class="ghost" id="btnRestart">Restart</button></div>
   <div id="restartConfirm" hidden><p>Restart this voyage? Current progress will be lost. Your saved report stays available.</p><div class="controls"><button type="button" class="ghost" id="btnConfirmRestart">Start over</button><button type="button" class="ghost" id="btnCancelRestart">Keep this voyage</button></div></div>
 </dialog>

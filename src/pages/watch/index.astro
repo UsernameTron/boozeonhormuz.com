@@ -3,141 +3,124 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import WatchCard from '../../components/WatchCard.astro';
-import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
 import { liveVideos, playableTracks, videoTypeLabel, videoThumbnail } from '../../lib/media';
 
-// One grid for everything watchable: media-library videos plus legacy episodes
-// of Who the Hell Is Don Biggly? (episodes file under the Sketches filter).
 const videos = liveVideos(await getCollection('videos'));
-const episodes = (await getCollection('episodes'))
-  .filter((e) => !e.data.draft)
+const episodes = (await getCollection('episodes')).filter((entry) => !entry.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
-const trackTitleById = new Map(
-  playableTracks(await getCollection('tracks')).map((t) => [t.id, t.data.title]),
-);
-
+const trackTitleById = new Map(playableTracks(await getCollection('tracks')).map((track) => [track.id, track.data.title]));
+const groupOf = (video: (typeof videos)[number]) => video.data.collection?.href === '/deep-cuts/' ? 'deep-cuts'
+  : video.data.track && video.data.type === 'performance' ? 'album'
+  : video.data.type === 'sponsor-read' ? 'mctrumps' : video.data.type;
 const cards = [
-  ...videos.map((v) => ({
-    href: `/watch/${v.data.slug}`,
-    title: v.data.title,
-    type: v.data.collection?.href === '/deep-cuts/' ? 'deep-cuts' : v.data.type,
-    typeLabel: v.data.collection?.href === '/deep-cuts/' ? 'Deep Cuts Live' : videoTypeLabel[v.data.type],
-    thumbnail: videoThumbnail(v.data),
-    orientation: v.data.orientation,
-    nativeAspect: Boolean(v.data.videoWidth && v.data.videoHeight),
-    duration: v.data.duration,
-    trackTitle: v.data.track ? trackTitleById.get(v.data.track.id) : undefined,
-    date: v.data.publishDate,
+  ...videos.map((video) => ({
+    href: `/watch/${video.data.slug}/`, title: video.data.title, group: groupOf(video),
+    typeLabel: video.data.collection?.href === '/deep-cuts/' ? 'Deep Cuts Live' : videoTypeLabel[video.data.type],
+    thumbnail: videoThumbnail(video.data), orientation: video.data.orientation,
+    nativeAspect: Boolean(video.data.videoWidth && video.data.videoHeight), duration: video.data.duration,
+    trackTitle: video.data.track ? trackTitleById.get(video.data.track.id) : undefined,
   })),
-  ...episodes.map((e) => ({
-    href: `/watch/${e.data.slug}`,
-    title: e.data.title,
-    type: 'sketch',
-    typeLabel: 'Episode',
-    thumbnail: videoThumbnail(e.data),
-    orientation: '16:9' as const,
-    nativeAspect: false,
-    duration: undefined,
-    trackTitle: undefined,
-    date: e.data.publishDate,
+  ...episodes.map((episode) => ({
+    href: `/watch/${episode.data.slug}/`, title: episode.data.title, group: 'sketch',
+    typeLabel: 'Episode', thumbnail: videoThumbnail(episode.data), orientation: '16:9' as const,
+    nativeAspect: false, duration: undefined, trackTitle: undefined,
   })),
-].sort((a, b) => b.date.valueOf() - a.date.valueOf());
-
-const filters = [
-  { key: 'music-video', label: 'Music Videos' },
-  { key: 'performance', label: 'Performances' },
-  { key: 'deep-cuts', label: 'Deep Cuts Live' },
-  { key: 'sketch', label: 'Sketches' },
-  { key: 'short', label: 'Shorts' },
-  { key: 'sponsor-read', label: 'Sponsor Reads' },
+];
+const count = (group: string) => cards.filter((card) => card.group === group).length;
+const artwork = (group: string) => group === 'album' ? '/covers/album-watch-collection.png' : group === 'deep-cuts' ? '/covers/deep-cuts-watch-collection.png' : cards.find((card) => card.group === group)?.thumbnail;
+const choices = [
+  { title: 'Music Videos', group: 'music-video', href: '/watch/?collection=music-video', count: count('music-video'), description: 'Cameras followed the songs. I approved the angles.' },
+  { title: 'Album: Song Videos with Lyrics', group: 'album', href: '/album/', count: count('album'), description: 'Every song has a lyric video.' },
+  { title: 'Deep Cuts Live', group: 'deep-cuts', href: '/deep-cuts/', count: count('deep-cuts'), description: 'More stages. More cameras. I kept the microphone.' },
+  { title: 'Sketches', group: 'sketch', href: '/watch/?collection=sketch', count: count('sketch'), description: 'Short scenes. My billing is not.' },
+  { title: 'Shorts', group: 'short', href: '/watch/?collection=short', count: count('short'), description: 'One minute. All mine.' },
+  { title: 'McTrumps', group: 'mctrumps', href: '/sponsor-reads/', count: count('mctrumps'), description: 'Five commercials. No refunds.' },
 ];
 ---
 
-<BaseLayout
-  title="Watch — Booze on Hormuz™"
-  description="Music videos, performances, sketches, shorts, and fictional sponsor reads from Booze on Hormuz and Don Biggly."
->
+<BaseLayout title="Watch — Booze on Hormuz™" description="Choose music videos, the album, live deep cuts, sketches, shorts, or McTrumps commercials from Booze on Hormuz and Don Biggly.">
   <PageHeader eyebrow="Now screening" title="Watch" />
-
-  <section class="px-6 pb-28 max-w-4xl mx-auto">
-    {
-      cards.length === 0 ? (
-        <Fragment>
-          <p class="font-display text-title text-ink max-w-2xl">
-            Tremendous premiere. Beautiful catering. Nobody's seen the episodes yet, which many
-            people are saying is very smart, very legal, and frankly fantastic. Nobody does
-            premieres like me. Believe me.
-          </p>
-          <div class="mt-8"><YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz" /></div>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <div class="archive-filter-list flex flex-wrap gap-2" role="group" aria-label="Filter videos" id="watch-filters">
-            {filters.map((f) => (
-              <button
-                type="button"
-                data-filter={f.key}
-                aria-pressed="false"
-                aria-controls="watch-grid"
-                class:list={[
-                  'font-body text-sm uppercase tracking-[0.1em] px-4 py-2 rounded-sm border transition-colors',
-                  'aria-pressed:border-gold aria-pressed:text-gold-ink border-line/60 text-ink-soft hover:text-gold-ink',
-                ]}
-              >
-                {f.label}
-              </button>
-            ))}
+  <section class="px-6 pb-28 max-w-6xl mx-auto">
+    <div id="watch-collections">
+      <p class="font-body text-ink-soft max-w-prose mb-6">Pick a collection. The cameras followed me.</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-label="Watch collections">
+        {choices.map((choice) => (
+          <a href={choice.href} class="group flex sm:block card-marble border border-line rounded-xl overflow-hidden hover:border-gold transition-colors">
+            <div class="h-24 w-24 shrink-0 sm:h-40 sm:w-full bg-charcoal grid place-items-center overflow-hidden">
+              {artwork(choice.group) ? <img src={artwork(choice.group)} alt="" loading="lazy" class="h-24 sm:h-40 w-full object-contain" /> : <span aria-hidden="true" class="font-display text-5xl text-gold-ink">▶</span>}
+            </div>
+            <div class="min-w-0 p-3 sm:p-4">
+              <p class="font-body text-eyebrow uppercase text-gold-ink">{choice.count} videos</p>
+              <h2 class="font-display text-lg sm:text-xl text-ink mt-1 group-hover:text-gold-ink">{choice.title}</h2>
+              <p class="font-body text-xs sm:text-sm text-ink-soft mt-1 sm:mt-2">{choice.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div id="watch-fallback" class="font-body text-ink-soft mt-8">
+        <p>Choose a collection below to open a video when scripts are unavailable.</p>
+        {(['music-video', 'sketch', 'short'] as const).map((group) => (
+          <details class="mt-4 border border-line rounded-sm p-4">
+            <summary class="cursor-pointer text-gold-ink">{choices.find((choice) => choice.group === group)?.title} ({count(group)})</summary>
+            <ul class="mt-3 space-y-2">
+              {cards.filter((card) => card.group === group).map((card) => (
+                <li><a class="text-gold-ink hover:underline" href={card.href}>{card.title}</a></li>
+              ))}
+            </ul>
+          </details>
+        ))}
+    </div>
+    <div id="watch-results" hidden>
+      <a href="/watch/" class="inline-flex min-h-11 items-center font-body text-sm uppercase tracking-[0.1em] text-gold-ink">← Back to collections</a>
+      <h2 id="watch-result-title" class="font-display text-title text-ink mt-4"></h2>
+      <p id="watch-result-count" class="font-body text-ink-soft mt-1" role="status"></p>
+      <div id="watch-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+        {cards.filter((card) => ['music-video', 'sketch', 'short'].includes(card.group)).map((card) => (
+          <div id={`video-${card.href.split('/')[2]}`} data-collection={card.group} class="scroll-mt-24" hidden>
+            <WatchCard href={card.href} title={card.title} typeLabel={card.typeLabel} thumbnail={card.thumbnail} orientation={card.orientation} nativeAspect={card.nativeAspect} duration={card.duration} trackTitle={card.trackTitle} />
           </div>
-
-          <a href="/deep-cuts/" class="inline-flex min-h-11 items-center font-body text-sm text-gold-ink mt-4">Explore the Deep Cuts Live collection →</a>
-
-          <p class="font-body text-ink-soft mt-8" id="watch-choice" role="status">Choose a media type to see the videos.</p>
-
-          <div class="grid sm:grid-cols-2 gap-6 mt-8" id="watch-grid" style="display: none">
-            {cards.map((c) => (
-              <div data-type={c.type} style="display: none">
-                <WatchCard
-                  href={c.href}
-                  title={c.title}
-                  typeLabel={c.typeLabel}
-                  thumbnail={c.thumbnail}
-                  orientation={c.orientation}
-                  nativeAspect={c.nativeAspect}
-                  duration={c.duration}
-                  trackTitle={c.trackTitle}
-                />
-              </div>
-            ))}
-          </div>
-
-          <p class="hidden font-display text-xl text-ink mt-10" id="watch-empty" role="status">
-            Nothing in this category yet. The lawyers are reviewing the footage.
-          </p>
-
-          <script>
-            // Plain client-side filter — the interface behaves totally normally.
-            const group = document.getElementById('watch-filters');
-            const grid = document.getElementById('watch-grid');
-            const empty = document.getElementById('watch-empty');
-            const choice = document.getElementById('watch-choice');
-            group?.addEventListener('click', (ev) => {
-              const btn = (ev.target as HTMLElement).closest('button[data-filter]');
-              if (!btn || !grid || !empty) return;
-              const filter = btn.getAttribute('data-filter');
-              group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-              let visible = 0;
-              grid.querySelectorAll<HTMLElement>('[data-type]').forEach((card) => {
-                const show = card.dataset.type === filter;
-                card.style.display = show ? '' : 'none';
-                if (show) visible++;
-              });
-              choice?.classList.add('hidden');
-              grid.style.display = visible > 0 ? '' : 'none';
-              empty.classList.toggle('hidden', visible > 0);
-            });
-          </script>
-        </Fragment>
-      )
-    }
+        ))}
+      </div>
+      <nav id="watch-pagination" class="flex flex-wrap items-center gap-2 mt-8 font-body text-sm" aria-label="Watch pages"></nav>
+    </div>
   </section>
 </BaseLayout>
+
+<script>
+  const pageSize = 12;
+  document.getElementById('watch-fallback')!.hidden = true;
+  const allowed = { 'music-video': 'Music Videos', sketch: 'Sketches', short: 'Shorts' };
+  const params = new URLSearchParams(window.location.search);
+  const collection = params.get('collection');
+  if (collection && Object.hasOwn(allowed, collection)) {
+    const cards = [...document.querySelectorAll<HTMLElement>('#watch-grid > [data-collection]')].filter((card) => card.dataset.collection === collection);
+    const pageCount = Math.max(1, Math.ceil(cards.length / pageSize));
+    const requested = params.get('page');
+    const page = requested && /^[1-9]\d*$/.test(requested) ? Math.min(Number(requested), pageCount) : 1;
+    document.getElementById('watch-collections')!.hidden = true;
+    document.getElementById('watch-results')!.hidden = false;
+    document.getElementById('watch-result-title')!.textContent = allowed[collection as keyof typeof allowed];
+    document.getElementById('watch-result-count')!.textContent = `${cards.length} videos · Page ${page} of ${pageCount}`;
+    cards.forEach((card, index) => {
+      card.hidden = index < (page - 1) * pageSize || index >= page * pageSize;
+      const link = card.querySelector<HTMLAnchorElement>('a');
+      if (link) link.href = `${link.pathname}?collection=${encodeURIComponent(collection)}&page=${page}`;
+    });
+    const nav = document.getElementById('watch-pagination')!;
+    const link = (number: number, label: string, current = false) => {
+      const anchor = document.createElement('a');
+      anchor.href = `/watch/?collection=${encodeURIComponent(collection)}&page=${number}`;
+      anchor.textContent = label;
+      anchor.className = 'inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-line px-3 text-gold-ink hover:border-gold';
+      if (current) { anchor.setAttribute('aria-current', 'page'); anchor.classList.add('border-gold'); }
+      nav.append(anchor);
+    };
+    if (page > 1) link(page - 1, '← Previous');
+    for (let number = 1; number <= pageCount; number++) link(number, String(number), number === page);
+    if (page < pageCount) link(page + 1, 'Next →');
+    if (window.location.hash.startsWith('#video-')) {
+      requestAnimationFrame(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView());
+    }
+  }
+</script>

@@ -12,7 +12,7 @@ duration: "4:15"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 25
 displayOrder: 25
-description: "Don Biggly & The Indictments perform Sue-Whoop (Live in Dallas) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I don't sue everyone. Some people get an encore."
 featured: false
 hero: false
 publishDate: "2026-10-13"

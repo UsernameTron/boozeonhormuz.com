@@ -43,7 +43,7 @@ export function validateWatchSlugs(entries: { id: string; data: { slug: string }
   }
 }
 
-export const liveImages = (images: MediaImage[]) => images.filter((i) => !i.data.draft);
+export const liveImages = (images: MediaImage[]) => images.filter((i) => !i.data.draft).sort((a, b) => a.id.localeCompare(b.id, "en", { numeric: true }));
 
 export const videoTypeLabel: Record<Video['data']['type'], string> = {
   'music-video': 'Music Video',

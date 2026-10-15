@@ -8,7 +8,7 @@ videoWidth: 960
 videoHeight: 734
 orientation: "16:9"
 duration: "0:33"
-description: "The same clown, the same desk, a fictional McTrumps lobby in Tehran. Don admires marble bars on the playground and remains spectacularly out of touch with the scene around him."
+description: "At the fictional McTrumps in Tehran, Don admires marble by the playground. He calls it customer research."
 collection:
   label: "McTrumps Sponsor Reads"
   href: "/sponsor-reads/#tehran"

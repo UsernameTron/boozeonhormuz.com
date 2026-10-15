@@ -12,7 +12,7 @@ duration: "3:06"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 6
 displayOrder: 6
-description: "Don Biggly & The Indictments perform Luxury Compliance (Live in Rotterdam) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Luxury compliance? I prefer the luxury part."
 featured: false
 hero: false
 publishDate: "2026-10-13"

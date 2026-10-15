@@ -12,7 +12,7 @@ duration: "3:00"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 24
 displayOrder: 24
-description: "Don Biggly & The Indictments perform Platinum Summons (Live in Las Vegas) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. They said summons. I heard invitation. Front row, apparently."
 featured: false
 hero: false
 publishDate: "2026-10-13"

@@ -12,7 +12,7 @@ duration: "4:42"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 10
 displayOrder: 10
-description: "Don Biggly & The Indictments perform Ball in Don's Court (Live in Portland) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. The ball is mine. The court should be grateful."
 featured: false
 hero: false
 publishDate: "2026-10-13"

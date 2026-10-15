@@ -12,7 +12,7 @@ duration: "4:23"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 14
 displayOrder: 14
-description: "Don Biggly & The Indictments perform Morally Binding (Live in Kansas City) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. A binding deal. I asked to hold the pen."
 featured: false
 hero: false
 publishDate: "2026-10-13"

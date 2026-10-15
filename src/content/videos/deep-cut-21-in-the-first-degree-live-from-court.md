@@ -12,7 +12,7 @@ duration: "3:08"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 21
 displayOrder: 21
-description: "Don Biggly & The Indictments perform In the First Degree (Live from Court) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. First degree. I asked where they hold the graduation."
 featured: false
 hero: false
 publishDate: "2026-10-13"

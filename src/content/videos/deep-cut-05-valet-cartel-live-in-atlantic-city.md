@@ -12,7 +12,7 @@ duration: "4:27"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 5
 displayOrder: 5
-description: "Don Biggly & The Indictments perform Valet Cartel (Live in Atlantic City) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. The valet can keep the keys. I want the fees."
 featured: false
 hero: false
 publishDate: "2026-10-13"
