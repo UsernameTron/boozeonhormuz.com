@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 8
 displayOrder: 8
-description: "Don Biggly & The Indictments present The Bribe Has Valet Parking as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. A bribe with valet parking. I call that service."
 featured: false
 hero: false
 publishDate: 2026-10-12

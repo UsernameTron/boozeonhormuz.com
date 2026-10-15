@@ -1,105 +1,150 @@
 import { test, expect } from '@playwright/test';
+const cards = '[data-archive-item]';
 
-const visibleCards = '[data-archive-item]:visible';
-const visibleArt = 'a[data-art-id]:visible';
-
-test('archive search, populated filters, reset and browser history preserve discovery state', async ({ page }) => {
-  await page.goto('/archive/?q=money&type=image');
-  await expect(page.locator('#archive-query')).toHaveValue('money');
-  const totalCount = await page.locator('[data-archive-item]').count();
-  const imageCount = await page.locator(visibleCards).count();
-  expect(imageCount).toBeGreaterThan(0);
-  expect(await page.locator(visibleCards).evaluateAll((cards) => cards.every((card) => (card as HTMLElement).dataset.type === 'image'))).toBe(true);
-  await page.locator('button[data-filter="music-video"]').click();
-  await expect(page.locator('[data-type="music-video"]:visible').filter({ hasText: 'Hush Money Is Philanthropy' })).toBeVisible();
-  const musicCount = await page.locator(visibleCards).count();
-  await page.goBack();
-  await expect(page.locator(visibleCards)).toHaveCount(imageCount);
-  await page.goForward();
-  await expect(page.locator(visibleCards)).toHaveCount(musicCount);
-  await page.getByRole('button', { name: 'Reset', exact: true }).click();
-  await expect(page.locator(visibleCards)).toHaveCount(totalCount);
-  await page.locator('#archive-query').fill('<script> & "');
-  await expect(page.locator(visibleCards)).toHaveCount(0);
-  expect(new URL(page.url()).searchParams.get('q')).toBe('<script> & "');
-  await page.goto('/archive/?type=unknown');
-  await expect(page.locator(visibleCards)).toHaveCount(totalCount);
+test('Search catalog has 27 album songs, 67 other videos, and 121 artworks without duplicate destinations', async ({ page }) => {
+  await page.goto('/archive/');
+  const destinations = await page.locator('#archive-templates template').evaluateAll((templates) => templates.map((template) => (template as HTMLTemplateElement).content.querySelector('a')!.getAttribute('data-detail-href')!));
+  expect(destinations).toHaveLength(215);
+  expect(new Set(destinations).size).toBe(215);
+  expect(destinations.filter((href) => href.startsWith('/album/'))).toHaveLength(27);
+  expect(destinations.filter((href) => href.startsWith('/watch/'))).toHaveLength(67);
+  expect(destinations.filter((href) => href.startsWith('/art/'))).toHaveLength(121);
 });
 
-test('art viewer contains focus, navigates filtered art, closes and restores its invoking card', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+test('Search starts with no results and exposes 215 unique items by type', async ({ page }) => {
+  await page.goto('/archive/');
+  await expect(page.locator('#archive-grid')).toBeEmpty();
+  await expect(page.locator('#archive-count')).toHaveText('Search 215 items or choose a type.');
+  await page.getByRole('button', { name: 'Album Songs (27)' }).click();
+  await expect(page.locator(cards)).toHaveCount(12);
+  await expect(page.locator('#archive-count')).toHaveText('27 results of 215');
+  expect(await page.locator(cards).evaluateAll((elements) => elements.every((element) => (element as HTMLElement).dataset.type === 'album-song'))).toBe(true);
+  await expect(page.locator(`${cards} a`).first()).toHaveAttribute('href', /\/album\//);
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(page.locator('#archive-page-status')).toHaveText('Page 2 of 3');
+  await expect(page).toHaveURL(/type=album-song&page=2/);
+  await page.reload();
+  await expect(page.locator('#archive-page-status')).toHaveText('Page 2 of 3');
+  await page.goBack();
+  await expect(page.locator('#archive-page-status')).toHaveText('Page 1 of 3');
+  await page.getByRole('button', { name: 'Deep Cuts Live (32)' }).click();
+  await expect(page.locator('#archive-count')).toHaveText('32 results of 215');
+  await page.getByRole('button', { name: 'McTrumps (5)' }).click();
+  await expect(page.locator(cards)).toHaveCount(5);
+});
+
+test('query, legacy types, invalid input, and reset preserve search state', async ({ page }) => {
   await page.goto('/archive/?q=money&type=image');
-  const first = page.locator(visibleArt).first();
-  await expect(page.locator('[data-viewer-download]')).toHaveAttribute('href', /^\/[^#]/);
-  await expect(page.locator('[data-viewer-image]')).not.toHaveAttribute('src', /.+/);
+  await expect(page.locator('#archive-query')).toHaveValue('money');
+  expect(await page.locator(cards).count()).toBeGreaterThan(0);
+  await expect(page.locator('#archive-count')).toHaveText(/results of 215/);
+  await page.locator('#archive-query').fill('<script> & "');
+  await expect(page.locator(cards)).toHaveCount(0);
+  await expect(page.locator('#archive-empty')).toBeVisible();
+  expect(new URL(page.url()).searchParams.get('q')).toBe('<script> & "');
+  await page.goto('/archive/?type=sponsor-read');
+  await expect(page.locator(cards)).toHaveCount(5);
+  await page.goto('/archive/?type=unknown&page=999');
+  await expect(page.locator('#archive-grid')).toBeEmpty();
+  await page.goto('/archive/?type=image&page=999');
+  await expect(page.locator('#archive-page-status')).toHaveText('Page 11 of 11');
+  await page.getByRole('button', { name: 'Reset', exact: true }).click();
+  await expect(page.locator('#archive-grid')).toBeEmpty();
+  await expect(page).toHaveURL(/\/archive\/$/);
+});
+
+test('artwork viewer follows the current results page and retains the detail context', async ({ page }) => {
+  await page.goto('/archive/?type=image&page=2');
+  const first = page.locator('a[data-art-id]').first();
   const id = await first.getAttribute('data-art-id');
   await first.click();
-  const dialog = page.getByRole('dialog', { name: 'Hush Money as Philanthropy' });
-  await expect(dialog).toBeVisible();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 3');
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 12');
+  await page.getByRole('button', { name: 'Next artwork' }).click();
+  await expect(page.locator('[data-viewer-count]')).toHaveText('2 of 12');
+  await page.keyboard.press('Escape');
+  await expect(page.locator(`a[data-art-id="${id}"]`)).toBeFocused();
+  await expect(page).toHaveURL(/type=image&page=2$/);
+});
+
+test('viewer traps focus, closes with Escape, and supports browser Back and Forward', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/archive/?type=image');
+  const first = page.locator('a[data-art-id]').first();
+  const id = await first.getAttribute('data-art-id');
+  await first.click();
+  await expect(page.locator('#artwork-viewer')).toBeVisible();
   await expect.poll(() => page.locator('[data-viewer-image]').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
-  const firstDownload = await page.locator('[data-viewer-download]').getAttribute('href');
-  expect(firstDownload).toBe(await page.locator('[data-viewer-image]').getAttribute('src'));
-  await page.getByRole('button', { name: 'Next artwork', exact: true }).click();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('2 of 3');
-  expect(await page.locator('[data-viewer-download]').getAttribute('href')).not.toBe(firstDownload);
-  expect(await page.locator('[data-viewer-download]').getAttribute('href')).toBe(await page.locator('[data-viewer-image]').getAttribute('src'));
-  await page.getByRole('button', { name: 'Previous artwork', exact: true }).click();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 3');
+  const full = await page.locator('[data-viewer-image]').getAttribute('src');
+  await expect(page.locator('[data-viewer-download]')).toHaveAttribute('href', full!);
   for (let index = 0; index < 10; index++) await page.keyboard.press('Tab');
   expect(await page.evaluate(() => document.querySelector('#artwork-viewer')!.contains(document.activeElement))).toBe(true);
+  await page.goBack();
+  await expect(page.locator('#artwork-viewer')).toBeHidden();
+  await page.goForward();
+  await expect(page.locator('#artwork-viewer')).toBeVisible();
   await page.keyboard.press('Escape');
-  await expect(page.locator('#artwork-viewer')).not.toBeVisible();
+  await expect(page.locator('#artwork-viewer')).toBeHidden();
   await expect(page.locator(`a[data-art-id="${id}"]`)).toBeFocused();
-  await expect(page).toHaveURL(/q=money&type=image$/);
   expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
 });
 
-test('viewer Back/Forward and direct links work without history loops and retain detail context', async ({ page }) => {
-  await page.goto('/archive/?q=money&type=image');
-  await page.locator(visibleArt).first().click();
-  await expect(page.locator('#artwork-viewer')).toBeVisible();
-  await page.goBack(); await expect(page.locator('#artwork-viewer')).not.toBeVisible();
-  await page.goForward(); await expect(page.locator('#artwork-viewer')).toBeVisible();
+test('art detail retains Search page context and direct viewer links resolve', async ({ page }) => {
+  await page.goto('/archive/?type=image&page=2');
+  const first = page.locator('a[data-art-id]').first();
+  const id = await first.getAttribute('data-art-id');
+  await first.click();
   await page.locator('[data-viewer-details]').click();
-  await expect(page.locator('h1')).toHaveText('Hush Money as Philanthropy');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/art\/evidence--hush-money-as-philanthropy\/?$/);
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /\/evidence\/hush-money-as-philanthropy.webp$/);
-  await expect(page.locator('[data-archive-return]')).toHaveAttribute('href', '/archive?q=money&type=image');
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('[data-archive-return]')).toHaveAttribute('href', '/archive?type=image&page=2');
   for (const href of await page.locator('[data-art-related]').evaluateAll((anchors) => anchors.map((anchor) => (anchor as HTMLAnchorElement).href))) {
-    expect(new URL(href).searchParams.get('q')).toBe('money');
     expect(new URL(href).searchParams.get('type')).toBe('image');
+    expect(new URL(href).searchParams.get('page')).toBe('2');
   }
-  await page.goto('/archive/?q=money&type=image&art=evidence--hush-money-as-philanthropy');
+  await page.goto(`/archive/?type=image&page=2&art=${id}`);
   await expect(page.locator('#artwork-viewer')).toBeVisible();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 3');
   await page.keyboard.press('Escape');
-  await expect(page).toHaveURL(/q=money&type=image$/);
+  await expect(page).toHaveURL(/type=image&page=2$/);
 });
 
 for (const width of [320, 390, 1440]) {
-  test(`archive viewer fits ${width}px with explicit touch controls`, async ({ page }) => {
+  test(`viewer fits ${width}px with touch controls`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
-    await page.goto('/archive/');
+    await page.goto('/archive/?type=image');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await page.locator(visibleArt).first().click();
-    await expect(page.locator('#artwork-viewer')).toBeVisible();
+    await page.locator('a[data-art-id]').first().click();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     const controls = await page.locator('#artwork-viewer button').evaluateAll((buttons) => buttons.map((button) => button.getBoundingClientRect().height));
     expect(controls.every((height) => height >= 44)).toBe(true);
   });
 }
 
-test('ordinary artwork links and all original exhibit detail pages work without JavaScript', async ({ browser, baseURL }) => {
+test('all seven Evidence art detail pages remain available without JavaScript', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
   const page = await context.newPage();
-  await page.goto('/archive/');
-  const links = await page.locator('a[data-art-id^="evidence--"]').evaluateAll((anchors) => anchors.map((anchor) => (anchor as HTMLAnchorElement).href));
-  expect(links).toHaveLength(7);
-  for (const href of links) {
+  await page.goto('/gallery/');
+  const hrefs = await page.locator('a[data-art-id^="evidence--"]').evaluateAll((anchors) => anchors.map((anchor) => (anchor as HTMLAnchorElement).href));
+  expect(hrefs).toHaveLength(7);
+  for (const href of hrefs) {
     expect((await page.goto(href))?.status()).toBe(200);
     await expect(page.locator('h1')).toBeVisible();
     await expect(page.locator('figure img')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Back to the gallery' })).toHaveAttribute('href', '/gallery/');
   }
   await context.close();
+});
+
+test('Search offers working collection links when its JavaScript is blocked', async ({ page }) => {
+  // Astro inlines the Search module in production, so blocking .js requests alone does not stop it.
+  await page.route('**/archive/', async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': "script-src 'none'" } });
+  });
+  await page.goto('/archive/');
+  await expect(page.locator('#archive-recovery')).toBeVisible();
+  await expect(page.locator('#archive-recovery').getByRole('link', { name: 'Album Songs' })).toHaveAttribute('href', '/album/');
+  await expect(page.locator('#archive-recovery').getByRole('link', { name: 'Videos', exact: true })).toHaveAttribute('href', '/watch/');
+  await expect(page.locator('#archive-recovery').getByRole('link', { name: 'Gallery', exact: true })).toHaveAttribute('href', '/gallery/');
+  await page.locator('#archive-recovery').getByRole('link', { name: 'Gallery', exact: true }).click();
+  await expect(page.locator('h1')).toHaveText('Gallery');
 });

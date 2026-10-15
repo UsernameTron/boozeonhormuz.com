@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 22
 displayOrder: 22
-description: "Don Biggly & The Indictments present If They Rise, They Rise as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. If they rise, I want the commission."
 featured: false
 hero: false
 publishDate: 2026-10-12

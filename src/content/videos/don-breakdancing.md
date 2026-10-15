@@ -10,7 +10,7 @@ videoHeight: 708
 orientation: "16:9"
 duration: "0:10"
 displayOrder: 3
-description: "Don tries to take over a city sidewalk with an ill-advised breakdance move."
+description: "Don claims the sidewalk for his dance. The pavement requests a recount."
 publishDate: 2026-10-12
 draft: false
 ---

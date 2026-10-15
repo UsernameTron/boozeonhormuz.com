@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 4
 displayOrder: 4
-description: "Don Biggly & The Indictments present Gold Plated Filth as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Gold on the outside. Please don't check underneath."
 featured: false
 hero: false
 publishDate: 2026-10-12

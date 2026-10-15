@@ -12,7 +12,7 @@ duration: "3:40"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 11
 displayOrder: 11
-description: "Don Biggly & The Indictments perform Doral Discount (Live in Moscow) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Doral discount. Who pays me the difference?"
 featured: false
 hero: false
 publishDate: "2026-10-13"

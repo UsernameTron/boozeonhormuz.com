@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 6
 displayOrder: 6
-description: "Don Biggly & The Indictments present Pre-Demolition Deposit as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Deposits first. Buildings take their time."
 featured: false
 hero: false
 publishDate: 2026-10-12

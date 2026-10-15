@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const destinations = [
+  { href: '/products/', label: 'The merchandise', title: 'Products', description: 'Cereal, cologne, cufflinks. I approved every one. Counsel signed nothing.', action: 'Browse products' },
+  { href: '/experience/', label: 'The resort', title: 'Very questionable hospitality', description: 'Tour the resort. Financing is open. The exits are under review.', action: 'Visit the resort' },
+  { href: '/play/', label: 'The game', title: 'Tremendous Exit Strategy', description: 'The ship is sinking. The exit is free. Don has questions about both.', action: 'Play the game' },
+  { href: '/quotes/', label: 'The quotes', title: 'He did say that', description: 'Twelve statements. I stand by the good ones. We are still sorting those.', action: 'Read the quotes' },
+  { href: '/about/', label: 'The man', title: 'Who the hell is Don Biggly?', description: 'Medals, credentials, and a biography I personally called independent.', action: 'Meet Don' },
+];
+---
+
+<BaseLayout title="Explore | Booze on Hormuz™" description="Visit Don Biggly’s resort, play the game, inspect the merchandise, and meet the man behind the paperwork.">
+  <PageHeader eyebrow="Beyond the screen" title="Explore Don’s world" />
+  <section class="px-6 pb-12 max-w-4xl mx-auto" aria-label="Explore destinations">
+    <p class="text-ink-soft max-w-2xl">I built an empire. Counsel numbered the exhibits.</p>
+    <div class="grid sm:grid-cols-2 gap-5 mt-6">
+      {destinations.map((item) => (
+        <a href={item.href} class="group card-marble border border-line/60 rounded-xl p-6 flex flex-col hover:border-gold transition-colors">
+          {item.href === '/products/' && <img src="/products/captain-crunk-collection.png" alt="Captain Crunk cereal box" width="640" height="800" loading="eager" class="w-full h-40 object-contain mb-4" />}
+          <p class="text-eyebrow uppercase text-gold-ink">{item.label}</p>
+          <h2 class="font-display text-2xl text-ink mt-3 group-hover:text-gold-ink">{item.title}</h2>
+          <p class="text-sm text-ink-soft mt-3 flex-1">{item.description}</p>
+          <span class="text-sm text-gold-ink mt-5">{item.action} <span aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

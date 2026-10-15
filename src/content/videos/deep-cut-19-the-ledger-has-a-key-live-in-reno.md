@@ -12,7 +12,7 @@ duration: "3:33"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 19
 displayOrder: 19
-description: "Don Biggly & The Indictments perform The Ledger Has a Key (Live in Reno) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I kept two sets of books. Both bestsellers."
 featured: false
 hero: false
 publishDate: "2026-10-13"

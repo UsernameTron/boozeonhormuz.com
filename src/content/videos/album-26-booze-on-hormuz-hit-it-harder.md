@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 26
 displayOrder: 26
-description: "Don Biggly & The Indictments present Booze on Hormuz: Hit It Harder as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Another cruise? I call that an additional invoice."
 featured: false
 hero: false
 publishDate: 2026-10-12

@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 1
 displayOrder: 1
-description: "Don Biggly & The Indictments present Booze on Hormuz (feat. The 5th Naval Fleet) as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. The Strait? I want naming rights."
 featured: true
 hero: false
 publishDate: 2026-10-12

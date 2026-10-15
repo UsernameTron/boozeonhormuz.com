@@ -1,4 +1,68 @@
 {
+  "/covers/album-watch-collection.png": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 3035514,
+    "sha256": "4630a91f50820dbe5696413ab940ca129a113fd57e563bc689ec0b84fd0f43ae",
+    "candidates": [
+      {
+        "src": "/_media/1d780dce02d3dafc-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 39052
+      },
+      {
+        "src": "/_media/1d780dce02d3dafc-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 120758
+      },
+      {
+        "src": "/_media/1d780dce02d3dafc-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 224480
+      },
+      {
+        "src": "/_media/1d780dce02d3dafc-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 322358
+      }
+    ]
+  },
+  "/covers/deep-cuts-watch-collection.png": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 2802504,
+    "sha256": "da8172566d35e269e7862130b5a6e43c6c70ebfaf3817a81d5456f97d01415ac",
+    "candidates": [
+      {
+        "src": "/_media/8578fc6fdd34f17b-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 33684
+      },
+      {
+        "src": "/_media/8578fc6fdd34f17b-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 100506
+      },
+      {
+        "src": "/_media/8578fc6fdd34f17b-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 185734
+      },
+      {
+        "src": "/_media/8578fc6fdd34f17b-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 271432
+      }
+    ]
+  },
   "/covers/don-biggly-and-the-indictments-neon-mall.webp": {
     "width": 1254,
     "height": 1254,
@@ -28,6 +92,64 @@
         "width": 1254,
         "height": 1254,
         "bytes": 319092
+      }
+    ]
+  },
+  "/covers/hush-money-featured.png": {
+    "width": 1023,
+    "height": 1537,
+    "bytes": 2348280,
+    "sha256": "28d6ce1e9414d5eab73925d71604c97c0c4c45ba4854135a9a55cefb3134322c",
+    "candidates": [
+      {
+        "src": "/_media/3cfc84467edca990-320.webp",
+        "width": 320,
+        "height": 481,
+        "bytes": 20396
+      },
+      {
+        "src": "/_media/3cfc84467edca990-640.webp",
+        "width": 640,
+        "height": 962,
+        "bytes": 67236
+      },
+      {
+        "src": "/_media/3cfc84467edca990-960.webp",
+        "width": 960,
+        "height": 1442,
+        "bytes": 119754
+      },
+      {
+        "src": "/_media/3cfc84467edca990-1023.webp",
+        "width": 1023,
+        "height": 1537,
+        "bytes": 130718
+      }
+    ]
+  },
+  "/covers/hush-money-featured.webp": {
+    "width": 768,
+    "height": 1154,
+    "bytes": 162850,
+    "sha256": "063b48f0d8145b6fb3b77c63eb2ecb8a5e94984771372849835dd811fbde65cc",
+    "candidates": [
+      {
+        "src": "/_media/0f8019892091421c-320.webp",
+        "width": 320,
+        "height": 481,
+        "bytes": 18516
+      },
+      {
+        "src": "/_media/0f8019892091421c-640.webp",
+        "width": 640,
+        "height": 962,
+        "bytes": 54696
+      },
+      {
+        "src": "/_media/0f8019892091421c-768.webp",
+        "width": 768,
+        "height": 1154,
+        "bytes": 84384
       }
     ]
   },
@@ -336,6 +458,70 @@
         "width": 1280,
         "height": 853,
         "bytes": 116070
+      }
+    ]
+  },
+  "/game/tremendous-exit-strategy-cover.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 2937734,
+    "sha256": "60f290c046175c7f5b8b4d078fcfed32cf25af8e47da1964392c8cda5315f6da",
+    "candidates": [
+      {
+        "src": "/_media/93af1c4bf1f87b10-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 23282
+      },
+      {
+        "src": "/_media/93af1c4bf1f87b10-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 76070
+      },
+      {
+        "src": "/_media/93af1c4bf1f87b10-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 145674
+      },
+      {
+        "src": "/_media/93af1c4bf1f87b10-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 225542
+      }
+    ]
+  },
+  "/game/tremendous-exit-strategy-cover.webp": {
+    "width": 1440,
+    "height": 810,
+    "bytes": 365086,
+    "sha256": "8937550d7686f7a7ae90275ee626503c7bacd7ff1a43f4f78160c89b70cc6331",
+    "candidates": [
+      {
+        "src": "/_media/7ab06b3146fce966-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 22774
+      },
+      {
+        "src": "/_media/7ab06b3146fce966-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 71516
+      },
+      {
+        "src": "/_media/7ab06b3146fce966-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 133962
+      },
+      {
+        "src": "/_media/7ab06b3146fce966-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 193512
       }
     ]
   },
@@ -648,6 +834,26 @@
         "width": 1122,
         "height": 1402,
         "bytes": 251436
+      }
+    ]
+  },
+  "/products/captain-crunk-collection.png": {
+    "width": 640,
+    "height": 800,
+    "bytes": 945100,
+    "sha256": "87857d913dc5fcddb0647fe0f3d2022ae6f079dfebf7872f4b27650bbdcd5e3c",
+    "candidates": [
+      {
+        "src": "/_media/0bc1943777714f66-320.webp",
+        "width": 320,
+        "height": 400,
+        "bytes": 43618
+      },
+      {
+        "src": "/_media/0bc1943777714f66-640.webp",
+        "width": 640,
+        "height": 800,
+        "bytes": 112700
       }
     ]
   },
@@ -1099,6 +1305,326 @@
       }
     ]
   },
+  "/stills/gallery-100-front-row-handshake.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 551076,
+    "sha256": "176b0dce32069bb45421f46a493e24de7f0b1ebc016f5d99f592bd016375c23b",
+    "candidates": [
+      {
+        "src": "/_media/5b4329a6b9b85ffe-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 44810
+      },
+      {
+        "src": "/_media/5b4329a6b9b85ffe-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 141036
+      },
+      {
+        "src": "/_media/5b4329a6b9b85ffe-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 242748
+      },
+      {
+        "src": "/_media/5b4329a6b9b85ffe-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 290416
+      }
+    ]
+  },
+  "/stills/gallery-101-ballroom-spotlight.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 560940,
+    "sha256": "5ce61ba891a797929bd31abd0953daf9cd9e5c60e4512ff34a99cffcba3d1365",
+    "candidates": [
+      {
+        "src": "/_media/bb57b295cb2c2b12-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 45826
+      },
+      {
+        "src": "/_media/bb57b295cb2c2b12-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 145884
+      },
+      {
+        "src": "/_media/bb57b295cb2c2b12-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 252510
+      },
+      {
+        "src": "/_media/bb57b295cb2c2b12-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 298864
+      }
+    ]
+  },
+  "/stills/gallery-102-the-gold-folder-presentation.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 432570,
+    "sha256": "66274d86551b21c3901bdc16baf33877f0a1256dadc6d94699f73fc80bca3117",
+    "candidates": [
+      {
+        "src": "/_media/bd5640d79aa67336-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 34080
+      },
+      {
+        "src": "/_media/bd5640d79aa67336-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 103790
+      },
+      {
+        "src": "/_media/bd5640d79aa67336-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 180266
+      },
+      {
+        "src": "/_media/bd5640d79aa67336-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 219858
+      }
+    ]
+  },
+  "/stills/gallery-103-certificate-of-importance.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 422552,
+    "sha256": "f0285e9b6f47e52bb696049af19f2d028bb5d5167918a3a25243b6b43b28a0d8",
+    "candidates": [
+      {
+        "src": "/_media/6a6afb4666f62093-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 32520
+      },
+      {
+        "src": "/_media/6a6afb4666f62093-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 97862
+      },
+      {
+        "src": "/_media/6a6afb4666f62093-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 169374
+      },
+      {
+        "src": "/_media/6a6afb4666f62093-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 206830
+      }
+    ]
+  },
+  "/stills/gallery-104-signing-ceremony.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 437396,
+    "sha256": "87079488624070a82b7bb946b9acc1509c8090d1bc3b112a4bc853845c8e2e33",
+    "candidates": [
+      {
+        "src": "/_media/a6523542377a6bd8-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 32614
+      },
+      {
+        "src": "/_media/a6523542377a6bd8-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 99600
+      },
+      {
+        "src": "/_media/a6523542377a6bd8-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 174116
+      },
+      {
+        "src": "/_media/a6523542377a6bd8-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 218530
+      }
+    ]
+  },
+  "/stills/gallery-105-the-crowd-reaches-back.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 359742,
+    "sha256": "038843903c12d127df5e90f5328cb1f4af6d399dd95e614c2fa1f93c9566e8b2",
+    "candidates": [
+      {
+        "src": "/_media/3d27681e42f2a736-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21434
+      },
+      {
+        "src": "/_media/3d27681e42f2a736-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 63494
+      },
+      {
+        "src": "/_media/3d27681e42f2a736-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 112016
+      },
+      {
+        "src": "/_media/3d27681e42f2a736-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 169560
+      }
+    ]
+  },
+  "/stills/gallery-106-microphone-and-medals.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 375616,
+    "sha256": "e69ec506278bc1411ecf0493e1b6b300b1730160ce62e26a50c74a34b33eb0f0",
+    "candidates": [
+      {
+        "src": "/_media/68a12c7410e74a1c-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23694
+      },
+      {
+        "src": "/_media/68a12c7410e74a1c-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 68974
+      },
+      {
+        "src": "/_media/68a12c7410e74a1c-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 121012
+      },
+      {
+        "src": "/_media/68a12c7410e74a1c-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 187432
+      }
+    ]
+  },
+  "/stills/gallery-107-confetti-victory-lap.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 337588,
+    "sha256": "d81238028f5c1b4a399a0bd8ae32daf328e64259ca98e3d8abcc5537a4469185",
+    "candidates": [
+      {
+        "src": "/_media/947eaf7320d4aaae-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21756
+      },
+      {
+        "src": "/_media/947eaf7320d4aaae-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 60352
+      },
+      {
+        "src": "/_media/947eaf7320d4aaae-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 106018
+      },
+      {
+        "src": "/_media/947eaf7320d4aaae-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 160160
+      }
+    ]
+  },
+  "/stills/gallery-108-center-stage.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 384620,
+    "sha256": "2975043879c30c32dbbbccd84b2f2d0f7b33cd12c03406285391eb9a8182d096",
+    "candidates": [
+      {
+        "src": "/_media/1ffbbd5c80604456-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23780
+      },
+      {
+        "src": "/_media/1ffbbd5c80604456-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 71816
+      },
+      {
+        "src": "/_media/1ffbbd5c80604456-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 124318
+      },
+      {
+        "src": "/_media/1ffbbd5c80604456-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 189620
+      }
+    ]
+  },
+  "/stills/gallery-109-up-close-on-stage.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 358870,
+    "sha256": "76c556b431336c3d3744daff94323babec334ac3f3495ba4ef876f4f9fbeaddc",
+    "candidates": [
+      {
+        "src": "/_media/65b7c0005cb9eca4-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 19754
+      },
+      {
+        "src": "/_media/65b7c0005cb9eca4-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 61918
+      },
+      {
+        "src": "/_media/65b7c0005cb9eca4-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 111250
+      },
+      {
+        "src": "/_media/65b7c0005cb9eca4-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 174774
+      }
+    ]
+  },
   "/stills/gallery-11-creating-evidence.webp": {
     "width": 1536,
     "height": 864,
@@ -1128,6 +1654,166 @@
         "width": 1280,
         "height": 720,
         "bytes": 52704
+      }
+    ]
+  },
+  "/stills/gallery-110-the-final-chorus.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 421038,
+    "sha256": "2bfbb4706f55db7b1081f3c4251ed7c82db37cf2f8b228a41754edcffcd1a745",
+    "candidates": [
+      {
+        "src": "/_media/9691de11d2e5bedb-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22974
+      },
+      {
+        "src": "/_media/9691de11d2e5bedb-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 70990
+      },
+      {
+        "src": "/_media/9691de11d2e5bedb-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 129496
+      },
+      {
+        "src": "/_media/9691de11d2e5bedb-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 205800
+      }
+    ]
+  },
+  "/stills/gallery-111-a-toast-to-his-portrait.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 384314,
+    "sha256": "0c389ae9d0357dcf00d8e75f757c94aae187698890774cb4b07765bf462e1653",
+    "candidates": [
+      {
+        "src": "/_media/71418785f18c0453-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24222
+      },
+      {
+        "src": "/_media/71418785f18c0453-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 71806
+      },
+      {
+        "src": "/_media/71418785f18c0453-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 125786
+      },
+      {
+        "src": "/_media/71418785f18c0453-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 194638
+      }
+    ]
+  },
+  "/stills/gallery-112-birthday-of-the-greatest.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 405234,
+    "sha256": "cbe5e3fbe8895e6776f20af811e79bf782472899bdf527f292d91c8c230ab3d5",
+    "candidates": [
+      {
+        "src": "/_media/befe865df8f6c689-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 27996
+      },
+      {
+        "src": "/_media/befe865df8f6c689-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 81432
+      },
+      {
+        "src": "/_media/befe865df8f6c689-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 140562
+      },
+      {
+        "src": "/_media/befe865df8f6c689-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 208696
+      }
+    ]
+  },
+  "/stills/gallery-113-the-greatest-presentation.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 294982,
+    "sha256": "fdb629bfc496997dc9e4267d3a471773d4ff4eb57d189e96642ee0c8a6d9432b",
+    "candidates": [
+      {
+        "src": "/_media/3b91e2395aab49cc-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 18530
+      },
+      {
+        "src": "/_media/3b91e2395aab49cc-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 51800
+      },
+      {
+        "src": "/_media/3b91e2395aab49cc-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 91194
+      },
+      {
+        "src": "/_media/3b91e2395aab49cc-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 140892
+      }
+    ]
+  },
+  "/stills/gallery-114-unveiling-the-gold-statue.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 342354,
+    "sha256": "fa8758421d841e180c10e6fd9e038550126942b0d25f0009719e155bede693b6",
+    "candidates": [
+      {
+        "src": "/_media/965b286fd9358ffe-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 17744
+      },
+      {
+        "src": "/_media/965b286fd9358ffe-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 54452
+      },
+      {
+        "src": "/_media/965b286fd9358ffe-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 99354
+      },
+      {
+        "src": "/_media/965b286fd9358ffe-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 161136
       }
     ]
   },
@@ -2268,6 +2954,1670 @@
         "width": 1107,
         "height": 2400,
         "bytes": 141174
+      }
+    ]
+  },
+  "/stills/gallery-48-the-don-biggly-center-for-don-biggly.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 535788,
+    "sha256": "57258c194357bd161ff1632e03a948fe9938ebd1093b19d3306d7c7db6f3a0b2",
+    "candidates": [
+      {
+        "src": "/_media/8a90c8e5eb0d82a2-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 38782
+      },
+      {
+        "src": "/_media/8a90c8e5eb0d82a2-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 124340
+      },
+      {
+        "src": "/_media/8a90c8e5eb0d82a2-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 218506
+      },
+      {
+        "src": "/_media/8a90c8e5eb0d82a2-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 268984
+      }
+    ]
+  },
+  "/stills/gallery-49-live-at-the-departure-club.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 416210,
+    "sha256": "d69839900baff851dd05d0cf32f21c46795af031c5c85f2164d3a5c0c772ae8b",
+    "candidates": [
+      {
+        "src": "/_media/4e0da11bf2e348ec-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 38244
+      },
+      {
+        "src": "/_media/4e0da11bf2e348ec-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 108024
+      },
+      {
+        "src": "/_media/4e0da11bf2e348ec-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 183400
+      },
+      {
+        "src": "/_media/4e0da11bf2e348ec-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 221694
+      }
+    ]
+  },
+  "/stills/gallery-50-dinner-with-his-portrait.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 425326,
+    "sha256": "2aeeddd8c1094ca80b2b42d9c01b1039fc07a1818b19f3f5a02af1e005bd22f0",
+    "candidates": [
+      {
+        "src": "/_media/f30ccd1019893dff-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21366
+      },
+      {
+        "src": "/_media/f30ccd1019893dff-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 71696
+      },
+      {
+        "src": "/_media/f30ccd1019893dff-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 134736
+      },
+      {
+        "src": "/_media/f30ccd1019893dff-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 219356
+      }
+    ]
+  },
+  "/stills/gallery-51-story-time-with-don.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 351576,
+    "sha256": "7c5da017580481c3023b17c98064e5a26ce20edee272ddde024b68b7dce840bf",
+    "candidates": [
+      {
+        "src": "/_media/f3d554e675b09aab-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22500
+      },
+      {
+        "src": "/_media/f3d554e675b09aab-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 63682
+      },
+      {
+        "src": "/_media/f3d554e675b09aab-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 108830
+      },
+      {
+        "src": "/_media/f3d554e675b09aab-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 166972
+      }
+    ]
+  },
+  "/stills/gallery-52-speed-dating-with-a-portrait.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 370190,
+    "sha256": "843a05e3e66c85cc77726df55307b2a425ded81c3d4a07476b013e4c75399817",
+    "candidates": [
+      {
+        "src": "/_media/c8abd893db3c702e-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 18886
+      },
+      {
+        "src": "/_media/c8abd893db3c702e-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 58106
+      },
+      {
+        "src": "/_media/c8abd893db3c702e-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 104616
+      },
+      {
+        "src": "/_media/c8abd893db3c702e-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 168908
+      }
+    ]
+  },
+  "/stills/gallery-53-namaste-your-ego.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 281532,
+    "sha256": "f3615b0cd5a9e0d63b5072c57ea4900fd73a91c8241e1ccc079b1fba4c71b943",
+    "candidates": [
+      {
+        "src": "/_media/59b0ec9b015ce6c9-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 18474
+      },
+      {
+        "src": "/_media/59b0ec9b015ce6c9-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 49826
+      },
+      {
+        "src": "/_media/59b0ec9b015ce6c9-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 86166
+      },
+      {
+        "src": "/_media/59b0ec9b015ce6c9-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 131734
+      }
+    ]
+  },
+  "/stills/gallery-54-the-bridal-consultation.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 343636,
+    "sha256": "cbce0d9cc1c1da98b24c6b95dec2ae40e388acf0b313444e2df7adabe896615a",
+    "candidates": [
+      {
+        "src": "/_media/310564a6afed7055-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22284
+      },
+      {
+        "src": "/_media/310564a6afed7055-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 65378
+      },
+      {
+        "src": "/_media/310564a6afed7055-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 113464
+      },
+      {
+        "src": "/_media/310564a6afed7055-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 175756
+      }
+    ]
+  },
+  "/stills/gallery-55-a-portrait-at-the-party.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 402114,
+    "sha256": "1d2330b2a29bdf18a67ec184d93524bc656dc802bcbbad2cd8eeadb9a9f52af0",
+    "candidates": [
+      {
+        "src": "/_media/864b51c2e9bfd090-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24980
+      },
+      {
+        "src": "/_media/864b51c2e9bfd090-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 71580
+      },
+      {
+        "src": "/_media/864b51c2e9bfd090-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 124398
+      },
+      {
+        "src": "/_media/864b51c2e9bfd090-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 191520
+      }
+    ]
+  },
+  "/stills/gallery-56-brunch-queen.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 374540,
+    "sha256": "c777e2a9050177117c39b82ceb3fccd64ae2cd1908e9ac6bdf21bd0ff1daf313",
+    "candidates": [
+      {
+        "src": "/_media/54c0931124616ae9-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 27634
+      },
+      {
+        "src": "/_media/54c0931124616ae9-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 76872
+      },
+      {
+        "src": "/_media/54c0931124616ae9-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 131970
+      },
+      {
+        "src": "/_media/54c0931124616ae9-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 198870
+      }
+    ]
+  },
+  "/stills/gallery-57-the-funeral-selfie.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 387810,
+    "sha256": "19c23060fbc3287ea1e18afa4cefc84146c385f00d002dbb69795e29d76f4c3b",
+    "candidates": [
+      {
+        "src": "/_media/08e239ebd51fba3a-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22138
+      },
+      {
+        "src": "/_media/08e239ebd51fba3a-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 70274
+      },
+      {
+        "src": "/_media/08e239ebd51fba3a-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 128658
+      },
+      {
+        "src": "/_media/08e239ebd51fba3a-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 200178
+      }
+    ]
+  },
+  "/stills/gallery-58-baby-shower-headliner.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 451270,
+    "sha256": "4fd9e2e5b4f4dee3ef9927b08af01229c69f2225b8471d4d7951eb28668aeaf7",
+    "candidates": [
+      {
+        "src": "/_media/8bd37410475519b0-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 27862
+      },
+      {
+        "src": "/_media/8bd37410475519b0-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 85696
+      },
+      {
+        "src": "/_media/8bd37410475519b0-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 150670
+      },
+      {
+        "src": "/_media/8bd37410475519b0-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 235266
+      }
+    ]
+  },
+  "/stills/gallery-59-book-club-guest-of-honor.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 364832,
+    "sha256": "4bb0d67d7da408b81d1ca9e92513bc96fad37987d4b9636cfaeb28978f46079a",
+    "candidates": [
+      {
+        "src": "/_media/2f36fde27a6f0736-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23448
+      },
+      {
+        "src": "/_media/2f36fde27a6f0736-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 68638
+      },
+      {
+        "src": "/_media/2f36fde27a6f0736-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 120706
+      },
+      {
+        "src": "/_media/2f36fde27a6f0736-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 185826
+      }
+    ]
+  },
+  "/stills/gallery-60-the-bridal-scorecard.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 388034,
+    "sha256": "98d63aeceb65fc6485f0decc1f1e48a7dc855890c344f7707cd0d991a985b70b",
+    "candidates": [
+      {
+        "src": "/_media/246b14e9f65a092e-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22236
+      },
+      {
+        "src": "/_media/246b14e9f65a092e-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 68520
+      },
+      {
+        "src": "/_media/246b14e9f65a092e-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 121616
+      },
+      {
+        "src": "/_media/246b14e9f65a092e-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 192574
+      }
+    ]
+  },
+  "/stills/gallery-61-mother-daughter-tea.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 413590,
+    "sha256": "abab1ed8ac5f27116fce8a75663e94b4f404cfe07de1aeaad5e8c4e5f4b4a8e5",
+    "candidates": [
+      {
+        "src": "/_media/18d426b9cc860e8a-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 29220
+      },
+      {
+        "src": "/_media/18d426b9cc860e8a-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 83676
+      },
+      {
+        "src": "/_media/18d426b9cc860e8a-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 145112
+      },
+      {
+        "src": "/_media/18d426b9cc860e8a-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 218318
+      }
+    ]
+  },
+  "/stills/gallery-62-the-spa-takeover.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 297320,
+    "sha256": "8ed38404ccfb111631e383f5a7e593c7242a60b054117a6cf541b24b5be61e09",
+    "candidates": [
+      {
+        "src": "/_media/ef021bf7cf1a7f55-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21190
+      },
+      {
+        "src": "/_media/ef021bf7cf1a7f55-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 60186
+      },
+      {
+        "src": "/_media/ef021bf7cf1a7f55-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 101886
+      },
+      {
+        "src": "/_media/ef021bf7cf1a7f55-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 154666
+      }
+    ]
+  },
+  "/stills/gallery-63-karaoke-night.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 344364,
+    "sha256": "23d649f6141642fa4cd978e64ad8258847dd3799bed7b992052752d7e7c78fe7",
+    "candidates": [
+      {
+        "src": "/_media/2858347c5e77108f-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20098
+      },
+      {
+        "src": "/_media/2858347c5e77108f-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 60510
+      },
+      {
+        "src": "/_media/2858347c5e77108f-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 104206
+      },
+      {
+        "src": "/_media/2858347c5e77108f-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 161268
+      }
+    ]
+  },
+  "/stills/gallery-64-standing-ovation-required.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 277914,
+    "sha256": "c6a3e9520eabbb176877a250a41108dd96a9c9b6dc50ae55443139a38b13a479",
+    "candidates": [
+      {
+        "src": "/_media/032280d454c5682e-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 17700
+      },
+      {
+        "src": "/_media/032280d454c5682e-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 50096
+      },
+      {
+        "src": "/_media/032280d454c5682e-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 86554
+      },
+      {
+        "src": "/_media/032280d454c5682e-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 131868
+      }
+    ]
+  },
+  "/stills/gallery-65-the-priceless-portrait.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 505380,
+    "sha256": "240a4d798ea9097a9f29c9404fac2f97f083d1f575702390cf397c631fea82dd",
+    "candidates": [
+      {
+        "src": "/_media/37f893165b55bd76-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 25688
+      },
+      {
+        "src": "/_media/37f893165b55bd76-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 81638
+      },
+      {
+        "src": "/_media/37f893165b55bd76-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 152446
+      },
+      {
+        "src": "/_media/37f893165b55bd76-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 247378
+      }
+    ]
+  },
+  "/stills/gallery-66-cooking-with-don.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 454446,
+    "sha256": "087792c7fc530f223b309d120bec22a6f1e076d9a4d66f95fb5c884e70305ed7",
+    "candidates": [
+      {
+        "src": "/_media/bc643a48a04b2cdf-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24760
+      },
+      {
+        "src": "/_media/bc643a48a04b2cdf-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 79152
+      },
+      {
+        "src": "/_media/bc643a48a04b2cdf-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 144374
+      },
+      {
+        "src": "/_media/bc643a48a04b2cdf-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 230966
+      }
+    ]
+  },
+  "/stills/gallery-67-the-dressing-room-jury.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 384600,
+    "sha256": "4f5aef6ffbaedce8281db789edf2ddd2817948f26e54909a01da9c403734a5d7",
+    "candidates": [
+      {
+        "src": "/_media/48e38c5607aac4be-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23926
+      },
+      {
+        "src": "/_media/48e38c5607aac4be-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 71242
+      },
+      {
+        "src": "/_media/48e38c5607aac4be-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 122752
+      },
+      {
+        "src": "/_media/48e38c5607aac4be-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 189622
+      }
+    ]
+  },
+  "/stills/gallery-68-don-biggly-pilates.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 290010,
+    "sha256": "b036b70a2c8553f3bbf20861cfa6cc43cb483808e039c870223865ab4380bde6",
+    "candidates": [
+      {
+        "src": "/_media/358203adf132dc5f-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 18396
+      },
+      {
+        "src": "/_media/358203adf132dc5f-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 51412
+      },
+      {
+        "src": "/_media/358203adf132dc5f-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 87268
+      },
+      {
+        "src": "/_media/358203adf132dc5f-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 134954
+      }
+    ]
+  },
+  "/stills/gallery-69-the-wine-tasting.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 375532,
+    "sha256": "9e83a2561067e5dd63069722582537316ea5784b52d7f8b5ce9ccc5c868b30d3",
+    "candidates": [
+      {
+        "src": "/_media/5fdbba6298c512b3-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22288
+      },
+      {
+        "src": "/_media/5fdbba6298c512b3-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 67440
+      },
+      {
+        "src": "/_media/5fdbba6298c512b3-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 117906
+      },
+      {
+        "src": "/_media/5fdbba6298c512b3-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 180732
+      }
+    ]
+  },
+  "/stills/gallery-70-the-bridal-workshop.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 418292,
+    "sha256": "431806177ad30f471ef9fa51293646d34137a5255aba98a5107c843c9c4e912e",
+    "candidates": [
+      {
+        "src": "/_media/d7ed3acb6358754e-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 27246
+      },
+      {
+        "src": "/_media/d7ed3acb6358754e-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 81166
+      },
+      {
+        "src": "/_media/d7ed3acb6358754e-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 141502
+      },
+      {
+        "src": "/_media/d7ed3acb6358754e-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 209602
+      }
+    ]
+  },
+  "/stills/gallery-71-leadership-at-the-microphone.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 356026,
+    "sha256": "b16ecbc5ec0a87c4dc2bf428f4e92a9194606cd4d7124e8d5fc2301e43690578",
+    "candidates": [
+      {
+        "src": "/_media/695a9ea2bbdfdfeb-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21590
+      },
+      {
+        "src": "/_media/695a9ea2bbdfdfeb-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 65180
+      },
+      {
+        "src": "/_media/695a9ea2bbdfdfeb-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 114306
+      },
+      {
+        "src": "/_media/695a9ea2bbdfdfeb-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 174862
+      }
+    ]
+  },
+  "/stills/gallery-72-ethics-hearing-gift-shop.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 478438,
+    "sha256": "245f327c15279f88c172f01816eaa2219414d879e74351c68b235775e9fe667c",
+    "candidates": [
+      {
+        "src": "/_media/c33d9ed5fa964f1c-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 26896
+      },
+      {
+        "src": "/_media/c33d9ed5fa964f1c-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 82422
+      },
+      {
+        "src": "/_media/c33d9ed5fa964f1c-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 150412
+      },
+      {
+        "src": "/_media/c33d9ed5fa964f1c-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 238206
+      }
+    ]
+  },
+  "/stills/gallery-73-emergency-briefing-product-launch.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 346326,
+    "sha256": "b1655705c1b9079e3ee5c433d9c834d51d9a05bec6aa23ed947ede76edb80ed3",
+    "candidates": [
+      {
+        "src": "/_media/859e5e94545f1393-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24284
+      },
+      {
+        "src": "/_media/859e5e94545f1393-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 71116
+      },
+      {
+        "src": "/_media/859e5e94545f1393-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 123288
+      },
+      {
+        "src": "/_media/859e5e94545f1393-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 191010
+      }
+    ]
+  },
+  "/stills/gallery-74-the-presidential-vip-menu.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 419700,
+    "sha256": "882ff5390428ed297e832b84bfac91b10f09b87f0b66f84f610a75165838a44a",
+    "candidates": [
+      {
+        "src": "/_media/9ead2aca2dfb239a-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22230
+      },
+      {
+        "src": "/_media/9ead2aca2dfb239a-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 73160
+      },
+      {
+        "src": "/_media/9ead2aca2dfb239a-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 135754
+      },
+      {
+        "src": "/_media/9ead2aca2dfb239a-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 217406
+      }
+    ]
+  },
+  "/stills/gallery-75-the-presidential-garage-sale.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 437232,
+    "sha256": "3055ad4ab3a53088109409616ed78c8770232c6e82002b84fd8748bdf5cb8a85",
+    "candidates": [
+      {
+        "src": "/_media/60ae5962933311a5-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22866
+      },
+      {
+        "src": "/_media/60ae5962933311a5-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 69994
+      },
+      {
+        "src": "/_media/60ae5962933311a5-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 126638
+      },
+      {
+        "src": "/_media/60ae5962933311a5-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 206002
+      }
+    ]
+  },
+  "/stills/gallery-76-hope-healing-and-high-rollers.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 378238,
+    "sha256": "8d196cd9be18bca1d67d7108baeb888941776fe5fb65d5cea59a597a29946663",
+    "candidates": [
+      {
+        "src": "/_media/5d5805dec324bb45-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24808
+      },
+      {
+        "src": "/_media/5d5805dec324bb45-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 71100
+      },
+      {
+        "src": "/_media/5d5805dec324bb45-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 123974
+      },
+      {
+        "src": "/_media/5d5805dec324bb45-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 192274
+      }
+    ]
+  },
+  "/stills/gallery-77-the-climate-summit-putting-green.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 460362,
+    "sha256": "761142c2c2ac1f96522698ddf41578bd27357581650484d02ceaca0a00fdc357",
+    "candidates": [
+      {
+        "src": "/_media/905b2a79e5c2aba7-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 25592
+      },
+      {
+        "src": "/_media/905b2a79e5c2aba7-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 84886
+      },
+      {
+        "src": "/_media/905b2a79e5c2aba7-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 153966
+      },
+      {
+        "src": "/_media/905b2a79e5c2aba7-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 247450
+      }
+    ]
+  },
+  "/stills/gallery-78-presidential-suites-for-everyone.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 429250,
+    "sha256": "4049c881e1729484fddf5289655016b3d969103f4cab1a378651968cdb347b12",
+    "candidates": [
+      {
+        "src": "/_media/01761020be4e00d5-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 28862
+      },
+      {
+        "src": "/_media/01761020be4e00d5-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 84940
+      },
+      {
+        "src": "/_media/01761020be4e00d5-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 147296
+      },
+      {
+        "src": "/_media/01761020be4e00d5-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 222736
+      }
+    ]
+  },
+  "/stills/gallery-79-museum-of-accountability.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 441860,
+    "sha256": "a2b260052a286ed8dd323a4dca105819ac266d639352f2f9e622b70f52ae292e",
+    "candidates": [
+      {
+        "src": "/_media/c2caa264f91fa2f6-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23572
+      },
+      {
+        "src": "/_media/c2caa264f91fa2f6-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 74868
+      },
+      {
+        "src": "/_media/c2caa264f91fa2f6-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 137862
+      },
+      {
+        "src": "/_media/c2caa264f91fa2f6-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 226654
+      }
+    ]
+  },
+  "/stills/gallery-80-the-bridge-ribbon-cutting.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 449382,
+    "sha256": "581420fcbd23bd780587362f77214a814365ef2593be79fb7a20894434d754d2",
+    "candidates": [
+      {
+        "src": "/_media/d4060ffc228fb4de-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 26132
+      },
+      {
+        "src": "/_media/d4060ffc228fb4de-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 81212
+      },
+      {
+        "src": "/_media/d4060ffc228fb4de-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 148088
+      },
+      {
+        "src": "/_media/d4060ffc228fb4de-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 237426
+      }
+    ]
+  },
+  "/stills/gallery-81-the-evidence-buffet.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 488314,
+    "sha256": "78ec58039a7109689632c3d4f88619ac59c3bd1d45da3a85341256dfbab29e01",
+    "candidates": [
+      {
+        "src": "/_media/adc5234ce4c12f1a-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 30320
+      },
+      {
+        "src": "/_media/adc5234ce4c12f1a-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 95820
+      },
+      {
+        "src": "/_media/adc5234ce4c12f1a-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 170890
+      },
+      {
+        "src": "/_media/adc5234ce4c12f1a-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 264320
+      }
+    ]
+  },
+  "/stills/gallery-82-the-ratings-situation-room.webp": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 522876,
+    "sha256": "378bfa7afee9d2ead526e7ea66e2ad47c07ad9aa564e5baa8655b0f576848e4d",
+    "candidates": [
+      {
+        "src": "/_media/3e148ee54900fd05-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 30494
+      },
+      {
+        "src": "/_media/3e148ee54900fd05-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 98804
+      },
+      {
+        "src": "/_media/3e148ee54900fd05-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 179186
+      },
+      {
+        "src": "/_media/3e148ee54900fd05-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 282080
+      }
+    ]
+  },
+  "/stills/gallery-83-one-more-encore.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 398454,
+    "sha256": "3e9c8f7211599201455f4031fc8cafce50f2b8e103acde6a28a4ca7a76b33ce3",
+    "candidates": [
+      {
+        "src": "/_media/5a98e0e03c1ca682-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 28624
+      },
+      {
+        "src": "/_media/5a98e0e03c1ca682-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 85490
+      },
+      {
+        "src": "/_media/5a98e0e03c1ca682-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 146692
+      },
+      {
+        "src": "/_media/5a98e0e03c1ca682-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 181808
+      }
+    ]
+  },
+  "/stills/gallery-84-above-the-crowd.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 356284,
+    "sha256": "819030b65166ba4239194d6d36170987f0e5f0a2b5cf3eda48ec2cc36cb85bea",
+    "candidates": [
+      {
+        "src": "/_media/e700a56c8b07cb0b-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 32840
+      },
+      {
+        "src": "/_media/e700a56c8b07cb0b-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 89820
+      },
+      {
+        "src": "/_media/e700a56c8b07cb0b-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 148038
+      },
+      {
+        "src": "/_media/e700a56c8b07cb0b-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 171988
+      }
+    ]
+  },
+  "/stills/gallery-85-accountability-center-opening.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 550934,
+    "sha256": "011427ed8d8ff5434e837c212aa3c6e693737d2d1ccfd95ac541c94b22d48df7",
+    "candidates": [
+      {
+        "src": "/_media/351d7a13f2ccc58a-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 43046
+      },
+      {
+        "src": "/_media/351d7a13f2ccc58a-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 133454
+      },
+      {
+        "src": "/_media/351d7a13f2ccc58a-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 236458
+      },
+      {
+        "src": "/_media/351d7a13f2ccc58a-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 298526
+      }
+    ]
+  },
+  "/stills/gallery-86-everything-is-fine.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 475554,
+    "sha256": "18b96551c9fa80c4679ea78a869c6a647a5619a2ac7892b7e2cbbb9d09d76d12",
+    "candidates": [
+      {
+        "src": "/_media/e5994a994d3850de-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 41382
+      },
+      {
+        "src": "/_media/e5994a994d3850de-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 118270
+      },
+      {
+        "src": "/_media/e5994a994d3850de-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 199306
+      },
+      {
+        "src": "/_media/e5994a994d3850de-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 239136
+      }
+    ]
+  },
+  "/stills/gallery-87-the-receipt-briefing.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 504072,
+    "sha256": "d8f5936132148218b5e775d57b5df46cb7e1f1bb9dc71342f48a42c030b1d974",
+    "candidates": [
+      {
+        "src": "/_media/e707c7fd5d9f6c93-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 42840
+      },
+      {
+        "src": "/_media/e707c7fd5d9f6c93-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 126968
+      },
+      {
+        "src": "/_media/e707c7fd5d9f6c93-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 218658
+      },
+      {
+        "src": "/_media/e707c7fd5d9f6c93-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 266238
+      }
+    ]
+  },
+  "/stills/gallery-88-welcome-to-the-paper-trail.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 497010,
+    "sha256": "b860bb16c21f3ebf569bb5581ffb61b10feaf25f0a9450df5d37d07a18265c0d",
+    "candidates": [
+      {
+        "src": "/_media/3df3d22d027c0785-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 42490
+      },
+      {
+        "src": "/_media/3df3d22d027c0785-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 123522
+      },
+      {
+        "src": "/_media/3df3d22d027c0785-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 208044
+      },
+      {
+        "src": "/_media/3df3d22d027c0785-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 250314
+      }
+    ]
+  },
+  "/stills/gallery-89-the-museum-of-embarrassing.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 466576,
+    "sha256": "9c3cbe3847e3c256f5d48a1b6a36248034f3f0b406c5084ccd459f6c16b96cd5",
+    "candidates": [
+      {
+        "src": "/_media/62e65af0a5278d8d-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 30348
+      },
+      {
+        "src": "/_media/62e65af0a5278d8d-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 97752
+      },
+      {
+        "src": "/_media/62e65af0a5278d8d-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 178342
+      },
+      {
+        "src": "/_media/62e65af0a5278d8d-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 227276
+      }
+    ]
+  },
+  "/stills/gallery-90-the-empowerment-awards.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 368152,
+    "sha256": "9c87cdc9a4e06983cca29852a5959c4344909a3ce8c7daffc063401ece415ad4",
+    "candidates": [
+      {
+        "src": "/_media/4a41eb41765d34eb-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 32412
+      },
+      {
+        "src": "/_media/4a41eb41765d34eb-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 87868
+      },
+      {
+        "src": "/_media/4a41eb41765d34eb-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 145656
+      },
+      {
+        "src": "/_media/4a41eb41765d34eb-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 171970
+      }
+    ]
+  },
+  "/stills/gallery-91-bridal-consulting-fees.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 545620,
+    "sha256": "ba5047cef587623b782395f4334c89f642a2f19f41cfd31ed4506d55d59d08fa",
+    "candidates": [
+      {
+        "src": "/_media/8527c4ba6c5da254-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 39226
+      },
+      {
+        "src": "/_media/8527c4ba6c5da254-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 123912
+      },
+      {
+        "src": "/_media/8527c4ba6c5da254-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 214664
+      },
+      {
+        "src": "/_media/8527c4ba6c5da254-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 270134
+      }
+    ]
+  },
+  "/stills/gallery-92-relaxation-begins-with-me.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 440216,
+    "sha256": "57677b7e3cf76409846fac9f35f27c38537b909be9197dc2668b0f3a82faafb3",
+    "candidates": [
+      {
+        "src": "/_media/92c00a7deb27f9f9-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 37212
+      },
+      {
+        "src": "/_media/92c00a7deb27f9f9-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 109288
+      },
+      {
+        "src": "/_media/92c00a7deb27f9f9-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 182628
+      },
+      {
+        "src": "/_media/92c00a7deb27f9f9-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 217378
+      }
+    ]
+  },
+  "/stills/gallery-93-literary-achievement.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 475012,
+    "sha256": "0d45e0bece03e6073a67230788dfdd53a4702e672346a6ec4ab8a2ecc5516cd6",
+    "candidates": [
+      {
+        "src": "/_media/55aaf85c768c1d5b-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 36528
+      },
+      {
+        "src": "/_media/55aaf85c768c1d5b-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 109916
+      },
+      {
+        "src": "/_media/55aaf85c768c1d5b-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 192628
+      },
+      {
+        "src": "/_media/55aaf85c768c1d5b-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 239516
+      }
+    ]
+  },
+  "/stills/gallery-94-the-charity-brunch.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 615760,
+    "sha256": "8b53b31d0ac740e7facc6222c5c52310f208fdee38daee2d1f41fb26b0e90a6b",
+    "candidates": [
+      {
+        "src": "/_media/ef6c7fe539eb38bc-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 47328
+      },
+      {
+        "src": "/_media/ef6c7fe539eb38bc-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 146834
+      },
+      {
+        "src": "/_media/ef6c7fe539eb38bc-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 255710
+      },
+      {
+        "src": "/_media/ef6c7fe539eb38bc-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 317510
+      }
+    ]
+  },
+  "/stills/gallery-95-four-rooms-of-accountability.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 591576,
+    "sha256": "32addb4868cec9f6b162a4d7c9be536fab8e26d0bb5e66b1dbee84dd3955f2fd",
+    "candidates": [
+      {
+        "src": "/_media/fe6cec96f34378b2-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 47626
+      },
+      {
+        "src": "/_media/fe6cec96f34378b2-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 148810
+      },
+      {
+        "src": "/_media/fe6cec96f34378b2-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 259580
+      },
+      {
+        "src": "/_media/fe6cec96f34378b2-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 324886
+      }
+    ]
+  },
+  "/stills/gallery-96-party-photo-collection.webp": {
+    "width": 1402,
+    "height": 1122,
+    "bytes": 281386,
+    "sha256": "3bb91faa6a9b0715829be04e96c1d85773219d6b7b166df206d15565f8faeb1a",
+    "candidates": [
+      {
+        "src": "/_media/1e57dfd08dbf0bde-320.webp",
+        "width": 320,
+        "height": 256,
+        "bytes": 16414
+      },
+      {
+        "src": "/_media/1e57dfd08dbf0bde-640.webp",
+        "width": 640,
+        "height": 512,
+        "bytes": 43192
+      },
+      {
+        "src": "/_media/1e57dfd08dbf0bde-960.webp",
+        "width": 960,
+        "height": 768,
+        "bytes": 74966
+      },
+      {
+        "src": "/_media/1e57dfd08dbf0bde-1280.webp",
+        "width": 1280,
+        "height": 1024,
+        "bytes": 106214
+      }
+    ]
+  },
+  "/stills/gallery-97-at-the-party.webp": {
+    "width": 1122,
+    "height": 1402,
+    "bytes": 364722,
+    "sha256": "923f75ee0fd6b7566215f829c05cd4c7908c357f60837171a307013d2fa1836d",
+    "candidates": [
+      {
+        "src": "/_media/b5053f5dbb49b6db-320.webp",
+        "width": 320,
+        "height": 400,
+        "bytes": 21628
+      },
+      {
+        "src": "/_media/b5053f5dbb49b6db-640.webp",
+        "width": 640,
+        "height": 800,
+        "bytes": 63912
+      },
+      {
+        "src": "/_media/b5053f5dbb49b6db-960.webp",
+        "width": 960,
+        "height": 1200,
+        "bytes": 112898
+      },
+      {
+        "src": "/_media/b5053f5dbb49b6db-1122.webp",
+        "width": 1122,
+        "height": 1402,
+        "bytes": 157006
+      }
+    ]
+  },
+  "/stills/gallery-98-the-gold-ballroom-show.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 546244,
+    "sha256": "e990881dca85d30952e6d36697f210b016271b1f81272a5b57a3bcbb28772c8f",
+    "candidates": [
+      {
+        "src": "/_media/4c6a54bfd34be21f-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 39392
+      },
+      {
+        "src": "/_media/4c6a54bfd34be21f-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 130326
+      },
+      {
+        "src": "/_media/4c6a54bfd34be21f-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 227738
+      },
+      {
+        "src": "/_media/4c6a54bfd34be21f-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 277894
+      }
+    ]
+  },
+  "/stills/gallery-99-the-throne-performance.webp": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 509986,
+    "sha256": "0453f8bf1b9de3a6f5088c97582b925bfef983320a9329c822bb7305bffabefd",
+    "candidates": [
+      {
+        "src": "/_media/032475e8748fcb5d-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 43534
+      },
+      {
+        "src": "/_media/032475e8748fcb5d-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 136314
+      },
+      {
+        "src": "/_media/032475e8748fcb5d-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 235400
+      },
+      {
+        "src": "/_media/032475e8748fcb5d-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 279566
       }
     ]
   },
@@ -4365,6 +6715,206 @@
       }
     ]
   },
+  "/thumbs/gallery-100-front-row-handshake.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 118888,
+    "sha256": "59d438fac5483bb351d89b6dc0ef8dc5bf5d592780830fe2bb389dd0759b629e",
+    "candidates": [
+      {
+        "src": "/_media/d69d8ef001c9e7bd-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 42368
+      },
+      {
+        "src": "/_media/d69d8ef001c9e7bd-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 97544
+      }
+    ]
+  },
+  "/thumbs/gallery-101-ballroom-spotlight.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 122864,
+    "sha256": "e95a594d412e642354d486663422c77a47514f46eae88f363641e14a30f59f51",
+    "candidates": [
+      {
+        "src": "/_media/94d729d6d0ef801b-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 43528
+      },
+      {
+        "src": "/_media/94d729d6d0ef801b-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 100070
+      }
+    ]
+  },
+  "/thumbs/gallery-102-the-gold-folder-presentation.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 90902,
+    "sha256": "a05ebed2d0481378c2ad92955c39d2c52bddbbf3a9258360919a3468e3bb44da",
+    "candidates": [
+      {
+        "src": "/_media/af222541a94c7aa6-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 32366
+      },
+      {
+        "src": "/_media/af222541a94c7aa6-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 72112
+      }
+    ]
+  },
+  "/thumbs/gallery-103-certificate-of-importance.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 85748,
+    "sha256": "693461fba8d10907739e28cba13003858406373c49e7be88eb5c3fd58532be6c",
+    "candidates": [
+      {
+        "src": "/_media/f49b1ac2e74c8d60-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 30742
+      },
+      {
+        "src": "/_media/f49b1ac2e74c8d60-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 69736
+      }
+    ]
+  },
+  "/thumbs/gallery-104-signing-ceremony.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 86778,
+    "sha256": "0e502b692edacf1b432cac55d43fd23356289ed75c0d144aaa62b338efdc9779",
+    "candidates": [
+      {
+        "src": "/_media/1e7622bf229d63e9-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 31034
+      },
+      {
+        "src": "/_media/1e7622bf229d63e9-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 70390
+      }
+    ]
+  },
+  "/thumbs/gallery-105-the-crowd-reaches-back.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 54944,
+    "sha256": "663b2b37fdc97603cf868f00347cf9f3ad66698eeceb2ec54f6bf0aabb5ff5dd",
+    "candidates": [
+      {
+        "src": "/_media/107d4357f683a12d-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20154
+      },
+      {
+        "src": "/_media/107d4357f683a12d-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 44230
+      }
+    ]
+  },
+  "/thumbs/gallery-106-microphone-and-medals.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 58520,
+    "sha256": "52228e21c8c2758f41572b8cf59f87920620c6a161d31cc543c221ccf7283491",
+    "candidates": [
+      {
+        "src": "/_media/9ee5672a2455295f-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22560
+      },
+      {
+        "src": "/_media/9ee5672a2455295f-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 47430
+      }
+    ]
+  },
+  "/thumbs/gallery-107-confetti-victory-lap.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 55608,
+    "sha256": "b41e658a349ab00b10e4603a8820c7257d1972f9cb6960409148cf638e1c58c7",
+    "candidates": [
+      {
+        "src": "/_media/cd1f15481c262126-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20358
+      },
+      {
+        "src": "/_media/cd1f15481c262126-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 43574
+      }
+    ]
+  },
+  "/thumbs/gallery-108-center-stage.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 61674,
+    "sha256": "a3ba5c3071db9520f9484b1e16459c95e240a436945a5e62ae1532441d8ea47f",
+    "candidates": [
+      {
+        "src": "/_media/0649d1c1ea1ca55d-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22478
+      },
+      {
+        "src": "/_media/0649d1c1ea1ca55d-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 50022
+      }
+    ]
+  },
+  "/thumbs/gallery-109-up-close-on-stage.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 51948,
+    "sha256": "ed109ad2fef19d1a609af0bcfb4b4c9c69a202b696b28cc683b35a4b932dca29",
+    "candidates": [
+      {
+        "src": "/_media/879ae255d642e8c6-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 18672
+      },
+      {
+        "src": "/_media/879ae255d642e8c6-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 41724
+      }
+    ]
+  },
   "/thumbs/gallery-11-creating-evidence.webp": {
     "width": 640,
     "height": 360,
@@ -4382,6 +6932,106 @@
         "width": 640,
         "height": 360,
         "bytes": 23868
+      }
+    ]
+  },
+  "/thumbs/gallery-110-the-final-chorus.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 59432,
+    "sha256": "4f673ddcb7f1efaf620d72a6a96179180f551b2d5a1d9672e1fb0f2797de9229",
+    "candidates": [
+      {
+        "src": "/_media/b9ddf24c516e93a5-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21554
+      },
+      {
+        "src": "/_media/b9ddf24c516e93a5-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 47916
+      }
+    ]
+  },
+  "/thumbs/gallery-111-a-toast-to-his-portrait.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 61996,
+    "sha256": "f1a614d478bfee49a666f3b023da34ba0479662853077b15b465a0314b4d6a60",
+    "candidates": [
+      {
+        "src": "/_media/8e736f368adf6e56-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23068
+      },
+      {
+        "src": "/_media/8e736f368adf6e56-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 50750
+      }
+    ]
+  },
+  "/thumbs/gallery-112-birthday-of-the-greatest.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 69902,
+    "sha256": "9f7c6d9bfb5664365adfcf951ecfd1c08e087fd76ca18819daf7485bb3040622",
+    "candidates": [
+      {
+        "src": "/_media/3e64abf2ac81c2fa-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 26484
+      },
+      {
+        "src": "/_media/3e64abf2ac81c2fa-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 57586
+      }
+    ]
+  },
+  "/thumbs/gallery-113-the-greatest-presentation.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 45340,
+    "sha256": "764df5b9be5996402cfb94b063685ea5a8dc9e1dc6a613324f95fa33b04c058a",
+    "candidates": [
+      {
+        "src": "/_media/692c9a6dc667dfb2-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 17704
+      },
+      {
+        "src": "/_media/692c9a6dc667dfb2-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 37346
+      }
+    ]
+  },
+  "/thumbs/gallery-114-unveiling-the-gold-statue.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 47510,
+    "sha256": "5b76583aa94e1d1b35a3cd86a30d6ffcec792f255f1875362d9212751964b923",
+    "candidates": [
+      {
+        "src": "/_media/14d58d87497db738-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 16590
+      },
+      {
+        "src": "/_media/14d58d87497db738-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 38062
       }
     ]
   },
@@ -5096,6 +7746,1046 @@
         "width": 295,
         "height": 640,
         "bytes": 27036
+      }
+    ]
+  },
+  "/thumbs/gallery-48-the-don-biggly-center-for-don-biggly.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 103438,
+    "sha256": "c452121d535442e2548e29d675e5668289e2b1c7676f12a147c227e766dc8de0",
+    "candidates": [
+      {
+        "src": "/_media/51bc261fd5222551-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 36736
+      },
+      {
+        "src": "/_media/51bc261fd5222551-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 85590
+      }
+    ]
+  },
+  "/thumbs/gallery-49-live-at-the-departure-club.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 95784,
+    "sha256": "5f6eae810edee7332c4da938c9fe633a5ca8a749721a5df143c2f1ea6fd606e0",
+    "candidates": [
+      {
+        "src": "/_media/a37128c1a8627a2d-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 36454
+      },
+      {
+        "src": "/_media/a37128c1a8627a2d-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 78450
+      }
+    ]
+  },
+  "/thumbs/gallery-50-dinner-with-his-portrait.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 56824,
+    "sha256": "50e998e6c78ab7cc63fdda69a107af9acc293127a6942e763962c926968a69b3",
+    "candidates": [
+      {
+        "src": "/_media/dc5a956ddd5f7983-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 19696
+      },
+      {
+        "src": "/_media/dc5a956ddd5f7983-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 46370
+      }
+    ]
+  },
+  "/thumbs/gallery-51-story-time-with-don.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 56388,
+    "sha256": "9e42a7bc60956a9f6687917462efb6b259314fbbaee07333c76219857710b13b",
+    "candidates": [
+      {
+        "src": "/_media/4b4c183e75c3a533-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21254
+      },
+      {
+        "src": "/_media/4b4c183e75c3a533-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 45554
+      }
+    ]
+  },
+  "/thumbs/gallery-52-speed-dating-with-a-portrait.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 49772,
+    "sha256": "101f22215e7ed3ec11e35b946bc86a586b777d3d1ddb490adca47c1e55e4d694",
+    "candidates": [
+      {
+        "src": "/_media/7fd1fdbb854529fa-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 17820
+      },
+      {
+        "src": "/_media/7fd1fdbb854529fa-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 39332
+      }
+    ]
+  },
+  "/thumbs/gallery-53-namaste-your-ego.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 44372,
+    "sha256": "ce21ffb9588ff535eb69433c3005377600b8b418cdb291c31cd5f6adbe2116f1",
+    "candidates": [
+      {
+        "src": "/_media/ceb8953f014ab4d1-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 17662
+      },
+      {
+        "src": "/_media/ceb8953f014ab4d1-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 36308
+      }
+    ]
+  },
+  "/thumbs/gallery-54-the-bridal-consultation.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 56144,
+    "sha256": "17a4e842cf47320b20025c9913633e870c5faa463f0893532f78c6471cb725db",
+    "candidates": [
+      {
+        "src": "/_media/156e74ab2782beea-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20894
+      },
+      {
+        "src": "/_media/156e74ab2782beea-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 46730
+      }
+    ]
+  },
+  "/thumbs/gallery-55-a-portrait-at-the-party.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 64122,
+    "sha256": "149bcb53df064fbf9db224a14ddb50e545487602de236f80778933d84c6311bb",
+    "candidates": [
+      {
+        "src": "/_media/7c7e5588d6506677-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23690
+      },
+      {
+        "src": "/_media/7c7e5588d6506677-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 51556
+      }
+    ]
+  },
+  "/thumbs/gallery-56-brunch-queen.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 67874,
+    "sha256": "d1b70dea47c501fef9f4b68324ffdd24c7c3f594ebfdc90c1cb0a488452be298",
+    "candidates": [
+      {
+        "src": "/_media/8adcd1cd209d26d9-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 26018
+      },
+      {
+        "src": "/_media/8adcd1cd209d26d9-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 55796
+      }
+    ]
+  },
+  "/thumbs/gallery-57-the-funeral-selfie.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 57622,
+    "sha256": "560c51329c6c8502286bda273a683624ad610f3c97a7d45cebcf3ef5fa2a05b7",
+    "candidates": [
+      {
+        "src": "/_media/da0c8351d877177b-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20456
+      },
+      {
+        "src": "/_media/da0c8351d877177b-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 47980
+      }
+    ]
+  },
+  "/thumbs/gallery-58-baby-shower-headliner.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 73846,
+    "sha256": "fc4739730aa6d1a6fab7401d4de75fc4b04064b68cab2fd415eb6378b3b2e966",
+    "candidates": [
+      {
+        "src": "/_media/595bf20e2b5378ef-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 26352
+      },
+      {
+        "src": "/_media/595bf20e2b5378ef-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 60394
+      }
+    ]
+  },
+  "/thumbs/gallery-59-book-club-guest-of-honor.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 59178,
+    "sha256": "9bd16f2b0f2d822c956efbc31ee18e40c03e6ab5f48ca43a8f50486c971099af",
+    "candidates": [
+      {
+        "src": "/_media/fc6d3b20de663304-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22270
+      },
+      {
+        "src": "/_media/fc6d3b20de663304-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 48808
+      }
+    ]
+  },
+  "/thumbs/gallery-60-the-bridal-scorecard.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 58688,
+    "sha256": "ed90f42585c903b956bf7eb047d5df61c779f776fed4c65b137a047d7c84dfde",
+    "candidates": [
+      {
+        "src": "/_media/a111335c8ff72331-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20872
+      },
+      {
+        "src": "/_media/a111335c8ff72331-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 48384
+      }
+    ]
+  },
+  "/thumbs/gallery-61-mother-daughter-tea.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 73676,
+    "sha256": "389fab1db0d429aa2d65f19f989a6b044171350313d0ca53514b1ad6fb59d26c",
+    "candidates": [
+      {
+        "src": "/_media/b1814c0d011ceb6b-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 27534
+      },
+      {
+        "src": "/_media/b1814c0d011ceb6b-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 61068
+      }
+    ]
+  },
+  "/thumbs/gallery-62-the-spa-takeover.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 53438,
+    "sha256": "f5d354619f566abee2a8e03cd7f0cd685d1b9e4a1e335fde2c08e45bdb4f161c",
+    "candidates": [
+      {
+        "src": "/_media/c42337a0e087df65-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20054
+      },
+      {
+        "src": "/_media/c42337a0e087df65-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 43478
+      }
+    ]
+  },
+  "/thumbs/gallery-63-karaoke-night.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 52996,
+    "sha256": "c7392e40dd7fc488fd828bc262daba6a6e0a3fad8b923eb48336e319b21607bb",
+    "candidates": [
+      {
+        "src": "/_media/ccb6a58b2667f617-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 18874
+      },
+      {
+        "src": "/_media/ccb6a58b2667f617-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 42580
+      }
+    ]
+  },
+  "/thumbs/gallery-64-standing-ovation-required.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 45106,
+    "sha256": "ddb614a064fbec1c7f0e9b4183fe9c88e39e92447234413512a070485a28dcfc",
+    "candidates": [
+      {
+        "src": "/_media/93973b618fedc535-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 16980
+      },
+      {
+        "src": "/_media/93973b618fedc535-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 35914
+      }
+    ]
+  },
+  "/thumbs/gallery-65-the-priceless-portrait.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 68426,
+    "sha256": "a41ab6ae467ed239edc36b33304bbd07b7dd0b7f1af120634abedcf7d1871318",
+    "candidates": [
+      {
+        "src": "/_media/36caafb026dfe739-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24098
+      },
+      {
+        "src": "/_media/36caafb026dfe739-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 54766
+      }
+    ]
+  },
+  "/thumbs/gallery-66-cooking-with-don.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 66580,
+    "sha256": "305b164b3827e3f30838f2baf3dc26d1ff664a5ae71dfff48aa4dc8e538c7f55",
+    "candidates": [
+      {
+        "src": "/_media/47803dd11c337328-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23212
+      },
+      {
+        "src": "/_media/47803dd11c337328-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 55592
+      }
+    ]
+  },
+  "/thumbs/gallery-67-the-dressing-room-jury.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 61236,
+    "sha256": "1081111ad5ba24ef343cb96f6e76f22cbf9f30e4d76815e904646bd9459805f5",
+    "candidates": [
+      {
+        "src": "/_media/394bd968de427cab-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22452
+      },
+      {
+        "src": "/_media/394bd968de427cab-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 49684
+      }
+    ]
+  },
+  "/thumbs/gallery-68-don-biggly-pilates.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 45244,
+    "sha256": "9df9b85b0657f2e2c1325ace422df6133dfb58d4e800bdd7d681dfff332d4002",
+    "candidates": [
+      {
+        "src": "/_media/7d8fdb48777d5376-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 17522
+      },
+      {
+        "src": "/_media/7d8fdb48777d5376-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 37100
+      }
+    ]
+  },
+  "/thumbs/gallery-69-the-wine-tasting.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 58662,
+    "sha256": "8fb118d320ab157ae648eb03f2755046b8ce8840dd9b1c9462ae5ed50d0c0e06",
+    "candidates": [
+      {
+        "src": "/_media/4004c40c4b54958a-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20940
+      },
+      {
+        "src": "/_media/4004c40c4b54958a-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 47142
+      }
+    ]
+  },
+  "/thumbs/gallery-70-the-bridal-workshop.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 71048,
+    "sha256": "04f3c4589787a4344949af5fcf183a3cc260fac50894b705cc2e2e120baaaaf1",
+    "candidates": [
+      {
+        "src": "/_media/fd2a9aa252b39e0b-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 25844
+      },
+      {
+        "src": "/_media/fd2a9aa252b39e0b-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 58506
+      }
+    ]
+  },
+  "/thumbs/gallery-71-leadership-at-the-microphone.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 55414,
+    "sha256": "900331872665f206da1444c3b221b4f3f03eb0db59f030870c01d1c72839b3a6",
+    "candidates": [
+      {
+        "src": "/_media/ae1ef702d0bddfa1-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 20642
+      },
+      {
+        "src": "/_media/ae1ef702d0bddfa1-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 44730
+      }
+    ]
+  },
+  "/thumbs/gallery-72-ethics-hearing-gift-shop.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 69342,
+    "sha256": "cbf0684b27d91970e0172672c7ff755c4c747935a11ccc660ca6909bed32ed68",
+    "candidates": [
+      {
+        "src": "/_media/ad380f90ab02c514-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 25384
+      },
+      {
+        "src": "/_media/ad380f90ab02c514-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 56840
+      }
+    ]
+  },
+  "/thumbs/gallery-73-emergency-briefing-product-launch.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 58972,
+    "sha256": "96f3dab288290a4753998224cb532f2465769269ac2d3027d753fc0fe8166574",
+    "candidates": [
+      {
+        "src": "/_media/0218f46de972a9cd-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23296
+      },
+      {
+        "src": "/_media/0218f46de972a9cd-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 49164
+      }
+    ]
+  },
+  "/thumbs/gallery-74-the-presidential-vip-menu.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 60174,
+    "sha256": "ed2709fb01af76fd647c65acc8871441c483fcb73bc9c3ab6086bbf64b1cbe16",
+    "candidates": [
+      {
+        "src": "/_media/bcb5276af515f3e9-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21218
+      },
+      {
+        "src": "/_media/bcb5276af515f3e9-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 49100
+      }
+    ]
+  },
+  "/thumbs/gallery-75-the-presidential-garage-sale.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 60168,
+    "sha256": "779a2fa4e13173d6159f43d007c44e3b9c876c0528a4e1d1417a105f3b5d688f",
+    "candidates": [
+      {
+        "src": "/_media/8138efce19e9f4b1-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 21908
+      },
+      {
+        "src": "/_media/8138efce19e9f4b1-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 48580
+      }
+    ]
+  },
+  "/thumbs/gallery-76-hope-healing-and-high-rollers.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 61472,
+    "sha256": "f6634a42176150bcc7ecde1c09cdf0ceebb0536553c951c34e4c05e8fefc01f2",
+    "candidates": [
+      {
+        "src": "/_media/df86a15168b1614f-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23182
+      },
+      {
+        "src": "/_media/df86a15168b1614f-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 50628
+      }
+    ]
+  },
+  "/thumbs/gallery-77-the-climate-summit-putting-green.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 68254,
+    "sha256": "723a464480885e280f913ad86b200de7691d9067627f845b95171ce376653d7c",
+    "candidates": [
+      {
+        "src": "/_media/feb06485b3118223-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24322
+      },
+      {
+        "src": "/_media/feb06485b3118223-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 56670
+      }
+    ]
+  },
+  "/thumbs/gallery-78-presidential-suites-for-everyone.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 71968,
+    "sha256": "d18beb91f6b76c8d29ea27f219996fb2df740860a321f34fffcd2734cf852f84",
+    "candidates": [
+      {
+        "src": "/_media/cf85a93c0fbdd798-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 27362
+      },
+      {
+        "src": "/_media/cf85a93c0fbdd798-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 58850
+      }
+    ]
+  },
+  "/thumbs/gallery-79-museum-of-accountability.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 62146,
+    "sha256": "d5b74e70c2e77c04733c837f84f1293c8ac5ab93cf966d81bf82bd089b46d956",
+    "candidates": [
+      {
+        "src": "/_media/b9084e91f4ecc8ea-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 22170
+      },
+      {
+        "src": "/_media/b9084e91f4ecc8ea-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 50826
+      }
+    ]
+  },
+  "/thumbs/gallery-80-the-bridge-ribbon-cutting.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 66252,
+    "sha256": "9eaa408529f5fb2cb1b027270a1c7daeae7115d7429c437a23137d143132a665",
+    "candidates": [
+      {
+        "src": "/_media/4d257d7c3fc62af2-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 24992
+      },
+      {
+        "src": "/_media/4d257d7c3fc62af2-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 55398
+      }
+    ]
+  },
+  "/thumbs/gallery-81-the-evidence-buffet.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 79314,
+    "sha256": "767cfa33a2398826e97c9fe58b4aadc8f14fd809aa0716b50663a9b4928b39a9",
+    "candidates": [
+      {
+        "src": "/_media/20a303923047d65b-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 28794
+      },
+      {
+        "src": "/_media/20a303923047d65b-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 65082
+      }
+    ]
+  },
+  "/thumbs/gallery-82-the-ratings-situation-room.webp": {
+    "width": 480,
+    "height": 480,
+    "bytes": 79704,
+    "sha256": "5472537126ed90557251ee8fdaf2f44babbfa2638ceb6551af9fea8f2ecee39e",
+    "candidates": [
+      {
+        "src": "/_media/65f556a1d92b989c-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 28748
+      },
+      {
+        "src": "/_media/65f556a1d92b989c-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 65796
+      }
+    ]
+  },
+  "/thumbs/gallery-83-one-more-encore.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 74398,
+    "sha256": "94fa296e9021ab81772ed6ac570a8dace737298278effc87422b4f3550daf1b5",
+    "candidates": [
+      {
+        "src": "/_media/3bbd6c71da017087-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 26912
+      },
+      {
+        "src": "/_media/3bbd6c71da017087-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 58540
+      }
+    ]
+  },
+  "/thumbs/gallery-84-above-the-crowd.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 82544,
+    "sha256": "36edb924b33e7b3740552506d1019f455827fc79f801a524350ff1eae855921d",
+    "candidates": [
+      {
+        "src": "/_media/90d0b617b5c3e13b-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 31234
+      },
+      {
+        "src": "/_media/90d0b617b5c3e13b-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 64314
+      }
+    ]
+  },
+  "/thumbs/gallery-85-accountability-center-opening.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 110790,
+    "sha256": "b796617d6dd1069fdc271ee430c0cd4d20da3a6a3968702b883678114a07bea8",
+    "candidates": [
+      {
+        "src": "/_media/16ced4b2af24f735-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 41238
+      },
+      {
+        "src": "/_media/16ced4b2af24f735-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 91534
+      }
+    ]
+  },
+  "/thumbs/gallery-86-everything-is-fine.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 103838,
+    "sha256": "f9ac4c7e8f4861c5488c271a3303fe94b919eb08b47bc30671a40f4d987be3e6",
+    "candidates": [
+      {
+        "src": "/_media/83824cdf1db432bc-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 39778
+      },
+      {
+        "src": "/_media/83824cdf1db432bc-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 84040
+      }
+    ]
+  },
+  "/thumbs/gallery-87-the-receipt-briefing.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 107462,
+    "sha256": "0a92941905507f8ee247cc897b56ea8ee2cfdf389caa8c2d44b9e982424f7eda",
+    "candidates": [
+      {
+        "src": "/_media/69b870f54c958746-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 40450
+      },
+      {
+        "src": "/_media/69b870f54c958746-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 90324
+      }
+    ]
+  },
+  "/thumbs/gallery-88-welcome-to-the-paper-trail.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 107604,
+    "sha256": "e1492568f4aa33a7dea829e7586ea494b35161b280a8adbcade524f99bc739ea",
+    "candidates": [
+      {
+        "src": "/_media/9d3492475d042ddf-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 40520
+      },
+      {
+        "src": "/_media/9d3492475d042ddf-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 89660
+      }
+    ]
+  },
+  "/thumbs/gallery-89-the-museum-of-embarrassing.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 85092,
+    "sha256": "a5255eb9dd894bc8e4bb11991f0bf9df368748cf559b45627391c07010b60b8c",
+    "candidates": [
+      {
+        "src": "/_media/7882f10ba87c8240-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 28624
+      },
+      {
+        "src": "/_media/7882f10ba87c8240-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 67536
+      }
+    ]
+  },
+  "/thumbs/gallery-90-the-empowerment-awards.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 80576,
+    "sha256": "e5ae266d8c480b07df057d0a3707d48a9a459de68d7fb29f96b39107b087af0b",
+    "candidates": [
+      {
+        "src": "/_media/19b8d512051d35c0-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 30912
+      },
+      {
+        "src": "/_media/19b8d512051d35c0-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 65744
+      }
+    ]
+  },
+  "/thumbs/gallery-91-bridal-consulting-fees.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 104884,
+    "sha256": "4c62dd4e3fda30da9fe4a9b9d3c3c7cbfa5cffd9d12bb4fe95aa09f3e90cc49d",
+    "candidates": [
+      {
+        "src": "/_media/7f7fdb4aef2e05f5-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 36852
+      },
+      {
+        "src": "/_media/7f7fdb4aef2e05f5-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 86058
+      }
+    ]
+  },
+  "/thumbs/gallery-92-relaxation-begins-with-me.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 97896,
+    "sha256": "523e140a16edf2f025962d1f38e6e736e2fc1b249f0b6d67b21297c765ee65d9",
+    "candidates": [
+      {
+        "src": "/_media/438bc09540d0131b-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 35846
+      },
+      {
+        "src": "/_media/438bc09540d0131b-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 79566
+      }
+    ]
+  },
+  "/thumbs/gallery-93-literary-achievement.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 95412,
+    "sha256": "7ffd306f7f131511fe3b02e91235075ef85186af2fbf599e331fb06d772edea5",
+    "candidates": [
+      {
+        "src": "/_media/29c08328a55a319e-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 34762
+      },
+      {
+        "src": "/_media/29c08328a55a319e-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 77828
+      }
+    ]
+  },
+  "/thumbs/gallery-94-the-charity-brunch.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 122690,
+    "sha256": "9f5d5c348bf9314d4c3ffbcedbedc3a7aad53d923d72da085ee465e01f41a9fa",
+    "candidates": [
+      {
+        "src": "/_media/9cf1d34b33d10a78-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 44060
+      },
+      {
+        "src": "/_media/9cf1d34b33d10a78-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 101582
+      }
+    ]
+  },
+  "/thumbs/gallery-95-four-rooms-of-accountability.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 122416,
+    "sha256": "2d4689a2bc3274fe6ac7d3042e68269cb4693edd91e3314dc341d099db92c204",
+    "candidates": [
+      {
+        "src": "/_media/657e515b98e1d7c1-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 45058
+      },
+      {
+        "src": "/_media/657e515b98e1d7c1-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 101526
+      }
+    ]
+  },
+  "/thumbs/gallery-96-party-photo-collection.webp": {
+    "width": 480,
+    "height": 384,
+    "bytes": 39490,
+    "sha256": "65d6c77154e75b140fa495dac64ae502fe9c1a5ada96a604485d57b18b39a22c",
+    "candidates": [
+      {
+        "src": "/_media/fc28999bfc4b73d8-320.webp",
+        "width": 320,
+        "height": 256,
+        "bytes": 15688
+      },
+      {
+        "src": "/_media/fc28999bfc4b73d8-480.webp",
+        "width": 480,
+        "height": 384,
+        "bytes": 32322
+      }
+    ]
+  },
+  "/thumbs/gallery-97-at-the-party.webp": {
+    "width": 480,
+    "height": 600,
+    "bytes": 58510,
+    "sha256": "7437c1a2c1447d3c8653216b80bba34c556ab6f7351a2e9a1b387c2282a42eee",
+    "candidates": [
+      {
+        "src": "/_media/33bfa64fbc12239b-320.webp",
+        "width": 320,
+        "height": 400,
+        "bytes": 20652
+      },
+      {
+        "src": "/_media/33bfa64fbc12239b-480.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 47650
+      }
+    ]
+  },
+  "/thumbs/gallery-98-the-gold-ballroom-show.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 110548,
+    "sha256": "99a73bd5e962ea0836bc5b00acfa6b69e2c8abb38541b17a0ad615b063b2f3f1",
+    "candidates": [
+      {
+        "src": "/_media/75ddfc17ae72fce1-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 36988
+      },
+      {
+        "src": "/_media/75ddfc17ae72fce1-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 89708
+      }
+    ]
+  },
+  "/thumbs/gallery-99-the-throne-performance.webp": {
+    "width": 480,
+    "height": 720,
+    "bytes": 113824,
+    "sha256": "d59a7ec42626e0d6446cafb52225817a42652fb192c52c71b863c7b1e9681191",
+    "candidates": [
+      {
+        "src": "/_media/37445e85bc886b09-320.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 41478
+      },
+      {
+        "src": "/_media/37445e85bc886b09-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 94248
       }
     ]
   },

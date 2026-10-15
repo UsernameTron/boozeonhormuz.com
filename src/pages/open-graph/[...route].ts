@@ -4,20 +4,21 @@ import { OGImageRoute } from 'astro-og-canvas';
 // hero photo (/og-home.jpg, set in BaseLayout); these cover the static routes.
 const pages = {
   album: { title: 'The Album', description: 'The filmed live tour by Don Biggly & The Indictments. Lyrics appear on screen.' },
-  gallery: { title: 'Gallery', description: 'Every picture tells a story. Counsel would prefer a different story.' },
-  'deep-cuts': { title: 'Deep Cuts Live', description: 'Don Biggly & The Indictments. The songs counsel left off the album.' },
+  gallery: { title: 'Gallery', description: 'Beautiful photographs. Counsel asked who kept the negatives.' },
+  'deep-cuts': { title: 'Deep Cuts Live', description: 'Don Biggly & The Indictments. The album ended. I kept the microphone.' },
   listen: { title: 'Listen', description: 'Standalone audio, when available. Watch the filmed songs on the album page.' },
-  archive: { title: 'The Archive', description: 'Tracks, films, performances, stills, posters — everything, admissible.' },
+  archive: { title: 'Search', description: 'Find a song, video, or artwork. One result for each piece of evidence.' },
+  explore: { title: 'Explore Don’s world', description: 'The resort, the game, the merchandise, and the man behind the paperwork.' },
   studio: { title: 'The Studio', description: 'Original musical comedy turned into finished media.' },
   play: { title: 'The Exit Strategy', description: 'The ship is sinking. The exit is free. That’s the problem. A playable Don Biggly disaster.' },
-  press: { title: 'Press', description: 'Don Biggly at the news desk.' },
-  'evidence-lounge': { title: 'The Evidence Lounge', description: 'Clips, commercials, songs, and assorted very legal receipts.' },
+  press: { title: 'Don’s Newsroom', description: 'Don Biggly at the news desk.' },
+  'evidence-lounge': { title: 'The Evidence Lounge', description: 'Seven exhibits from the Gallery. Counsel would prefer you did not enlarge them.' },
   watch: { title: 'Watch', description: 'Music videos, performances, sketches, and shorts.' },
   products: { title: 'Products', description: 'Premium amenities for the discerning crisis.' },
   'sponsor-reads': { title: 'McTrumps · Sponsor Reads', description: 'Come for the burger. Leave with an indictment. Five fictional Don Biggly commercials.' },
   quotes: { title: 'Quotes', description: 'Things that were, regrettably, said out loud.' },
   about: { title: 'Who the Hell Is Don Biggly?', description: 'An introduction, reluctantly provided.' },
-  legal: { title: 'Very Legal Disclaimer', description: 'This is parody. A lot of people, everyone really knows that.' },
+  legal: { title: 'Very Legal Disclaimer', description: 'This is parody. Counsel insisted on that sentence.' },
 };
 
 export const { getStaticPaths, GET } = await OGImageRoute({

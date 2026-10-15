@@ -5,20 +5,101 @@ import PageHeader from '../components/PageHeader.astro';
 import MediaThumb from '../components/MediaThumb.astro';
 import ArtworkViewer from '../components/ArtworkViewer.astro';
 import { buildArchive, isArtwork } from '../lib/archive';
-const images = buildArchive({ tracks: [], videos: [], images: await getCollection('images'), evidence: [] }).filter(isArtwork);
+const images = buildArchive({ tracks: [], videos: [], images: await getCollection('images'), evidence: await getCollection('evidence') }).filter(isArtwork);
+const galleryCount = images.filter((image) => image.id.startsWith('images--')).length;
+const evidenceCount = images.length - galleryCount;
 ---
-<BaseLayout title="Gallery | Booze on Hormuz" description="The Don Biggly image collection. Browse thumbnails, enlarge each image, and move through the gallery.">
-  <PageHeader eyebrow="The camera was unfortunately working" title="Gallery" />
+<BaseLayout title="Gallery | Booze on Hormuz" description="Browse artwork from the Gallery and Evidence Lounge collections.">
+  <PageHeader eyebrow="Artwork" title="Gallery" />
   <section class="px-6 pb-28 max-w-5xl mx-auto">
-    <p class="font-display text-xl text-ink max-w-2xl">Every picture tells a story. Counsel would prefer a different story.</p>
-    <p class="font-body text-sm text-ink-soft mt-3">{images.length} images. Select one to enlarge it.</p>
-    <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-      {images.map((image) => <a href={image.href} data-art-id={image.id} class="group block card-marble border border-line rounded-xl overflow-hidden hover:border-gold transition-colors">
+    <p class="font-body text-ink-soft max-w-2xl">All {images.length} images, including {evidenceCount} from the Evidence Lounge. I approved the flattering ones.</p>
+    <div class="flex flex-wrap gap-2 mt-5" role="group" aria-label="Filter gallery" id="gallery-filters">
+      <button type="button" data-gallery-filter="all" aria-pressed="true" class="min-h-11 rounded-sm border border-line px-4 text-ink-soft aria-pressed:border-gold aria-pressed:text-gold-ink">All artwork ({images.length})</button>
+      <button type="button" data-gallery-filter="gallery" aria-pressed="false" class="min-h-11 rounded-sm border border-line px-4 text-ink-soft aria-pressed:border-gold aria-pressed:text-gold-ink">Gallery collection ({galleryCount})</button>
+      <button type="button" data-gallery-filter="evidence" aria-pressed="false" class="min-h-11 rounded-sm border border-line px-4 text-ink-soft aria-pressed:border-gold aria-pressed:text-gold-ink">Evidence Lounge ({evidenceCount})</button>
+    </div>
+    <p id="gallery-count" class="font-body text-sm text-ink-soft mt-5" role="status">{images.length} images</p>
+    <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+      {images.map((image) => <a href={`${image.href}?from=gallery`} data-detail-href={image.href} data-art-id={image.id} data-gallery-collection={image.id.startsWith('images--') ? 'gallery' : 'evidence'} class="group block card-marble border border-line rounded-xl overflow-hidden hover:border-gold transition-colors">
         <MediaThumb src={image.thumbnail} alt={image.alt} aspect="aspect-square" fit="contain" sizes="(min-width: 1024px) 228px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" />
         <h2 class="font-display text-base text-ink p-3 group-hover:text-gold-ink">{image.title}</h2>
       </a>)}
     </div>
-    <a href="/evidence-lounge/" class="inline-flex min-h-11 items-center text-sm text-gold-ink mt-8">Visit the Evidence Lounge →</a>
+    <nav id="gallery-pagination" aria-label="Gallery pages" class="flex items-center justify-between gap-4 mt-7" hidden>
+      <button type="button" data-gallery-page="previous" class="min-h-11 border border-line rounded-sm px-4 text-gold-ink disabled:opacity-50">Previous</button>
+      <span id="gallery-page-status" class="font-body text-sm text-ink-soft" role="status"></span>
+      <button type="button" data-gallery-page="next" class="min-h-11 border border-line rounded-sm px-4 text-gold-ink disabled:opacity-50">Next</button>
+    </nav>
+    <a href="/evidence-lounge/" class="inline-flex min-h-11 items-center text-sm text-gold-ink mt-8">Explore the Evidence Lounge →</a>
+    <script id="gallery-selection-data" data-page-size="24" type="application/json" set:html={JSON.stringify(images.map((image) => image.id)).replaceAll('<', '\\u003c')} />
     <ArtworkViewer items={images} />
   </section>
 </BaseLayout>
+<script>
+  const group = document.querySelector<HTMLElement>('#gallery-filters');
+  const grid = document.querySelector<HTMLElement>('#gallery-grid');
+  const count = document.querySelector<HTMLElement>('#gallery-count');
+  const pagination = document.querySelector<HTMLElement>('#gallery-pagination');
+  const pageStatus = document.querySelector<HTMLElement>('#gallery-page-status');
+  const selectionData = document.querySelector<HTMLElement>('#gallery-selection-data');
+  if (group && grid && count && pagination && pageStatus && selectionData) {
+    const cards = [...grid.querySelectorAll<HTMLAnchorElement>('a[data-gallery-collection]')];
+    let collection = 'all';
+    let page = 1;
+    const render = () => {
+      const matching = cards.filter((card) => collection === 'all' || card.dataset.galleryCollection === collection);
+      const pages = Math.max(1, Math.ceil(matching.length / 24));
+      page = Math.min(page, pages);
+      const visible = new Set(matching.slice((page - 1) * 24, page * 24));
+      cards.forEach((card) => {
+        card.hidden = !visible.has(card);
+        if (visible.has(card)) {
+          const url = new URL(card.getAttribute('data-detail-href') ?? card.href, location.origin);
+          url.searchParams.set('from', 'gallery');
+          if (collection !== 'all') url.searchParams.set('type', collection);
+          if (page > 1) url.searchParams.set('page', String(page));
+          card.setAttribute('href', url.pathname + url.search);
+        }
+      });
+      selectionData.textContent = JSON.stringify(matching.map((card) => card.dataset.artId));
+      group.querySelectorAll<HTMLButtonElement>('button[data-gallery-filter]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.galleryFilter === collection)));
+      count.textContent = `${matching.length} ${matching.length === 1 ? 'image' : 'images'}`;
+      pagination.hidden = pages < 2;
+      pageStatus.textContent = `Page ${page} of ${pages}`;
+      pagination.querySelector<HTMLButtonElement>('[data-gallery-page="previous"]')!.disabled = page <= 1;
+      pagination.querySelector<HTMLButtonElement>('[data-gallery-page="next"]')!.disabled = page >= pages;
+      document.dispatchEvent(new Event('archive:filtered'));
+    };
+    const save = () => {
+      const url = new URL(location.href);
+      if (collection === 'all') url.searchParams.delete('type'); else url.searchParams.set('type', collection);
+      if (page === 1) url.searchParams.delete('page'); else url.searchParams.set('page', String(page));
+      url.searchParams.delete('art');
+      history.pushState(history.state, '', url);
+      render();
+    };
+    const restore = () => {
+      const params = new URLSearchParams(location.search);
+      collection = ['gallery', 'evidence'].includes(params.get('type') ?? '') ? params.get('type')! : 'all';
+      const requestedPage = Number(params.get('page'));
+      page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+      render();
+    };
+    group.addEventListener('click', (event) => {
+      const button = (event.target as Element).closest<HTMLButtonElement>('button[data-gallery-filter]');
+      if (!button) return;
+      collection = button.dataset.galleryFilter!; page = 1; save();
+    });
+    pagination.addEventListener('click', (event) => {
+      const button = (event.target as Element).closest<HTMLButtonElement>('button[data-gallery-page]');
+      if (!button || button.disabled) return;
+      page += button.dataset.galleryPage === 'next' ? 1 : -1; save();
+      grid.scrollIntoView({ block: 'start' });
+    });
+    window.addEventListener('popstate', restore);
+    restore();
+  }
+</script>
+<style is:global>
+  #gallery-grid > [hidden], #gallery-pagination[hidden] { display: none !important; }
+</style>

@@ -1,18 +1,20 @@
 ---
-// Primary navigation. The Album is the center of gravity — emphasized.
-// Legacy world-building routes (Evidence Lounge, Products, …) live in the Footer.
 const links = [
-  { href: '/album', label: 'Album', primary: true },
   { href: '/watch', label: 'Watch' },
-  { href: '/listen', label: 'Listen' },
+  { href: '/album', label: 'Album' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/archive', label: 'Archive' },
-  { href: '/experience', label: 'Experience' },
+  { href: '/explore', label: 'Explore' },
   { href: '/studio', label: 'Studio' },
-  { href: '/press', label: 'Press' },
 ];
 const path = Astro.url.pathname;
-const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+const sections: Record<string, string[]> = {
+  '/watch': ['/watch', '/deep-cuts', '/sponsor-reads', '/press'],
+  '/album': ['/album', '/listen'],
+  '/gallery': ['/gallery', '/art', '/evidence-lounge'],
+  '/explore': ['/explore', '/experience', '/play', '/products', '/quotes', '/about'],
+  '/studio': ['/studio', '/tools'],
+};
+const isActive = (href: string) => (sections[href] ?? [href]).some((route) => path === route || path.startsWith(`${route}/`));
 ---
 
 <header class="border-b brass-rule">
@@ -34,7 +36,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
               class:list={[
                 'hover:text-gold-ink transition-colors',
                 'inline-flex items-center min-h-11',
-                l.primary ? 'text-gold-ink uppercase tracking-[0.1em]' : 'text-ink-soft',
+                'text-ink-soft',
                 isActive(l.href) && 'underline underline-offset-4 decoration-gold',
               ]}
             >
@@ -43,6 +45,9 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
           </li>
         ))
       }
+      <li class="nav-utility">
+        <a href="/archive/" aria-current={isActive('/archive') ? 'page' : undefined} class:list={['inline-flex items-center min-h-11 text-gold-ink hover:text-ink', isActive('/archive') && 'underline underline-offset-4']}>Search</a>
+      </li>
     </ul>
   </nav>
 </header>
@@ -74,6 +79,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
   .nav-toggle[hidden] { display: none; }
   .nav-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: .25rem 1rem; padding-top: .5rem; }
   .nav-links a { width: 100%; }
+  .nav-utility { border-top: 1px solid var(--color-line); }
   @media (max-width: 767px) {
     .primary-nav[data-enhanced] .nav-toggle[aria-expanded="false"] + .nav-links { display: none; }
   }
@@ -81,6 +87,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     .primary-nav { padding-block: 1rem; }
     .nav-toggle { display: none; }
     .nav-links { display: flex; flex-wrap: wrap; column-gap: 1.25rem; padding-top: .5rem; }
+    .nav-utility { border-top: 0; border-left: 1px solid var(--color-line); padding-left: 1rem; }
   }
   @media (min-width: 1024px) {
     .nav-links { width: auto; column-gap: 1rem; padding-top: 0; }

@@ -3,11 +3,10 @@ title: "Booze on Hormuz"
 slug: "booze-on-hormuz"
 artist: "Don Biggly & The Indictments"
 artwork: "/covers/don-biggly-and-the-indictments-neon-mall.webp"
-tagline: "A live-tour album told through 27 song videos with lyrics on screen."
+tagline: "Twenty-seven songs. Lyrics on screen. Don calls that total transparency."
 status: "released"
 credits: []
 draft: false
 ---
 
-The complete video setlist is here. Each song plays as a video with lyrics on screen.
-Separate audio files are not required.
+The full 27-song setlist plays as video, with lyrics on screen. Don calls that total transparency. There are no separate audio files.

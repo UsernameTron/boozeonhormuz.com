@@ -10,13 +10,12 @@ export async function getStaticPaths() {
   return items.map((item) => ({ params: { id: item.id }, props: { item, related: items.filter((candidate) => candidate.id !== item.id && (item.track ? candidate.track?.href === item.track.href : candidate.category === item.category)).slice(0, 3) } }));
 }
 const { item, related } = Astro.props;
-const fromGallery = item.id.startsWith('images--gallery-');
 const source = mediaImageSource(item.full);
 const dimensions = responsiveImage(source);
 ---
 <BaseLayout title={`${item.title} — Booze on Hormuz™`} description={item.caption ?? `${item.title} — ${item.label.toLowerCase()} from the Booze on Hormuz archive.`} ogImage={source} ogImageWidth={source ? dimensions.width : undefined} ogImageHeight={source ? dimensions.height : undefined}>
   <article class="px-6 pt-10 md:pt-16 pb-20 max-w-5xl mx-auto">
-    <a href={fromGallery ? "/gallery/" : "/archive"} data-archive-return={fromGallery ? undefined : true} class="inline-flex items-center min-h-11 text-sm text-gold-ink">{fromGallery ? "← Back to the gallery" : "← Back to the archive"}</a>
+    <a href="/gallery/" data-archive-return class="inline-flex items-center min-h-11 text-sm text-gold-ink">← Back to the gallery</a>
     <p class="text-eyebrow uppercase text-gold-ink mt-6">{item.label}</p>
     <h1 class="font-display text-title text-ink mt-3">{item.title}</h1>
     <figure class="mt-6">
@@ -27,17 +26,20 @@ const dimensions = responsiveImage(source);
       {source && <a href={source} download class="inline-flex min-h-11 items-center text-gold-ink border border-line px-4 py-2 rounded-sm">Download artwork</a>}
       {item.track && <a href={item.track.href} class="inline-flex min-h-11 items-center text-gold-ink">From “{item.track.title}” →</a>}
     </div>
-    {related.length > 0 && <section class="mt-12"><h2 class="font-display text-xl text-ink">{fromGallery ? "More from the gallery" : "More from the archive"}</h2><div class="grid sm:grid-cols-3 gap-4 mt-4">{related.map((art) => <a href={art.href} data-art-related class="block border border-line rounded-lg overflow-hidden card-marble hover:border-gold"><MediaThumb src={art.thumbnail} alt={art.alt} fit="natural" sizes="(min-width: 1024px) 310px, (min-width: 640px) 30vw, calc(100vw - 48px)" /><p class="font-display text-lg p-3 text-ink">{art.title}</p></a>)}</div></section>}
+    {related.length > 0 && <section class="mt-12"><h2 class="font-display text-xl text-ink">More artwork</h2><div class="grid sm:grid-cols-3 gap-4 mt-4">{related.map((art) => <a href={art.href} data-art-related class="block border border-line rounded-lg overflow-hidden card-marble hover:border-gold"><MediaThumb src={art.thumbnail} alt={art.alt} fit="natural" sizes="(min-width: 1024px) 310px, (min-width: 640px) 30vw, calc(100vw - 48px)" /><p class="font-display text-lg p-3 text-ink">{art.title}</p></a>)}</div></section>}
   </article>
 </BaseLayout>
 <script>
   const context = new URLSearchParams(location.search);
-  const back = new URL('/archive', location.origin);
-  for (const key of ['q', 'type']) if (context.get(key)) back.searchParams.set(key, context.get(key)!);
-  document.querySelectorAll<HTMLAnchorElement>('[data-archive-return]').forEach((link) => { link.href = back.pathname + back.search; });
+  const from = context.get('from');
+  const searchOrigin = from === 'search' || !from && (context.has('q') || !!context.get('type') && !['gallery', 'evidence'].includes(context.get('type')!));
+  const evidenceOrigin = from === 'evidence';
+  const back = new URL(searchOrigin ? '/archive' : evidenceOrigin ? '/evidence-lounge/' : '/gallery/', location.origin);
+  if (!evidenceOrigin) for (const key of ['q', 'type', 'page']) if (context.get(key)) back.searchParams.set(key, context.get(key)!);
+  document.querySelectorAll<HTMLAnchorElement>('[data-archive-return]').forEach((link) => { link.href = back.pathname + back.search; link.textContent = searchOrigin ? '← Back to Search' : evidenceOrigin ? '← Back to the Evidence Lounge' : '← Back to the gallery'; });
   document.querySelectorAll<HTMLAnchorElement>('[data-art-related]').forEach((link) => {
     const url = new URL(link.href);
-    for (const key of ['q', 'type']) if (context.get(key)) url.searchParams.set(key, context.get(key)!);
+    for (const key of ['q', 'type', 'page', 'from']) if (context.get(key)) url.searchParams.set(key, context.get(key)!);
     link.href = url.pathname + url.search;
   });
 </script>

@@ -25,18 +25,12 @@ test('the complete video album connects its setlist, performance player, and Wat
   await expect(page.getByRole('heading', { name: 'Booze on Hormuz (feat. The 5th Naval Fleet) | Lyric Video' })).toBeVisible();
 
   await page.goto('/watch/');
-  await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveCount(0);
-  await expect(page.locator('#watch-filters [aria-pressed="true"]')).toHaveCount(0);
-  await expect(page.locator('#watch-grid > [data-type]:visible')).toHaveCount(0);
-  await expect(page.getByText('Choose a media type to see the videos.')).toBeVisible();
-  await expect(page.locator('#watch-grid > [data-type="performance"]')).toHaveCount(27);
-  await page.getByRole('button', { name: 'Performances' }).click();
-  await expect(page.locator('#watch-grid > [data-type="performance"]:visible')).toHaveCount(27);
-  await expect(page.locator('#watch-grid > [data-type="music-video"]:visible')).toHaveCount(0);
-  await expect(page.locator('#watch-choice')).toBeHidden();
-  await page.getByRole('button', { name: 'Music Videos' }).click();
-  await expect(page.locator('#watch-grid > [data-type="music-video"]:visible')).toHaveCount(6);
-  await expect(page.locator('#watch-grid > [data-type="performance"]:visible')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /Album: Song Videos with Lyrics/ })).toHaveAttribute('href', '/album/');
+  await expect(page.locator('#watch-grid > [data-collection="album"]')).toHaveCount(0);
+  await page.getByRole('link', { name: /Music Videos/ }).click();
+  await expect(page).toHaveURL(/\/watch\/\?collection=music-video$/);
+  await expect(page.locator('#watch-grid > [data-collection="music-video"]:visible')).toHaveCount(6);
+  await expect(page.locator('#watch-grid > [data-collection="album"]:visible')).toHaveCount(0);
 
   await page.goto('/listen/');
   await expect(page.locator('audio')).toHaveCount(0);

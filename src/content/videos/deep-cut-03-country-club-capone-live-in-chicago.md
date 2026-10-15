@@ -12,7 +12,7 @@ duration: "4:47"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 3
 displayOrder: 3
-description: "Don Biggly & The Indictments perform Country Club Capone (Live in Chicago) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Country club again. My membership is the whole club."
 featured: false
 hero: false
 publishDate: "2026-10-13"

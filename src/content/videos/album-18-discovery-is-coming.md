@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 18
 displayOrder: 18
-description: "Don Biggly & The Indictments present Discovery Is Coming as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Discovery? I asked if there was a gift shop."
 featured: false
 hero: false
 publishDate: 2026-10-12

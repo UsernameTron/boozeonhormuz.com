@@ -12,7 +12,7 @@ duration: "4:24"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 17
 displayOrder: 17
-description: "Don Biggly & The Indictments perform Hush Money as Philanthropy (Live in Tampa) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Hush money? I prefer the word charitable."
 featured: false
 hero: false
 publishDate: "2026-10-13"

@@ -49,7 +49,7 @@ export const LEVELS = [
           'The hull is included. Looking rescued costs extra.',
           'It is the same boat.', 'APPEARANCE FEE ADDED'),
         pitch('status', 'Declare this the founder’s prototype.', 5, -6,
-          'Unfinished? This is a prototype. The poor get the version we’ve tested.',
+          'Unfinished? Prototype. Guests get the tested version. I get the photo.',
           'Please test the seat.', 'FOUNDER APPROVED'),
         reject('Explain that gold makes boats heavier.', 'So does responsibility. I’ve had both removed.'),
         flatter('Say the gold would distract from him.', 'Exactly. I won’t be upstaged by a railing.'),

@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 24
 displayOrder: 24
-description: "Don Biggly & The Indictments present Totally Cavalier (Remastered) as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Remastered? Good. I want the old charge removed."
 featured: false
 hero: false
 publishDate: 2026-10-12

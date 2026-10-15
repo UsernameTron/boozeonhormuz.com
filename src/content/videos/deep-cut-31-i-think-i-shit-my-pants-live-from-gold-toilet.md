@@ -12,7 +12,7 @@ duration: "4:30"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 31
 displayOrder: 31
-description: "Don Biggly & The Indictments perform I Think I Shit My Pants (Live from Gold Toilet) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I asked for privacy. The toilet was gold."
 featured: false
 hero: false
 publishDate: "2026-10-13"

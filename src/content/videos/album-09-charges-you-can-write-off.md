@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 9
 displayOrder: 9
-description: "Don Biggly & The Indictments present Charges You Can Write Off as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Write off the charges. I want credit for both."
 featured: false
 hero: false
 publishDate: 2026-10-12

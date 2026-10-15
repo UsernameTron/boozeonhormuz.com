@@ -5,11 +5,11 @@ trackNumber: 16
 album: booze-on-hormuz
 status: released
 featured: true
-description: "Don Biggly & The Indictments present Quiet Money, Loud Receipts as a lyric video from the Booze on Hormuz live-tour album."
+description: "From the Booze on Hormuz video album. Quiet money, loud receipts. I prefer the money."
 cover: "/covers/don-biggly-and-the-indictments-neon-mall.webp"
 duration: "3:08"
 credits: []
 draft: false
 ---
 
-A song from the Booze on Hormuz video set. Its lyrics appear on screen in the song video.
+Watch the lyric video in the 27-song set.

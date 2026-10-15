@@ -22,10 +22,21 @@ import {
 // pages with VideoObject structured data) and legacy episodes of
 // Who the Hell Is Don Biggly?
 export async function getStaticPaths() {
-  const episodes = (await getCollection('episodes')).filter((e) => !e.data.draft);
+  const episodes = (await getCollection('episodes')).filter((e) => !e.data.draft)
+    .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
   const sponsors = (await getCollection('sponsors')).filter((s) => !s.data.draft);
   const videos = liveVideos(await getCollection('videos'));
   validateWatchSlugs([...videos, ...episodes]);
+  const groupOf = (video: (typeof videos)[number]) => video.data.collection?.href === '/deep-cuts/' ? 'deep-cuts'
+    : video.data.track && video.data.type === 'performance' ? 'album'
+    : video.data.type === 'sponsor-read' ? 'mctrumps' : video.data.type;
+  const navigation = [
+    ...videos.map((video) => ({ slug: video.data.slug, title: video.data.title, group: groupOf(video), order: video.data.collectionOrder ?? Infinity })),
+    ...episodes.map((episode) => ({ slug: episode.data.slug, title: episode.data.title, group: 'sketch', order: Infinity })),
+  ];
+  const navigationFor = (group: string) => navigation.filter((item) => item.group === group)
+    .sort((a, b) => group === 'deep-cuts' || group === 'album' ? a.order - b.order : 0)
+    .map(({ slug, title }) => ({ slug, title }));
   const images = liveImages(await getCollection('images'));
   const tracks = playableTracks(await getCollection('tracks'));
 
@@ -39,6 +50,8 @@ export async function getStaticPaths() {
       track: null,
       stills: [],
       related: [],
+      navigation: navigationFor('sketch'),
+      collectionKey: 'sketch',
     },
   }));
 
@@ -62,6 +75,8 @@ export async function getStaticPaths() {
                 : v.data.type === video.data.type || (track && v.data.track?.id === track.id)),
           )
           .slice(0, 3),
+        navigation: navigationFor(groupOf(video)),
+        collectionKey: groupOf(video),
       },
     };
   });
@@ -69,7 +84,7 @@ export async function getStaticPaths() {
   return [...episodePaths, ...videoPaths];
 }
 
-const { kind, entry, relatedSponsors, video, track, stills, related } = Astro.props;
+const { kind, entry, relatedSponsors, video, track, stills, related, navigation, collectionKey } = Astro.props;
 
 // Shared display fields resolved per branch.
 const title = kind === 'video' ? video!.data.title : entry!.data.title;
@@ -77,6 +92,11 @@ const description = kind === 'video' ? video!.data.description : entry!.data.sum
 const publishDate = kind === 'video' ? video!.data.publishDate : entry!.data.publishDate;
 const youtubeId = kind === 'video' ? video!.data.youtubeId : entry!.data.youtubeId;
 const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const frameRatio = kind === 'video' && video!.data.videoWidth && video!.data.videoHeight
+  ? video!.data.videoWidth / video!.data.videoHeight
+  : kind === 'video' && video!.data.orientation === '9:16' ? 9 / 16
+  : kind === 'video' && video!.data.orientation === '1:1' ? 1 : 16 / 9;
+const frameWidthLimit = `${Math.round(72 * frameRatio * 100) / 100}dvh`;
 
 // VideoObject structured data (video-SEO): unique name/description/thumbnail
 // per watch page, ISO-8601 duration, absolute URLs.
@@ -104,7 +124,7 @@ const videoLd =
 <BaseLayout title={`${title} — Booze on Hormuz™`} description={description} ogImage={thumbnail} ogImageWidth={socialDimensions.width} ogImageHeight={socialDimensions.height}>
   {videoLd && <script is:inline type="application/ld+json" set:html={videoLd} />}
 
-  <article class="px-6 pt-10 md:pt-16 pb-20 md:pb-28 max-w-4xl mx-auto">
+  <article class="px-6 pt-8 md:pt-10 pb-20 md:pb-28 max-w-4xl mx-auto">
     <p class="font-body text-eyebrow uppercase text-gold-ink">
       {kind === 'video' ? videoTypeLabel[video!.data.type] : 'Episode'}
       <span class="text-ink-soft/70 normal-case tracking-normal"> · {date}</span>
@@ -112,12 +132,12 @@ const videoLd =
         <span class="text-ink-soft/70 normal-case tracking-normal"> · {video!.data.duration}</span>
       )}
     </p>
-    <h1 class="font-display text-display text-ink mt-4">{title}</h1>
+    <h1 class="watch-detail-title font-display text-ink mt-3">{title}</h1>
 
-    {youtubeId && <div class="mt-8"><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} /></div>}
+    {youtubeId && <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} /></div>}
     {
       kind === 'video' && !youtubeId && video!.data.src && (
-        <div class="mt-8"><LocalVideo src={video!.data.src} title={title} poster={video!.data.poster ?? video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>
+        <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><LocalVideo src={video!.data.src} title={title} poster={video!.data.poster ?? video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>
       )
     }
 
@@ -203,8 +223,67 @@ const videoLd =
       )
     }
 
-    <a href="/watch" class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-12 hover:opacity-80">
-      &larr; Back to Watch
-    </a>
+    <nav id="watch-detail-navigation" data-navigation={JSON.stringify(navigation)} data-collection={collectionKey} data-slug={kind === 'video' ? video!.data.slug : entry!.data.slug} class="flex flex-wrap items-center justify-between gap-4 border-t border-line mt-12 pt-6 font-body text-sm text-gold-ink" aria-label="Video navigation">
+      <a id="watch-back-link" href={collectionKey === 'deep-cuts' ? '/deep-cuts/' : collectionKey === 'album' ? '/album/' : collectionKey === 'mctrumps' ? '/sponsor-reads/' : `/watch/?collection=${collectionKey}`} class="inline-flex min-h-11 items-center uppercase tracking-[0.1em] hover:opacity-80">← Back to {collectionKey === 'deep-cuts' ? 'Deep Cuts Live' : collectionKey === 'album' ? 'Album' : collectionKey === 'mctrumps' ? 'McTrumps' : collectionKey === 'music-video' ? 'Music Videos' : collectionKey === 'short' ? 'Shorts' : 'Sketches'}</a>
+      <div class="flex flex-wrap gap-4">
+        <a id="watch-previous-link" hidden class="inline-flex min-h-11 items-center hover:opacity-80">← Previous</a>
+        <a id="watch-next-link" hidden class="inline-flex min-h-11 items-center hover:opacity-80">Next →</a>
+      </div>
+    </nav>
   </article>
 </BaseLayout>
+
+<style is:global>
+  .watch-detail-title { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; }
+  .watch-detail-player .video-frame { max-width: min(100%, var(--watch-frame-width)) !important; }
+</style>
+
+<script>
+  const nav = document.getElementById('watch-detail-navigation')!;
+  const items: { slug: string; title: string }[] = JSON.parse(nav.dataset.navigation ?? '[]');
+  const collection = nav.dataset.collection!;
+  const slug = nav.dataset.slug!;
+  const params = new URLSearchParams(window.location.search);
+  const currentIndex = items.findIndex((item) => item.slug === slug);
+  const actualPage = currentIndex < 0 ? 1 : Math.floor(currentIndex / 12) + 1;
+  const requestedPage = params.get('page');
+  const page = requestedPage && /^[1-9]\d*$/.test(requestedPage) && Number(requestedPage) === actualPage
+    ? Number(requestedPage) : actualPage;
+  const pageFor = (index: number) => Math.floor(index / 12) + 1;
+  const fromSearch = params.get('from') === 'search';
+  const searchContext = new URLSearchParams();
+  const query = params.get('q')?.trim().slice(0, 200);
+  const knownTypes = new Set(['all', 'album-song', 'music-video', 'deep-cuts', 'sketch', 'short', 'mctrumps', 'image', 'track', 'performance', 'sponsor-read', 'poster', 'bts', 'artwork']);
+  const type = params.get('type');
+  const searchPage = params.get('searchPage') ?? params.get('page');
+  if (query) searchContext.set('q', query);
+  if (type && knownTypes.has(type)) searchContext.set('type', type);
+  if (searchPage && /^[1-9]\d*$/.test(searchPage) && Number.isSafeInteger(Number(searchPage))) {
+    searchContext.set('page', searchPage);
+  }
+  const collectionHref = collection === 'deep-cuts' ? `/deep-cuts/?page=${page}#video-${slug}`
+    : collection === 'album' ? '/album/'
+    : collection === 'mctrumps' ? '/sponsor-reads/'
+    : `/watch/?collection=${encodeURIComponent(collection)}&page=${page}#video-${slug}`;
+  const backLink = document.getElementById('watch-back-link')!;
+  if (fromSearch) {
+    backLink.setAttribute('href', `/archive/${searchContext.size ? `?${searchContext}` : ''}`);
+    backLink.textContent = '← Back to Search';
+  } else backLink.setAttribute('href', collectionHref);
+  const setAdjacent = (id: string, index: number, label: string) => {
+    if (index < 0 || index >= items.length) return;
+    const anchor = document.getElementById(id) as HTMLAnchorElement;
+    anchor.hidden = false;
+    const nextParams = new URLSearchParams({ collection, page: String(pageFor(index)) });
+    if (fromSearch) {
+      nextParams.set('from', 'search');
+      for (const [key, value] of searchContext) nextParams.set(key === 'page' ? 'searchPage' : key, value);
+    }
+    anchor.href = `/watch/${items[index].slug}/?${nextParams}`;
+    anchor.textContent = `${label}: ${items[index].title}`;
+  };
+  if (currentIndex !== -1) {
+    setAdjacent('watch-previous-link', currentIndex - 1, '← Previous');
+    setAdjacent('watch-next-link', currentIndex + 1, 'Next →');
+  }
+</script>

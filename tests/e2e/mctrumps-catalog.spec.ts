@@ -10,18 +10,15 @@ const clips = [
 
 test('all five McTrumps commercials are discoverable from Watch and Archive', async ({ page }) => {
   await page.goto('/watch/');
-  await page.getByRole('button', { name: 'Sponsor Reads' }).click();
-  await expect(page.locator('#watch-grid [data-type="sponsor-read"]:visible')).toHaveCount(5);
-  await expect(page.locator('#watch-grid [data-type]:visible')).toHaveCount(5);
-  await expect(page.locator('#watch-grid [data-type="sponsor-read"] a').first()).toHaveAttribute('href', '/watch/mctrumps-welcome');
-
+  await page.locator('#watch-collections a[href="/sponsor-reads/"]').click();
+  await expect(page.locator('.mctr video')).toHaveCount(5);
   await page.goto('/archive/');
-  await page.getByRole('button', { name: /Sponsor Reads \(5\)/ }).click();
-  await expect(page.locator('#archive-grid [data-type="sponsor-read"]:visible')).toHaveCount(5);
-  await expect(page.locator('#archive-grid [data-type="sponsor-read"] a').first()).toHaveAttribute('data-detail-href', '/watch/mctrumps-welcome');
+  await page.getByRole('button', { name: /McTrumps \(5\)/ }).click();
+  await expect(page.locator('#archive-grid [data-type="mctrumps"]:visible')).toHaveCount(5);
+  await expect(page.locator('#archive-grid [data-type="mctrumps"] a').first()).toHaveAttribute('data-detail-href', '/watch/mctrumps-welcome');
   await page.getByRole('button', { name: 'Reset', exact: true }).click();
-  await page.getByLabel('Search the archive').fill('McTrumps');
-  await expect(page.locator('#archive-grid [data-type="sponsor-read"]:visible')).toHaveCount(5);
+  await page.getByLabel('Search songs, videos, and images').fill('McTrumps');
+  await expect(page.locator('#archive-grid [data-type="mctrumps"]:visible')).toHaveCount(5);
   await expect(page.locator('#archive-grid [data-type="image"]:visible')).toHaveCount(2);
   await expect(page.locator('#archive-grid [data-archive-item]:visible')).toHaveCount(7);
 });

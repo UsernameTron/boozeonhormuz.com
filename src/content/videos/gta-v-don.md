@@ -10,7 +10,7 @@ videoHeight: 1280
 orientation: "9:16"
 duration: "0:05"
 displayOrder: 10
-description: "A Grand Theft Auto-style Don turns a street encounter into another firing."
+description: "Don treats a street encounter like an employment review. Everyone gets fired."
 publishDate: 2026-10-12
 draft: false
 ---

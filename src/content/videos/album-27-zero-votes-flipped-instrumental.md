@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 27
 displayOrder: 27
-description: "Don Biggly & The Indictments present Zero Votes Flipped (Instrumental) as a lyric video from the Booze on Hormuz live-tour album."
+description: "Zero Votes Flipped (Instrumental), a live video from Booze on Hormuz. No vocals. I still want the credit."
 featured: false
 hero: false
 publishDate: 2026-10-12

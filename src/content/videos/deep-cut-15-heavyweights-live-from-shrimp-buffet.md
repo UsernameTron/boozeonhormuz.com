@@ -12,7 +12,7 @@ duration: "4:15"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 15
 displayOrder: 15
-description: "Don Biggly & The Indictments perform Heavyweights (Live from Shrimp Buffet) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Heavyweights at the buffet. I want top billing."
 featured: false
 hero: false
 publishDate: "2026-10-13"

@@ -12,7 +12,7 @@ duration: "3:20"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 9
 displayOrder: 9
-description: "Don Biggly & The Indictments perform The Bribe Has Valet Parking (Live in Dallas) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. I validate the parking. I don't validate the payment."
 featured: false
 hero: false
 publishDate: "2026-10-13"

@@ -12,7 +12,7 @@ duration: "4:52"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 7
 displayOrder: 7
-description: "Don Biggly & The Indictments perform Gold Plated Filth (Live in NYC) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Solid gold? Plated. Very solid plating. Don’t scratch it."
 featured: false
 hero: false
 publishDate: "2026-10-13"

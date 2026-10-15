@@ -12,7 +12,7 @@ duration: "3:50"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 4
 displayOrder: 4
-description: "Don Biggly & The Indictments perform Bad Ass Gold Boy (Live in Oakland) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Beautiful doom? I asked for better seats."
 featured: false
 hero: false
 publishDate: "2026-10-13"

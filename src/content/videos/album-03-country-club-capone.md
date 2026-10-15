@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 3
 displayOrder: 3
-description: "Don Biggly & The Indictments present Country Club Capone as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. I want the club. We can settle dues later."
 featured: false
 hero: false
 publishDate: 2026-10-12

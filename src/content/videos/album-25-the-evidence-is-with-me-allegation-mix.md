@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 25
 displayOrder: 25
-description: "Don Biggly & The Indictments present The Evidence Is With Me (Allegation Mix) as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. The evidence is with me. I prefer it there."
 featured: true
 hero: false
 publishDate: 2026-10-12

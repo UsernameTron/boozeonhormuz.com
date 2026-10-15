@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 15
 displayOrder: 15
-description: "Don Biggly & The Indictments present Quiet Money Parade as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Quiet money. I preferred the parade. Bigger signs."
 featured: false
 hero: false
 publishDate: 2026-10-12

@@ -54,7 +54,7 @@ async function chooseNative(page: Page, index: number, browserName: string) {
 test('production stays honest when no audio exists', async ({ page }) => {
   await page.goto('/listen/');
   await expect(page.locator('[data-mini-player]')).toHaveCount(0);
-  await expect(page.locator('main')).toContainText('videos with lyrics on screen');
+  await expect(page.locator('main')).toContainText('Every song has lyrics on screen. Standalone audio is not here yet.');
   await expect(page.getByRole('link', { name: 'Explore the album and its video setlist' })).toHaveAttribute('href', '/album');
   await expect(page.locator('audio')).toHaveCount(0);
 });

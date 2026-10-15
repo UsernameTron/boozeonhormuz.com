@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 7
 displayOrder: 7
-description: "Don Biggly & The Indictments present Valet Cartel as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. The valet can keep the keys. I want the fees."
 featured: false
 hero: false
 publishDate: 2026-10-12

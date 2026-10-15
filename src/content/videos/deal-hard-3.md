@@ -10,7 +10,7 @@ videoHeight: 1280
 orientation: "9:16"
 duration: "0:05"
 displayOrder: 1
-description: "Another Deal Hard sequel gets a loud, five-second pitch."
+description: "Deal Hard gets a third installment. Don wants a louder title and a shorter memory."
 publishDate: 2026-10-12
 draft: false
 ---

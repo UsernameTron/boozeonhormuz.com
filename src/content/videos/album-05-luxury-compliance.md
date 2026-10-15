@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 5
 displayOrder: 5
-description: "Don Biggly & The Indictments present Luxury Compliance as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Rules are wonderful once I set the price."
 featured: false
 hero: false
 publishDate: 2026-10-12

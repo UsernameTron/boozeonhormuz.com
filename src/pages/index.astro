@@ -1,79 +1,42 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 import MediaThumb from '../components/MediaThumb.astro';
-import WatchCard from '../components/WatchCard.astro';
-import AudioTrack from '../components/AudioTrack.astro';
-import LocalVideo from '../components/LocalVideo.astro';
 import ArtworkViewer from '../components/ArtworkViewer.astro';
 import { buildArchive, isArtwork, artHref, qualifiedId } from '../lib/archive';
 import { responsiveImage } from '../lib/responsive-media';
-import {
-  listedTracks,
-  playableTracks,
-  liveVideos,
-  liveImages,
-  videoTypeLabel,
-  featuredFirst,
-  videoThumbnail,
-  videoAspect,
-} from '../lib/media';
+import { playableTracks, liveVideos, liveImages } from '../lib/media';
 
-// The homepage is a trailer for the archive: someone should understand within
-// five seconds that there is something here to watch. Every section reads from
-// the media collections and degrades to a deadpan state while they fill.
-const album = (await getCollection('albums')).find((a) => !a.data.draft);
-const tracks = listedTracks(await getCollection('tracks'));
-const playable = playableTracks(await getCollection('tracks'));
+const album = (await getCollection('albums')).find((entry) => !entry.data.draft);
+const tracks = playableTracks(await getCollection('tracks'));
 const videos = liveVideos(await getCollection('videos'));
 const images = liveImages(await getCollection('images'));
-
-const albumPreviewTracks = tracks.slice(0, 4);
-// The hero video is the front door; the Featured Film slot shows the NEXT
-// film so the homepage never plays the same thing twice.
-const heroVideo = videos.find((v) => v.data.hero);
-const films = videos.filter((v) => v.data.type === 'music-video' && !v.data.hero);
-const featuredFilm = films.find((v) => v.data.featured) ?? films[0];
-const performances = featuredFirst(videos.filter((v) => v.data.type === 'performance')).slice(0, 3);
-const listenTracks = [
-  ...playable.filter((t) => t.data.audio && t.data.featured),
-  ...playable.filter((t) => t.data.audio && !t.data.featured),
-].slice(0, 3);
-
-// Visual Evidence grid: media images first; while that collection fills, the
-// live Evidence Lounge exhibits (titlecard/gallery kinds ship real art) stand in.
+const leadFilm = videos.find((video) => video.data.slug === 'hush-money-is-philanthropy');
 const evidenceArt = (await getCollection('evidence')).filter(
-  (e) => !e.data.draft && (e.data.kind === 'titlecard' || e.data.kind === 'gallery'),
+  (entry) => !entry.data.draft && (entry.data.kind === 'titlecard' || entry.data.kind === 'gallery'),
 );
-const visualArtwork = buildArchive({ tracks: playable, videos: [], images, evidence: evidenceArt }).filter(isArtwork);
-const visualGrid =
-  images.length > 0
-    ? images
-        .filter((i) => i.data.featured)
-        .concat(images.filter((i) => !i.data.featured))
-        .slice(0, 12)
-        .map((i) => ({
-          href: artHref('images', i.id),
-          id: qualifiedId('images', i.id),
-          image: i.data.thumb ?? i.data.image,
-          alt: i.data.alt,
-          title: i.data.title,
-        }))
-    : evidenceArt.slice(0, 12).map((e: any) => ({
-        href: artHref('evidence', e.id),
-        id: qualifiedId('evidence', e.id),
-        image: e.data.image,
-        alt: e.data.title,
-        title: e.data.title,
-      }));
+const artwork = buildArchive({ tracks, videos: [], images, evidence: evidenceArt }).filter(isArtwork);
+const galleryPreview = images.length > 0
+  ? [...images.filter((image) => image.data.featured), ...images.filter((image) => !image.data.featured)]
+      .slice(0, 6)
+      .map((image) => ({
+        href: artHref('images', image.id),
+        id: qualifiedId('images', image.id),
+        image: image.data.thumb ?? image.data.image,
+        alt: image.data.alt,
+      }))
+  : evidenceArt.slice(0, 6).map((entry) => ({
+      href: artHref('evidence', entry.id),
+      id: qualifiedId('evidence', entry.id),
+      image: 'image' in entry.data ? entry.data.image : '',
+      alt: entry.data.title,
+    }));
 ---
 
 <BaseLayout
   title="Booze on Hormuz™ — Musical Satire, Performance, Video"
-  description="Musical satire. Performance. Video. Very questionable hospitality. The home of the Booze on Hormuz album and Who the Hell Is Don Biggly?"
+  description="Songs, videos, and a resort Don Biggly insists is open for business. Explore Booze on Hormuz."
 >
-  <!-- A. HERO — immediate media, minimal copy -->
   <section class="relative overflow-hidden border-b brass-rule">
     <img
       src="/hero.webp"
@@ -83,281 +46,102 @@ const visualGrid =
       decoding="async"
       alt=""
       aria-hidden="true"
-      class="absolute inset-0 w-full h-full object-cover opacity-35"
+      class="absolute inset-0 w-full h-full object-cover opacity-25"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-b from-paper/40 via-paper/60 to-paper"></div>
-    <div
-      class:list={[
-        'relative px-6 max-w-4xl mx-auto text-center',
-        heroVideo ? 'pt-10 pb-12 md:pt-16 md:pb-16' : 'pt-14 pb-14 md:pt-24 md:pb-20',
-      ]}
-    >
+    <div class="absolute inset-0 bg-gradient-to-b from-paper/40 via-paper/75 to-paper"></div>
+    <div class="relative px-6 py-9 md:py-12 max-w-5xl mx-auto">
       <h1 class="font-display text-display metal-gold">Booze on Hormuz</h1>
-      <p class="font-body text-lg md:text-xl text-ink-soft mt-6 max-w-xl mx-auto">
-        Musical satire. Performance. Video. Very questionable hospitality.
-      </p>
-      {
-        heroVideo && (
-          <div class="mt-6 max-w-3xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-line">
-            {heroVideo.data.youtubeId ? (
-              <YouTubeEmbed id={heroVideo.data.youtubeId} title={heroVideo.data.title} poster={heroVideo.data.thumbnail} orientation={heroVideo.data.orientation} />
-            ) : (
-              heroVideo.data.src && (
-                <LocalVideo src={heroVideo.data.src} title={heroVideo.data.title} poster={heroVideo.data.poster ?? heroVideo.data.thumbnail} orientation={heroVideo.data.orientation} captions={heroVideo.data.captions} />
-              )
-            )}
+      <p class="font-body text-base md:text-lg text-ink-soft mt-3">Songs. Films. A resort. Counsel calls it a pattern.</p>
+      {leadFilm ? (
+        <div class="mt-8 grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-center">
+          <div class="md:order-1">
+            <p class="font-body text-eyebrow uppercase text-gold-ink">Featured music video</p>
+            <h2 class="font-display text-title text-ink mt-2">{leadFilm.data.title}</h2>
+            <p class="font-body text-sm text-gold-ink mt-2 tabular-nums">{leadFilm.data.duration}</p>
+            <p class="font-body text-ink-soft mt-4 max-w-prose">{leadFilm.data.description}</p>
+            <a
+              href={`/watch/${leadFilm.data.slug}`}
+              class="inline-flex min-h-11 items-center font-body uppercase tracking-[0.1em] bg-stamp text-ink px-6 py-3 rounded-sm mt-5 hover:opacity-90 transition-opacity"
+            >
+              &#9655;&nbsp; Watch the music video
+            </a>
           </div>
-        )
-      }
-      <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a
-          href="/watch"
-          class="inline-block font-body uppercase tracking-[0.1em] bg-stamp text-ink px-8 py-3.5 rounded-sm hover:opacity-90 transition-opacity"
-        >
-          &#9655;&nbsp; Watch
-        </a>
-        <a
-          href="/album"
-          class="inline-block font-body uppercase tracking-[0.1em] border border-gold text-gold-ink px-8 py-3.5 rounded-sm hover:bg-charcoal transition-colors"
-        >
-          Enter the Album
-        </a>
+          <a href={`/watch/${leadFilm.data.slug}`} aria-label={`Watch ${leadFilm.data.title}`} class="block w-full max-w-[236px] md:w-[236px] mx-auto rounded-xl overflow-hidden border border-line shadow-lg hover:border-gold transition-colors">
+            <MediaThumb src="/covers/hush-money-featured.webp" width={1023} height={1537} fit="natural" alt={leadFilm.data.title} sizes="236px" play priority />
+          </a>
+        </div>
+      ) : (
+        <a href="/watch/" class="inline-flex min-h-11 items-center font-body uppercase text-gold-ink mt-6">Explore the videos &rarr;</a>
+      )}
+    </div>
+  </section>
+
+  <section class="px-6 py-9 md:py-12 max-w-5xl mx-auto" aria-label="Explore the collections">
+    <div class="grid sm:grid-cols-3 gap-4">
+      <a href="/watch/" class="group card-marble border border-line rounded-xl p-5 hover:border-gold transition-colors">
+        <h2 class="font-display text-xl text-ink group-hover:text-gold-ink">Watch</h2>
+        <p class="font-body text-sm text-ink-soft mt-2">Music videos and performances. Nobody cleared the outtakes.</p>
+        <span class="font-body text-sm text-gold-ink inline-block mt-3">Browse videos &rarr;</span>
+      </a>
+      <a href="/album/" class="group card-marble border border-line rounded-xl p-5 hover:border-gold transition-colors flex gap-4 items-start">
+        {album?.data.artwork && <img src={album.data.artwork} alt="" loading="lazy" class="w-14 h-14 object-contain shrink-0 rounded" />}
+        <div>
+          <h2 class="font-display text-xl text-ink group-hover:text-gold-ink">Album</h2>
+          <span class="font-body text-sm text-ink-soft block mt-2">All 27 song videos. I approved the order.</span>
+          <span class="font-body text-sm text-gold-ink inline-block mt-3">Open the setlist &rarr;</span>
+        </div>
+      </a>
+      <a href="/gallery/" class="group card-marble border border-line rounded-xl p-5 hover:border-gold transition-colors">
+        <h2 class="font-display text-xl text-ink group-hover:text-gold-ink">Gallery</h2>
+        <p class="font-body text-sm text-ink-soft mt-2">Stills, posters, and photographs I denied posing for.</p>
+        <span class="font-body text-sm text-gold-ink inline-block mt-3">View the gallery &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  {galleryPreview.length > 0 && (
+    <section class="px-6 py-8 max-w-5xl mx-auto border-t border-line/40">
+      <div class="flex flex-wrap items-baseline justify-between gap-3">
+        <h2 class="font-display text-xl text-ink">From the gallery</h2>
+        <a href="/gallery/" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">Open the Gallery &rarr;</a>
+      </div>
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 mt-5 items-start">
+        {galleryPreview.map((item) => (
+          <a href={item.href} data-art-id={item.id} aria-label={`View ${item.alt}`} class="block border border-line rounded-lg overflow-hidden hover:border-gold transition-colors">
+            <MediaThumb src={item.image} alt={item.alt} fit="natural" sizes="(min-width: 896px) 150px, 30vw" />
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="px-6 py-8 max-w-5xl mx-auto border-t border-line/40">
+    <div class="grid sm:grid-cols-2 gap-5 items-center">
+      <a href="/products/" class="group flex items-center gap-5 card-marble border border-line rounded-xl p-4 hover:border-gold transition-colors">
+        <img src="/products/captain-crunk-collection.png" alt="Captain Crunk cereal box" width="640" height="800" loading="lazy" class="w-24 h-32 object-contain shrink-0" />
+        <div>
+          <h2 class="font-display text-xl text-ink group-hover:text-gold-ink">Products</h2>
+          <p class="font-body text-sm text-ink-soft mt-2">Cereal, cologne, cufflinks. Counsel signed nothing.</p>
+          <span class="inline-flex min-h-11 items-center font-body text-sm text-gold-ink">Browse products &rarr;</span>
+        </div>
+      </a>
+      <div>
+        <h2 class="font-display text-xl text-ink">Explore the world</h2>
+        <p class="font-body text-sm text-ink-soft mt-1">The resort, the game, and several very expensive decisions.</p>
+        <a href="/explore/" class="inline-flex min-h-11 items-center font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80 mt-2">Explore &rarr;</a>
       </div>
     </div>
   </section>
 
-  <!-- C. FEATURED FILM — the NEXT film (the hero already plays up top);
-       with no hero video set, the premiere embed stands in here instead. -->
-  {
-    (featuredFilm || !heroVideo) && (
-      <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
-        <p class="font-body text-eyebrow uppercase text-gold-ink">Featured Film</p>
-        {featuredFilm ? (
-          <div class="mt-6">
-            <a href={`/watch/${featuredFilm.data.slug}`} class="group block card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors">
-              <MediaThumb
-                src={videoThumbnail(featuredFilm.data)}
-                aspect={videoAspect[featuredFilm.data.orientation]}
-                fit="contain"
-                alt={featuredFilm.data.title}
-                play
-              />
-            </a>
-            <h2 class="font-display text-title text-ink mt-4">
-              <a href={`/watch/${featuredFilm.data.slug}`} class="hover:text-gold-ink transition-colors">
-                {featuredFilm.data.title}
-              </a>
-            </h2>
-          </div>
-        ) : (
-          <div class="mt-6">
-            <h2 class="font-display text-title text-ink">The Premiere</h2>
-            <div class="mt-4">
-              <YouTubeEmbed id="Za2XII66eHQ" title="Booze on Hormuz — premiere" />
-            </div>
-          </div>
-        )}
-        <p class="mt-4">
-          <a href="/watch" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
-            More films &rarr;
-          </a>
-        </p>
-      </section>
-    )
-  }
-
-  <!-- F. VISUAL EVIDENCE -->
-  {
-    visualGrid.length > 0 && (
-      <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
-        <p class="font-body text-eyebrow uppercase text-gold-ink">Visual Evidence</p>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
-          {visualGrid.map((g) => (
-            <a href={g.href} data-art-id={g.id} class="group block border border-line rounded-lg overflow-hidden hover:border-gold transition-colors">
-              <MediaThumb src={g.image} alt={g.alt} fit="natural" sizes="(min-width: 896px) 267px, (min-width: 640px) 30vw, calc((100vw - 64px) / 2)" />
-            </a>
-          ))}
-        </div>
-        <p class="mt-6">
-          <a href="/archive" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
-            Open the full archive &rarr;
-          </a>
-        </p>
-      </section>
-    )
-  }
-
-  <!-- G2. THE GAME -->
-  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
-    <a
-      href="/play"
-      class="group block card-marble border border-line rounded-xl p-6 sm:p-8 shadow-lg hover:border-gold transition-colors"
-    >
-      <p class="font-body text-eyebrow uppercase text-gold-ink">A Playable Disaster</p>
-      <h2 class="font-display text-title text-ink mt-2 group-hover:text-gold-ink transition-colors">
-        Don Biggly's Tremendous Exit Strategy
-      </h2>
-      <p class="font-body text-ink-soft mt-2 max-w-prose">
-        The ship is sinking. The exit is three feet away. Unfortunately, the exit is free.
-        Manipulate his ego until he accidentally rescues himself — ten levels, two meters,
-        zero problems solved.
-      </p>
-      <span class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-4">
-        &#9655;&nbsp; Play &rarr;
-      </span>
-    </a>
-  </section>
-
-  <!-- B. THE ALBUM -->
-  {
-    album && (
-      <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto">
-        <p class="font-body text-eyebrow uppercase text-gold-ink">The Album</p>
-        <div class="mt-6 grid md:grid-cols-[280px_1fr] gap-8 items-start">
-          <a href="/album" class="block border border-line rounded-xl overflow-hidden shadow-lg">
-            <MediaThumb src={album.data.artwork} alt={`${album.data.title} album artwork`} aspect={album.data.artwork ? "aspect-square" : "aspect-[3/1]"} fit="contain" sizes="(min-width: 768px) 280px, calc(100vw - 48px)" />
-          </a>
-          <div>
-            <h2 class="font-display text-title text-ink">
-              {album.data.title}
-              <span class="font-body text-eyebrow uppercase text-ink-soft/70 align-middle ml-3">
-                {album.data.status === 'in-progress' ? 'In Progress' : album.data.status}
-              </span>
-            </h2>
-            {album.data.artist && <p class="font-body text-sm text-ink-soft mt-2">{album.data.artist}</p>}
-            <p class="font-body text-ink-soft mt-3 max-w-prose">{album.data.tagline}</p>
-            <a
-              href="/album"
-              class="inline-block font-body uppercase tracking-[0.1em] text-gold-ink border border-gold px-6 py-3 rounded-sm mt-6 hover:bg-charcoal transition-colors"
-            >
-              &#9655;&nbsp; Explore the Setlist
-            </a>
-            {albumPreviewTracks.length > 0 && (
-              <ul class="mt-6 border-t border-line/40">
-                {albumPreviewTracks.map((t) => (
-                  <li class="border-b border-line/40 py-2.5 flex items-baseline gap-3">
-                    <span class="font-body text-sm text-gold-ink tabular-nums">
-                      {String(t.data.trackNumber).padStart(2, '0')}
-                    </span>
-                    {t.data.status === 'unreleased' ? (
-                      <span class="font-display text-ink/60">{t.data.title}</span>
-                    ) : (
-                      <a href={`/album/${t.data.slug}`} class="font-display text-ink hover:text-gold-ink transition-colors">
-                        {t.data.title}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  <!-- D. PERFORMANCE -->
-  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
-    <p class="font-body text-eyebrow uppercase text-gold-ink">Performance</p>
-    {
-      performances.length > 0 ? (
-        <div class="grid sm:grid-cols-3 gap-5 mt-6">
-          {performances.map((v) => (
-            <WatchCard
-              href={`/watch/${v.data.slug}`}
-              title={v.data.title}
-              typeLabel={videoTypeLabel[v.data.type]}
-              thumbnail={v.data.thumbnail}
-              youtubeId={v.data.youtubeId}
-              orientation={v.data.orientation}
-              duration={v.data.duration}
-            />
-          ))}
-        </div>
-      ) : (
-        <p class="font-display text-xl text-ink mt-6 max-w-2xl">
-          Live material is being prepared. The stage is gold. The lighting is aggressive. It will
-          be tremendous, and then it will be here.
-        </p>
-      )
-    }
-  </section>
-
-  <!-- E. LISTEN -->
-  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
-    <p class="font-body text-eyebrow uppercase text-gold-ink">Listen</p>
-    {
-      listenTracks.length > 0 ? (
-        <div class="grid gap-5 mt-6">
-          {listenTracks.map((t) => (
-            <AudioTrack
-              title={t.data.title}
-              slug={t.data.slug}
-              cover={t.data.cover}
-              audio={t.data.audio}
-              duration={t.data.duration}
-            />
-          ))}
-        </div>
-      ) : (
-        <p class="font-display text-xl text-ink mt-6 max-w-2xl">
-          This record is a live show by Don Biggly &amp; The Indictments. The songs arrive as
-          videos with lyrics on screen. Start with the album and watch the set unfold.
-        </p>
-      )
-    }
-    <p class="mt-6">
-      <a href={listenTracks.length > 0 ? '/listen' : '/album'} class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
-        {listenTracks.length > 0 ? 'Hear everything' : 'Open the album'} &rarr;
-      </a>
-    </p>
-  </section>
-
-  <!-- G. THE ORIGINAL EXPERIENCE -->
-  <section class="px-6 py-10 md:py-16 max-w-4xl mx-auto border-t border-line/40">
-    <a
-      href="/experience"
-      class="group grid sm:grid-cols-[200px_1fr] gap-6 items-center card-marble border border-line rounded-xl overflow-hidden shadow-lg hover:border-gold transition-colors"
-    >
-      <img
-        src="/don-biggly.webp"
-        {...responsiveImage('/don-biggly.webp')}
-        sizes="(min-width: 640px) 200px, calc(100vw - 48px)"
-        alt="Don Biggly, fictional founder and developer — a satirical character"
-        loading="lazy"
-        decoding="async"
-        class="w-full h-full object-cover"
-      />
-      <div class="p-6 sm:pl-0">
-        <p class="font-body text-eyebrow uppercase text-gold-ink">The Original Experience</p>
-        <h2 class="font-display text-title text-ink mt-2 group-hover:text-gold-ink transition-colors">
-          Visit the Resort
-        </h2>
-        <p class="font-body text-ink-soft mt-2 max-w-prose">
-          Enter the original luxury-crisis ownership experience — qualification quiz, financing
-          calculator, Brigadier Dakota, and the full 1-800-BIG-BRINK treatment, preserved intact.
-        </p>
-        <span class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-4">
-          Enter the Record &rarr;
-        </span>
-      </div>
-    </a>
-  </section>
-
-  <!-- H. THE COMMERCIAL DOOR — one restrained strip, no hard selling -->
-  <section class="px-6 py-12 max-w-4xl mx-auto border-t border-line/40">
+  <section class="px-6 py-8 max-w-5xl mx-auto border-t border-line/40">
     <div class="flex flex-wrap items-baseline justify-between gap-4">
       <div>
-        <p class="font-display text-xl text-ink">Want something this ridiculous built for your audience?</p>
-        <p class="font-body text-sm text-ink-soft mt-1">
-          Original songs · comedy concepts · video · campaign creative
-        </p>
+        <h2 class="font-display text-xl text-ink">Want something this ridiculous built for your audience?</h2>
+        <p class="font-body text-sm text-ink-soft mt-1">Original songs · comedy concepts · video · campaign creative</p>
       </div>
-      <a href="/studio" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">
-        Work With The Studio &rarr;
-      </a>
+      <a href="/studio/" class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink hover:opacity-80">Work With The Studio &rarr;</a>
     </div>
   </section>
-  <ArtworkViewer items={visualArtwork} />
+  <ArtworkViewer items={artwork} />
 </BaseLayout>

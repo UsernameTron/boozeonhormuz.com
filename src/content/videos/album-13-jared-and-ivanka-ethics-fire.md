@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 13
 displayOrder: 13
-description: "Don Biggly & The Indictments present Jared and Ivanka Ethics Fire as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. Ethics? I asked whether it came with insurance."
 featured: false
 hero: false
 publishDate: 2026-10-12

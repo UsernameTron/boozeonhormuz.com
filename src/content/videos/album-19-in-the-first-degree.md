@@ -15,7 +15,7 @@ collection:
   href: "/album/"
 collectionOrder: 19
 displayOrder: 19
-description: "Don Biggly & The Indictments present In the First Degree as a lyric video from the Booze on Hormuz live-tour album."
+description: "Lyric video from the Booze on Hormuz album. First degree? I asked for the premium rate."
 featured: false
 hero: false
 publishDate: 2026-10-12

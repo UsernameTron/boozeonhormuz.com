@@ -12,7 +12,7 @@ duration: "3:18"
 collection: {"label":"Deep Cuts Live","href":"/deep-cuts/"}
 collectionOrder: 1
 displayOrder: 1
-description: "Don Biggly & The Indictments perform Booze on Hormuz: Hit It Harder (Live from Tehran) in the Deep Cuts Live collection."
+description: "Deep Cuts Live performance. Booze on Hormuz again. I charge for the encore."
 featured: false
 hero: false
 publishDate: "2026-10-13"

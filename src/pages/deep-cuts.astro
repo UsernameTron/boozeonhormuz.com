@@ -3,18 +3,55 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import WatchCard from '../components/WatchCard.astro';
-import { liveVideos } from '../lib/media';
+import { liveVideos, videoThumbnail } from '../lib/media';
 const videos = liveVideos(await getCollection('videos'))
-  .filter((video) => video.data.collection?.href === '/deep-cuts/');
+  .filter((video) => video.data.collection?.href === '/deep-cuts/')
+  .sort((a, b) => (a.data.collectionOrder ?? Infinity) - (b.data.collectionOrder ?? Infinity));
 ---
 <BaseLayout title="Deep Cuts Live | Booze on Hormuz" description="Special live versions and deep cuts by Don Biggly & The Indictments. Explore the collection and watch every performance.">
   <PageHeader eyebrow="Don Biggly & The Indictments" title="Deep Cuts Live" />
-  <section class="px-6 pb-28 max-w-5xl mx-auto">
-    <p class="font-display text-xl text-ink max-w-2xl">The songs counsel left off the album.</p>
-    <p class="font-body text-ink-soft mt-3 max-w-prose">{videos.length} live performances. Every encore counts as a separate offense.</p>
-    <div class="flex flex-wrap gap-5 mt-5 text-sm text-gold-ink"><a href="/album/" class="inline-flex min-h-11 items-center">The album →</a><a href="/watch/" class="inline-flex min-h-11 items-center">More to watch →</a></div>
-    <div id="deep-cuts-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      {videos.map((video) => <WatchCard href={`/watch/${video.data.slug}`} title={video.data.title} typeLabel="Deep Cuts Live" thumbnail={video.data.thumbnail} orientation={video.data.orientation} nativeAspect={Boolean(video.data.videoWidth && video.data.videoHeight)} duration={video.data.duration} />)}
+  <section class="px-6 pb-28 max-w-6xl mx-auto">
+    <p class="font-display text-xl text-ink max-w-2xl">The album ended. I kept the microphone.</p>
+    <p id="deep-cuts-count" class="font-body text-ink-soft mt-3 max-w-prose" role="status">{videos.length} live performances.</p>
+    <div class="flex flex-wrap gap-5 mt-5 text-sm text-gold-ink">
+      <a href="/album/" class="inline-flex min-h-11 items-center">The album →</a>
+      <a href="/watch/" class="inline-flex min-h-11 items-center">Back to collections →</a>
     </div>
+    <div id="deep-cuts-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+      {videos.map((video) => (
+        <div id={`video-${video.data.slug}`} data-deep-cut class="scroll-mt-24">
+          <WatchCard href={`/watch/${video.data.slug}/`} title={video.data.title} typeLabel="Deep Cuts Live" thumbnail={videoThumbnail(video.data)} orientation={video.data.orientation} nativeAspect={Boolean(video.data.videoWidth && video.data.videoHeight)} duration={video.data.duration} />
+        </div>
+      ))}
+    </div>
+    <nav id="deep-cuts-pagination" class="flex flex-wrap items-center gap-2 mt-8 font-body text-sm" aria-label="Deep Cuts pages"></nav>
   </section>
 </BaseLayout>
+
+<script>
+  const cards = [...document.querySelectorAll<HTMLElement>('#deep-cuts-grid > [data-deep-cut]')];
+  const pageCount = Math.max(1, Math.ceil(cards.length / 12));
+  const requested = new URLSearchParams(window.location.search).get('page');
+  const page = requested && /^[1-9]\d*$/.test(requested) ? Math.min(Number(requested), pageCount) : 1;
+  document.getElementById('deep-cuts-count')!.textContent = `${cards.length} live performances · Page ${page} of ${pageCount}`;
+  cards.forEach((card, index) => {
+    card.hidden = index < (page - 1) * 12 || index >= page * 12;
+    const link = card.querySelector<HTMLAnchorElement>('a');
+    if (link) link.href = `${link.pathname}?collection=deep-cuts&page=${page}`;
+  });
+  const nav = document.getElementById('deep-cuts-pagination')!;
+  const link = (number: number, label: string, current = false) => {
+    const anchor = document.createElement('a');
+    anchor.href = `/deep-cuts/?page=${number}`;
+    anchor.textContent = label;
+    anchor.className = 'inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-line px-3 text-gold-ink hover:border-gold';
+    if (current) { anchor.setAttribute('aria-current', 'page'); anchor.classList.add('border-gold'); }
+    nav.append(anchor);
+  };
+  if (page > 1) link(page - 1, '← Previous');
+  for (let number = 1; number <= pageCount; number++) link(number, String(number), number === page);
+  if (page < pageCount) link(page + 1, 'Next →');
+  if (window.location.hash.startsWith('#video-')) {
+    requestAnimationFrame(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView());
+  }
+</script>

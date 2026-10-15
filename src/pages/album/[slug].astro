@@ -16,19 +16,20 @@ export async function getStaticPaths() {
   const videos = liveVideos(await getCollection('videos'));
   const images = liveImages(await getCollection('images'));
   const albums = (await getCollection('albums')).filter((album) => !album.data.draft);
-  return tracks.map((track) => ({
+  return tracks.map((track, index) => ({
     params: { slug: track.data.slug },
     props: {
       track,
       albumArtwork: albums.find((album) => album.id === track.data.album.id)?.data.artwork,
       videos: videos.filter((v) => v.data.track?.id === track.id),
       gallery: images.filter((i) => i.data.track?.id === track.id),
-      related: tracks.filter((t) => t.id !== track.id).slice(0, 3),
+      previous: tracks[index - 1],
+      next: tracks[index + 1],
     },
   }));
 }
 
-const { track, albumArtwork, videos, gallery, related } = Astro.props;
+const { track, albumArtwork, videos, gallery, previous, next } = Astro.props;
 const { title, trackNumber, status, description, cover, audio, duration, releaseDate, credits, streamingLinks } = track.data;
 
 const musicVideos = videos.filter((v) => v.data.type === 'music-video');
@@ -47,16 +48,17 @@ const socialDimensions = responsiveImage(socialImage);
 ---
 
 <BaseLayout title={`${title} | Booze on Hormuz™`} description={description ?? `${title}, a song video from the Booze on Hormuz live-tour album.`} ogImage={socialImage} ogImageWidth={socialDimensions.width} ogImageHeight={socialDimensions.height}>
-  <article class="px-6 pt-10 md:pt-16 pb-20 md:pb-28 max-w-4xl mx-auto">
+  <article class="px-6 pt-7 md:pt-9 pb-20 max-w-4xl mx-auto">
     <p class="font-body text-eyebrow uppercase text-gold-ink">
       Track {String(trackNumber).padStart(2, '0')}
       {status === 'preview' && <span class="text-ink-soft/70"> · Preview</span>}
       {date && <span class="text-ink-soft/70 normal-case tracking-normal"> · {date}</span>}
     </p>
-    <h1 class="font-display text-display text-ink mt-4">{title}</h1>
+    <h1 class="font-display text-title text-ink mt-2">{title}</h1>
+    {duration && <p class="font-body text-sm text-ink-soft/70 mt-2 tabular-nums">{duration}</p>}
 
     {primaryVideo && (
-      <div class="mt-8">
+      <div class="song-player mt-5">
         {primaryVideo.data.youtubeId ? (
           <YouTubeEmbed id={primaryVideo.data.youtubeId} title={primaryVideo.data.title} poster={primaryVideo.data.poster ?? primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} />
         ) : (
@@ -71,36 +73,27 @@ const socialDimensions = responsiveImage(socialImage);
       </div>
     )}
 
-    <div class="grid md:grid-cols-[280px_1fr] gap-8 items-start mt-8">
-      <div class="border border-line rounded-xl overflow-hidden shadow-lg">
-        <MediaThumb src={songArtwork} alt={`Cover art for ${title}`} aspect={songArtwork ? "aspect-square" : "aspect-[3/1]"} fit="contain" sizes="(min-width: 768px) 280px, calc(100vw - 48px)" />
-      </div>
-      <div>
-        {description && <p class="font-body text-lg text-ink-soft max-w-prose">{description}</p>}
-        {audio && (
-          <audio controls preload="metadata" src={audio} class="w-full mt-6">
-            Your browser does not support audio playback.
-          </audio>
-        )}
-        {duration && <p class="font-body text-sm text-ink-soft/70 mt-2 tabular-nums">{duration}</p>}
-        {
-          streamingLinks.length > 0 && (
-            <ul class="flex flex-wrap gap-3 mt-5">
-              {streamingLinks.map((l) => (
-                <li>
-                  <a
-                    href={l.url}
-                    rel="noopener"
-                    class="inline-block font-body text-sm uppercase tracking-[0.1em] border border-gold text-gold-ink px-4 py-2 rounded-sm hover:bg-charcoal transition-colors"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )
-        }
-      </div>
+    <nav aria-label="Album song navigation" class="flex flex-wrap items-center justify-between gap-3 mt-6 border-y border-line/40 py-3 font-body text-sm">
+      {previous ? <a href={`/album/${previous.data.slug}`} rel="prev" class="text-gold-ink hover:opacity-80">&larr; Previous: {previous.data.title}</a> : <span></span>}
+      {next && <a href={`/album/${next.data.slug}`} rel="next" class="text-gold-ink hover:opacity-80">Next: {next.data.title} &rarr;</a>}
+      <a href="/album/" class="text-gold-ink hover:opacity-80">Back to Album</a>
+      <a id="album-search-return" href="/archive/" hidden class="text-gold-ink hover:opacity-80">Back to Search</a>
+    </nav>
+
+    <div class="mt-6">
+      {description && <p class="font-body text-lg text-ink-soft max-w-prose">{description}</p>}
+      {audio && (
+        <audio controls preload="metadata" src={audio} class="w-full mt-6">
+          Your browser does not support audio playback.
+        </audio>
+      )}
+      {streamingLinks.length > 0 && (
+        <ul class="flex flex-wrap gap-3 mt-5">
+          {streamingLinks.map((link) => (
+            <li><a href={link.url} rel="noopener" class="inline-block font-body text-sm uppercase tracking-[0.1em] border border-gold text-gold-ink px-4 py-2 rounded-sm hover:bg-charcoal transition-colors">{link.label}</a></li>
+          ))}
+        </ul>
+      )}
     </div>
 
     <div class="font-body text-ink-soft mt-10 max-w-prose [&_p]:mt-4">
@@ -212,25 +205,28 @@ const socialDimensions = responsiveImage(socialImage);
       )
     }
 
-    {
-      related.length > 0 && (
-        <section class="mt-16">
-          <h2 class="font-display text-xl text-ink">More from the album</h2>
-          <ul class="mt-3 space-y-2">
-            {related.map((t) => (
-              <li>
-                <a href={`/album/${t.data.slug}`} class="font-body text-gold-ink hover:opacity-80">
-                  {String(t.data.trackNumber).padStart(2, '0')} — {t.data.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    <a href="/album" class="inline-block font-body text-sm uppercase tracking-[0.1em] text-gold-ink mt-12 hover:opacity-80">
-      &larr; Back to the album
-    </a>
   </article>
 </BaseLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const returnLink = document.getElementById('album-search-return') as HTMLAnchorElement | null;
+  if (returnLink && params.get('from') === 'search') {
+    const destination = new URL('/archive/', window.location.origin);
+    const query = params.get('q');
+    const type = params.get('type');
+    const page = params.get('page');
+    const allowedTypes = new Set(['all', 'music-video', 'album-song', 'deep-cuts', 'sketch', 'short', 'mctrumps', 'image']);
+    if (query) destination.searchParams.set('q', query.slice(0, 200));
+    if (type && allowedTypes.has(type)) destination.searchParams.set('type', type);
+    if (page && /^[1-9]\d{0,2}$/.test(page)) destination.searchParams.set('page', page);
+    returnLink.href = destination.pathname + destination.search;
+    returnLink.hidden = false;
+  }
+</script>
+
+<style>
+  :global(.song-player .video-frame[data-orientation="9:16"]) { max-width: min(100%, 32vh, 304px) !important; }
+  :global(.song-player .video-frame[data-orientation="16:9"]) { max-width: min(100%, 106vh) !important; }
+  :global(.song-player .video-frame[data-orientation="1:1"]) { max-width: min(100%, 58vh) !important; }
+</style>

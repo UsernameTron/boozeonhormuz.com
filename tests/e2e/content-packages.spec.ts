@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
-test('Deep Cuts stays separate from the album and requires selecting its Watch category', async ({ page, request }) => {
+test('Deep Cuts stays separate from the album and is reached through its Watch collection', async ({ page, request }) => {
   await page.goto('/album/');
   await expect(page.getByText('27 of 27 song videos live.')).toBeVisible();
   await page.getByRole('link', { name: 'Watch Deep Cuts Live' }).click();
   await expect(page.locator('h1')).toHaveText('Deep Cuts Live');
-  const links = page.locator('#deep-cuts-grid > a');
+  const links = page.locator('#deep-cuts-grid > [data-deep-cut] a');
   await expect(links).toHaveCount(32);
   const hrefs = await links.evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute('href')!));
   expect(new Set(hrefs).size).toBe(32);
@@ -19,18 +19,19 @@ test('Deep Cuts stays separate from the album and requires selecting its Watch c
     expect(html).toContain('href="/deep-cuts/"');
   }
   await page.goto('/watch/');
-  await expect(page.locator('#watch-grid > [data-type]:visible')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Deep Cuts Live', exact: true }).click();
-  await expect(page.locator('#watch-grid > [data-type]:visible')).toHaveCount(32);
-  await expect(page.locator('#watch-grid > [data-type="performance"]:visible')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Performances', exact: true }).click();
-  await expect(page.locator('#watch-grid > [data-type]:visible')).toHaveCount(27);
+  await expect(page.locator('#watch-results')).toBeHidden();
+  await page.locator('#watch-collections a[href="/deep-cuts/"]').click();
+  await expect(page.locator('#deep-cuts-grid > [data-deep-cut]:visible')).toHaveCount(12);
+  await expect(page.locator('#deep-cuts-count')).toContainText('32 live performances');
+  await page.goto('/watch/');
+  await page.locator('#watch-collections a[href="/album/"]').click();
+  await expect(page.getByText('27 of 27 song videos live.')).toBeVisible();
 });
 
 test('the first and last Deep Cuts performances play with their native portrait frame', async ({ page }) => {
   test.setTimeout(90_000);
   await page.goto('/deep-cuts/');
-  const hrefs = await page.locator('#deep-cuts-grid > a').evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute('href')!));
+  const hrefs = await page.locator('#deep-cuts-grid > [data-deep-cut] a').evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute('href')!));
   for (const href of [hrefs[0], hrefs.at(-1)!]) {
     await page.goto(href);
     const player = page.locator('video');
@@ -41,10 +42,10 @@ test('the first and last Deep Cuts performances play with their native portrait 
   }
 });
 
-test('all 47 gallery images load and the viewer supports next, previous, closing, and downloads', async ({ page, request }) => {
+test('all 54 gallery and Evidence images load and the viewer supports next, previous, closing, and downloads', async ({ page, request }) => {
   await page.goto('/gallery/');
   const cards = page.locator('#gallery-grid > a');
-  await expect(cards).toHaveCount(47);
+  await expect(cards).toHaveCount(54);
   const items = await page.locator('#artwork-viewer-data').evaluate((data) => JSON.parse(data.textContent!));
   for (const item of items) {
     const response = await request.get(item.full);
@@ -53,12 +54,12 @@ test('all 47 gallery images load and the viewer supports next, previous, closing
   }
   await cards.first().click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 47');
+  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 54');
   await expect.poll(() => page.locator('[data-viewer-image]').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
   await page.getByRole('button', { name: 'Next artwork' }).click();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('2 of 47');
+  await expect(page.locator('[data-viewer-count]')).toHaveText('2 of 54');
   await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 47');
+  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 54');
   await expect(page.locator('[data-viewer-download]')).toHaveAttribute('href', /\/stills\/gallery-/);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();
