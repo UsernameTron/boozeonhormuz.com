@@ -42,10 +42,10 @@ test('the first and last Deep Cuts performances play with their native portrait 
   }
 });
 
-test('all 54 gallery and Evidence images load and the viewer supports next, previous, closing, and downloads', async ({ page, request }) => {
+test('all 121 gallery and Evidence images load and the viewer supports next, previous, closing, and downloads', async ({ page, request }) => {
   await page.goto('/gallery/');
   const cards = page.locator('#gallery-grid > a');
-  await expect(cards).toHaveCount(54);
+  await expect(cards).toHaveCount(121);
   const items = await page.locator('#artwork-viewer-data').evaluate((data) => JSON.parse(data.textContent!));
   for (const item of items) {
     const response = await request.get(item.full);
@@ -54,12 +54,12 @@ test('all 54 gallery and Evidence images load and the viewer supports next, prev
   }
   await cards.first().click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 54');
+  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 121');
   await expect.poll(() => page.locator('[data-viewer-image]').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
   await page.getByRole('button', { name: 'Next artwork' }).click();
-  await expect(page.locator('[data-viewer-count]')).toHaveText('2 of 54');
+  await expect(page.locator('[data-viewer-count]')).toHaveText('2 of 121');
   await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 54');
+  await expect(page.locator('[data-viewer-count]')).toHaveText('1 of 121');
   await expect(page.locator('[data-viewer-download]')).toHaveAttribute('href', /\/stills\/gallery-/);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();

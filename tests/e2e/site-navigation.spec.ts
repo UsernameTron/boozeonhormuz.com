@@ -11,7 +11,7 @@ test('five main destinations and Search replace competing library links', async 
   await nav.getByRole('link', { name: 'Explore', exact: true }).click();
   const destinations = page.getByRole('region', { name: 'Explore destinations' }).locator('a');
   await expect(destinations).toHaveCount(5);
-  expect(await destinations.evaluateAll((links) => links.map((a) => a.getAttribute('href')))).toEqual(['/experience/', '/play/', '/products/', '/quotes/', '/about/']);
+  expect(await destinations.evaluateAll((links) => links.map((a) => a.getAttribute('href')))).toEqual(['/products/', '/experience/', '/play/', '/quotes/', '/about/']);
   await expect(nav.getByRole('link', { name: 'Explore', exact: true })).toHaveAttribute('aria-current', 'page');
 });
 
