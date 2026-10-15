@@ -16,10 +16,11 @@ const categoryLabels: Record<string, string> = {
 const filters = [{ key: 'all', label: 'All', count: cards.length }, ...Object.entries(categoryLabels).map(([key, label]) => ({ key, label, count: cards.filter((card) => card.category === key).length })).filter((filter) => filter.count)];
 const searchIndex = cards.map(({ id, category, title, description, caption, track }) => ({ id, category, title, description, caption, track }));
 ---
-<BaseLayout title="Search — Booze on Hormuz™" description="Find songs, videos, and artwork in Don Biggly's growing paper trail.">
+<BaseLayout preloadFonts title="Search — Booze on Hormuz™" description="Find songs, videos, and artwork in Don Biggly's growing paper trail.">
   <PageHeader eyebrow="Find something" title="Search" />
-  <section class="px-6 pb-20 md:pb-28 max-w-4xl mx-auto">
+  <section class="search-section px-6 pb-20 md:pb-28 max-w-4xl mx-auto">
     {cards.length === 0 ? <p class="font-display text-title text-ink">No items are available yet.</p> : <Fragment>
+      <div class="relative">
       <div id="archive-controls" aria-hidden="true" inert hidden>
         <form id="archive-search" role="search" class="flex flex-wrap items-end gap-3">
           <div class="flex-1 min-w-[min(100%,10rem)]"><label for="archive-query" class="block text-sm text-ink-soft mb-2">Search songs, videos, and images</label><input id="archive-query" name="q" type="search" maxlength="200" placeholder="Search titles and captions" autocomplete="off" class="w-full min-h-11 rounded-sm border border-line bg-charcoal text-ink px-3 py-2" /></div>
@@ -29,7 +30,8 @@ const searchIndex = cards.map(({ id, category, title, description, caption, trac
           {filters.map((filter) => <button type="button" data-filter={filter.key} aria-pressed="false" class="font-body text-sm px-4 py-2 min-h-11 rounded-sm border border-line/60 text-ink-soft aria-pressed:border-gold aria-pressed:text-gold-ink hover:text-gold-ink">{filter.label} <span>({filter.count})</span></button>)}
         </div>
       </div>
-      <div id="archive-recovery" class="font-body text-ink-soft mt-4"><p>Search is unavailable. Browse these collections:</p><div class="flex flex-wrap gap-x-5 gap-y-2 mt-2"><a class="text-gold-ink min-h-11 inline-flex items-center" href="/album/">Album Songs</a><a class="text-gold-ink min-h-11 inline-flex items-center" href="/watch/">Videos</a><a class="text-gold-ink min-h-11 inline-flex items-center" href="/deep-cuts/">Deep Cuts Live</a><a class="text-gold-ink min-h-11 inline-flex items-center" href="/gallery/">Gallery</a></div></div>
+      <div id="archive-recovery" class="absolute inset-x-0 top-0 font-body text-ink-soft mt-4"><p>Search is unavailable. Browse these collections:</p><div class="flex flex-wrap gap-x-5 gap-y-2 mt-2"><a class="text-gold-ink min-h-11 inline-flex items-center" href="/album/">Album Songs</a><a class="text-gold-ink min-h-11 inline-flex items-center" href="/watch/">Videos</a><a class="text-gold-ink min-h-11 inline-flex items-center" href="/deep-cuts/">Deep Cuts Live</a><a class="text-gold-ink min-h-11 inline-flex items-center" href="/gallery/">Gallery</a></div></div>
+      </div>
       <p id="archive-count" class="font-body text-sm text-ink-soft mt-5" role="status">Search {cards.length} items or choose a type.</p>
       <div class="grid grid-cols-1 min-[360px]:grid-cols-2 sm:grid-cols-3 gap-3 mt-4 items-start" id="archive-grid"></div>
       <p hidden class="font-display text-xl text-ink mt-8" id="archive-empty">No matches. Try another search or type.</p>
@@ -58,5 +60,7 @@ const searchIndex = cards.map(({ id, category, title, description, caption, trac
   initializeArchiveSearch();
 </script>
 <style is:global>
-  #archive-controls[hidden], #archive-pagination[hidden], #archive-recovery[hidden] { display: none !important; }
+  .search-section { min-height: calc(100svh - 13rem); }
+  #archive-controls[hidden] { display: block !important; visibility: hidden; }
+  #archive-pagination[hidden], #archive-recovery[hidden] { display: none !important; }
 </style>

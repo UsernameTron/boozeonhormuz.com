@@ -461,6 +461,40 @@
       }
     ]
   },
+  "/game/tremendous-exit-strategy-cover-320.webp": {
+    "width": 320,
+    "height": 180,
+    "bytes": 22258,
+    "sha256": "bbc8fe4b7e0fbadd4b63c6ff4455db871b6dbaef7b4f50e057051782ad148b6f",
+    "candidates": [
+      {
+        "src": "/_media/2e256dba8c84e86f-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 22544
+      }
+    ]
+  },
+  "/game/tremendous-exit-strategy-cover-640.webp": {
+    "width": 640,
+    "height": 360,
+    "bytes": 72942,
+    "sha256": "5301aaa798721f6115a87ad7187545e6c2c1ec1f5b85f7b2f0c00f6a697ba05a",
+    "candidates": [
+      {
+        "src": "/_media/6090cc63e77e99d8-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 23324
+      },
+      {
+        "src": "/_media/6090cc63e77e99d8-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 73732
+      }
+    ]
+  },
   "/game/tremendous-exit-strategy-cover.png": {
     "width": 1672,
     "height": 941,
