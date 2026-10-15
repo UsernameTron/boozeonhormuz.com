@@ -94,4 +94,6 @@ export function initializeArchiveSearch() {
   controls.removeAttribute('inert');
   const recovery = document.querySelector<HTMLElement>('#archive-recovery');
   if (recovery) recovery.hidden = true;
+  const section = controls.closest<HTMLElement>('.search-section');
+  if (section) section.dataset.ready = 'true';
 }

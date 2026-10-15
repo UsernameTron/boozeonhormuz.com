@@ -55,11 +55,20 @@ const searchIndex = cards.map(({ id, category, title, description, caption, trac
     </Fragment>}
   </section>
 </BaseLayout>
+<script is:inline>
+  // Keep the reserved search area quiet until its controls are ready.
+  // If the module fails to load, reveal the existing collection-link fallback.
+  setTimeout(() => {
+    const section = document.querySelector('.search-section');
+    if (section && !section.dataset.ready) section.dataset.ready = 'fallback';
+  }, 2000);
+</script>
 <script>
   import { initializeArchiveSearch } from '../lib/archive-search';
   initializeArchiveSearch();
 </script>
 <style is:global>
+  html[data-js] .search-section:not([data-ready]) { visibility: hidden; }
   .search-section { min-height: calc(100svh - 13rem); }
   #archive-controls[hidden] { display: block !important; visibility: hidden; }
   #archive-pagination[hidden], #archive-recovery[hidden] { display: none !important; }
