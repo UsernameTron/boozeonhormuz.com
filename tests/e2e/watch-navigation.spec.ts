@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Watch opens on six illustrated collections and keeps the choices visible on a phone', async ({ page }) => {
   await page.goto('/watch/');
-  const choices = page.locator('#watch-collections a');
+  const choices = page.locator('[aria-label="Watch collections"] > a');
   await expect(choices).toHaveCount(6);
   await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveCount(0);
   await expect(page.locator('#watch-results')).toBeHidden();
