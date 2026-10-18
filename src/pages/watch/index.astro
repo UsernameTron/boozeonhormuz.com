@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import WatchCard from '../../components/WatchCard.astro';
 import { liveVideos, playableTracks, videoTypeLabel, videoThumbnail } from '../../lib/media';
+import { youtubeChannelUrl } from '../../data/channel';
 
 const videos = liveVideos(await getCollection('videos'));
 const episodes = (await getCollection('episodes')).filter((entry) => !entry.data.draft)
@@ -42,7 +43,10 @@ const choices = [
   <PageHeader eyebrow="Now screening" title="Watch" />
   <section class="px-6 pb-28 max-w-6xl mx-auto">
     <div id="watch-collections">
-      <p class="font-body text-ink-soft max-w-prose mb-6">Pick a collection. The cameras followed me.</p>
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <p class="font-body text-ink-soft max-w-prose">Pick a collection. The cameras followed me.</p>
+        <a href={youtubeChannelUrl} class="inline-flex min-h-11 items-center font-body text-sm text-gold-ink hover:underline">Watch on YouTube ↗</a>
+      </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-label="Watch collections">
         {choices.map((choice) => (
           <a href={choice.href} class="group flex sm:block card-marble border border-line rounded-xl overflow-hidden hover:border-gold transition-colors">

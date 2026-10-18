@@ -135,6 +135,11 @@ const videoLd =
     <h1 class="watch-detail-title font-display text-ink mt-3">{title}</h1>
 
     {youtubeId && <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} /></div>}
+    {youtubeId && kind === 'video' && video!.data.src && (
+      <p class="font-body text-sm text-ink-soft mt-3">
+        <a href={video!.data.src} class="text-gold-ink hover:underline">Play the original file</a>
+      </p>
+    )}
     {
       kind === 'video' && !youtubeId && video!.data.src && (
         <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><LocalVideo src={video!.data.src} title={title} poster={video!.data.poster ?? video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>

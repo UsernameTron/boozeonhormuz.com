@@ -3,6 +3,7 @@ title: "Hush Money Is Philanthropy"
 slug: "hush-money-is-philanthropy"
 type: "music-video"
 src: "/video/hush-money-is-philanthropy.mp4"
+youtubeId: "UayELXI0k-U"
 thumbnail: "/thumbs/hush-money-is-philanthropy.webp"
 poster: "/posters/hush-money-is-philanthropy.webp"
 videoWidth: 720
