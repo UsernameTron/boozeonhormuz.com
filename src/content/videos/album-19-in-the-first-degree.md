@@ -1,4 +1,5 @@
 ---
+youtubeId: "YssG0XFzaLI"
 title: "In the First Degree | Lyric Video"
 slug: "in-the-first-degree-live"
 type: performance

@@ -1,4 +1,5 @@
 ---
+youtubeId: "MtOJfn5NiJQ"
 title: "Hush Money as Philanthropy (Live in Tampa)"
 slug: "deep-cut-hush-money-as-philanthropy-live-in-tampa"
 type: "performance"

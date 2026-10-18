@@ -1,4 +1,5 @@
 ---
+youtubeId: "G4vax_cT6oo"
 title: "Aviators in the Basement (Live in Scranton)"
 slug: "deep-cut-aviators-in-the-basement-live-in-scranton"
 type: "performance"

@@ -1,4 +1,5 @@
 ---
+youtubeId: "fSZhVI5GD0E"
 title: "Charges You Can Write Off | Lyric Video"
 slug: "charges-you-can-write-off-live"
 type: performance

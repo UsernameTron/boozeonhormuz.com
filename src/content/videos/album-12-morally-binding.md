@@ -1,4 +1,5 @@
 ---
+youtubeId: "QWMCOc8av2c"
 title: "Morally Binding | Lyric Video"
 slug: "morally-binding-live"
 type: performance

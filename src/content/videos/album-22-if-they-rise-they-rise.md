@@ -1,4 +1,5 @@
 ---
+youtubeId: "Fx6H42eii7U"
 title: "If They Rise, They Rise | Lyric Video"
 slug: "if-they-rise-they-rise-live"
 type: performance

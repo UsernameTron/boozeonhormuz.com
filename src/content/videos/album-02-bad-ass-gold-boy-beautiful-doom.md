@@ -1,4 +1,5 @@
 ---
+youtubeId: "EMZc_sFt7Kg"
 title: "Bad Ass Gold Boy (Beautiful Doom) | Lyric Video"
 slug: "bad-ass-gold-boy-beautiful-doom-live"
 type: performance

@@ -1,4 +1,5 @@
 ---
+youtubeId: "Z0XTBf9q8EQ"
 title: "The Bribe Has Valet Parking | Lyric Video"
 slug: "the-bribe-has-valet-parking-live"
 type: performance

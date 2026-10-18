@@ -1,4 +1,5 @@
 ---
+youtubeId: "iVzqnLKsfUo"
 title: "I Think I Shit My Pants (Live from Gold Toilet)"
 slug: "deep-cut-i-think-i-shit-my-pants-live-from-gold-toilet"
 type: "performance"

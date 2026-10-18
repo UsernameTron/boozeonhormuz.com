@@ -1,4 +1,5 @@
 ---
+youtubeId: "Wv5CDRIijX4"
 title: "Cape Smear: The Trailer"
 slug: "cape-smear-film-trailer"
 type: "sketch"

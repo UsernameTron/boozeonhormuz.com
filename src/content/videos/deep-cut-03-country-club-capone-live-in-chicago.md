@@ -1,4 +1,5 @@
 ---
+youtubeId: "dwxrVboVZZQ"
 title: "Country Club Capone (Live in Chicago)"
 slug: "deep-cut-country-club-capone-live-in-chicago"
 type: "performance"

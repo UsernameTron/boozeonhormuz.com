@@ -1,4 +1,5 @@
 ---
+youtubeId: "4aeVJan4OAk"
 title: "Swipe the Strait (Live in Tehran)"
 slug: "deep-cut-swipe-the-strait-live-in-tehran"
 type: "performance"

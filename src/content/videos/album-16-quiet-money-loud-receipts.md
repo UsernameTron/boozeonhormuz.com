@@ -1,4 +1,5 @@
 ---
+youtubeId: "52eY5T9iAes"
 title: "Quiet Money, Loud Receipts | Lyric Video"
 slug: "quiet-money-loud-receipts-live"
 type: performance

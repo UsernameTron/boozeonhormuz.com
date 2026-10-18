@@ -1,4 +1,5 @@
 ---
+youtubeId: "-CL3nr-6cTw"
 title: "Premium Transparency (Live from a Deposition)"
 slug: "deep-cut-premium-transparency-live-from-a-deposition"
 type: "performance"

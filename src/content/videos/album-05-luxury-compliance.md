@@ -1,4 +1,5 @@
 ---
+youtubeId: "VvQ3oSw5pww"
 title: "Luxury Compliance | Lyric Video"
 slug: "luxury-compliance-live"
 type: performance

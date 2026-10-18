@@ -1,4 +1,5 @@
 ---
+youtubeId: "0BEbXV-h__o"
 title: "Quiet Money, Loud Receipts (Live in Berlin)"
 slug: "deep-cut-quiet-money-loud-receipts-live-in-berlin"
 type: "performance"

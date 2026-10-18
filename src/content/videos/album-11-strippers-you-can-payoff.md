@@ -1,4 +1,5 @@
 ---
+youtubeId: "ShIqIKQ-3kY"
 title: "Strippers You Can Payoff | Lyric Video"
 slug: "strippers-you-can-payoff-live"
 type: performance

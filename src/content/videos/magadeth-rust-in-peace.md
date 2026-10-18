@@ -1,4 +1,5 @@
 ---
+youtubeId: "T58zw515wsY"
 title: "MAGADETH: Rust in Peace"
 slug: "magadeth-rust-in-peace"
 type: "short"

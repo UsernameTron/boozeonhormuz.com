@@ -1,4 +1,5 @@
 ---
+youtubeId: "CAj7OCfuDe8"
 title: "Me, Me, Me, Till the Last Dog Dies | Lyric Video"
 slug: "me-me-me-till-the-last-dog-dies-live"
 type: performance

@@ -1,4 +1,5 @@
 ---
+youtubeId: "6HP8cuN61qs"
 title: "Hot Mic, Big Mouth (Live Hot Mic)"
 slug: "deep-cut-hot-mic-big-mouth-live-hot-mic"
 type: "performance"

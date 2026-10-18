@@ -39,7 +39,7 @@ test('Song player preserves its portrait frame and navigates in album order', as
   await page.goto('/album/booze-on-hormuz-feat-the-5th-naval-fleet/');
   const frame = page.locator('.song-player .video-frame');
   await expect(frame).toHaveAttribute('style', /824 \/ 1464/);
-  await expect(page.locator('.song-player video')).toHaveCSS('object-fit', 'contain');
+  await expect(page.locator('.song-player .video-poster')).toHaveCSS('object-fit', 'contain');
   const size = await frame.boundingBox();
   expect(size).not.toBeNull();
   expect(size!.height).toBeLessThanOrEqual(844 * 0.6);

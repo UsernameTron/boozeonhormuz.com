@@ -1,4 +1,5 @@
 ---
+youtubeId: "uzAUiBm4jy4"
 title: "McTrumps: Working Under Supervision"
 slug: "mctrumps-supervision"
 type: "sponsor-read"

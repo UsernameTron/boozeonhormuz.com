@@ -1,4 +1,5 @@
 ---
+youtubeId: "XiQA7fraXuQ"
 title: "Aviators in the Basement | Lyric Video"
 slug: "aviators-in-the-basement-live"
 type: performance

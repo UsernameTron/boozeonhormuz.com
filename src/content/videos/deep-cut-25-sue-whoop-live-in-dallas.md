@@ -1,4 +1,5 @@
 ---
+youtubeId: "p0TQKndd6Hc"
 title: "Sue-Whoop (Live in Dallas)"
 slug: "deep-cut-sue-whoop-live-in-dallas"
 type: "performance"

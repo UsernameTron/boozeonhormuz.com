@@ -1,4 +1,5 @@
 ---
+youtubeId: "Hg_TsV_oObQ"
 title: "Discovery Is Coming | Lyric Video"
 slug: "discovery-is-coming-live"
 type: performance

@@ -1,4 +1,5 @@
 ---
+youtubeId: "voTAHY1NuU8"
 title: "Platinum Summons (Live in Las Vegas)"
 slug: "deep-cut-platinum-summons-live-in-las-vegas"
 type: "performance"
