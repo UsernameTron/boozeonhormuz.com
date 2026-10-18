@@ -1,4 +1,5 @@
 ---
+youtubeId: "6OobfZH_Jcw"
 title: "Valet Cartel | Lyric Video"
 slug: "valet-cartel-live"
 type: performance

@@ -60,9 +60,12 @@ const socialDimensions = responsiveImage(socialImage);
     {primaryVideo && (
       <div class="song-player mt-5">
         {primaryVideo.data.youtubeId ? (
-          <YouTubeEmbed id={primaryVideo.data.youtubeId} title={primaryVideo.data.title} poster={primaryVideo.data.poster ?? primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} />
+          <YouTubeEmbed id={primaryVideo.data.youtubeId} title={primaryVideo.data.title} poster={primaryVideo.data.poster ?? primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} videoWidth={primaryVideo.data.videoWidth} videoHeight={primaryVideo.data.videoHeight} />
         ) : (
           primaryVideo.data.src && <LocalVideo src={primaryVideo.data.src} title={primaryVideo.data.title} poster={primaryVideo.data.poster ?? primaryVideo.data.thumbnail} orientation={primaryVideo.data.orientation} videoWidth={primaryVideo.data.videoWidth} videoHeight={primaryVideo.data.videoHeight} captions={primaryVideo.data.captions} />
+        )}
+        {primaryVideo.data.youtubeId && primaryVideo.data.src && (
+          <p class="font-body text-sm text-ink-soft mt-3"><a href={primaryVideo.data.src} class="text-gold-ink hover:underline">Play the original file</a></p>
         )}
         {primaryVideo.data.transcript && (
           <details class="mt-5 max-w-prose">
@@ -108,7 +111,7 @@ const socialDimensions = responsiveImage(socialImage);
             {additionalMusicVideos.map((v) =>
               v.data.youtubeId ? (
                 <div>
-                  <YouTubeEmbed id={v.data.youtubeId} title={v.data.title} poster={v.data.thumbnail} orientation={v.data.orientation} />
+                  <YouTubeEmbed id={v.data.youtubeId} title={v.data.title} poster={v.data.thumbnail} orientation={v.data.orientation} videoWidth={v.data.videoWidth} videoHeight={v.data.videoHeight} />
                   <p class="font-body text-sm text-ink-soft mt-2">
                     <a href={`/watch/${v.data.slug}`} class="text-gold-ink hover:opacity-80">
                       {v.data.title} &rarr;

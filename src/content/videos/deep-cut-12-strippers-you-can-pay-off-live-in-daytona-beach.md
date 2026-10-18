@@ -1,4 +1,5 @@
 ---
+youtubeId: "EjsKPTNdrCA"
 title: "Strippers You Can Pay Off (Live in Daytona Beach)"
 slug: "deep-cut-strippers-you-can-pay-off-live-in-daytona-beach"
 type: "performance"

@@ -1,4 +1,5 @@
 ---
+youtubeId: "mE9rdL2wdkY"
 title: "Totally Cavalier (Remastered) | Lyric Video"
 slug: "totally-cavalier-remastered-live"
 type: performance

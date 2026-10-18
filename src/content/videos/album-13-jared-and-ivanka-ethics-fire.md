@@ -1,4 +1,5 @@
 ---
+youtubeId: "jIAM0T8yt8o"
 title: "Jared and Ivanka Ethics Fire | Lyric Video"
 slug: "jared-and-ivanka-ethics-fire-live"
 type: performance

@@ -1,4 +1,5 @@
 ---
+youtubeId: "TMLMX6EGkaE"
 title: "Me, Me, Me, Till the Last Dog Dies (Live in Paris)"
 slug: "deep-cut-me-me-me-till-the-last-dog-dies-live-in-paris"
 type: "performance"

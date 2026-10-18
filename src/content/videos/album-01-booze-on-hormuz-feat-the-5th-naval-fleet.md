@@ -1,4 +1,5 @@
 ---
+youtubeId: "Vpgcs7WACqE"
 title: "Booze on Hormuz (feat. The 5th Naval Fleet) | Lyric Video"
 slug: "booze-on-hormuz-feat-the-5th-naval-fleet-live"
 type: performance

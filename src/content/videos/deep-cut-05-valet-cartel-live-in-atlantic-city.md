@@ -1,4 +1,5 @@
 ---
+youtubeId: "QWJmTr7XV-s"
 title: "Valet Cartel (Live in Atlantic City)"
 slug: "deep-cut-valet-cartel-live-in-atlantic-city"
 type: "performance"

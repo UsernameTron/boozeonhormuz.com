@@ -1,4 +1,5 @@
 ---
+youtubeId: "STpuv8IcBOc"
 title: "Criminals in the White House | Lyric Video"
 slug: "criminals-in-the-white-house-live"
 type: performance

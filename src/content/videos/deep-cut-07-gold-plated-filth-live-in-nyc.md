@@ -1,4 +1,5 @@
 ---
+youtubeId: "BiNsaMRCIQs"
 title: "Gold Plated Filth (Live in NYC)"
 slug: "deep-cut-gold-plated-filth-live-in-nyc"
 type: "performance"

@@ -1,4 +1,5 @@
 ---
+youtubeId: "D_8JRGr64lg"
 title: "Quiet Wing Recovery Endorsement"
 slug: "quiet-wing-recovery-endorsement"
 type: "short"

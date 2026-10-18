@@ -1,4 +1,5 @@
 ---
+youtubeId: "S6t2lroQGnk"
 title: "Booze on Hormuz: Hit It Harder | Lyric Video"
 slug: "booze-on-hormuz-hit-it-harder-live"
 type: performance

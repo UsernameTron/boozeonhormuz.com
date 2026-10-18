@@ -1,4 +1,5 @@
 ---
+youtubeId: "J0EoHQEZHn8"
 title: "Bad Ass Gold Boy (Live in Oakland)"
 slug: "deep-cut-bad-ass-gold-boy-live-in-oakland"
 type: "performance"

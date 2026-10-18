@@ -1,4 +1,5 @@
 ---
+youtubeId: "xgvXZH3KDfE"
 title: "Don’s Karate Demonstration"
 slug: "don-karate-fart-and-fall"
 type: "short"

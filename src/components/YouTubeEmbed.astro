@@ -10,13 +10,16 @@ interface Props {
   title?: string;
   poster?: string;
   orientation?: VideoOrientation;
+  videoWidth?: number;
+  videoHeight?: number;
 }
-const { id, title, poster, orientation = '16:9' } = Astro.props;
+const { id, title, poster, orientation = '16:9', videoWidth, videoHeight } = Astro.props;
+const nativeFrame = videoWidth && videoHeight ? `${videoWidth} / ${videoHeight}` : orientation.replace(':', ' / ');
 const thumbnail = videoThumbnail({ thumbnail: mediaImageSource(poster), youtubeId: id });
 const responsive = responsiveImage(thumbnail);
 ---
 
-<div class="video-frame border border-line" data-orientation={orientation} style={`--video-ratio: ${orientation.replace(':', ' / ')}`}>
+<div class="video-frame border border-line" data-orientation={orientation} style={`--video-ratio: ${nativeFrame}`}>
   <YouTube id={id} title={title} poster={thumbnail} style="background-image: none" playlabel={`Play ${title ?? 'video'}`}>
   </YouTube>
   <img class="video-poster" src={thumbnail} {...responsive} sizes="(min-width: 896px) 800px, calc(100vw - 48px)" alt="" loading="lazy" decoding="async" onerror="this.hidden=true" />

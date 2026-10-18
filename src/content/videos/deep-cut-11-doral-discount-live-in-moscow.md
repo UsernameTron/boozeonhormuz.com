@@ -1,4 +1,5 @@
 ---
+youtubeId: "M5-eacHTCSQ"
 title: "Doral Discount (Live in Moscow)"
 slug: "deep-cut-doral-discount-live-in-moscow"
 type: "performance"

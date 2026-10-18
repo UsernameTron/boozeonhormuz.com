@@ -1,4 +1,5 @@
 ---
+youtubeId: "LocrA5woMec"
 title: "In the First Degree (Live from Court)"
 slug: "deep-cut-in-the-first-degree-live-from-court"
 type: "performance"

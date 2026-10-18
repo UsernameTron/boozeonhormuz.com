@@ -1,4 +1,5 @@
 ---
+youtubeId: "8ASDrOpCw0g"
 title: "The Bribe Has Valet Parking (Live in Dallas)"
 slug: "deep-cut-the-bribe-has-valet-parking-live-in-dallas"
 type: "performance"

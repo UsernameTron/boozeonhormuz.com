@@ -1,4 +1,5 @@
 ---
+youtubeId: "AkDjwIc7YG0"
 title: "I Think I Shit My Pants"
 slug: "i-think-i-shit-my-pants"
 type: "music-video"

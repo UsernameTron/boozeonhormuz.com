@@ -1,4 +1,5 @@
 ---
+youtubeId: "8pLNkj6-er0"
 title: "MAGADETH: Rust in Peach"
 slug: "magadeth-rust-in-peach"
 type: "short"

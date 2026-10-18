@@ -1,4 +1,5 @@
 ---
+youtubeId: "05Y-o0xchhw"
 title: "Quiet Money Parade | Lyric Video"
 slug: "quiet-money-parade-live"
 type: performance

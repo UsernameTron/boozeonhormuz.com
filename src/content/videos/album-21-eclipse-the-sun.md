@@ -1,4 +1,5 @@
 ---
+youtubeId: "bK08rbk__Iw"
 title: "Eclipse the Sun | Lyric Video"
 slug: "eclipse-the-sun-live"
 type: performance

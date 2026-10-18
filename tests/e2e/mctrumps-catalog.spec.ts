@@ -29,7 +29,8 @@ test('each McTrumps watch page uses its catalogued source and native frame and l
     expect(response?.status()).toBe(200);
     const frame = page.locator('.video-frame');
     await expect(frame).toHaveAttribute('style', new RegExp(`--video-ratio: ${ratio.replace('/', '\\/')}`));
-    await expect(frame.locator('video')).toHaveAttribute('src', `/mctrumps/${slug}.mp4`);
+    await expect(frame.locator('lite-youtube')).toHaveCount(1);
+    await expect(page.getByRole('link', { name: 'Play the original file' })).toHaveAttribute('href', `/mctrumps/${slug}.mp4`);
     await expect(page.locator('article > p').first()).toContainText('October 11, 2026');
     await expect(page.getByRole('link', { name: 'McTrumps Sponsor Reads' })).toHaveAttribute('href', `/sponsor-reads/#${slug}`);
     await expect(page.getByText('Fictional political satire — not a real statement, quote, recording, or event report.')).toBeVisible();

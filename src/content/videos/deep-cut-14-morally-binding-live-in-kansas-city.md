@@ -1,4 +1,5 @@
 ---
+youtubeId: "FsTC5g4tniU"
 title: "Morally Binding (Live in Kansas City)"
 slug: "deep-cut-morally-binding-live-in-kansas-city"
 type: "performance"

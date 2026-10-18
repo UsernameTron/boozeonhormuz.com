@@ -1,4 +1,5 @@
 ---
+youtubeId: "jO6etsoPpJo"
 title: "Bomb Iran (Tremendous Remix)"
 slug: "bomb-iran-tremendous-remix"
 type: "music-video"

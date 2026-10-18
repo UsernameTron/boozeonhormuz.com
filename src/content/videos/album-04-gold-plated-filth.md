@@ -1,4 +1,5 @@
 ---
+youtubeId: "jCT7YIRZjCs"
 title: "Gold Plated Filth | Lyric Video"
 slug: "gold-plated-filth-live"
 type: performance

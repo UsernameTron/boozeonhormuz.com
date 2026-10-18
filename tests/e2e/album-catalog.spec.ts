@@ -13,9 +13,9 @@ test('the complete video album connects its setlist, performance player, and Wat
   expect(songLinks.at(-1)).toBe('/album/zero-votes-flipped-instrumental');
 
   await page.goto('/album/booze-on-hormuz-feat-the-5th-naval-fleet/');
-  const player = page.locator('video');
-  await expect(player).toHaveAttribute('src', /album-01-booze-on-hormuz-feat-the-5th-naval-fleet\.mp4$/);
-  await expect(player).toHaveAttribute('poster', /album-01-booze-on-hormuz-feat-the-5th-naval-fleet\.webp$/);
+  await expect(page.locator('lite-youtube')).toHaveAttribute('videoid', 'Vpgcs7WACqE');
+  await expect(page.locator('.video-poster')).toHaveAttribute('src', /album-01-booze-on-hormuz-feat-the-5th-naval-fleet\.webp$/);
+  await expect(page.getByRole('link', { name: 'Play the original file' })).toHaveAttribute('href', /album-01-booze-on-hormuz-feat-the-5th-naval-fleet\.mp4$/);
   const media = await request.get('/video/album-01-booze-on-hormuz-feat-the-5th-naval-fleet.mp4', {
     headers: { Range: 'bytes=0-1023' },
   });

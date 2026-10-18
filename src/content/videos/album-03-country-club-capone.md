@@ -1,4 +1,5 @@
 ---
+youtubeId: "Crv4xL1e-5E"
 title: "Country Club Capone | Lyric Video"
 slug: "country-club-capone-live"
 type: performance

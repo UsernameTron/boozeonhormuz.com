@@ -1,4 +1,5 @@
 ---
+youtubeId: "ubCuIhDbHsQ"
 title: "Deal Hard 3"
 slug: "deal-hard-3"
 type: "short"
