@@ -8,6 +8,8 @@ Static Astro 6.4.2 site targeting GitHub Pages on `boozeonhormuz.com`. The local
 
 The prior release record reports PR [#69](https://github.com/UsernameTron/boozeonhormuz.com/pull/69), main merge `32d5d995e9c2ce405f0291731dc88b3185f7b463` and successful [Pages run 39157830029](https://github.com/UsernameTron/boozeonhormuz.com/actions/runs/39157830029). That is saved release evidence, not a fresh production check during this documentation sync. Recheck the deployed revision when publication is requested.
 
+Large video delivery: six full-quality MP4 copies are preserved under `media/` in Git and served from the [verified GitHub media release](https://github.com/UsernameTron/boozeonhormuz.com/releases/tag/site-media-2026-10-19). They stay outside `public/` so the complete site fits the GitHub Pages 1 GB limit. Catalogue URLs use those assets through the existing players and YouTube alternatives. Original source masters remain intact. `check:output` rejects packages larger than 1,000,000,000 bytes. See `media/README.md`.
+
 ## Environment requirements
 
 | Requirement | Value |

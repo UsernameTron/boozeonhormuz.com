@@ -2,7 +2,7 @@
 title: "I Invented Cheap Meat"
 slug: "i-invented-cheap-meat"
 type: "music-video"
-src: "/video/i-invented-cheap-meat.mp4"
+src: "https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/i-invented-cheap-meat.mp4"
 youtubeId: "RTmza7-BNWM"
 thumbnail: "/thumbs/i-invented-cheap-meat.webp"
 videoWidth: 1280

@@ -16,6 +16,8 @@ The existing complaint desk, four related businesses and empty record sections a
 
 Watch retains its McTrumps collection card. Old `/sponsor-reads/` links forward to the new hub with their query strings and episode anchors; a no-script fallback lists all seven links. The alias canonical points to `/mctrumps/` and is excluded from the sitemap. Existing video slugs, order, media files and source masters are preserved. New video records and episode data must be added together using the existing content model.
 
+Premium Costs and Jeff use the verified GitHub Release MP4 URLs, with their identical delivery copies preserved under `media/mctrumps/`. The original five videos remain in `public/mctrumps/`. Native framing and controls are unchanged. This keeps the complete Pages site within its published-size limit; see `media/README.md`.
+
 ## Episode order and imported media
 
 | Episode | Source file | Website copy | Runtime |

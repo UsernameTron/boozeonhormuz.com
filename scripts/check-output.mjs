@@ -21,6 +21,8 @@ assert.equal(readFileSync(join(root, 'CNAME'), 'utf8').trim(), 'boozeonhormuz.co
 for (const route of [...criticalRoutes, '/experience/', '/mctrumps/', '/sponsor-reads/']) assert.ok(existsSync(routeFile(route)), `Missing route: ${route}`);
 assert.ok(existsSync(join(root, 'sitemap-index.xml')), 'Missing sitemap index');
 const files = walk(root);
+const publishedBytes = files.reduce((total, file) => total + statSync(file).size, 0);
+assert.ok(publishedBytes <= 1_000_000_000, `Pages output is ${publishedBytes} bytes; keep it below the 1 GB published-site limit. Serve large videos from verified release assets.`);
 const sitemap = files.filter((f) => /sitemap.*\.xml$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
 for (const route of [...criticalRoutes.filter((r) => !r.startsWith('/apps/')), '/mctrumps/']) {
   assert.ok(sitemap.includes(site + route) || sitemap.includes(site + route.replace(/\/$/, '')), `Missing sitemap route ${route}`);
@@ -68,4 +70,4 @@ for (const url of lighthouse.ci.collect.url) {
     assert.ok(override === undefined || override === 'median', `Lighthouse ${audit} overrides median aggregation for ${url}`);
   }
 }
-console.log(`Output OK: ${files.filter((f) => f.endsWith('.html')).length} HTML files, ${references} local references, domain, canonical tags, sitemap and ${criticalRoutes.length} explicit audit routes with unique median budgets.`);
+console.log(`Output OK: ${files.filter((f) => f.endsWith('.html')).length} HTML files, ${references} local references, ${publishedBytes} published bytes, domain, canonical tags, sitemap and ${criticalRoutes.length} explicit audit routes with unique median budgets.`);

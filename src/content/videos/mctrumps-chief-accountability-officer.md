@@ -2,7 +2,7 @@
 title: "McTrumps: Jeff, Chief Accountability Officer"
 slug: "mctrumps-chief-accountability-officer"
 type: "sponsor-read"
-src: "/mctrumps/chief-accountability-officer.mp4"
+src: "https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/chief-accountability-officer.mp4"
 thumbnail: "/mctrumps/chief-accountability-officer.webp"
 videoWidth: 1080
 videoHeight: 1080

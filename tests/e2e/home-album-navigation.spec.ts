@@ -26,12 +26,12 @@ test('Home leads with one music video and routes into the three collections', as
   await expect(thumbnail.locator('img')).toHaveCSS('object-fit', 'contain');
 });
 
-test('the official Evidence music video plays locally in its landscape frame', async ({ page }) => {
+test('the official Evidence music video streams in its landscape frame', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: 'Watch the music video' }).click();
   await expect(page.locator('h1')).toHaveText('The Evidence Is With Me');
   const player = page.locator('.watch-detail-player video');
-  await expect(player).toHaveAttribute('src', '/video/the-evidence-is-with-me-official-video.mp4');
+  await expect(player).toHaveAttribute('src', 'https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/the-evidence-is-with-me-official-video.mp4');
   await expect(page.locator('lite-youtube')).toHaveCount(0);
   await player.evaluate(async (video: HTMLVideoElement) => { video.muted = true; await video.play(); });
   await expect.poll(() => player.evaluate((video: HTMLVideoElement) => video.currentTime)).toBeGreaterThan(0.2);

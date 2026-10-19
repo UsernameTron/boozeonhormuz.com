@@ -2,7 +2,7 @@
 title: "The Evidence Is With Me"
 slug: "the-evidence-is-with-me-official-video"
 type: "music-video"
-src: "/video/the-evidence-is-with-me-official-video.mp4"
+src: "https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/the-evidence-is-with-me-official-video.mp4"
 thumbnail: "/thumbs/the-evidence-is-with-me-champagne.webp"
 poster: "/thumbs/the-evidence-is-with-me-champagne.webp"
 videoWidth: 1920

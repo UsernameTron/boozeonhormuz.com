@@ -46,7 +46,7 @@ test('YouTube videos keep lazy posters and original-file playback', async ({ pag
   for (const [slug, id, original] of [
     ['the-premiere', 'Za2XII66eHQ', null],
     ['hush-money-is-philanthropy', 'UayELXI0k-U', '/video/hush-money-is-philanthropy.mp4'],
-    ['i-invented-cheap-meat', 'RTmza7-BNWM', '/video/i-invented-cheap-meat.mp4'],
+    ['i-invented-cheap-meat', 'RTmza7-BNWM', 'https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/i-invented-cheap-meat.mp4'],
   ] as const) {
     await page.goto(`/watch/${slug}/`);
     await expect(page.locator('lite-youtube iframe')).toHaveCount(0);

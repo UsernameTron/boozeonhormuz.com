@@ -12,6 +12,8 @@ This local revision contains a 27-song video album by Don Biggly & The Indictmen
 
 McTrumps has its own tab and compact `/mctrumps/` hub: “Billions served. Books cooked.” One Welcome player introduces the company; six videos are grouped into Customer Relations, Corporate Leadership and International Expansion. The closed Company office preserves complaints, related businesses and empty future records. Watch keeps one card opening this hub; `/sponsor-reads/` forwards legacy links. All seven video pages retain native playback and existing YouTube alternatives. The Album remains accessible through Watch. “The Red Tie” has been removed from Gallery; original media remain intact.
 
+Large video delivery: six full-quality MP4 copies are preserved under `media/` in Git and served from the [verified GitHub media release](https://github.com/UsernameTron/boozeonhormuz.com/releases/tag/site-media-2026-10-19). They stay outside `public/` so the complete site fits the GitHub Pages 1 GB limit. Catalogue URLs use those assets through the existing players and YouTube alternatives. Original source masters remain intact. `check:output` rejects packages larger than 1,000,000,000 bytes. See `media/README.md`.
+
 ## Stack
 
 - **Astro 6.4.2** (static, no adapter)

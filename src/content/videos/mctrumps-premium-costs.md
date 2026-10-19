@@ -2,7 +2,7 @@
 title: "McTrumps: Premium Costs"
 slug: "mctrumps-premium-costs"
 type: "sponsor-read"
-src: "/mctrumps/premium-costs.mp4"
+src: "https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/premium-costs.mp4"
 thumbnail: "/mctrumps/premium-costs.webp"
 videoWidth: 1080
 videoHeight: 1080

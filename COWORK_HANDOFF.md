@@ -32,6 +32,10 @@ env CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 /opt/homebrew/opt/node@22/bi
 
 Do not install dependencies just to reopen the preview. The thumbnail change passed desktop/mobile and actual playback checks. A full rebuild was interrupted when responsive generation stalled reading the existing `public/stills/gallery-07-a-very-small-don.webp`; the new image was generated with the same existing settings, without changing old entries. A later release still needs full validation. No global settings or dependencies changed.
 
+## Release capacity fix
+
+The initial validated package was 1,237,418,050 bytes, above GitHub Pages' 1 GB limit. Six large MP4 delivery files are now preserved under `media/video/` and `media/mctrumps/` and served from the public `site-media-2026-10-19` GitHub Release. Uploaded sizes and SHA-256 digests matched all six originals. Source masters, full quality, page addresses, thumbnails and the existing player system are unchanged. The Pages output check now enforces 1,000,000,000 bytes. Native-playback and YouTube-fallback assertions were updated to the verified delivery URLs; the complete release checks must pass on the final commit.
+
 ## Latest McTrumps update
 
 The owner's latest direction is implemented locally: “Billions served. Books cooked.” One portrait Welcome player sits beside the short introduction establishing McTrumps as the resort's exclusive food supplier. Six compact thumbnail links are grouped into Customer Relations (Birthday, Premium Costs), Corporate Leadership (Supervision, Appreciation, Jeff) and International Expansion (Tehran, plus the resort link). Existing complaint exchanges, related businesses and heading-only Resort Contracts/Company Records are tucked into a closed Company office drawer. All seven stable detail pages preserve native dimensions, descriptions, producer notes and the exact supplied interview script. Watch has one card opening this hub. Legacy Sponsor Reads links retain queries and clip anchors; the alias remains excluded from the sitemap. The 27-song album and 32 Deep Cuts retain their order.
@@ -58,9 +62,9 @@ Full Astro check/build attempts stalled reading existing installed files and an 
 
 | Original master | Local website copy |
 |---|---|
-| `/Users/cpconnor/Desktop/The Evidence is With Me Official Video.mp4` | `public/video/the-evidence-is-with-me-official-video.mp4`, 1920x1080, about 93.7 MiB |
-| `/Users/cpconnor/Desktop/McTrumps New Premium Costs.mp4` | `public/mctrumps/premium-costs.mp4`, 1080x1080, about 38.2 MiB |
-| `/Users/cpconnor/Downloads/Jeff E New C Level Exec at McTrumps (1).mp4` | `public/mctrumps/chief-accountability-officer.mp4`, 1080x1080, about 10.6 MiB |
+| `/Users/cpconnor/Desktop/The Evidence is With Me Official Video.mp4` | `media/video/the-evidence-is-with-me-official-video.mp4`, 1920x1080, about 93.7 MiB |
+| `/Users/cpconnor/Desktop/McTrumps New Premium Costs.mp4` | `media/mctrumps/premium-costs.mp4`, 1080x1080, about 38.2 MiB |
+| `/Users/cpconnor/Downloads/Jeff E New C Level Exec at McTrumps (1).mp4` | `media/mctrumps/chief-accountability-officer.mp4`, 1080x1080, about 10.6 MiB |
 
 Originals were preserved and their SHA-256 hashes matched before and after preparation. Browser copies are H.264/AAC with fast start, each below 100 MiB. Poster/thumbnail assets and video records are already present. Do not regenerate them unnecessarily. These three additions use native playback and have no invented YouTube IDs.
 
