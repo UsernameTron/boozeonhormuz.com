@@ -53,7 +53,7 @@ test('each McTrumps watch page uses its native source and frame and returns to i
     const frame = page.locator('.video-frame');
     await expect(frame).toHaveAttribute('style', new RegExp(`--video-ratio: ${ratio.replace('/', '\\/')}`));
     const player = frame.locator('video');
-    await expect(player).toHaveAttribute('src', nativeSource(slug));
+    await expect.poll(() => player.evaluate((video: HTMLVideoElement) => video.currentSrc)).toBe(new URL(nativeSource(slug), page.url()).href);
     await expect(player).toHaveAttribute('controls', '');
     await expect(page.locator('main lite-youtube')).toHaveCount(0);
     await expect.poll(() => player.evaluate((video: HTMLVideoElement) => [video.videoWidth, video.videoHeight])).toEqual(ratio.split(' / ').map(Number));
@@ -85,7 +85,7 @@ test('company cards open playable square clips and preserve the programme order'
   await expect(page.locator('#watch-next-link')).toHaveAttribute('href', /mctrumps-chief-accountability-officer/);
   for (const slug of ['premium-costs', 'chief-accountability-officer']) {
     const player = page.locator('.video-frame video');
-    await expect(player).toHaveAttribute('src', nativeSource(slug));
+    await expect.poll(() => player.evaluate((video: HTMLVideoElement) => video.currentSrc)).toBe(new URL(nativeSource(slug), page.url()).href);
     await player.evaluate(async (video: HTMLVideoElement) => { video.muted = true; await video.play(); });
     await expect.poll(() => player.evaluate((video: HTMLVideoElement) => video.currentTime)).toBeGreaterThan(0.2);
     const box = await player.boundingBox();
