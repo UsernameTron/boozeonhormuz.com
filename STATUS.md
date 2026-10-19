@@ -1,11 +1,11 @@
-# STATUS — boozeonhormuz-com
-_generated 2026-07-17 · facts only (git-derived); run NARRATIVE-PROMPT.md for prose_
+# Status: Booze on Hormuz
 
-- **Path:** /Users/cpconnor/projects/boozeonhormuz-com
-- **Stage:** has GSD planning — phase state in .planning/STATE.md (not verified here)
-- **Branch status:** on `feat/homepage-mobile-nav-and-about`, base `main`; ahead 2 / behind 0; dirty=no; unpushed=no-upstream
-- **Health:** 🟡 — on `feat/homepage-mobile-nav-and-about`, not main (2 ahead) — unmerged branch
-- **Signals:** planning=yes · ci=yes · todos=2
-- **Last commit:** 2026-06-19 11:34:38 -0500 892c14c chore(planning): session handoff for mobile-nav + /about work
+Updated October 19, 2026. Owner approved this release batch; the matching merged revision and successful GitHub Actions run establish publication.
 
-_Structural health is git-only. Build/deploy correctness needs a human or model pass._
+- **Branch:** `codex/evidence-feature-mctrumps`.
+- **Release:** The Evidence Is With Me feature and champagne thumbnail; seven-video McTrumps department hub; Album navigation simplified; The Red Tie removed from Gallery.
+- **Content:** 97 videos, 120 artworks, 27 album tracks, twelve quotes and five illustrated products.
+- **Deployment:** use the merged revision and successful GitHub Actions deployment as live evidence. Do not infer publication from a local preview.
+- **Checks:** run the existing release validation before merge; verify live routes and actual playback after deployment.
+- **Held files:** The Big Kickback, Redacted and Clap Dem remain untouched until Connor provides instructions.
+- **Handoff:** `COWORK_HANDOFF.md`, `.planning/HANDOFF.json` and `.planning/STATE.md`.

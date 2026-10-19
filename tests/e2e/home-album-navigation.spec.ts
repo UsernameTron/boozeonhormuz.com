@@ -2,9 +2,10 @@ import { test, expect } from '@playwright/test';
 
 test('Home leads with one music video and routes into the three collections', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Hush Money Is Philanthropy' })).toHaveCount(1);
-  await expect(page.getByRole('link', { name: 'Watch the music video' })).toHaveAttribute('href', '/watch/hush-money-is-philanthropy');
-  await expect(page.getByText('2:34', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'The Evidence Is With Me' })).toHaveCount(1);
+  await expect(page.getByRole('heading', { name: 'Hush Money Is Philanthropy' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Watch the music video' })).toHaveAttribute('href', '/watch/the-evidence-is-with-me-official-video');
+  await expect(page.getByText('4:24', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'The Premiere' })).toHaveCount(0);
   const collections = page.getByRole('region', { name: 'Explore the collections' });
   await expect(collections.getByRole('link')).toHaveCount(3);
@@ -14,11 +15,38 @@ test('Home leads with one music video and routes into the three collections', as
   await expect(page.getByRole('link', { name: 'Open the Gallery' })).toHaveAttribute('href', '/gallery/');
   await expect(page.locator('[data-art-id]')).toHaveCount(6);
   await expect(page.locator('main').getByRole('link', { name: 'Explore →', exact: true })).toHaveAttribute('href', '/explore/');
-  const thumbnail = page.getByRole('link', { name: 'Watch Hush Money Is Philanthropy' }).locator('.media-thumb');
+  const thumbnail = page.getByRole('link', { name: 'Watch The Evidence Is With Me' }).locator('.media-thumb');
   const size = await thumbnail.boundingBox();
   expect(size).not.toBeNull();
-  expect(size!.height).toBeLessThanOrEqual(425);
+  expect(size!.height).toBeLessThanOrEqual(443);
+  expect(size!.width).toBeLessThanOrEqual(635);
+  expect(size!.width).toBeGreaterThan(236);
+  expect(size!.width / size!.height).toBeCloseTo(635 / 443, 2);
+  await expect(thumbnail.locator('img')).toHaveAttribute('src', '/thumbs/the-evidence-is-with-me-champagne.webp');
   await expect(thumbnail.locator('img')).toHaveCSS('object-fit', 'contain');
+});
+
+test('the official Evidence music video plays locally in its landscape frame', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Watch the music video' }).click();
+  await expect(page.locator('h1')).toHaveText('The Evidence Is With Me');
+  const player = page.locator('.watch-detail-player video');
+  await expect(player).toHaveAttribute('src', '/video/the-evidence-is-with-me-official-video.mp4');
+  await expect(page.locator('lite-youtube')).toHaveCount(0);
+  await player.evaluate(async (video: HTMLVideoElement) => { video.muted = true; await video.play(); });
+  await expect.poll(() => player.evaluate((video: HTMLVideoElement) => video.currentTime)).toBeGreaterThan(0.2);
+  const metadata = await player.evaluate((video: HTMLVideoElement) => ({ width: video.videoWidth, height: video.videoHeight, duration: video.duration, error: video.error?.message }));
+  expect(metadata.width).toBe(1920);
+  expect(metadata.height).toBe(1080);
+  expect(metadata.duration).toBeCloseTo(264.4, 0);
+  expect(metadata.error).toBeUndefined();
+  await player.evaluate((video: HTMLVideoElement) => video.pause());
+  for (const width of [320, 390, 1440]) {
+    await page.setViewportSize({ width, height: 844 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const box = await player.boundingBox();
+    expect(box!.width / box!.height).toBeCloseTo(16 / 9, 2);
+  }
 });
 
 test('Album puts all 27 ordered songs before Deep Cuts and starts at the setlist', async ({ page }) => {

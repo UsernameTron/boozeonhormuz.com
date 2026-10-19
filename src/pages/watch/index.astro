@@ -28,18 +28,18 @@ const cards = [
   })),
 ];
 const count = (group: string) => cards.filter((card) => card.group === group).length;
-const artwork = (group: string) => group === 'album' ? '/covers/album-watch-collection.png' : group === 'deep-cuts' ? '/covers/deep-cuts-watch-collection.png' : cards.find((card) => card.group === group)?.thumbnail;
+const artwork = (group: string) => group === 'album' ? '/covers/album-watch-collection.png' : group === 'deep-cuts' ? '/covers/deep-cuts-watch-collection.png' : group === 'mctrumps' ? cards.find((card) => card.href === '/watch/mctrumps-welcome/')?.thumbnail : cards.find((card) => card.group === group)?.thumbnail;
 const choices = [
   { title: 'Music Videos', group: 'music-video', href: '/watch/?collection=music-video', count: count('music-video'), description: 'Cameras followed the songs. I approved the angles.' },
   { title: 'Album: Song Videos with Lyrics', group: 'album', href: '/album/', count: count('album'), description: 'Every song has a lyric video.' },
   { title: 'Deep Cuts Live', group: 'deep-cuts', href: '/deep-cuts/', count: count('deep-cuts'), description: 'More stages. More cameras. I kept the microphone.' },
   { title: 'Sketches', group: 'sketch', href: '/watch/?collection=sketch', count: count('sketch'), description: 'Short scenes. My billing is not.' },
   { title: 'Shorts', group: 'short', href: '/watch/?collection=short', count: count('short'), description: 'One minute. All mine.' },
-  { title: 'McTrumps', group: 'mctrumps', href: '/sponsor-reads/', count: count('mctrumps'), description: 'Five commercials. No refunds.' },
+  { title: 'McTrumps', group: 'mctrumps', href: '/mctrumps/', count: count('mctrumps'), description: 'Billions served. Books cooked.' },
 ];
 ---
 
-<BaseLayout title="Watch — Booze on Hormuz™" description="Choose music videos, the album, live deep cuts, sketches, shorts, or McTrumps commercials from Booze on Hormuz and Don Biggly.">
+<BaseLayout title="Watch — Booze on Hormuz™" description="Choose music videos, the album, live deep cuts, sketches, shorts, or McTrumps company videos from Booze on Hormuz and Don Biggly.">
   <PageHeader eyebrow="Now screening" title="Watch" />
   <section class="px-6 pb-28 max-w-6xl mx-auto">
     <div id="watch-collections">

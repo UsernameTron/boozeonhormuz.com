@@ -11,8 +11,8 @@ orientation: "16:9"
 duration: "0:33"
 description: "At the fictional McTrumps in Tehran, Don admires marble by the playground. He calls it customer research."
 collection:
-  label: "McTrumps Sponsor Reads"
-  href: "/sponsor-reads/#tehran"
+  label: "McTrumps"
+  href: "/mctrumps/#tehran"
 collectionOrder: 5
 publishDate: 2026-10-11
 draft: false

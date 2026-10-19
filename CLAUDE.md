@@ -6,13 +6,17 @@ Project governance for the Booze on Hormuz satire hub. Read before making change
 
 ## What this is
 
-A static Astro 6 site targeting GitHub Pages on `boozeonhormuz.com`. The approved content branch includes a 27-song video album, 32 Deep Cuts Live performances, 47 Gallery images, five produced music videos, sketches and shorts, five McTrumps commercials, twelve quotes, five illustrated products, a portrait biography, and a news broadcast. The media collections (albums/tracks/videos/images) drive the catalogue; `/listen` includes only tracks with separate audio. `/watch` requires a category selection, including Deep Cuts Live. `/gallery` reuses the archive artwork viewer and detail pages. Seven Evidence Lounge exhibits remain available. Products and the McTrumps presentation use inline typed arrays; the five commercials also have video records. Experience episode teasers were removed by owner request. Verify the deployed SHA before calling this branch's content live; the Studio reel remains deferred.
+A static Astro 6 site targeting GitHub Pages on `boozeonhormuz.com`. The local catalogue includes a 27-song video album, 32 Deep Cuts Live performances, 113 Gallery images, seven music videos, nine sketches, fifteen shorts, seven McTrumps company videos, twelve quotes, five illustrated products, a portrait biography, and a news broadcast. The 97 videos include the album songs. Gallery includes seven additional Evidence Lounge exhibits, for 120 artworks. The media collections (albums/tracks/videos/images) drive the catalogue; `/listen` includes only tracks with separate audio. `/watch` opens with six collection choices and shows category videos after selection. `/gallery` reuses the archive artwork viewer and detail pages. Products use an inline typed array; McTrumps episodes come from `src/data/mctrumps.ts` and also have video records. Experience episode teasers were removed by owner request. This release adds The Evidence Is With Me and two McTrumps videos; verify the deployed SHA and successful Actions run before calling any revision live. The Studio reel remains deferred.
+
+**Current handoff:** read `COWORK_HANDOFF.md`, `.planning/HANDOFF.json` and `.planning/STATE.md`. This is owner-directed local maintenance, not an active numbered phase. Connor approved staging, committing, pushing and GitHub Pages publication on October 19, 2026. Release `codex/evidence-feature-mctrumps` through the existing checks and PR flow. The three held attachments remain untouched.
+
+McTrumps has its own primary navigation tab and compact `/mctrumps/` company hub: “Billions served. Books cooked.” Welcome is featured beside the introduction; the six other videos are grouped into Customer Relations (Birthday, Premium Costs), Corporate Leadership (Supervision, Appreciation, Jeff) and International Expansion (Tehran). The introduction makes McTrumps the resort's exclusive food supplier. Existing complaints, four related businesses and heading-only Resort Contracts/Company Records are inside a closed Company office drawer. Watch retains one McTrumps card opening this hub; `/sponsor-reads/` preserves old queries and clip anchors. All seven dedicated video pages preserve native playback, existing YouTube alternatives, notes and the supplied interview script. Deployment status is established by the matching successful Actions run.
 
 ## Deployment — Astro pipeline ONLY (critical)
 
 The release workflow `.github/workflows/deploy.yml` installs the exact lockfile on Node 24, runs `npm run verify`, uploads the validated `dist/`, and audits that same artifact with Lighthouse. Main releases deploy only after **Release validation** succeeds, then run a read-only live smoke check. Pull requests cannot publish. **Files at the repo root never ship** — only `src/pages/` routes and `public/` assets. The deployed `CNAME` is `public/CNAME` (the root copy is vestigial). The untracked `DEPLOY.md` describes a plain push-the-HTML workflow that does NOT apply here; `extras/` (gitignored) holds v1/v2 reference copies of the standalone landing page — never deploy them.
 
-**The Experience exception (was the homepage):** `src/pages/experience.html` — a raw HTML page (Astro serves `.html` pages verbatim: no scoped styles, no script bundling), NOT a BaseLayout page. It is the ported "v3 full-scam" standalone landing page (timeshare-trope satire: countdown bar, qualification quiz, financing calculator, Brigadier Dakota chat, exit-intent modal, sticky 1-800-BIG-BRINK bar), moved from the root during the media-first makeover and preserved as an artifact — **never delete or "modernize" it**. Its footer parody disclaimer + all-caps solicitation block are **load-bearing — keep both** (only-page exception to the "disclaimer renders from BaseLayout" rule, since it doesn't use BaseLayout). Its Don imagery ships as `public/don-biggly.webp` + `public/don-biggly-poster.webp` (extracted from the original's embedded base64). Future standalone-HTML drops must be ported the same way: externalize embedded images, swap dead-end anchors for real routes, keep head canonical/OG tags pointed at their own route. The homepage proper is now `src/pages/index.astro` — a BaseLayout media-first trailer for the archive.
+**The Experience exception (was the homepage):** `src/pages/experience.html` is a raw HTML page, not a BaseLayout page. The approved resort presentation connects qualification, membership, amenities and financing to an exportable ownership record. Episode teasers were removed at the owner's request. Its dialogue is recorded in `docs/experience-script.md`. Preserve the approved design, footer disclaimer and solicitation block. Its Don imagery ships as `public/don-biggly.webp` and `public/don-biggly-poster.webp`. Future standalone HTML drops must externalize embedded images, use real routes and retain page-specific canonical/OG tags. The homepage is `src/pages/index.astro`, a BaseLayout media introduction.
 
 ## Architecture
 
@@ -25,15 +29,16 @@ src/layouts/BaseLayout   global shell; renders <Nav/> + <Footer/> (disclaimer ne
 src/components/          Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard (polymorphic),
                          EpisodeCard, ProductCard, QuoteCard, SponsorRead + media-first set:
                          MediaThumb (img-or-placeholder), WatchCard, TrackRow, AudioTrack
-src/pages/               / (index.astro — media-first trailer: hero → album → featured film →
-                         performance → listen → visual evidence → experience door → studio strip) ·
-                         /album + /album/[slug] (track pages) · /watch + /watch/[slug] (videos +
-                         legacy episodes, client-side filters, VideoObject JSON-LD) · /listen ·
+src/pages/               / (index.astro: featured film, Watch/Album/Gallery gateways, gallery preview,
+                         Products/Explore links and Studio strip) · /explore (world directory) ·
+                         /album + /album/[slug] (track pages) · /deep-cuts (separate live collection) ·
+                         /watch + /watch/[slug] (collection chooser, category pages, VideoObject JSON-LD) · /listen ·
+                         /gallery (120 artworks, paginated by type) ·
                          /archive (search, populated filters and URL-driven artwork viewer) · /art/[id] ·
                          /experience (experience.html — the preserved v3 landing page) ·
                          /play (iframe-hosted browser game, see public/apps/) ·
                          /studio (real contact, mailto-composed) · /press ·
-                         /evidence-lounge · /products + /products/[slug] · /sponsor-reads ·
+                         /evidence-lounge · /products + /products/[slug] · /mctrumps ·
                          /quotes · /about · /legal ·
                          /tools (hub) + /tools/broadcast-room + /tools/evidence-lounge-studio + /tools/safety
 src/pages/open-graph/    [...route].ts — generates per-page OG card images via astro-og-canvas
@@ -59,13 +64,13 @@ boozeonhormuz_don_biggly_knowledge_files (2)/  tracked Don Biggly knowledge file
 
 **Content sourcing is split:** the media library (albums/tracks/videos/images) plus
 evidence/episodes/quotes use the Zod-typed collections; products and sponsor-reads use
-**inline typed arrays in the page frontmatter** (image-driven grids; `image` optional — a
+**an inline typed array for Products and `src/data/mctrumps.ts` for Sponsor Reads** (image-driven grids; `image` optional, a
 missing/failed image renders a fixed-ratio placeholder so layout never breaks; `MediaThumb`
-gives the media pages the same contract). To add a product/sponsor: drop an optimized WebP
-into `public/products/` or `public/sponsors/` and add an array entry. To add a
-track/video/image: follow `docs/CONTENT-MODEL.md` — track `status`
-(`unreleased`/`preview`/`released`/`hidden`) gates rollout, so the album ships unfinished by
-design. Empty collections ⇒ `getCollection` filters `!draft`; dynamic `[slug]` routes emit
+gives the media pages the same contract). Add product entries in `src/pages/products/index.astro`.
+Add McTrumps episodes in `src/data/mctrumps.ts`, their video records and `public/mctrumps/` assets together.
+To add a track/video/image, follow `docs/CONTENT-MODEL.md`. Track `status`
+(`unreleased`/`preview`/`released`/`hidden`) gates rollout; all 27 current album tracks are released.
+Empty collections ⇒ `getCollection` filters `!draft`; dynamic `[slug]` routes emit
 nothing; routes render deadpan empty states. **Interface rule (makeover):** the content can
 be deranged, the interface cannot — nav, playback, filters, and the /studio contact form
 behave totally normally; the only fake sales mechanics live inside `/experience`.
@@ -119,7 +124,7 @@ npm run test:lighthouse # audit the frozen verified production output
 
 ## Conventions
 
-- **Content rollout is owner-paced.** Add collection content through entries with `draft: false`; products/sponsors use the inline arrays in their pages. Source masters remain outside Git. Ship optimized WebP and playback copies under `public/`; regenerate `src/lib/generated-media.json` when image assets change.
+- **Content rollout is owner-paced.** Add collection content through entries with `draft: false`; Products uses page data and McTrumps uses `src/data/mctrumps.ts`. Source masters remain outside Git. Ship optimized WebP and playback copies under `public/`; regenerate `src/lib/generated-media.json` when image assets change. Local additions are not remotely backed up until a later verified push.
 - **Parody disclaimer** renders globally from `BaseLayout`, never per-page.
 - New evidence artifact type = a new branch in the `evidence` discriminated union, not a new collection.
 - Exact-pin every dependency; commit the lockfile; CI uses `npm ci`.

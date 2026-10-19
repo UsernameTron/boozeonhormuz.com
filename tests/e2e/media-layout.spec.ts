@@ -5,7 +5,7 @@ test('phone navigation is compact, keyboard accessible and reflows with enlarged
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/archive/');
     expect(await page.locator('body > header').evaluate((header) => header.getBoundingClientRect().height)).toBeLessThanOrEqual(88);
-    const menu = page.getByRole('button', { name: 'Menu', exact: true });
+    const menu = page.getByRole('navigation', { name: 'Primary', exact: true }).getByRole('button', { name: 'Menu', exact: true });
     await menu.click(); await expect(menu).toHaveAttribute('aria-expanded', 'true');
     await page.keyboard.press('Escape'); await expect(menu).toHaveAttribute('aria-expanded', 'false'); await expect(menu).toBeFocused();
     await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
@@ -29,9 +29,11 @@ test('portrait and product art load without broken requests, and failed image re
     await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   }
   await expect(page.locator('main .media-fallback:visible')).toHaveCount(0);
-  await page.goto('/sponsor-reads/');
-  await expect(page.locator('.mctr video')).toHaveCount(5);
-  await expect(page.locator('.mc-host img')).toBeVisible();
+  await page.goto('/mctrumps/');
+  await expect(page.locator('.mctr video')).toHaveCount(1);
+  await expect(page.locator('#welcome video')).toHaveAttribute('src', '/mctrumps/welcome.mp4');
+  await expect(page.locator('#welcome video')).toBeVisible();
+  await expect(page.locator('#welcome video')).toHaveAttribute('poster', '/mctrumps/welcome.webp');
   expect(missing).toEqual([]);
   await page.route('**/_media/**', (route) => route.abort());
   await page.goto('/archive/?type=image');

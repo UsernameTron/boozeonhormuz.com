@@ -15,7 +15,7 @@ const pages = {
   'evidence-lounge': { title: 'The Evidence Lounge', description: 'Seven exhibits from the Gallery. Counsel would prefer you did not enlarge them.' },
   watch: { title: 'Watch', description: 'Music videos, performances, sketches, and shorts.' },
   products: { title: 'Products', description: 'Premium amenities for the discerning crisis.' },
-  'sponsor-reads': { title: 'McTrumps · Sponsor Reads', description: 'Come for the burger. Leave with an indictment. Five fictional Don Biggly commercials.' },
+  mctrumps: { title: 'McTrumps', description: 'Billions served. Books cooked. A Booze on Hormuz company.' },
   quotes: { title: 'Quotes', description: 'Things that were, regrettably, said out loud.' },
   about: { title: 'Who the Hell Is Don Biggly?', description: 'An introduction, reluctantly provided.' },
   legal: { title: 'Very Legal Disclaimer', description: 'This is parody. Counsel insisted on that sentence.' },

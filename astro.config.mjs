@@ -7,7 +7,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://boozeonhormuz.com', // apex domain — NO `base`
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [sitemap({
+    filter: (page) => new URL(page).pathname.replace(/\/+$/, '') !== '/sponsor-reads',
+  })],
   vite: {
     // @tailwindcss/vite@4.3 is typed against Vite 8; Astro 6.4 bundles Vite 7.
     // The plugin is runtime-compatible — this cast resolves the type-only skew.
