@@ -55,7 +55,11 @@ test('YouTube videos keep lazy posters and original-file playback', async ({ pag
       await expect(page.getByRole('link', { name: 'Play the original file' })).toHaveAttribute('href', original);
       const response = await request.get(original, { headers: { Range: 'bytes=0-1023' } });
       expect(response.ok()).toBeTruthy();
-      expect(response.headers()['content-type']).toContain('video/mp4');
+      expect(response.status()).toBe(206);
+      expect(response.headers()['content-type']).toMatch(/^(video\/mp4|application\/octet-stream)(;|$)/);
+      const signature = await response.body();
+      expect(signature.length).toBe(1024);
+      expect(signature.subarray(4, 8).toString()).toBe('ftyp');
     }
     await page.locator('lite-youtube').click();
     await expect(page.locator('lite-youtube iframe')).toHaveAttribute('src', new RegExp(`youtube-nocookie\\.com/embed/${id}`));
