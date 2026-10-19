@@ -41,7 +41,7 @@ test('portrait and product art load without broken requests, and failed image re
   expect(await page.locator('.media-fallback:visible').first().evaluate((element) => getComputedStyle(element).color)).toBe('rgb(205, 191, 158)');
 });
 
-test('YouTube videos keep lazy posters and original-file playback', async ({ page, context, request }) => {
+test('YouTube videos keep lazy posters and access to the original video file', async ({ page, context, request }) => {
   await context.route(/https:\/\/[^/]*youtube(?:-nocookie)?\.com\//, (route) => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Provider test fixture</title>' }));
   for (const [slug, id, original] of [
     ['the-premiere', 'Za2XII66eHQ', null],
@@ -52,7 +52,7 @@ test('YouTube videos keep lazy posters and original-file playback', async ({ pag
     await expect(page.locator('lite-youtube iframe')).toHaveCount(0);
     await expect(page.locator('.video-poster')).toBeVisible();
     if (original) {
-      await expect(page.getByRole('link', { name: 'Play the original file' })).toHaveAttribute('href', original);
+      await expect(page.getByRole('link', { name: original.startsWith('https://github.com/') ? 'Download the original video' : 'Play the original file' })).toHaveAttribute('href', original);
       const response = await request.get(original, { headers: { Range: 'bytes=0-1023' } });
       expect(response.ok()).toBeTruthy();
       expect(response.status()).toBe(206);
