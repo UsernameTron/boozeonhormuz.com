@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-test('five main destinations and Search replace competing library links', async ({ page }) => {
+test('five main destinations include McTrumps and keep Search separate', async ({ page }) => {
   await page.goto('/');
   const nav = page.getByRole('navigation', { name: 'Primary' });
-  await expect(nav.locator('#primary-links > li:not(.nav-utility) a')).toHaveText(['Watch', 'Album', 'Gallery', 'Explore', 'Studio']);
+  await expect(nav.locator('#primary-links > li:not(.nav-utility) a')).toHaveText(['Watch', 'McTrumps', 'Gallery', 'Explore', 'Studio']);
+  await expect(nav.getByRole('link', { name: 'McTrumps', exact: true })).toHaveAttribute('href', '/mctrumps/');
   await expect(nav.getByRole('link', { name: 'Search', exact: true })).toHaveAttribute('href', '/archive/');
-  for (const label of ['Listen', 'Archive', 'Press', 'Experience']) {
+  for (const label of ['Album', 'Listen', 'Archive', 'Press', 'Experience']) {
     await expect(nav.getByRole('link', { name: label, exact: true })).toHaveCount(0);
   }
   await nav.getByRole('link', { name: 'Explore', exact: true }).click();
@@ -16,9 +17,11 @@ test('five main destinations and Search replace competing library links', async 
 });
 
 test('subpages retain section orientation and legacy content remains reachable', async ({ page }) => {
-  for (const [route, section] of [['/deep-cuts/', 'Watch'], ['/sponsor-reads/', 'Watch'], ['/press/', 'Watch'], ['/evidence-lounge/', 'Gallery'], ['/about/', 'Explore'], ['/tools/', 'Studio'], ['/listen/', 'Album']]) {
+  for (const [route, section] of [['/watch/', 'Watch'], ['/watch/the-premiere/', 'Watch'], ['/album/', 'Watch'], ['/album/booze-on-hormuz-feat-the-5th-naval-fleet/', 'Watch'], ['/deep-cuts/', 'Watch'], ['/mctrumps/', 'McTrumps'], ['/sponsor-reads/', 'McTrumps'], ['/watch/mctrumps-welcome/', 'McTrumps'], ['/watch/mctrumps-premium-costs/', 'McTrumps'], ['/watch/mctrumps-chief-accountability-officer/', 'McTrumps'], ['/press/', 'Watch'], ['/evidence-lounge/', 'Gallery'], ['/about/', 'Explore'], ['/tools/', 'Studio'], ['/listen/', 'Watch']]) {
     expect((await page.goto(route))?.status()).toBe(200);
-    await expect(page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: section, exact: true })).toHaveAttribute('aria-current', 'page');
+    const nav = page.getByRole('navigation', { name: 'Primary' });
+    await expect(nav.getByRole('link', { name: section, exact: true })).toHaveAttribute('aria-current', 'page');
+    await expect(nav.locator('[aria-current="page"]')).toHaveCount(1);
   }
   await page.goto('/studio/');
   await expect(page.getByRole('link', { name: 'Open the Creative Arsenal' })).toHaveAttribute('href', '/tools/');

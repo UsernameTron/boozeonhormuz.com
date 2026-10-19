@@ -8,6 +8,7 @@ import MediaThumb from '../../components/MediaThumb.astro';
 import { artHref } from '../../lib/archive';
 import { mediaImageSource, responsiveImage } from '../../lib/responsive-media';
 import LocalVideo from '../../components/LocalVideo.astro';
+import { episodes as mctrumpsEpisodes } from '../../data/mctrumps';
 import {
   liveVideos,
   liveImages,
@@ -35,7 +36,7 @@ export async function getStaticPaths() {
     ...episodes.map((episode) => ({ slug: episode.data.slug, title: episode.data.title, group: 'sketch', order: Infinity })),
   ];
   const navigationFor = (group: string) => navigation.filter((item) => item.group === group)
-    .sort((a, b) => group === 'deep-cuts' || group === 'album' ? a.order - b.order : 0)
+    .sort((a, b) => ['deep-cuts', 'album', 'mctrumps'].includes(group) ? a.order - b.order : 0)
     .map(({ slug, title }) => ({ slug, title }));
   const images = liveImages(await getCollection('images'));
   const tracks = playableTracks(await getCollection('tracks'));
@@ -85,12 +86,17 @@ export async function getStaticPaths() {
 }
 
 const { kind, entry, relatedSponsors, video, track, stills, related, navigation, collectionKey } = Astro.props;
+const mctrumpsEpisode = kind === 'video' && collectionKey === 'mctrumps'
+  ? mctrumpsEpisodes.find((episode) => `mctrumps-${episode.id}` === video!.data.slug)
+  : undefined;
 
 // Shared display fields resolved per branch.
 const title = kind === 'video' ? video!.data.title : entry!.data.title;
-const description = kind === 'video' ? video!.data.description : entry!.data.summary;
+const description = mctrumpsEpisode?.synopsis ?? (kind === 'video' ? video!.data.description : entry!.data.summary);
 const publishDate = kind === 'video' ? video!.data.publishDate : entry!.data.publishDate;
 const youtubeId = kind === 'video' ? video!.data.youtubeId : entry!.data.youtubeId;
+const showYouTube = Boolean(youtubeId && !(mctrumpsEpisode && video!.data.src));
+const showLocalVideo = kind === 'video' && Boolean(video!.data.src) && !showYouTube;
 const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const frameRatio = kind === 'video' && video!.data.videoWidth && video!.data.videoHeight
   ? video!.data.videoWidth / video!.data.videoHeight
@@ -114,7 +120,7 @@ const videoLd =
         ...(kind === 'video' && toISODuration(video!.data.duration)
           ? { duration: toISODuration(video!.data.duration) }
           : {}),
-        ...(youtubeId
+        ...(showYouTube
           ? { embedUrl: `https://www.youtube.com/embed/${youtubeId}` }
           : { contentUrl: new URL(video!.data.src!, Astro.site).href }),
       })
@@ -126,7 +132,7 @@ const videoLd =
 
   <article class="px-6 pt-8 md:pt-10 pb-20 md:pb-28 max-w-4xl mx-auto">
     <p class="font-body text-eyebrow uppercase text-gold-ink">
-      {kind === 'video' ? videoTypeLabel[video!.data.type] : 'Episode'}
+      {mctrumpsEpisode ? `McTrumps / ${mctrumpsEpisode.department}` : kind === 'video' ? videoTypeLabel[video!.data.type] : 'Episode'}
       <span class="text-ink-soft/70 normal-case tracking-normal"> · {date}</span>
       {kind === 'video' && video!.data.duration && (
         <span class="text-ink-soft/70 normal-case tracking-normal"> · {video!.data.duration}</span>
@@ -134,27 +140,32 @@ const videoLd =
     </p>
     <h1 class="watch-detail-title font-display text-ink mt-3">{title}</h1>
 
-    {youtubeId && <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} videoWidth={kind === 'video' ? video!.data.videoWidth : undefined} videoHeight={kind === 'video' ? video!.data.videoHeight : undefined} /></div>}
-    {youtubeId && kind === 'video' && video!.data.src && (
+    {showYouTube && youtubeId && <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><YouTubeEmbed id={youtubeId} title={title} poster={thumbnail} orientation={kind === 'video' ? video!.data.orientation : '16:9'} videoWidth={kind === 'video' ? video!.data.videoWidth : undefined} videoHeight={kind === 'video' ? video!.data.videoHeight : undefined} /></div>}
+    {showYouTube && kind === 'video' && video!.data.src && (
       <p class="font-body text-sm text-ink-soft mt-3">
-        <a href={video!.data.src} class="text-gold-ink hover:underline">Play the original file</a>
+        <a href={video!.data.src} class="text-gold-ink hover:underline">{video!.data.src?.startsWith('https://github.com/') ? 'Download the original video' : 'Play the original file'}</a>
       </p>
     )}
     {
-      kind === 'video' && !youtubeId && video!.data.src && (
-        <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><LocalVideo src={video!.data.src} title={title} poster={video!.data.poster ?? video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>
+      showLocalVideo && (
+        <div class="mt-6 watch-detail-player" style={`--watch-frame-width: ${frameWidthLimit}`}><LocalVideo src={video!.data.src!} title={title} poster={video!.data.poster ?? video!.data.thumbnail} orientation={video!.data.orientation} videoWidth={video!.data.videoWidth} videoHeight={video!.data.videoHeight} captions={video!.data.captions} /></div>
       )
     }
+    {showLocalVideo && youtubeId && (
+      <p class="font-body text-sm text-ink-soft mt-3">
+        <a href={`https://www.youtube.com/watch?v=${youtubeId}`} class="text-gold-ink hover:underline">Watch on YouTube</a>
+      </p>
+    )}
 
     <p class="font-body text-lg text-ink-soft mt-8 max-w-prose">{description}</p>
 
-    {kind === 'video' && video!.data.type === 'sponsor-read' && (
+    {kind === 'video' && video!.data.type === 'sponsor-read' && !mctrumpsEpisode && (
       <p class="font-body text-sm text-ink-soft mt-4">Fictional political satire — not a real statement, quote, recording, or event report.</p>
     )}
 
     {kind === 'video' && video!.data.collection && (
       <p class="font-body text-sm text-ink-soft mt-4">
-        Part of <a href={video!.data.collection.href} class="text-gold-ink hover:opacity-80">{video!.data.collection.label}</a>.
+        Part of <a href={mctrumpsEpisode ? `/mctrumps/#${mctrumpsEpisode.id}` : video!.data.collection.href} class="text-gold-ink hover:opacity-80">{mctrumpsEpisode ? 'McTrumps' : video!.data.collection.label}</a>.
       </p>
     )}
 
@@ -170,7 +181,27 @@ const videoLd =
     }
 
     {
-      kind === 'video' && video!.data.transcript && (
+      mctrumpsEpisode && (
+        <details class="mt-8 max-w-prose">
+          <summary class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink cursor-pointer">
+            {mctrumpsEpisode.transcript ? 'Interview script' : 'Scene notes'}
+          </summary>
+          <div class="font-body text-sm text-ink-soft mt-4 space-y-4">
+            {mctrumpsEpisode.transcript?.map((paragraph) => <p>{paragraph}</p>)}
+            <div>
+              <p class="text-eyebrow uppercase text-gold-ink">The producer’s note</p>
+              <p class="mt-2">{mctrumpsEpisode.note}</p>
+            </div>
+            {!mctrumpsEpisode.transcript && (
+              <p>{mctrumpsEpisode.summaryNote ?? 'Creator-described scene. A verbatim transcript will be added from the finished video.'}</p>
+            )}
+          </div>
+        </details>
+      )
+    }
+
+    {
+      kind === 'video' && !mctrumpsEpisode && video!.data.transcript && (
         <details class="mt-8 max-w-prose">
           <summary class="font-body text-sm uppercase tracking-[0.1em] text-gold-ink cursor-pointer">
             Transcript
@@ -216,7 +247,7 @@ const videoLd =
               <WatchCard
                 href={`/watch/${v.data.slug}`}
                 title={v.data.title}
-                typeLabel={videoTypeLabel[v.data.type]}
+                typeLabel={mctrumpsEpisodes.some((episode) => `mctrumps-${episode.id}` === v.data.slug) ? 'McTrumps' : videoTypeLabel[v.data.type]}
                 thumbnail={videoThumbnail(v.data)}
                 orientation={v.data.orientation}
                 nativeAspect={Boolean(v.data.videoWidth && v.data.videoHeight)}
@@ -228,8 +259,8 @@ const videoLd =
       )
     }
 
-    <nav id="watch-detail-navigation" data-navigation={JSON.stringify(navigation)} data-collection={collectionKey} data-slug={kind === 'video' ? video!.data.slug : entry!.data.slug} class="flex flex-wrap items-center justify-between gap-4 border-t border-line mt-12 pt-6 font-body text-sm text-gold-ink" aria-label="Video navigation">
-      <a id="watch-back-link" href={collectionKey === 'deep-cuts' ? '/deep-cuts/' : collectionKey === 'album' ? '/album/' : collectionKey === 'mctrumps' ? '/sponsor-reads/' : `/watch/?collection=${collectionKey}`} class="inline-flex min-h-11 items-center uppercase tracking-[0.1em] hover:opacity-80">← Back to {collectionKey === 'deep-cuts' ? 'Deep Cuts Live' : collectionKey === 'album' ? 'Album' : collectionKey === 'mctrumps' ? 'McTrumps' : collectionKey === 'music-video' ? 'Music Videos' : collectionKey === 'short' ? 'Shorts' : 'Sketches'}</a>
+    <nav id="watch-detail-navigation" data-navigation={JSON.stringify(navigation)} data-collection={collectionKey} data-slug={kind === 'video' ? video!.data.slug : entry!.data.slug} data-mctrumps-id={mctrumpsEpisode?.id} class="flex flex-wrap items-center justify-between gap-4 border-t border-line mt-12 pt-6 font-body text-sm text-gold-ink" aria-label="Video navigation">
+      <a id="watch-back-link" href={collectionKey === 'deep-cuts' ? '/deep-cuts/' : collectionKey === 'album' ? '/album/' : collectionKey === 'mctrumps' ? `/mctrumps/#${mctrumpsEpisode?.id ?? ''}` : `/watch/?collection=${collectionKey}`} class="inline-flex min-h-11 items-center uppercase tracking-[0.1em] hover:opacity-80">← Back to {collectionKey === 'deep-cuts' ? 'Deep Cuts Live' : collectionKey === 'album' ? 'Album' : collectionKey === 'mctrumps' ? 'McTrumps' : collectionKey === 'music-video' ? 'Music Videos' : collectionKey === 'short' ? 'Shorts' : 'Sketches'}</a>
       <div class="flex flex-wrap gap-4">
         <a id="watch-previous-link" hidden class="inline-flex min-h-11 items-center hover:opacity-80">← Previous</a>
         <a id="watch-next-link" hidden class="inline-flex min-h-11 items-center hover:opacity-80">Next →</a>
@@ -268,7 +299,7 @@ const videoLd =
   }
   const collectionHref = collection === 'deep-cuts' ? `/deep-cuts/?page=${page}#video-${slug}`
     : collection === 'album' ? '/album/'
-    : collection === 'mctrumps' ? '/sponsor-reads/'
+    : collection === 'mctrumps' ? `/mctrumps/#${nav.dataset.mctrumpsId ?? ''}`
     : `/watch/?collection=${encodeURIComponent(collection)}&page=${page}#video-${slug}`;
   const backLink = document.getElementById('watch-back-link')!;
   if (fromSearch) {

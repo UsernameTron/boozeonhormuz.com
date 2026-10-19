@@ -6,7 +6,13 @@ A static Astro 6 site at [boozeonhormuz.com](https://boozeonhormuz.com) — a sa
 
 ## Status
 
-The approved content branch contains a 27-song video album by Don Biggly & The Indictments, 32 additional Deep Cuts Live performances, 47 Gallery images, five produced music videos, sketches and shorts, five McTrumps commercials, twelve quotes, five illustrated products, a portrait biography, and a news broadcast. Watch requires a media type selection. The seven original Evidence Lounge exhibits remain available. These documents describe this revision; verify the deployed commit and successful Actions run to establish live status. Publishing changes requires explicit owner approval.
+This local revision contains a 27-song video album by Don Biggly & The Indictments, 32 additional Deep Cuts Live performances, 113 Gallery images, seven music videos, nine sketches, fifteen shorts, seven McTrumps company videos, twelve quotes, five illustrated products, a portrait biography, and a news broadcast. The Evidence Is With Me is the homepage feature; Hush Money Is Philanthropy remains in Music Videos. Watch requires a media type selection. The seven original Evidence Lounge exhibits remain available, bringing Gallery to 120 artworks. These documents describe this revision; verify the deployed commit and successful Actions run to establish live status. Connor approved publication of this batch on October 19, 2026; the existing release checks and GitHub Pages workflow apply.
+
+**Release approved October 19, 2026:** the reviewed batch is on `codex/evidence-feature-mctrumps`. Confirm its merged revision and successful deployment in GitHub Actions. Start a fresh session with [COWORK_HANDOFF.md](COWORK_HANDOFF.md), [.planning/HANDOFF.json](.planning/HANDOFF.json) and [.planning/STATE.md](.planning/STATE.md). The three additional files left for later are on hold. The current preview is http://127.0.0.1:4334/.
+
+McTrumps has its own tab and compact `/mctrumps/` hub: “Billions served. Books cooked.” One Welcome player introduces the company; six videos are grouped into Customer Relations, Corporate Leadership and International Expansion. The closed Company office preserves complaints, related businesses and empty future records. Watch keeps one card opening this hub; `/sponsor-reads/` forwards legacy links. All seven video pages retain native playback and existing YouTube alternatives. The Album remains accessible through Watch. “The Red Tie” has been removed from Gallery; original media remain intact.
+
+Large video delivery: six full-quality MP4 copies are preserved under `media/` in Git and served from the [verified GitHub media release](https://github.com/UsernameTron/boozeonhormuz.com/releases/tag/site-media-2026-10-19). They stay outside `public/` so the complete site fits the GitHub Pages 1 GB limit. Catalogue URLs use those assets through the existing players and YouTube alternatives. Original source masters remain intact. `check:output` rejects packages larger than 1,000,000,000 bytes. See `media/README.md`.
 
 ## Stack
 
@@ -36,8 +42,9 @@ Requires Node >=22.12.0; use Node 24 for CI parity (see `.nvmrc`). Dependencies 
 src/content.config.ts   9 content collections (albums, tracks, videos, images + legacy content)
 src/layouts/            BaseLayout (global shell + parody disclaimer)
 src/components/         Nav, Footer, PageHeader, YouTubeEmbed, EvidenceCard, + typed cards
-src/pages/              / · /evidence-lounge · /watch[/slug] · /products[/slug] ·
-                        /sponsor-reads · /quotes · /about · /legal ·
+src/pages/              / · /album[/slug] · /deep-cuts · /watch[/slug] · /gallery · /art/[id] ·
+                        /archive · /listen · /explore · /experience · /play · /studio · /press ·
+                        /evidence-lounge · /products[/slug] · /mctrumps · /quotes · /about · /legal ·
                         /tools (hub) + /tools/broadcast-room + /tools/evidence-lounge-studio + /tools/safety
 src/styles/global.css   Tailwind entry + brand design tokens
 public/apps/            standalone visitor prompt-generator tools (iframe-embedded by /tools)
@@ -60,6 +67,8 @@ This revision adds reviewed portable-project imports, merge/undo for custom temp
 ## Verification and deploy
 
 Run `npm run verify` locally against a clean install. The fixture test creates a separate temporary copy with its own dependencies and Astro cache, so test content never enters the production catalog. `npm run check:output` checks critical routes, canonical tags, sitemap, custom domain and local asset references. Browser screenshots and failure traces are retained under `test-results/`; open the HTML report with `npx playwright show-report`.
+
+The October 18 documentation sync freshly measured 97 video records, 121 artworks, 27 tracks, nine typed collections, 22 primary pages and 355 responsive-media source records. Its fresh `test:unit` run passed all 46 tests. No `test`, `test:coverage` or lint script is configured; coverage is unavailable. Full build and browser evidence from the earlier local review is recorded in the [DevOps handoff](docs/DEVOPS-HANDOFF.md); it was not rerun for this documentation-only pause.
 
 `npm run test:lighthouse` runs three mobile audits on each of 12 explicit routes. Point `CHROME_PATH` at a Chrome installation if it is not auto-detected. Reports stay in `.lighthouseci/`. Explicit median gates cover performance (at least 90), LCP, CLS, TBT, accessibility and site-page SEO. See the [measured mobile baseline and budgets](docs/PERFORMANCE-BASELINE.md) for route-specific limits and environment details.
 

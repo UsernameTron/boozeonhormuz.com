@@ -3,7 +3,7 @@ youtubeId: "i4555Pywe_g"
 title: "Ball in Don's Court"
 slug: "ball-in-dons-court"
 type: "music-video"
-src: "/video/ball-in-dons-court.mp4"
+src: "https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/ball-in-dons-court.mp4"
 thumbnail: "/thumbs/ball-in-dons-court-basketball.webp"
 poster: "/posters/ball-in-dons-court.webp"
 videoWidth: 720

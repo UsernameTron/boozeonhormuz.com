@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MediaThumb from '../components/MediaThumb.astro';
+import '../styles/mctrumps.css';
+import { episodes, departments, complaints, relatedBusinesses, programmeDuration } from '../data/mctrumps';
+
+const welcome = episodes.find((episode) => episode.id === 'welcome')!;
+const companyDepartments = departments.map((department) => ({
+  ...department,
+  episodes: department.episodeIds.map((id) => episodes.find((episode) => episode.id === id)!),
+}));
+---
+
+<BaseLayout title="McTrumps | Booze on Hormuz™" description="Billions served. Books cooked. McTrumps supplies Don’s resort, funds his bonuses and appoints someone else to answer the questions.">
+  <div class="mctr mc-hub mc-department-hub">
+    <section class="mc-hero">
+      <div class="mc-wrap mc-hero-grid">
+        <div>
+          <p class="mc-eyebrow">A Booze on Hormuz company</p>
+          <p class="mc-brand">McTrumps<span>™</span></p>
+          <h1>Billions served.<br /><em>Books cooked.</em></h1>
+          <p class="mc-intro">The respectable storefront. Behind it: inflated resort catering contracts, suspicious franchise fees, employee-funded bonuses and executives appointed to absorb blame.</p>
+          <p class="mc-ownership">The resort’s exclusive food supplier. Don owns the restaurant, the resort and the company investigating the complaints.</p>
+          <div class="mc-actions">
+            <a class="mc-button" href="#company-videos">Browse departments <span aria-hidden="true">↓</span></a>
+            <a class="mc-link" href="/experience/">Visit Don’s resort ↗</a>
+          </div>
+          <p class="mc-small">{episodes.length} company videos · {programmeDuration}</p>
+        </div>
+        <figure id="welcome" class="mc-welcome mc-episode-media" aria-labelledby="welcome-title">
+          <figcaption>
+            <p class="mc-eyebrow">Start here · {welcome.duration}</p>
+            <h2 id="welcome-title">Welcome to McTrumps</h2>
+          </figcaption>
+          <video controls playsinline preload="none" src={welcome.video!} poster={welcome.poster!} aria-label={`McTrumps: ${welcome.title}`} style={`aspect-ratio: ${welcome.ratio}; --mc-video-max-width: ${440 * welcome.width / welcome.height}px`} width={welcome.width} height={welcome.height}>
+            Your browser does not support video playback. <a href={welcome.video!}>Open the video</a>.
+          </video>
+          <p class="mc-video-error" role="status" hidden>Playback is unavailable. <a href={welcome.video!}>Open the video directly</a>.</p>
+          <a class="mc-link mc-welcome-link" href="/watch/mctrumps-welcome/">Open video page →</a>
+        </figure>
+      </div>
+    </section>
+
+    <section id="company-videos" class="mc-wrap mc-library" aria-labelledby="company-videos-title">
+      <div class="mc-library-heading">
+        <h2 id="company-videos-title">Company departments</h2>
+        <p class="mc-small">Every department finds another way Don gets paid.</p>
+      </div>
+      <div class="mc-department-grid">
+        {companyDepartments.map((department) => (
+          <section id={department.id} class="mc-department" aria-labelledby={`${department.id}-title`}>
+            <div class="mc-department-heading">
+              <h3 id={`${department.id}-title`}>{department.title}</h3>
+              <p>{department.description}</p>
+            </div>
+            <div class="mc-department-videos">
+              {department.episodes.map((episode) => (
+                <a id={episode.id} class="mc-video-card" href={`/watch/mctrumps-${episode.id}/`} data-episode-id={episode.id}>
+                  <div class="mc-card-image"><MediaThumb src={episode.poster ?? undefined} alt="" fit="contain" aspect="aspect-[4/3]" play sizes="112px" /></div>
+                  <div class="mc-card-copy">
+                    <h4>{episode.title}</h4>
+                    <span class="mc-card-duration">{episode.duration}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+            {department.id === 'international-expansion' && <a class="mc-link mc-resort-link" href="/experience/">Explore the resort connection →</a>}
+          </section>
+        ))}
+      </div>
+    </section>
+
+    <div class="mc-wrap mc-office-wrap">
+      <details class="mc-office" id="company-office">
+        <summary>Company office <span class="mc-office-aside">Complaints, related businesses &amp; records</span><span aria-hidden="true">＋</span></summary>
+        <div class="mc-office-body">
+          <section class="mc-customer" id="complaint-desk" aria-labelledby="complaint-desk-title">
+            <div class="mc-customer-grid">
+              <div><p class="mc-eyebrow">Complaint desk</p><h2 id="complaint-desk-title">Ask for the manager.<br /><em>You already met him.</em></h2></div>
+              <div class="mc-complaints">
+                {complaints.map((complaint) => (
+                  <details>
+                    <summary>{complaint.question}<span aria-hidden="true">＋</span></summary>
+                    <div><p class="mc-eyebrow">Don’s response</p><p class="mc-don">{complaint.don}</p><div class="mc-producer"><span class="mc-eyebrow">The desk note</span><p>{complaint.note}</p></div></div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+          <section class="mc-other" id="related-businesses" aria-labelledby="related-businesses-title">
+            <div><p class="mc-eyebrow">Related businesses</p><h2 id="related-businesses-title">Other excellent<br /><em>conflicts of interest.</em></h2></div>
+            <div class="mc-other-list">{relatedBusinesses.map((business) => <p><strong>{business.name}</strong><span>{business.description}</span></p>)}</div>
+          </section>
+          <div class="mc-business-slots">
+            <section id="resort-contracts" class="mc-empty-section" data-content-state="empty" aria-labelledby="resort-contracts-title"><h2 id="resort-contracts-title">Resort Contracts</h2></section>
+            <section id="company-records" class="mc-empty-section" data-content-state="empty" aria-labelledby="company-records-title"><h2 id="company-records-title">Company Records</h2></section>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="mc-wrap mc-exits"><a href="/experience/">Visit Don’s resort ↗</a><a href="/play/">Try an exit strategy ↗</a><a href="#main-content">Back to the counter ↑</a></div>
+    <p class="mc-wrap mc-disclosure">McTrumps and Don Biggly are fictional parody. No affiliation with or endorsement by McDonald’s or its characters. No food, consulting, franchises or financial services are offered here.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  const player = document.querySelector<HTMLVideoElement>('#welcome video');
+  player?.addEventListener('error', () => {
+    const notice = document.querySelector<HTMLElement>('#welcome .mc-video-error');
+    if (notice) notice.hidden = false;
+  });
+
+  const revealAnchor = () => {
+    const target = document.getElementById(location.hash.slice(1));
+    const office = document.querySelector<HTMLDetailsElement>('#company-office');
+    if (target && office?.contains(target)) office.open = true;
+  };
+  revealAnchor();
+  window.addEventListener('hashchange', revealAnchor);
+</script>

@@ -5,8 +5,9 @@
 | **Domain** | boozeonhormuz.com |
 | **Repo** | github.com/UsernameTron/boozeonhormuz.com |
 | **Owner** | C. Pete Connor |
-| **Created** | 2026-05-30 · **Reconciled** | 2026-05-31 |
-| **Status** | M01 shipped; content approved and backed up; confidence verification blocks finalization |
+| **Created** | 2026-05-30 |
+| **Reconciled** | 2026-10-19 |
+| **Status** | M01 shipped; reviewed maintenance release approved October 19, 2026 |
 | **Classification** | MULTI-MILESTONE |
 
 ---
@@ -23,10 +24,11 @@ A satirical luxury-brand website that is, underneath the premium veneer, the con
 
 - The approved 27-song album plays as videos with on-screen lyrics; separate audio remains optional.
 - Deep Cuts Live provides 32 additional performances in its own collection and Watch category.
-- Gallery provides 47 uploaded stills with thumbnails, enlargement, navigation, downloads, and ordinary image detail pages.
-- Watch displays videos only after visitors choose a media type.
+- Gallery provides 113 uploaded stills and seven Evidence Lounge exhibits, for 120 artworks with thumbnails, enlargement, navigation, downloads, and ordinary image detail pages.
+- Watch provides six collection choices and displays category videos only after visitors choose a media type. The local library contains 97 videos: 27 album songs, 32 Deep Cuts, seven music videos, nine sketches, fifteen shorts and seven McTrumps company videos.
 - The biography, portrait, five products, McTrumps commercials, twelve quotes, news broadcast, and Legal contact are populated.
-- Original uploads stay outside Git; all website delivery files are committed and recoverable from the repository.
+- Original uploads stay outside Git. Previously published delivery files remain in Git; the approved delivery additions are included in the October 19 release batch. Confirm the successful push before claiming remote backup.
+- The Evidence Is With Me is the local homepage feature. Hush Money Is Philanthropy retains its original page and Music Videos listing.
 - Release validation checks the exact output before publishing through GitHub Pages.
 - A dedicated Studio reel and pipeline generalization remain future work.
 
@@ -48,7 +50,7 @@ A satirical luxury-brand website that is, underneath the premium veneer, the con
 
 - **Minimum effective steps.** No over-engineering. GSD ceremony stays proportional to a 1–3 session build.
 - **All hosting free-tier indefinitely.** No paid services.
-- **Content publication:** the completed content batch is owner-approved; confidence verification determines whether finalization may proceed.
+- **Content publication:** Connor approved staging, committing, pushing and GitHub Pages publication of the reviewed batch on October 19, 2026. Use the existing PR and validation gates. Keep the three additional held files untouched until the owner explains their use.
 - **Content posture:** satirical content depicting/quoting the real public figure is authored by the owner via the Suno/Sora suite, gated by `parody-safety-check`; the build itself is content-neutral infrastructure.
 
 ## Locked decisions
@@ -57,12 +59,13 @@ Astro 6.4.2 static · GitHub Pages · validated-artifact deployment · Tailwind 
 
 ## Milestones
 
-- **M01 — Launch Satire Hub:** foundation shipped; historical finalization is in `.planning/milestones/M01-launch-satire-hub/FINALIZATION.md`. The current approved content batch is maintenance work on this site, not a completion of M02.
+- **M01 — Launch Satire Hub:** foundation shipped; historical finalization is in `.planning/milestones/M01-launch-satire-hub/FINALIZATION.md`. The current local content batch is unphased maintenance work, not a completion of M02. There are no active phase directories or plan summaries in `.planning/phases/`.
 - **M02 — Generalize the Website Pipeline:** extract the 6 build skills into a repeatable multi-site pipeline; validate on a second domain. *(stub — see ROADMAP.md)*
 
 ## Reference documents
 
-- `RESOLUTION.md` — what changed and why (read first)
-- `RUNBOOK.md` (repo root) — richest execution narrative; still valid as reference
+- `COWORK_HANDOFF.md`, `.planning/HANDOFF.json` and `.planning/STATE.md`: current pause and resume instructions
+- `RESOLUTION.md`: historical foundation decisions
+- `RUNBOOK.md` (repo root): historical scaffolding narrative; its framework/hosting instructions do not govern the current site
 - `booze on hormuz/` — the 6-skill build suite + `brand-pack.md` voice module
 - Multi-skill website pipeline architecture — owner memory #22

@@ -12,7 +12,7 @@ orientation: "9:16"
 duration: "2:34"
 displayOrder: 2
 description: "Don turns hush money into a public act of giving, complete with burgers, cameras, and a funeral that cannot escape his selfie."
-featured: true
+featured: false
 publishDate: 2026-10-11
 draft: false
 ---

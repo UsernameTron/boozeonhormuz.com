@@ -3,7 +3,7 @@ youtubeId: "AkDjwIc7YG0"
 title: "I Think I Shit My Pants"
 slug: "i-think-i-shit-my-pants"
 type: "music-video"
-src: "/video/i-think-i-shit-my-pants.mp4"
+src: "https://github.com/UsernameTron/boozeonhormuz.com/releases/download/site-media-2026-10-19/i-think-i-shit-my-pants.mp4"
 thumbnail: "/thumbs/i-think-i-shit-my-pants.webp"
 poster: "/posters/i-think-i-shit-my-pants.webp"
 videoWidth: 720

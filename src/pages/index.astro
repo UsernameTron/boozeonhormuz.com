@@ -5,13 +5,15 @@ import MediaThumb from '../components/MediaThumb.astro';
 import ArtworkViewer from '../components/ArtworkViewer.astro';
 import { buildArchive, isArtwork, artHref, qualifiedId } from '../lib/archive';
 import { responsiveImage } from '../lib/responsive-media';
-import { playableTracks, liveVideos, liveImages } from '../lib/media';
+import { playableTracks, liveVideos, liveImages, videoThumbnail } from '../lib/media';
 
 const album = (await getCollection('albums')).find((entry) => !entry.data.draft);
 const tracks = playableTracks(await getCollection('tracks'));
 const videos = liveVideos(await getCollection('videos'));
 const images = liveImages(await getCollection('images'));
-const leadFilm = videos.find((video) => video.data.slug === 'hush-money-is-philanthropy');
+const leadFilm = videos.find((video) => video.data.hero);
+const leadImage = leadFilm ? leadFilm.data.poster ?? videoThumbnail(leadFilm.data) : undefined;
+const leadImageDimensions = responsiveImage(leadImage);
 const evidenceArt = (await getCollection('evidence')).filter(
   (entry) => !entry.data.draft && (entry.data.kind === 'titlecard' || entry.data.kind === 'gallery'),
 );
@@ -54,7 +56,7 @@ const galleryPreview = images.length > 0
       <h1 class="font-display text-display metal-gold">Booze on Hormuz</h1>
       <p class="font-body text-base md:text-lg text-ink-soft mt-3">Songs. Films. A resort. Counsel calls it a pattern.</p>
       {leadFilm ? (
-        <div class="mt-8 grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-center">
+        <div class="mt-8 grid md:grid-cols-[1.25fr_1fr] gap-6 md:gap-10 items-center">
           <div class="md:order-1">
             <p class="font-body text-eyebrow uppercase text-gold-ink">Featured music video</p>
             <h2 class="font-display text-title text-ink mt-2">{leadFilm.data.title}</h2>
@@ -67,8 +69,8 @@ const galleryPreview = images.length > 0
               &#9655;&nbsp; Watch the music video
             </a>
           </div>
-          <a href={`/watch/${leadFilm.data.slug}`} aria-label={`Watch ${leadFilm.data.title}`} class="block w-full max-w-[236px] md:w-[236px] mx-auto rounded-xl overflow-hidden border border-line shadow-lg hover:border-gold transition-colors">
-            <MediaThumb src="/covers/hush-money-featured.webp" width={1023} height={1537} fit="natural" alt={leadFilm.data.title} sizes="236px" play priority />
+          <a href={`/watch/${leadFilm.data.slug}`} aria-label={`Watch ${leadFilm.data.title}`} class="block w-full mx-auto rounded-xl overflow-hidden border border-line shadow-lg hover:border-gold transition-colors" style={leadImageDimensions.width ? `max-width: ${leadImageDimensions.width}px` : undefined}>
+            <MediaThumb src={leadImage} fit="natural" alt={leadFilm.data.title} sizes="(min-width: 768px) 520px, min(635px, calc(100vw - 48px))" play priority />
           </a>
         </div>
       ) : (

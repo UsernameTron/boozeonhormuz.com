@@ -643,6 +643,70 @@
       }
     ]
   },
+  "/mctrumps/chief-accountability-officer.webp": {
+    "width": 1080,
+    "height": 1080,
+    "bytes": 80316,
+    "sha256": "093971eb458cf94fffe5b9d5a4c17585c91e8086642387589e249b24c780aec0",
+    "candidates": [
+      {
+        "src": "/_media/15ad006ec8b39af8-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 15396
+      },
+      {
+        "src": "/_media/15ad006ec8b39af8-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 33960
+      },
+      {
+        "src": "/_media/15ad006ec8b39af8-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 52130
+      },
+      {
+        "src": "/_media/15ad006ec8b39af8-1080.webp",
+        "width": 1080,
+        "height": 1080,
+        "bytes": 63336
+      }
+    ]
+  },
+  "/mctrumps/premium-costs.webp": {
+    "width": 1080,
+    "height": 1080,
+    "bytes": 82130,
+    "sha256": "ad10c3d15280d9b54f9897f6420e60993a1a2e0be3984701b59f6e168259c7c3",
+    "candidates": [
+      {
+        "src": "/_media/6c6eb6995618beb7-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 15488
+      },
+      {
+        "src": "/_media/6c6eb6995618beb7-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 34632
+      },
+      {
+        "src": "/_media/6c6eb6995618beb7-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 53632
+      },
+      {
+        "src": "/_media/6c6eb6995618beb7-1080.webp",
+        "width": 1080,
+        "height": 1080,
+        "bytes": 64950
+      }
+    ]
+  },
   "/mctrumps/supervision.webp": {
     "width": 960,
     "height": 734,
@@ -816,6 +880,38 @@
         "width": 720,
         "height": 1280,
         "bytes": 37024
+      }
+    ]
+  },
+  "/posters/the-evidence-is-with-me-official-video.webp": {
+    "width": 1920,
+    "height": 1080,
+    "bytes": 183462,
+    "sha256": "bca47759a0dd3a762fa5e2c8840293782be52008a0569b2ee286e6f9435657b0",
+    "candidates": [
+      {
+        "src": "/_media/1562716d4219e9be-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 15108
+      },
+      {
+        "src": "/_media/1562716d4219e9be-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 40978
+      },
+      {
+        "src": "/_media/1562716d4219e9be-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 67688
+      },
+      {
+        "src": "/_media/1562716d4219e9be-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 89180
       }
     ]
   },
@@ -9077,6 +9173,32 @@
       }
     ]
   },
+  "/thumbs/the-evidence-is-with-me-official-video.webp": {
+    "width": 960,
+    "height": 540,
+    "bytes": 88848,
+    "sha256": "14d7b192c37d43064261060b47d15b1c6acbfaaef65e52f656a035ada314ce9c",
+    "candidates": [
+      {
+        "src": "/_media/e672dc48c2f69e62-320.webp",
+        "width": 320,
+        "height": 180,
+        "bytes": 15116
+      },
+      {
+        "src": "/_media/e672dc48c2f69e62-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 38946
+      },
+      {
+        "src": "/_media/e672dc48c2f69e62-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 71820
+      }
+    ]
+  },
   "/thumbs/the-poop-et-bathroom-buddy.webp": {
     "width": 734,
     "height": 960,
@@ -9140,6 +9262,26 @@
         "width": 539,
         "height": 960,
         "bytes": 59858
+      }
+    ]
+  },
+  "/thumbs/the-evidence-is-with-me-champagne.webp": {
+    "width": 635,
+    "height": 443,
+    "bytes": 91250,
+    "sha256": "97b2e09040ff37e37a38a5254fad8f3cf4d9b6d7b2e700342b52759e7d51af7f",
+    "candidates": [
+      {
+        "src": "/_media/60fd8781a40b6c8e-320.webp",
+        "width": 320,
+        "height": 223,
+        "bytes": 19596
+      },
+      {
+        "src": "/_media/60fd8781a40b6c8e-635.webp",
+        "width": 635,
+        "height": 443,
+        "bytes": 51110
       }
     ]
   }

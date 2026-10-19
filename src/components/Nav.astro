@@ -1,20 +1,24 @@
 ---
 const links = [
   { href: '/watch', label: 'Watch' },
-  { href: '/album', label: 'Album' },
+  { href: '/mctrumps/', label: 'McTrumps' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/explore', label: 'Explore' },
   { href: '/studio', label: 'Studio' },
 ];
-const path = Astro.url.pathname;
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const sections: Record<string, string[]> = {
-  '/watch': ['/watch', '/deep-cuts', '/sponsor-reads', '/press'],
-  '/album': ['/album', '/listen'],
+  '/watch': ['/watch', '/album', '/listen', '/deep-cuts', '/press'],
+  '/mctrumps/': ['/mctrumps', '/sponsor-reads'],
   '/gallery': ['/gallery', '/art', '/evidence-lounge'],
   '/explore': ['/explore', '/experience', '/play', '/products', '/quotes', '/about'],
   '/studio': ['/studio', '/tools'],
+  '/archive': ['/archive'],
 };
-const isActive = (href: string) => (sections[href] ?? [href]).some((route) => path === route || path.startsWith(`${route}/`));
+const activeSection = path.startsWith('/watch/mctrumps-')
+  ? '/mctrumps/'
+  : Object.entries(sections).find(([, routes]) => routes.some((route) => path === route || path.startsWith(`${route}/`)))?.[0];
+const isActive = (href: string) => href === activeSection;
 ---
 
 <header class="border-b brass-rule">

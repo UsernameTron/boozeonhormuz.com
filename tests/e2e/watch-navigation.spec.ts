@@ -13,7 +13,7 @@ test('Watch opens on six illustrated collections and keeps the choices visible o
   await expect(choices.nth(0)).toHaveAttribute('href', '/watch/?collection=music-video');
   await expect(choices.nth(1)).toHaveAttribute('href', '/album/');
   await expect(choices.nth(2)).toHaveAttribute('href', '/deep-cuts/');
-  await expect(choices.nth(5)).toHaveAttribute('href', '/sponsor-reads/');
+  await expect(choices.nth(5)).toHaveAttribute('href', '/mctrumps/');
 
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator('#watch-collections')).toBeVisible();
@@ -48,7 +48,7 @@ test('Watch collection URLs keep selection and video return context', async ({ p
   await page.goto('/watch/?collection=music-video');
   await expect(page.locator('#watch-collections')).toBeHidden();
   await expect(page.getByRole('heading', { name: 'Music Videos', exact: true })).toBeVisible();
-  await expect(page.locator('#watch-grid > [data-collection]:visible')).toHaveCount(6);
+  await expect(page.locator('#watch-grid > [data-collection]:visible')).toHaveCount(7);
   await expect(page.locator('#watch-grid > [data-collection="sketch"]:visible')).toHaveCount(0);
   const card = page.locator('#watch-grid > [data-collection="music-video"] a').first();
   await expect(card).toHaveAttribute('href', /\?collection=music-video&page=1$/);
@@ -65,7 +65,7 @@ test('Watch collection URLs keep selection and video return context', async ({ p
   expect(frame.height).toBeLessThanOrEqual(frame.cap + 2);
   await page.locator('#watch-back-link').click();
   await expect(page.getByRole('heading', { name: 'Music Videos', exact: true })).toBeVisible();
-  await expect(page.locator('#watch-grid > [data-collection]:visible')).toHaveCount(6);
+  await expect(page.locator('#watch-grid > [data-collection]:visible')).toHaveCount(7);
 });
 
 test('Deep Cuts shows twelve ordered performances per page and keeps the return page', async ({ page }) => {

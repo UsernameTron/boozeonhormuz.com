@@ -18,13 +18,16 @@ const routeFile = (path) => {
   return existsSync(file) && statSync(file).isFile() ? file : join(file, 'index.html');
 };
 assert.equal(readFileSync(join(root, 'CNAME'), 'utf8').trim(), 'boozeonhormuz.com');
-for (const route of [...criticalRoutes, '/experience/']) assert.ok(existsSync(routeFile(route)), `Missing route: ${route}`);
+for (const route of [...criticalRoutes, '/experience/', '/mctrumps/', '/sponsor-reads/']) assert.ok(existsSync(routeFile(route)), `Missing route: ${route}`);
 assert.ok(existsSync(join(root, 'sitemap-index.xml')), 'Missing sitemap index');
 const files = walk(root);
+const publishedBytes = files.reduce((total, file) => total + statSync(file).size, 0);
+assert.ok(publishedBytes <= 1_000_000_000, `Pages output is ${publishedBytes} bytes; keep it below the 1 GB published-site limit. Serve large videos from verified release assets.`);
 const sitemap = files.filter((f) => /sitemap.*\.xml$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
-for (const route of criticalRoutes.filter((r) => !r.startsWith('/apps/'))) {
+for (const route of [...criticalRoutes.filter((r) => !r.startsWith('/apps/')), '/mctrumps/']) {
   assert.ok(sitemap.includes(site + route) || sitemap.includes(site + route.replace(/\/$/, '')), `Missing sitemap route ${route}`);
 }
+assert.doesNotMatch(sitemap, /<loc>https:\/\/boozeonhormuz\.com\/sponsor-reads\/?<\/loc>/, 'Legacy Sponsor Reads alias must not appear in the sitemap');
 let references = 0;
 const broken = [];
 for (const file of files.filter((f) => /\.(html|css)$/.test(f))) {
@@ -34,7 +37,8 @@ for (const file of files.filter((f) => /\.(html|css)$/.test(f))) {
   const route = '/' + rel.replace(/index\.html$/, '');
   if (file.endsWith('.html') && !rel.startsWith('apps/')) {
     const canonical = content.match(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*\bhref=["']([^"']+)/i)?.[1];
-    assert.equal(canonical, site + route, `Unexpected canonical for ${route}`);
+    const canonicalRoute = route === '/sponsor-reads/' ? '/mctrumps/' : route;
+    assert.equal(canonical, site + canonicalRoute, `Unexpected canonical for ${route}`);
   }
   const refs = [...content.matchAll(/\b(?:src|href|poster)=["']([^"']+)["']/g)].map((m) => m[1]);
   refs.push(...[...content.matchAll(/url\(\s*["']?([^\s)'";]+)["']?\s*\)/g)].map((m) => m[1]));
@@ -66,4 +70,4 @@ for (const url of lighthouse.ci.collect.url) {
     assert.ok(override === undefined || override === 'median', `Lighthouse ${audit} overrides median aggregation for ${url}`);
   }
 }
-console.log(`Output OK: ${files.filter((f) => f.endsWith('.html')).length} HTML files, ${references} local references, domain, canonical tags, sitemap and ${criticalRoutes.length} explicit audit routes with unique median budgets.`);
+console.log(`Output OK: ${files.filter((f) => f.endsWith('.html')).length} HTML files, ${references} local references, ${publishedBytes} published bytes, domain, canonical tags, sitemap and ${criticalRoutes.length} explicit audit routes with unique median budgets.`);

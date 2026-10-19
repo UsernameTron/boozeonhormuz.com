@@ -1,5 +1,7 @@
 # boozeonhormuz.com — Project Context
 
+> Historical foundation proposal from May 2026. Its Astro 5, Cloudflare, five-collection and scaffolding instructions are superseded. The current site uses Astro 6.4.2, GitHub Pages and nine collections. For current maintenance and release state, read [README.md](README.md), [CLAUDE.md](CLAUDE.md), [COWORK_HANDOFF.md](COWORK_HANDOFF.md) and [.planning/STATE.md](.planning/STATE.md). Preserve this document as decision history.
+
 **One line:** Satirical fake-luxury-brand site that's actually the content archive hub for the *Who the Hell Is Don Biggly?* sketch series.
 
 **Owner:** C. Pete Connor · **Repo:** `UsernameTron/boozeonhormuz.com` · **Started:** 2026-05-30

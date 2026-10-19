@@ -29,7 +29,7 @@ test('the complete video album connects its setlist, performance player, and Wat
   await expect(page.locator('#watch-grid > [data-collection="album"]')).toHaveCount(0);
   await page.getByRole('link', { name: /Music Videos/ }).click();
   await expect(page).toHaveURL(/\/watch\/\?collection=music-video$/);
-  await expect(page.locator('#watch-grid > [data-collection="music-video"]:visible')).toHaveCount(6);
+  await expect(page.locator('#watch-grid > [data-collection="music-video"]:visible')).toHaveCount(7);
   await expect(page.locator('#watch-grid > [data-collection="album"]:visible')).toHaveCount(0);
 
   await page.goto('/listen/');

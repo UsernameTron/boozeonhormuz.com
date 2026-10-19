@@ -4,7 +4,7 @@ slug: "the-premiere"
 type: "music-video"
 youtubeId: "Za2XII66eHQ"
 description: "The film that opens the record. The fire alarm has bottle service, and this is where the whole thing starts."
-hero: true
+hero: false
 featured: true
 publishDate: 2026-06-03
 draft: false

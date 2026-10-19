@@ -1,23 +1,23 @@
 import { test, expect } from '@playwright/test';
 const cards = '[data-archive-item]';
 
-test('Search catalog has 27 album songs, 67 other videos, and 121 artworks without duplicate destinations', async ({ page }) => {
+test('Search catalog has 27 album songs, 70 other videos, and 120 artworks without duplicate destinations', async ({ page }) => {
   await page.goto('/archive/');
   const destinations = await page.locator('#archive-templates template').evaluateAll((templates) => templates.map((template) => (template as HTMLTemplateElement).content.querySelector('a')!.getAttribute('data-detail-href')!));
-  expect(destinations).toHaveLength(215);
-  expect(new Set(destinations).size).toBe(215);
+  expect(destinations).toHaveLength(217);
+  expect(new Set(destinations).size).toBe(217);
   expect(destinations.filter((href) => href.startsWith('/album/'))).toHaveLength(27);
-  expect(destinations.filter((href) => href.startsWith('/watch/'))).toHaveLength(67);
-  expect(destinations.filter((href) => href.startsWith('/art/'))).toHaveLength(121);
+  expect(destinations.filter((href) => href.startsWith('/watch/'))).toHaveLength(70);
+  expect(destinations.filter((href) => href.startsWith('/art/'))).toHaveLength(120);
 });
 
-test('Search starts with no results and exposes 215 unique items by type', async ({ page }) => {
+test('Search starts with no results and exposes 217 unique items by type', async ({ page }) => {
   await page.goto('/archive/');
   await expect(page.locator('#archive-grid')).toBeEmpty();
-  await expect(page.locator('#archive-count')).toHaveText('Search 215 items or choose a type.');
+  await expect(page.locator('#archive-count')).toHaveText('Search 217 items or choose a type.');
   await page.getByRole('button', { name: 'Album Songs (27)' }).click();
   await expect(page.locator(cards)).toHaveCount(12);
-  await expect(page.locator('#archive-count')).toHaveText('27 results of 215');
+  await expect(page.locator('#archive-count')).toHaveText('27 results of 217');
   expect(await page.locator(cards).evaluateAll((elements) => elements.every((element) => (element as HTMLElement).dataset.type === 'album-song'))).toBe(true);
   await expect(page.locator(`${cards} a`).first()).toHaveAttribute('href', /\/album\//);
   await page.getByRole('button', { name: 'Next', exact: true }).click();
@@ -28,26 +28,26 @@ test('Search starts with no results and exposes 215 unique items by type', async
   await page.goBack();
   await expect(page.locator('#archive-page-status')).toHaveText('Page 1 of 3');
   await page.getByRole('button', { name: 'Deep Cuts Live (32)' }).click();
-  await expect(page.locator('#archive-count')).toHaveText('32 results of 215');
-  await page.getByRole('button', { name: 'McTrumps (5)' }).click();
-  await expect(page.locator(cards)).toHaveCount(5);
+  await expect(page.locator('#archive-count')).toHaveText('32 results of 217');
+  await page.getByRole('button', { name: 'McTrumps (7)' }).click();
+  await expect(page.locator(cards)).toHaveCount(7);
 });
 
 test('query, legacy types, invalid input, and reset preserve search state', async ({ page }) => {
   await page.goto('/archive/?q=money&type=image');
   await expect(page.locator('#archive-query')).toHaveValue('money');
   expect(await page.locator(cards).count()).toBeGreaterThan(0);
-  await expect(page.locator('#archive-count')).toHaveText(/results of 215/);
+  await expect(page.locator('#archive-count')).toHaveText(/results of 217/);
   await page.locator('#archive-query').fill('<script> & "');
   await expect(page.locator(cards)).toHaveCount(0);
   await expect(page.locator('#archive-empty')).toBeVisible();
   expect(new URL(page.url()).searchParams.get('q')).toBe('<script> & "');
   await page.goto('/archive/?type=sponsor-read');
-  await expect(page.locator(cards)).toHaveCount(5);
+  await expect(page.locator(cards)).toHaveCount(7);
   await page.goto('/archive/?type=unknown&page=999');
   await expect(page.locator('#archive-grid')).toBeEmpty();
   await page.goto('/archive/?type=image&page=999');
-  await expect(page.locator('#archive-page-status')).toHaveText('Page 11 of 11');
+  await expect(page.locator('#archive-page-status')).toHaveText('Page 10 of 10');
   await page.getByRole('button', { name: 'Reset', exact: true }).click();
   await expect(page.locator('#archive-grid')).toBeEmpty();
   await expect(page).toHaveURL(/\/archive\/$/);

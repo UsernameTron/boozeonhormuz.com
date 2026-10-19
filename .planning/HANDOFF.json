@@ -1,0 +1,152 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-10-19T05:06:13.344558+00:00",
+  "phase": null,
+  "phase_name": "Maintenance content review",
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "releasing",
+  "completed_tasks": [
+    {
+      "id": 1,
+      "name": "Prepare official Evidence film and two McTrumps additions locally",
+      "status": "done",
+      "commit": null
+    },
+    {
+      "id": 2,
+      "name": "Apply owner-selected champagne thumbnail and verify desktop/mobile playback",
+      "status": "done",
+      "commit": null
+    },
+    {
+      "id": 3,
+      "name": "Synchronize documentation, organize review logs and save handoff",
+      "status": "done",
+      "commit": null
+    },
+    {
+      "id": 6,
+      "name": "Remove the Album navigation tab while preserving the Watch collection and all 27 ordered songs",
+      "status": "done",
+      "commit": null
+    },
+    {
+      "id": 7,
+      "name": "Build the approved McTrumps company hub, primary tab, compact library, preserved content and empty future sections locally",
+      "status": "done",
+      "commit": null
+    }
+  ],
+  "remaining_tasks": [
+    {
+      "id": 4,
+      "name": "Obtain instructions for three held files before inspecting them",
+      "status": "not_started"
+    },
+    {
+      "id": 5,
+      "name": "Continue same-Don, different-bands planning with the owner",
+      "status": "not_started"
+    }
+  ],
+  "blockers": [
+    {
+      "description": "Full build regeneration stalled reading an older Gallery image; the new thumbnail is locally browser-verified, not release-validated.",
+      "type": "technical",
+      "workaround": "Current source preview uses Node 22 and process-local polling. Resolve/recheck the existing read stall before a later full release validation."
+    },
+    {
+      "description": "Full diagnostics/build attempts stalled on existing local installed-file/media reads; interrupted dist is incomplete.",
+      "type": "technical",
+      "workaround": "Review the live source server on port 4334. Seven Astro templates compile without errors and all seven clips play; use a fresh complete verification before any future release."
+    }
+  ],
+  "human_actions_pending": [
+    {
+      "action": "Explain desired use of The Big Kickback, Redacted and Clap Dem before inspection.",
+      "context": "The owner explicitly held these files. Do not open, stat, hash, transcribe, classify, move or upload them yet.",
+      "blocking": true
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "Use the owner's IMG_0719.png champagne scene as the feature thumbnail and poster.",
+      "rationale": "Full 635x443 composition retained; the existing 1920x1080 film stays unchanged.",
+      "phase": null
+    },
+    {
+      "decision": "One Don fronts different bands across reggae, 1990s grunge, funk/soul and MAGADeth.",
+      "rationale": "Owner selected the same-Don, different-bands structure. No new acts have been implemented.",
+      "phase": null
+    },
+    {
+      "decision": "Keep album content under Watch, with no separate Album primary-menu or footer item.",
+      "rationale": "Owner requested less redundant navigation. Preserve the collection card, original routes and approved setlist.",
+      "phase": null
+    },
+    {
+      "decision": "Owner authorized staging, committing, pushing and GitHub Pages publication on October 19, 2026.",
+      "rationale": "Explicit release request after approval of the compact McTrumps department hub.",
+      "phase": null
+    }
+  ],
+  "uncommitted_files": [
+    ".planning/.continue-here.md",
+    ".planning/HANDOFF.json",
+    ".planning/PROJECT.md",
+    ".planning/STATE.md",
+    "CLAUDE.md",
+    "COWORK_HANDOFF.md",
+    "PROJECT-CONTEXT.md",
+    "README.md",
+    "STATUS.md",
+    "astro.config.mjs",
+    "docs/DEVOPS-HANDOFF.md",
+    "docs/mctrumps-sponsor-reads.md",
+    "public/mctrumps/chief-accountability-officer.mp4",
+    "public/mctrumps/chief-accountability-officer.webp",
+    "public/mctrumps/premium-costs.mp4",
+    "public/mctrumps/premium-costs.webp",
+    "public/posters/the-evidence-is-with-me-official-video.webp",
+    "public/thumbs/the-evidence-is-with-me-champagne.webp",
+    "public/thumbs/the-evidence-is-with-me-official-video.webp",
+    "public/video/the-evidence-is-with-me-official-video.mp4",
+    "scripts/check-output.mjs",
+    "scripts/smoke-site.mjs",
+    "src/components/Footer.astro",
+    "src/components/Nav.astro",
+    "src/content/videos/02-hush-money-is-philanthropy.md",
+    "src/content/videos/mctrumps-appreciation.md",
+    "src/content/videos/mctrumps-birthday.md",
+    "src/content/videos/mctrumps-chief-accountability-officer.md",
+    "src/content/videos/mctrumps-premium-costs.md",
+    "src/content/videos/mctrumps-supervision.md",
+    "src/content/videos/mctrumps-tehran.md",
+    "src/content/videos/mctrumps-welcome.md",
+    "src/content/videos/the-evidence-is-with-me-official-video.md",
+    "src/content/videos/the-premiere.md",
+    "src/data/mctrumps.ts",
+    "src/layouts/BaseLayout.astro",
+    "src/lib/generated-media.json",
+    "src/pages/index.astro",
+    "src/pages/mctrumps.astro",
+    "src/pages/open-graph/[...route].ts",
+    "src/pages/sponsor-reads.astro",
+    "src/pages/watch/[slug].astro",
+    "src/pages/watch/index.astro",
+    "src/styles/mctrumps.css",
+    "tests/e2e/album-catalog.spec.ts",
+    "tests/e2e/archive.spec.ts",
+    "tests/e2e/baseline.spec.ts",
+    "tests/e2e/home-album-navigation.spec.ts",
+    "tests/e2e/mctrumps-catalog.spec.ts",
+    "tests/e2e/media-layout.spec.ts",
+    "tests/e2e/site-navigation.spec.ts",
+    "tests/e2e/watch-navigation.spec.ts"
+  ],
+  "next_action": "Run final checks, stage and commit the approved batch, push a PR, merge when green, deploy through GitHub Pages and verify live playback. Held attachments remain untouched.",
+  "context_notes": "Owner approved publication on October 19, 2026. Release the approved feature-film, McTrumps department hub, navigation and Gallery changes through the existing PR/checks/Pages pipeline. A clean temporary dependency install is used for source validation because older local installed-file reads stalled. Source/test/script bytes were compared with the implementation tree. Preserve the original media, album and Deep Cuts order. Do not inspect, process or publish the three held attachments."
+}

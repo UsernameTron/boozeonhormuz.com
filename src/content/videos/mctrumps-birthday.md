@@ -11,8 +11,8 @@ orientation: "1:1"
 duration: "0:35"
 description: "Don sits in the McTrumps ball pit with Billy, turning Grandma’s birthday money into a leadership consulting fee. The party develops an alarming amount of paperwork. Billy has several reasons to stop signing."
 collection:
-  label: "McTrumps Sponsor Reads"
-  href: "/sponsor-reads/#birthday"
+  label: "McTrumps"
+  href: "/mctrumps/#birthday"
 collectionOrder: 2
 publishDate: 2026-10-11
 draft: false

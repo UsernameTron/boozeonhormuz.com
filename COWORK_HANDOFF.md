@@ -1,120 +1,122 @@
-# Cowork Handoff — boozeonhormuz.com Foundation (Revised)
+# Resume Booze on Hormuz
 
-> Paste the block below into a fresh Cowork session. It executes Phase 0–2 of `RUNBOOK.md`: legal pre-flight, host-agnostic Astro scaffold, and Cloudflare Pages deploy.
+Release approved October 19, 2026. Connor requested staging, committing, pushing and GitHub Pages publication of the completed review batch. Run the existing release checks and PR flow, merge when green, then verify deployment and live playback.
 
----
+## Start here
 
-```
-You are executing the foundation phases of a static website build for Connor's boozeonhormuz.com — a satirical fake-luxury-brand site that's the content hub for the "Who the Hell Is Don Biggly?" sketch series. The full runbook is on disk. You are the engineering executor: not the designer, not the content author. Execute the runbook as written.
+1. Work in `/Users/cpconnor/Documents/ChatGPT/ASTRA_GSD_Local_Image/boh-navigation-review` on `codex/evidence-feature-mctrumps`.
+2. Read `.planning/HANDOFF.json`, `.planning/STATE.md` and `.planning/.continue-here.md`.
+3. Check the current branch and dirty tree. Preserve every existing source, test and media change. Preserve unrelated changes; the owner authorized staging and committing this reviewed release batch.
+4. Read the external `LOCAL-REVIEW-RESULTS.md`, `SITE-CONTENT-MAP.md` and `INDEX.md` in the review folder below.
+5. Review the new McTrumps hub locally. The three held files still require owner instructions before any inspection or processing.
 
-## CONTEXT
+This is unphased maintenance, not a new foundation build or M02. Do not scaffold Astro, migrate hosting/DNS, start old runbooks, or create a new memory system.
 
-- Operator: C. Pete Connor (vibecoder, MS in AI, VP of Technology at CTG). Direct, no fluff, expert-calibrated.
-- Planning docs at: ~/projects/boozeonhormuz-com/docs/
-- Repo: UsernameTron/boozeonhormuz.com (exists, public, has a root CNAME, DNS currently on GitHub Pages)
-- This session covers RUNBOOK Phase 0 (pre-flight) → Phase 1 (scaffold) → Phase 2 (Cloudflare Pages deploy). STOP after Phase 2.
+## Repository and preview
 
-## REQUIRED READS — IN ORDER, BEFORE ANY ACTION
+- HEAD at pause: `0bf80cee61c44d3ee23da02f47e0b8732f694989`.
+- No upstream is configured for this branch. New changes and media are local and uncommitted, with no remote backup claimed.
+- Local preview: http://127.0.0.1:4334/
+- Featured film: http://127.0.0.1:4334/watch/the-evidence-is-with-me-official-video/
+- McTrumps: http://127.0.0.1:4334/mctrumps/
+- Current preview is the live development server on port 4334, restarted after the Gallery removal in tool session 65222. Verify the running process before relying on a saved ID. It uses Node 22 with process-local polling to avoid native file-watch reload loops. Videos were paused after review.
+- All review evidence: `/Users/cpconnor/.codex/.chatgpt-projects/g-p-6acb456d2570819189568765383068e8/output/evidence-mctrumps-local`.
+- Prior YouTube launch evidence: `/Users/cpconnor/.codex/.chatgpt-projects/g-p-6acb456d2570819189568765383068e8/output/youtube-launch/RELEASE-RESULTS.md`. Preserve that folder.
 
-1. ~/Claude Cowork/ABOUT ME/about-me.md
-2. ~/Claude Cowork/ABOUT ME/anti-ai-writing-style.md
-3. ~/Claude Cowork/ABOUT ME/my-company.md
-4. ~/projects/boozeonhormuz-com/docs/PROJECT-CONTEXT.md
-5. ~/projects/boozeonhormuz-com/docs/RUNBOOK.md   ← YOUR EXECUTION SCRIPT
-6. ~/projects/boozeonhormuz-com/docs/SKILLS-AND-AGENTS.md   (for which skills/reviewers to invoke)
+If the preview has stopped, reopen the current source preview from this repository. The saved production build predates the selected thumbnail:
 
-Read silently. Do not summarize back. Then act.
-
-## GROUNDING REQUIREMENT (non-negotiable)
-
-This runbook contains CLI commands and package versions composed partly from memory. Before running any command that creates a project, installs a package, or calls an external API, VERIFY the current syntax/version is correct (e.g. `npm view <pkg> version`, check the tool's `--help`). If the runbook's command differs from current reality, STOP and report the delta with the corrected command — do not silently substitute. Apply hallucination-guard discipline throughout.
-
-## INITIAL ACTIONS
-
-1. Invoke /gsd-toolkit state-advisor on ~/projects/boozeonhormuz-com/. Confirm the foundation is planned and ready.
-2. Confirm with Connor which host path to take:
-   - DEFAULT (recommended): Cloudflare Pages — requires moving nameservers to Cloudflare. RUNBOOK Phase 2.
-   - ALTERNATIVE: GitHub Pages — zero DNS rework, already wired. RUNBOOK Appendix A.
-   Do NOT proceed past Phase 1 until Connor confirms the host. Phase 0–1 are identical either way, so begin those immediately.
-
-## EXECUTION MANDATE
-
-Run RUNBOOK Phase 0, then Phase 1, in order. After each step:
-- Verify the "Expected" line matches reality.
-- Match → proceed. Mismatch → STOP, capture exact output, report before continuing.
-Working directory: ~/projects/boozeonhormuz-com/. Astro installs via the temp-dir method in Step 1 (do NOT init Astro directly in the non-empty repo).
-
-At the Phase 1 → Phase 2 boundary, confirm Connor's host choice, then execute the matching deploy path.
-
-## HARD CONSTRAINTS
-
-- DO NOT write site content beyond the placeholder homepage in Step 5. Content is a separate checkpoint (Checkpoint A → Content Team).
-- DO NOT finalize design tokens. The @theme block in Step 5 is an intentional placeholder; real tokens come at Checkpoint B → Visual Team.
-- DO NOT add Phase 3 features (sitemap, analytics, OG cards, schema, branch protection). Out of scope this session.
-- DO NOT install @astrojs/cloudflare. This is a STATIC site; the SSR adapter triggers the Workers trap.
-- DO NOT skip `npx astro check`, `npm run dev`, or `npm run build` local verification in Step 6.
-- DO NOT skip pinning Tailwind exactly + committing package-lock.json.
-- DO NOT push before `npm run build` exits 0 locally.
-- On the Cloudflare path: VERIFY the deploy URL is *.pages.dev, NOT *.workers.dev. If workers.dev, you used the wrong flow — delete and redo via Workers & Pages → Pages tab → Import repo.
-
-## REVIEW GATES (invoke before merge — clean context, per SKILLS-AND-AGENTS.md)
-
-Before the Phase 1 commit:
-- Code Reviewer (engineering:code-review) — config + components
-- Accessibility Auditor (design:accessibility-review) — skip-link, single h1, contrast ≥4.5:1 body / ≥3:1 display
-
-Report each reviewer's verdict. If either returns blocking issues, fix and re-review before pushing.
-
-## FAILURE PROTOCOL
-
-On any failure:
-1. Capture exact error + the command that produced it.
-2. Check RUNBOOK "Common failure modes & fixes".
-3. If matched, apply the documented fix ONCE.
-4. Works → proceed. Fails or undocumented → STOP and report: original error, fix attempted, result, proposed next step.
-
-## SUCCESS CRITERIA (Phase 0–2 complete when ALL true)
-
-1. `npx astro check` exits 0
-2. `npm run build` exits 0, dist/ produced
-3. No fonts.googleapis.com request in the network tab (fonts are self-hosted)
-4. Gold-on-navy body text ≥ 4.5:1 contrast
-5. package-lock.json committed, Tailwind pinned exact (no ^ or ~)
-6. Live on the chosen host (*.pages.dev or GitHub Pages URL) returns 200
-7. https://boozeonhormuz.com returns 200 over HTTPS (after DNS propagation; *.pages.dev works immediately)
-8. Footer disclaimer renders on every page
-
-## OUTPUT FORMAT
-
-Smart Brevity. Lede ≤25 words. "Why it matters" only when non-routine. Bulleted detail with concrete file paths and numbers. No filler, no apologies, no preamble. When Phase 2 is done, post the final status block and STOP — do not begin Phase 3 or any content work.
-
-## ESCALATE TO CONNOR
-
-- Host choice (before Phase 2)
-- Any command whose verified syntax differs from the runbook
-- Any failure not covered by the failure-modes table
-- Cloudflare routing to workers.dev instead of pages.dev
-- Phase 2 complete and ready for sign-off
-
-## TONE
-
-Direct. Expert-calibrated. Connor knows architecture and delegates implementation. Give him the data and the next decision, not a lecture.
-
-Begin: read the 6 files, then run /gsd-toolkit state-advisor and start RUNBOOK Phase 0.
+```bash
+cd "/Users/cpconnor/Documents/ChatGPT/ASTRA_GSD_Local_Image/boh-navigation-review"
+env CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 /opt/homebrew/opt/node@22/bin/node node_modules/.bin/astro dev --host 127.0.0.1 --port 4334
 ```
 
----
+Do not install dependencies just to reopen the preview. The thumbnail change passed desktop/mobile and actual playback checks. A full rebuild was interrupted when responsive generation stalled reading the existing `public/stills/gallery-07-a-very-small-don.webp`; the new image was generated with the same existing settings, without changing old entries. A later release still needs full validation. No global settings or dependencies changed.
 
-## After this session
+## Release capacity fix
 
-**Checkpoint B (design tokens + hero media)** — stand up the Visual Team:
-```
-Invoke frontend-design to author the real luxury-satire design tokens for boozeonhormuz.com, replacing the placeholder @theme block in src/styles/global.css. Then invoke nano-banana-cinematic-director for the hero image + promo loop (cruise ship, sea mines, champagne, gold typography — Don Biggly is fictional). Gate with design:design-critique and design:accessibility-review (clean context). Review tokens with Connor before committing.
-```
+The initial validated package was 1,237,418,050 bytes, above GitHub Pages' 1 GB limit. Six large MP4 delivery files are now preserved under `media/video/` and `media/mctrumps/` and served from the public `site-media-2026-10-19` GitHub Release. Uploaded sizes and SHA-256 digests matched all six originals. Source masters, full quality, page addresses, thumbnails and the existing player system are unchanged. The Pages output check now enforces 1,000,000,000 bytes. Native-playback and YouTube-fallback assertions were updated to the verified delivery URLs; the complete release checks must pass on the final commit.
 
-**Checkpoint A (content)** — stand up the Content Team:
-```
-Invoke mirror-universe-pete:content to generate copy for boozeonhormuz.com per content type (products, sponsor reads, Evidence Lounge intro, fake testimonials), mirror-universe-pete:roast for the Don Biggly quote cards into src/data/quotes.yaml, and mirror-universe-pete:doublespeak for the fake-disclaimer bits. Polish with human-writing. Gate with mirror-universe-pete:voice-engine AUDIT mode and a legal/safety reviewer (clean context — disclaimer on every page, right-of-publicity check on Don Biggly). Review with Connor before commit.
-```
+## Latest McTrumps update
 
-**Phase 3 + pipeline skills** — re-invoke `gsd-planner` to flesh out Phase 3, then `skill-builder`/`skill-forge` to codify `domain-infra-provisioner` and the rest of the website pipeline (memory #22).
+The owner's latest direction is implemented locally: “Billions served. Books cooked.” One portrait Welcome player sits beside the short introduction establishing McTrumps as the resort's exclusive food supplier. Six compact thumbnail links are grouped into Customer Relations (Birthday, Premium Costs), Corporate Leadership (Supervision, Appreciation, Jeff) and International Expansion (Tehran, plus the resort link). Existing complaint exchanges, related businesses and heading-only Resort Contracts/Company Records are tucked into a closed Company office drawer. All seven stable detail pages preserve native dimensions, descriptions, producer notes and the exact supplied interview script. Watch has one card opening this hub. Legacy Sponsor Reads links retain queries and clip anchors; the alias remains excluded from the sitemap. The 27-song album and 32 Deep Cuts retain their order.
+
+The owner also requested removing “The Red Tie” from Gallery. Its content record was removed; media files remain intact. The local Gallery now contains 120 artworks (113 Gallery images plus seven Evidence exhibits), and Search has 217 unique destinations.
+
+Latest department-layout review passed at widths 1440, 768, 390 and 320 with no horizontal overflow. The portrait Welcome played; every existing detail page, Watch hub card, legacy clip link and expandable office remained reachable. Both touched Astro page templates compile; the 18-route local smoke check passes. Screenshots and results are in `output/playwright/mctrumps-departments-*`. The production build remains pending.
+
+Earlier hub review confirmed all seven native clips play, desktop/mobile navigation and all seven legacy anchor redirects work. Seven touched Astro templates compile with no compiler errors; 46 unit tests passed. Targeted browser verification accounted for all 29 cases: 28 passed in the initial run and the single development-toolbar locator ambiguity was corrected, then passed in its focused rerun. The local smoke check passed all 18 routes. All 14 McTrumps media hashes matched their before values. Full results are in `output/playwright/mctrumps-hub-review/RESULTS.md`. Screenshots are `output/playwright/mctrumps-hub-*.png`.
+
+Full Astro check/build attempts stalled reading existing installed files and an existing responsive image. Only those review processes were stopped. `dist/` is incomplete from the interrupted build; do not serve it as a finished preview or publish it. The live source preview on port 4334 remains the approved review target. Full release validation is still required only when publication is authorized. No originals, dependencies or global settings changed.
+
+## Completed locally
+
+- **The Evidence Is With Me**, official 4:24 music video, is the sole homepage feature. The owner-selected champagne image `IMG_0719.png` is now its thumbnail and poster, at its full 635x443 proportions. The homepage frame follows the image; video playback remains 1920x1080 and 16:9. Desktop/mobile display and actual playback passed; the original image and video hashes are unchanged. Proof is in `output/playwright/evidence-champagne-review.json` and the two adjacent screenshots. Earlier sampled scenes were compared with an extracted transcript; this was not frame-by-frame or lip-sync certification.
+- **Hush Money Is Philanthropy** stays in Music Videos and at its original address.
+- **McTrumps** now has seven videos and approximately 6:29. Premium Costs (2:23) and Jeff, Chief Accountability Officer (0:41) follow the original five; both new players remain square.
+- Watch, Search, detail-page navigation, metadata and related browser tests reflect the additions.
+- The 27-song album and 32 Deep Cuts are unchanged and retain their approved order.
+- Current catalogue: 97 videos, 120 artworks, twelve quotes and five illustrated products. Search has 217 unique destinations, counting album songs once.
+- Documentation sync corrected stale counts, hosting instructions, branch, backup claims and release state. Historical milestones and reports remain intact.
+
+## New media, already prepared
+
+| Original master | Local website copy |
+|---|---|
+| `/Users/cpconnor/Desktop/The Evidence is With Me Official Video.mp4` | `media/video/the-evidence-is-with-me-official-video.mp4`, 1920x1080, about 93.7 MiB |
+| `/Users/cpconnor/Desktop/McTrumps New Premium Costs.mp4` | `media/mctrumps/premium-costs.mp4`, 1080x1080, about 38.2 MiB |
+| `/Users/cpconnor/Downloads/Jeff E New C Level Exec at McTrumps (1).mp4` | `media/mctrumps/chief-accountability-officer.mp4`, 1080x1080, about 10.6 MiB |
+
+Originals were preserved and their SHA-256 hashes matched before and after preparation. Browser copies are H.264/AAC with fast start, each below 100 MiB. Poster/thumbnail assets and video records are already present. Do not regenerate them unnecessarily. These three additions use native playback and have no invented YouTube IDs.
+
+Primary changes are in `src/pages/index.astro`, `src/pages/watch/`, `src/pages/sponsor-reads.astro`, `src/data/mctrumps.ts`, `src/styles/mctrumps.css`, video records, generated image metadata, the smoke script and relevant E2E tests. The structured handoff records the full dirty-file list.
+
+## Held files: do nothing until Connor explains
+
+- `/Users/cpconnor/Downloads/The Big Kickback.mp4`
+- `/Users/cpconnor/Downloads/Redacted.m4a`
+- `/Users/cpconnor/Downloads/Clap Dem (Da Presidential Remix Mon).mp3`
+
+Connor explicitly said to leave them alone, finish the current task, then ask about them. Do not open, stat, hash, transcribe, classify, move, edit, upload or add them to the site before receiving that explanation. Do not infer that the two audio files belong to the approved video album.
+
+## Validation evidence
+
+Fresh during documentation sync:
+
+- 46 unit tests passed; seven unit-test files and seventeen browser-test files.
+- Fresh content counts and package/config measurements are in `SYNC-DOCS-MEASUREMENTS.json`.
+- No coverage or lint script is configured.
+
+Earlier local implementation checks on October 18:
+
+- Diagnostics, isolated fixtures, production build, media/output audits and 17 local smoke routes passed.
+- Build: 267 pages; output: 270 HTML files and 13,596 local references; media: 355 source hashes.
+- Browser suite: 104 passed and one outdated music-count expectation failed. After changing six to seven, that case passed in a focused run against the same preview. All 105 cases are accounted for across runs; do not claim a single clean full run.
+- All three new browser MP4 files decoded completely. The featured film played for over 63 seconds without error. Both new McTrumps players played with square frames and coordinated pause behavior.
+- Original hashes matched; existing tracked public media and album records were unchanged.
+
+Some local filesystem reads and test-server startup attempts stalled. Successful build/fixture checks used the bundled Node 24 runtime shown above. No global runtime or dependencies were changed. Keep the failed-attempt logs as diagnostic history, not outstanding product failures. A later release requires fresh validation of its actual final revision.
+
+## Publication boundary and previous release
+
+The batch was initially prepared locally. Connor explicitly approved staging, committing, pushing and GitHub Pages deployment on October 19, 2026. This authorizes the site release; the held files and YouTube uploads remain outside scope.
+
+Saved prior release evidence reports PR 69 merged as `32d5d995e9c2ce405f0291731dc88b3185f7b463`, successful Pages run `39157830029`, and 94 website records reconciled to a channel with 98 public Don videos. These are prior release facts, not fresh live checks. The three local additions are not uploaded to that channel.
+
+When Connor later requests publication, validate the final revision, use a reviewed branch PR, wait for required checks, deploy through the existing gated GitHub Pages workflow, and verify live routes and actual playback. Do not change hosting, suppress checks, delete masters or claim new files are remotely backed up before verifying the push.
+
+## Content and workflow rules
+
+- Navigation update: Album was removed from the desktop/mobile primary menu and footer. The existing Album collection card remains on Watch; all 27 songs, order and page addresses are unchanged. Album, song and legacy Listen routes now highlight Watch. Desktop/mobile navigation and Watch-to-album-to-song links were verified locally; proof screenshots are `output/playwright/watch-navigation-desktop.png` and `watch-navigation-mobile.png`. No publishing.
+- Approved music direction: the same Don fronts different bands. Potential acts span Jamaican reggae, 1990s grunge, funk/soul revue and MAGADeth. These remain a planning conversation; no new acts, names, collections or media were added. Do not inspect held files to classify them without the owner's instructions.
+
+- Keep the approved design, image framing, original media, stable page addresses and album order.
+- Keep copy concise, dark and in character. New prose must contain no em dashes.
+- Do not add repeated satire labels; existing site disclaimers are already present.
+- User-deleted media must not be restored automatically.
+- Studio reel and broader studio commercialization remain deferred.
+- `PROJECT-CONTEXT.md`, `RUNBOOK.md`, `SKILLS-AND-AGENTS.md`, M01 and October 13 confidence reports are historical references. Current code, lockfile, workflows and this handoff define the current state.
+- This pause is documentation-only. No commit or application/media changes were made during it. Do not clean unrelated sessions, worktrees, original uploads or prior launch evidence.
+
+## Next action
+
+Review http://127.0.0.1:4334/mctrumps/. Complete the approved release through the existing checks and PR flow. The three held files remain untouched until Connor explains their use.

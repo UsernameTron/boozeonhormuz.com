@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
-const routes = ['/', '/explore/', '/gallery/', '/deep-cuts/', '/album/', '/watch/', '/watch/the-premiere/', '/listen/', '/archive/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html'];
+const routes = ['/', '/explore/', '/gallery/', '/deep-cuts/', '/album/', '/watch/', '/watch/the-premiere/', '/mctrumps/', '/watch/mctrumps-welcome/', '/watch/mctrumps-premium-costs/', '/listen/', '/archive/', '/play/', '/tools/broadcast-room/', '/tools/evidence-lounge-studio/', '/apps/broadcast-room.html', '/apps/evidence-lounge-studio.html', '/apps/exit-strategy.html'];
 
 test.beforeEach(async ({ context }) => {
   // Exercise the facade and resulting iframe without depending on Google availability.
@@ -28,12 +28,13 @@ for (const width of [320, 390, 768, 1440]) {
   });
 }
 
-test('primary navigation reaches album and exposes the active route', async ({ page }) => {
+test('primary navigation reaches the album through Watch and retains section orientation', async ({ page }) => {
   await page.goto('/');
   const nav = page.getByRole('navigation', { name: 'Primary' });
-  await nav.getByRole('link', { name: 'Album', exact: true }).click();
+  await nav.getByRole('link', { name: 'Watch', exact: true }).click();
+  await page.getByRole('link', { name: /Album: Song Videos with Lyrics/ }).click();
   await expect(page).toHaveURL(/\/album\/?$/);
-  await expect(nav.getByRole('link', { name: 'Album', exact: true })).toHaveAttribute('aria-current', 'page');
+  await expect(nav.getByRole('link', { name: 'Watch', exact: true })).toHaveAttribute('aria-current', 'page');
 });
 
 test('archive populated filters and empty searches restore the catalog', async ({ page }) => {

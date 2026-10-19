@@ -12,6 +12,7 @@ import { youtubeChannelUrl } from '../data/channel';
 interface Props {
   title?: string;
   description?: string;
+  canonicalPath?: string;
   ogImage?: string;
   ogImageWidth?: number;
   ogImageHeight?: number;
@@ -21,6 +22,7 @@ interface Props {
 const {
   title = 'Booze on Hormuz',
   description = 'Booze on Hormuz.',
+  canonicalPath = Astro.url.pathname,
   ogImage: customOgImage,
   ogImageWidth: customOgImageWidth,
   ogImageHeight: customOgImageHeight,
@@ -28,9 +30,9 @@ const {
 } = Astro.props;
 
 // Absolute canonical + OG image URLs (crawlers require absolute).
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const OG_ROUTES = new Set(['explore', 'gallery', 'deep-cuts', 'album', 'listen', 'archive', 'studio', 'press', 'play', 'evidence-lounge', 'watch', 'products', 'sponsor-reads', 'quotes', 'about', 'legal']);
-const slug = Astro.url.pathname.replace(/^\/+|\/+$/g, '');
+const canonical = new URL(canonicalPath, Astro.site).href;
+const OG_ROUTES = new Set(['explore', 'gallery', 'deep-cuts', 'album', 'listen', 'archive', 'studio', 'press', 'play', 'evidence-lounge', 'watch', 'products', 'mctrumps', 'quotes', 'about', 'legal']);
+const slug = canonicalPath.replace(/^\/+|\/+$/g, '');
 const ogImage = new URL(customOgImage ?? (OG_ROUTES.has(slug) ? `/open-graph/${slug}.png` : '/og-home.jpg'), Astro.site).href;
 const ogImageWidth = customOgImage ? customOgImageWidth : 1200;
 const ogImageHeight = customOgImage ? customOgImageHeight : 630;
